@@ -11,6 +11,7 @@ import VendorVerkada from './VendorVerkada'
 import VendorAvigilon from './VendorAvigilon'
 import VendorOpenpath from './VendorOpenpath'
 import AvigilonCloud from './AvigilonCloud'
+import VendorAlta from './VendorAlta'
 import NotFound from './NotFound'
 
 export default function App() {
@@ -19,17 +20,3 @@ export default function App() {
       <Nav />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/solutions" element={<Solutions />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/industries" element={<Industries />} />
-        <Route path="/vendors/verkada" element={<VendorVerkada />} />
-        <Route path="/vendors/avigilon" element={<VendorAvigilon />} />
-        <Route path="/vendors/avigilon-cloud" element={<AvigilonCloud />} />
-        <Route path="/vendors/openpath" element={<VendorOpenpath />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <Footer />
-    </div>
-  )
-}
