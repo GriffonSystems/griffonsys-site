@@ -24,7 +24,7 @@ export default function Nav(){
   )
 }
 <img
-  src="/logos/griffon_logo.svg"
+  src="public/logos/griffon_logo.svg"
   onError={(e) => (e.currentTarget.src = '/logos/griffon-256.png')}
   alt="Griffon Systems"
   className="h-8 w-auto"
