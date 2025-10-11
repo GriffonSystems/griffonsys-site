@@ -6,39 +6,83 @@ export default function Home(){
   return (
     <main>
       <VideoHero />
-<section className="container py-12">
-  <h2 className="text-2xl md:text-3xl font-semibold mb-6">Our Core Solutions</h2>
-  <div className="grid md:grid-cols-3 gap-6 items-stretch">
-   <div className="card p-6 flex flex-col h-full">
-  <h3 className="text-xl font-semibold mb-2">Cloud Video Surveillance</h3>
-  <p className="text-gray-600 mb-4">
-    Modern, scalable systems with AI analytics and remote access.
-  </p>
-  <div className="mt-auto flex flex-col sm:flex-row gap-3">
-    <Link className="btn btn-primary w-full sm:w-auto" to="/vendors/verkada">
-      Explore Verkada
-    </Link>
-    <Link className="btn btn-primary w-full sm:w-auto" to="/vendors/avigilon-cloud">
-      Explore Avigilon
-    </Link>
-  </div>
-</div>
-    <div className="card p-6 flex flex-col h-full">
-      <h3 className="text-xl font-semibold mb-2">Access Control</h3>
-      <p className="text-gray-600 mb-4">Mobile, cloud-managed access for modern facilities.</p>
-      <div className="mt-auto">
-        <Link className="btn btn-primary w-full md:w-auto" to="/vendors/openpath">Explore Openpath</Link>
-      </div>
-    </div>
-  </div>
-</section>
-      <section className='container py-12'>
-        <h2 className='text-2xl md:text-3xl font-semibold mb-6'>Verkada Highlights</h2>
-        <Gallery base='/vendors/verkada' />
+
+      <section className="container py-12">
+        <h2 className="text-2xl md:text-3xl font-semibold mb-6">Our Core Solutions</h2>
+
+        {/* 2×2 on tablet, 4 across on desktop; equal-height cards with bottom-aligned CTAs */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+
+          {/* 1) Cloud Video Surveillance — two CTAs: Verkada + Avigilon (cloud) */}
+          <div className="card p-6 flex flex-col h-full">
+            <h3 className="text-xl font-semibold mb-2">Cloud Video Surveillance</h3>
+            <p className="text-gray-600 mb-4">
+              Modern, scalable systems with AI analytics and remote access.
+            </p>
+            <div className="mt-auto flex flex-col sm:flex-row gap-3">
+              <Link className="btn btn-primary w-full sm:w-auto" to="/vendors/verkada">
+                Explore Verkada
+              </Link>
+              <Link className="btn btn-primary w-full sm:w-auto" to="/vendors/avigilon-cloud">
+                Explore Avigilon
+              </Link>
+            </div>
+          </div>
+
+          {/* 2) On-Prem Video Surveillance — Avigilon */}
+          <div className="card p-6 flex flex-col h-full">
+            <h3 className="text-xl font-semibold mb-2">On-Prem Video Surveillance</h3>
+            <p className="text-gray-600 mb-4">
+              Enterprise-grade reliability for campuses, plants, and regulated environments.
+            </p>
+            <div className="mt-auto">
+              <Link className="btn btn-primary w-full md:w-auto" to="/vendors/avigilon">
+                Explore Avigilon
+              </Link>
+            </div>
+          </div>
+
+          {/* 3) Cloud Access Control — Verkada + Alta */}
+          <div className="card p-6 flex flex-col h-full">
+            <h3 className="text-xl font-semibold mb-2">Cloud Access Control</h3>
+            <p className="text-gray-600 mb-4">
+              Mobile credentials, remote unlock, and cloud management for doors and elevators.
+            </p>
+            <div className="mt-auto flex flex-col sm:flex-row gap-3">
+              <Link className="btn btn-primary w-full sm:w-auto" to="/vendors/verkada">
+                Explore Verkada
+              </Link>
+              <Link className="btn btn-primary w-full sm:w-auto" to="/vendors/alta">
+                Explore Alta Access
+              </Link>
+            </div>
+          </div>
+
+          {/* 4) Access Control — Avigilon */}
+          <div className="card p-6 flex flex-col h-full">
+            <h3 className="text-xl font-semibold mb-2">Access Control</h3>
+            <p className="text-gray-600 mb-4">
+              Enterprise access control with powerful integrations and reporting.
+            </p>
+            <div className="mt-auto">
+              <Link className="btn btn-primary w-full md:w-auto" to="/vendors/avigilon">
+                Explore Avigilon
+              </Link>
+            </div>
+          </div>
+
+        </div>
       </section>
-      <section className='container py-12'>
-        <h2 className='text-2xl md:text-3xl font-semibold mb-6'>Avigilon Highlights</h2>
-        <Gallery base='/vendors/avigilon' />
+
+      {/* Keep your highlights below (optional) */}
+      <section className="container py-12">
+        <h2 className="text-2xl md:text-3xl font-semibold mb-6">Verkada Highlights</h2>
+        <Gallery base="/vendors/verkada" />
+      </section>
+
+      <section className="container py-12">
+        <h2 className="text-2xl md:text-3xl font-semibold mb-6">Avigilon Highlights</h2>
+        <Gallery base="/vendors/avigilon" />
       </section>
     </main>
   )
