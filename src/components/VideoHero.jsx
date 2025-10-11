@@ -79,9 +79,9 @@ export default function VideoHero(){
 
       {/* Text */}
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
-        <h1 className="text-white text-4xl md:text-6xl font-bold mb-4">Smarter Security Starts Here</h1>
+        <h1 className="text-white text-4xl md:text-6xl font-bold mb-4">The Best or Why Bother!</h1>
         <p className="text-white/90 text-lg md:text-xl max-w-2xl">
-          Video Surveillance &amp; Access Control — Avigilon, Verkada
+          Video Surveillance, Access Control, Intercom — Avigilon, Verkada
         </p>
       </div>
 
