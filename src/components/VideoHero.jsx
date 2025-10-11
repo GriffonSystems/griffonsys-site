@@ -5,8 +5,8 @@ export default function VideoHero(){
   // Add/remove image paths here
   const images = [
     '/hero/IMG_3710 2.jpg',
-    '/hero/hero.jpg',
-  ]
+    '/hero/IMG_5030.jpg',
+    '/hero/hero1.png]
 
   const SLIDE_MS = 5000   // time each image shows (5s)
   const FADE_MS  = 700    // fade duration (0.7s)
