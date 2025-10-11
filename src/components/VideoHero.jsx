@@ -6,7 +6,7 @@ export default function VideoHero(){
   const images = [
     '/hero/IMG_3710 2.jpg',
     '/hero/IMG_5030.jpg',
-    '/hero/hero1.png]
+    '/hero/hero1.jpg ]
 
   const SLIDE_MS = 5000   // time each image shows (5s)
   const FADE_MS  = 700    // fade duration (0.7s)
