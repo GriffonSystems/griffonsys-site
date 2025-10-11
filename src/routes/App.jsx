@@ -22,8 +22,8 @@ export default function App(){
         <Route path='/industries' element={<Industries/>} />
         <Route path='/vendors/verkada' element={<VendorVerkada/>} />
         <Route path='/vendors/avigilon' element={<VendorAvigilon/>} />
-          <Route path="/vendors/avigilon-cloud" element={<AvigilonCloud />}
-            <Route path='/vendors/openpath' element={<VendorOpenpath/>} />
+        <Route path="/vendors/avigilon-cloud" element={<AvigilonCloud />}
+        <Route path='/vendors/openpath' element={<VendorOpenpath/>} />
         <Route path='*' element={<NotFound/>} />
       </Routes>
       <Footer />
