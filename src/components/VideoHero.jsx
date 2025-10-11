@@ -12,7 +12,7 @@ export default function VideoHero(){
           Smarter Security Starts Here
         </h1>
         <p className="text-white/90 text-lg md:text-xl max-w-2xl">
-          Surveillance & access control — Avigilon, Verkada, Alta.
+          Surveillance, Access Control, Intercom
         </p>
       </div>
     </section>
