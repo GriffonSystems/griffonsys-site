@@ -4,9 +4,8 @@ import React from 'react'
 export default function VideoHero(){
   // Add/remove image paths here
   const images = [
-    '/hero/hero-1.jpg',
-    '/hero/hero-2.jpg',
-    '/hero/hero-3.jpg',
+    '/hero/IMG_3710 2.jpg',
+    '/hero/hero.jpg',
   ]
 
   const SLIDE_MS = 5000   // time each image shows (5s)
