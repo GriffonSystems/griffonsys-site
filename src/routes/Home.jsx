@@ -1,5 +1,4 @@
 import VideoHero from '../components/VideoHero'
-import Gallery from '../components/Gallery'
 import { Link } from 'react-router-dom'
 
 export default function Home(){
@@ -13,7 +12,7 @@ export default function Home(){
         {/* 2×2 on tablet, 4 across on desktop; equal-height cards with bottom-aligned CTAs */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
 
-          {/* 1) Cloud Video Surveillance — two CTAs: Verkada + Avigilon (cloud) */}
+          {/* 1) Cloud Video Surveillance — Verkada + Avigilon (cloud) */}
           <div className="card p-6 flex flex-col h-full">
             <h3 className="text-xl font-semibold mb-2">Cloud Video Surveillance</h3>
             <p className="text-gray-600 mb-4">
@@ -72,17 +71,6 @@ export default function Home(){
           </div>
 
         </div>
-      </section>
-
-      {/* Keep your highlights below (optional) */}
-      <section className="container py-12">
-        <h2 className="text-2xl md:text-3xl font-semibold mb-6">Verkada Highlights</h2>
-        <Gallery base="/vendors/verkada" />
-      </section>
-
-      <section className="container py-12">
-        <h2 className="text-2xl md:text-3xl font-semibold mb-6">Avigilon Highlights</h2>
-        <Gallery base="/vendors/avigilon" />
       </section>
     </main>
   )
