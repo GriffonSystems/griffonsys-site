@@ -7,7 +7,7 @@ export default function Nav(){
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b">
       <div className="container flex items-center justify-between h-16">
         <Link to="/" className="flex items-center">
-          <img src="/logos/griffon_logo.svg" onError={(e)=>e.currentTarget.src='/logos/griffon-256.png'} alt="Griffon Systems" className="h-8 w-auto" />
+          <img src="/logos/griffon_logo.svg" onError={(e)=>e.currentTarget.src='/logos/griffon-256.png'} alt="Griffon Systems" className="h-12 w-auto" />
         </Link>
         <nav className="hidden md:flex items-center gap-1">
           <NavLink to="/solutions" className={active}>Solutions</NavLink>
