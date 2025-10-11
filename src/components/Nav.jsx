@@ -7,17 +7,15 @@ export default function Nav(){
   return (
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b">
       <div className="container flex items-center justify-between h-16">
-        <Link to="/" className="flex items-center gap-3">
-          {/* Use SVG; fall back to PNG if SVG missing */}
-          <img
-            src="/logos/griffon_logo.svg"
-            onError={(e) => (e.currentTarget.src = '/logos/griffon-256.png')}
-            alt="Griffon Systems"
-            className="h-8 w-auto"
-          />
-          <span className="font-bold">Griffon Systems</span>
-        </Link>
-
+<Link to="/" className="flex items-center">
+  <img
+    src="/logos/griffon_logo.svg"
+    onError={(e) => (e.currentTarget.src = '/logos/griffon-256.png')}
+    alt=""            // leave empty so screen readers use the text below
+    className="h-8 w-auto"
+  />
+  <span className="sr-only">Griffon Systems</span>
+</Link>
         <nav className="hidden md:flex items-center gap-1">
           <NavLink to="/solutions" className={active}>Solutions</NavLink>
           <NavLink to="/vendors/verkada" className={active}>Verkada</NavLink>
