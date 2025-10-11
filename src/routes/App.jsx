@@ -9,8 +9,7 @@ import Industries from './Industries'
 import VendorVerkada from './VendorVerkada'
 import VendorAvigilon from './VendorAvigilon'
 import VendorOpenpath from './VendorOpenpath'
-import NotFound from './NotFound'
-
++import AvigilonCloud from './AvigilonCloud'
 export default function App(){
   return (
     <div className='min-h-screen bg-white text-gray-900'>
@@ -23,7 +22,8 @@ export default function App(){
         <Route path='/industries' element={<Industries/>} />
         <Route path='/vendors/verkada' element={<VendorVerkada/>} />
         <Route path='/vendors/avigilon' element={<VendorAvigilon/>} />
-        <Route path='/vendors/openpath' element={<VendorOpenpath/>} />
+          <Route path="/vendors/avigilon-cloud" element={<AvigilonCloud />}
+            <Route path='/vendors/openpath' element={<VendorOpenpath/>} />
         <Route path='*' element={<NotFound/>} />
       </Routes>
       <Footer />
