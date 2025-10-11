@@ -2,7 +2,7 @@ export default function VideoHero(){
   return (
     <section className="relative h-[60vh] md:h-[70vh] overflow-hidden">
       <img
-        src="/hero/hero.jpg"
+        src="/hero/IMG_3710 2.jpg"
         alt="Griffon Systems — surveillance and access control"
         className="absolute inset-0 w-full h-full object-cover"
       />
