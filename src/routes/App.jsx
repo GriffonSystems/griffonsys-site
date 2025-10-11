@@ -9,7 +9,7 @@ import Industries from './Industries'
 import VendorVerkada from './VendorVerkada'
 import VendorAvigilon from './VendorAvigilon'
 import VendorOpenpath from './VendorOpenpath'
-+import AvigilonCloud from './AvigilonCloud'
+import AvigilonCloud from './AvigilonCloud'
 export default function App(){
   return (
     <div className='min-h-screen bg-white text-gray-900'>
