@@ -1,3 +1,4 @@
+// src/routes/App.jsx
 import { Routes, Route } from 'react-router-dom'
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
@@ -25,4 +26,13 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/industries" element={<Industries />} />
         <Route path="/vendors/verkada" element={<VendorVerkada />} />
-        <Route path="/ve
+        <Route path="/vendors/avigilon" element={<VendorAvigilon />} />
+        <Route path="/vendors/avigilon-cloud" element={<AvigilonCloud />} />
+        <Route path="/vendors/openpath" element={<VendorOpenpath />} />
+        <Route path="/vendors/alta" element={<VendorAlta />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      <Footer />
+    </div>
+  )
+}
