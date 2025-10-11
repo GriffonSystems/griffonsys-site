@@ -12,6 +12,11 @@ export default function VideoHero(){
   const SLIDE_MS = 5000
   const FADE_MS  = 700
 
+  // Change this to 'cover' if you want full-bleed again
+  const FIT = 'contain' // 'contain' (no crop) | 'cover' (fills, may crop)
+  // If using cover, you can bias the focus (e.g., 'center 20%')
+  const FOCUS = 'center center'
+
   const [images, setImages] = React.useState([])   // only loaded images
   const [idx, setIdx] = React.useState(0)
 
@@ -30,12 +35,8 @@ export default function VideoHero(){
     Promise.all(loaders).then(list => {
       if (!alive) return
       const ok = list.filter(Boolean)
-      setImages(ok.length ? ok : [])  // if none load, stays empty
+      setImages(ok.length ? ok : [])
       setIdx(0)
-      if (ok.length < rawImages.length && typeof window !== 'undefined') {
-        // Helpful console hint in dev
-        console.warn('Some hero images failed to load:', rawImages.filter((_,i)=>!list[i]))
-      }
     })
     return () => { alive = false }
   }, [])
@@ -48,7 +49,7 @@ export default function VideoHero(){
   }, [images])
 
   return (
-    <section className="relative h-[60vh] md:h-[70vh] overflow-hidden">
+    <section className="relative h-[50vh] md:h-[60vh] overflow-hidden">
       <div className="absolute inset-0">
         {images.length > 0 ? (
           images.map((src, i) => (
@@ -56,13 +57,19 @@ export default function VideoHero(){
               key={src}
               src={src}
               alt=""
-              className="absolute inset-0 w-full h-full object-cover transition-opacity"
-              style={{ opacity: i === idx ? 1 : 0, transitionDuration: `${FADE_MS}ms` }}
+              className={
+                `absolute inset-0 w-full h-full transition-opacity ` +
+                (FIT === 'contain' ? 'object-contain bg-black' : 'object-cover')
+              }
+              style={{
+                opacity: i === idx ? 1 : 0,
+                transitionDuration: `${FADE_MS}ms`,
+                ...(FIT === 'cover' ? { objectPosition: FOCUS } : {})
+              }}
               aria-hidden={i === idx ? 'false' : 'true'}
             />
           ))
         ) : (
-          // Fallback if nothing loaded yet or all failed
           <div className="absolute inset-0 bg-gray-200" />
         )}
       </div>
