@@ -20,3 +20,9 @@ export default function App() {
       <Nav />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/solutions" element={<Solutions />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/industries" element={<Industries />} />
+        <Route path="/vendors/verkada" element={<VendorVerkada />} />
+        <Route path="/ve
