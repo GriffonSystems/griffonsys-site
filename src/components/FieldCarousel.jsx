@@ -37,7 +37,7 @@ export default function FieldCarousel({ base = '/vendors/verkada/video/field', i
   }
 
   return (
-    <div className="relative w-full h-64 md:h-80 overflow-hidden rounded-xl">
+    <div className="relative w-full h-80 md:h-80 overflow-hidden rounded-xl">
       {/* Slides */}
       <div className="absolute inset-0">
         {images.map((src, i) => (
