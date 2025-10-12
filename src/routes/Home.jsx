@@ -1,3 +1,4 @@
+// src/routes/Home.jsx
 import VideoHero from '../components/VideoHero'
 import { Link } from 'react-router-dom'
 
@@ -9,8 +10,8 @@ export default function Home(){
       <section className="container py-12">
         <h2 className="text-2xl md:text-3xl font-semibold mb-6">Core Solutions</h2>
 
-        {/* 2×2 on tablet, 4 across on desktop; equal-height cards with bottom-aligned CTAs */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+        {/* 2×2 on tablet, 3 across on desktop; equal-height cards */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
 
           {/* 1) Cloud Video Surveillance — Verkada + Avigilon (cloud) */}
           <div className="card p-6 flex flex-col h-full">
@@ -51,10 +52,14 @@ export default function Home(){
               <Link className="btn btn-primary w-full sm:w-auto" to="/vendors/verkada">
                 Explore Verkada
               </Link>
+              {/* Remove this button if you don't have an Alta page yet */}
               <Link className="btn btn-primary w-full sm:w-auto" to="/vendors/alta">
                 Explore Alta Access
               </Link>
-         </div>
+            </div>
+          </div>
+
+        </div>
       </section>
     </main>
   )
