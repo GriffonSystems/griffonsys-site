@@ -1,1 +1,12 @@
-
+{
+  "title": "Verkada — Video",
+  "images": [
+    "/vendors/verkada/video/20230505_CM42_table%20top.png",
+    "/vendors/verkada/video/20230712_CP5262_PTZ_Camera_Decal.png",
+    "/vendors/verkada/video/CF83%20Explode.jpg",
+    "/vendors/verkada/video/CF83-E%20Fisheye%20NoShadow%20CF83-E_Fisheye_NoShadow.png",
+    "/vendors/verkada/video/CH53_primary_render.png",
+    "/vendors/verkada/video/CH63_primary_render.png",
+    "/vendors/verkada/video/CM41-E_Front%20Ground%20Light.png"
+  ]
+}
