@@ -54,23 +54,7 @@ export default function Home(){
               <Link className="btn btn-primary w-full sm:w-auto" to="/vendors/alta">
                 Explore Alta Access
               </Link>
-            </div>
-          </div>
-
-          {/* 4) Access Control — Avigilon */}
-          <div className="card p-6 flex flex-col h-full">
-            <h3 className="text-xl font-semibold mb-2">Access Control</h3>
-            <p className="text-gray-600 mb-4">
-              Enterprise access control with powerful integrations and reporting.
-            </p>
-            <div className="mt-auto">
-              <Link className="btn btn-primary w-full md:w-auto" to="/vendors/avigilon">
-                Explore Avigilon
-              </Link>
-            </div>
-          </div>
-
-        </div>
+         </div>
       </section>
     </main>
   )
