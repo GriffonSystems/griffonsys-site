@@ -68,8 +68,8 @@ export default function VendorVerkada() {
               { key:'dome',        title:'Dome',        desc:'Reliable and versatile performance in almost any location.',            img:'/vendors/verkada/video/dome.png' },
               { key:'mini',        title:'Mini',        desc:'Compact form factor for discreet monitoring in tight spaces.',         img:'/vendors/verkada/video/mini.png' },
               { key:'bullet',      title:'Bullet',      desc:'Optimized for license plate recognition and highly-detailed monitoring.', img:'/vendors/verkada/video/bullet.png' },
-              { key:'fisheye',     title:'Fisheye',     desc:'180-degree monitoring for expansive areas.',                           img:'/vendors/verkada/video/fisheye.png' },
-              { key:'multisensor', title:'Multisensor', desc:'Two or four sensors in one unit for holistic coverage.',               img:'/vendors/verkada/video/multisensor.png' },
+              { key:'fisheye',    title:'Fisheye',    desc:'180-degree monitoring for expansive areas.', img:'/vendors/verkada/video/fisheye.png' },
+              { key:'multisensor',title:'Multisensor',desc:'Two or four sensors in one unit for holistic coverage.', img:'/vendors/verkada/video/multisensor.png' },
               { key:'ptz',         title:'PTZ',         desc:'Flexible, wide-area coverage at a distance.',                          img:'/vendors/verkada/video/ptz.png' },
               { key:'remote',      title:'Remote',      desc:'Built-in battery and LTE modem for remote deployments.',               img:'/vendors/verkada/video/remote.png' },
             ].map(cat => (
