@@ -1,1 +1,11 @@
-{ "images": ["stairway.jpg", "bmwwarehouse.jpg", "chiridge.jpg", "fedex.jpg","frontgate.png","police.jpg","woodridgeskate.jpg"}
+{
+  "images": [
+    "Stairway.jpg",
+    "bmwwarehouse.jpg",
+    "chiridgepd.jpg",
+    "fedex.jpg",
+    "frontgateplate.png",
+    "police.jpg",
+    "woodridgeskate.jpg"
+  ]
+}
