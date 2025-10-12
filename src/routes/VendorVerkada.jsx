@@ -1,31 +1,66 @@
-import React from 'react'
-
-export default function VendorVerkada() {
-  React.useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
-  }, [])
-  // ...
-}
 // src/routes/VendorVerkada.jsx
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Gallery from '../components/Gallery' // kept for other tabs
 
-// ---------- Inline carousel (no extra file needed) ----------
+// ---------- Small, stable logo helper ----------
+function VerkadaLogo({ className = "h-10 w-auto object-contain" }) {
+  const [src, setSrc] = React.useState(null)
+  React.useEffect(() => {
+    let alive = true
+    const candidates = [
+      '/vendors/verkada/logo.svg',
+      '/vendors/verkada/logo.png',
+      '/vendors/verkada/logo.jpg',
+    ]
+    ;(async () => {
+      for (const url of candidates) {
+        try {
+          const res = await fetch(url, { cache: 'force-cache' })
+          if (res.ok) { if (alive) setSrc(url); break }
+        } catch {}
+      }
+    })()
+    return () => { alive = false }
+  }, [])
+  if (!src) return <div className={className} aria-label="Verkada" />
+  return (
+    <img
+      src={src}
+      alt="Verkada"
+      className={className}
+      loading="eager"
+      decoding="sync"
+      width={160}
+      height={40}
+    />
+  )
+}
+
+// ---------- From the field carousel ----------
 function FieldCarousel({ base = '/vendors/verkada/video/field', intervalMs = 4500, fadeMs = 600 }) {
   const [images, setImages] = React.useState([])
   const [idx, setIdx] = React.useState(0)
+  const keyRef = React.useRef('')
 
   React.useEffect(() => {
-    let isMounted = true
-    fetch(`${base}/index.json`, { cache: 'no-store' })
-      .then(r => r.json())
-      .then(data => {
+    let alive = true
+    const url = `${base}/index.json`
+    fetch(url)
+      .then(async r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`)
+        const data = await r.json()
         const files = Array.isArray(data?.images) ? data.images : []
-        if (isMounted) setImages(files.map(f => `${base}/${encodeURI(f)}`))
+        const list = files.map(f => `${base}/${encodeURI(f)}`)
+        const key = list.join('|')
+        if (alive && list.length && key !== keyRef.current) {
+          keyRef.current = key
+          setImages(list)
+          setIdx(0)
+        }
       })
-      .catch(() => isMounted && setImages([]))
-    return () => { isMounted = false }
+      .catch(() => { if (alive) setImages([]) })
+    return () => { alive = false }
   }, [base])
 
   React.useEffect(() => {
@@ -34,30 +69,20 @@ function FieldCarousel({ base = '/vendors/verkada/video/field', intervalMs = 450
     return () => clearInterval(t)
   }, [images, intervalMs])
 
-  React.useEffect(() => {
-    if (!images.length) return
-    const n = new Image()
-    n.src = images[(idx + 1) % images.length]
-  }, [idx, images])
-
   if (!images.length) {
-    return (
-      <div className="w-full h-64 md:h-80 rounded-xl bg-gray-100 flex items-center justify-center text-gray-500">
-        No photos yet
-      </div>
-    )
+    return <div className="w-full h-[60vh] md:h-[75vh] rounded-xl bg-gray-100 flex items-center justify-center text-gray-500">From the field: No photos yet</div>
   }
 
   return (
-    <div className="relative w-full h-64 md:h-80 overflow-hidden rounded-xl">
+    <div className="relative w-full h-[60vh] md:h-[75vh] overflow-hidden rounded-xl">
       <div className="absolute inset-0">
         {images.map((src, i) => (
           <img
             key={src}
             src={src}
             alt=""
-            loading="lazy"
-            decoding="async"
+            loading={i === 0 ? 'eager' : 'lazy'}
+            decoding={i === 0 ? 'sync' : 'async'}
             className="absolute inset-0 w-full h-full object-contain bg-white transition-opacity"
             style={{ opacity: i === idx ? 1 : 0, transitionDuration: `${fadeMs}ms` }}
             aria-hidden={i === idx ? 'false' : 'true'}
@@ -80,32 +105,27 @@ function FieldCarousel({ base = '/vendors/verkada/video/field', intervalMs = 450
   )
 }
 
-// ---------- Page ----------
 const TABS = [
-  { key: 'video',    label: 'Video',    base: '/vendors/verkada/video' },
-  { key: 'access',   label: 'Access',   base: '/vendors/verkada/access' },
-  { key: 'intercom', label: 'Intercom', base: '/vendors/verkada/intercom' },
+  { key: 'video',    label: 'Video' },
+  { key: 'access',   label: 'Access' },
+  { key: 'intercom', label: 'Intercom' },
 ]
 
-const PLACEHOLDER = '/placeholder.png' // create public/placeholder.png
-const safeSrc = (p) => encodeURI(p)    // handles spaces in filenames
+const safeSrc = (p) => encodeURI(p)
 
 export default function VendorVerkada() {
   const [active, setActive] = React.useState('video')
 
+  React.useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+  }, [])
+
   return (
     <main className="container py-12">
-      {/* Header with Verkada logo */}
+      {/* Header with Verkada logo + CTA */}
       <div className="flex items-center justify-between mb-6 gap-4">
         <div className="flex items-center gap-3">
-        <img
-         src="/vendors/verkada/logo.svg"
-         onError={(e)=>{ e.currentTarget.onerror=null; e.currentTarget.src='/vendors/verkada/logo.png' }}
-         alt="Verkada"
-         className="h-10 w-auto object-contain"
-         loading="eager"        // above-the-fold: do not lazy-load
-         decoding="sync"        // avoid async decoding flicker
-             />
+          <VerkadaLogo className="h-10 w-auto object-contain" />
           <h1 className="sr-only">Verkada</h1>
         </div>
         <Link to="/contact" className="btn btn-primary">Request a Demo</Link>
@@ -123,7 +143,6 @@ export default function VendorVerkada() {
                 : 'bg-white hover:bg-gray-100 border-gray-200'
             }`}
             aria-pressed={active === t.key}
-            aria-label={`Show ${t.label} products`}
           >
             {t.label}
           </button>
@@ -133,7 +152,7 @@ export default function VendorVerkada() {
       {/* ========== VIDEO TAB ========== */}
       {active === 'video' && (
         <section className="space-y-10">
-          {/* Category tiles — filenames must exist under public/vendors/verkada/video/ */}
+          {/* Category tiles */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               { key:'dome',        title:'Dome',        desc:'Reliable and versatile performance in almost any location.',            img:'/vendors/verkada/video/dome.png' },
@@ -147,7 +166,7 @@ export default function VendorVerkada() {
               <div key={cat.key} className="card p-6 flex flex-col">
                 <img
                   src={safeSrc(cat.img)}
-                  onError={(e)=> { e.currentTarget.src = PLACEHOLDER }}
+                  onError={(e)=>{ e.currentTarget.onerror=null; e.currentTarget.src='/placeholder.png' }}
                   alt={cat.title}
                   loading="lazy"
                   decoding="async"
@@ -162,10 +181,10 @@ export default function VendorVerkada() {
             ))}
           </div>
 
-          {/* From the field — cycling slideshow fed by /field/index.json */}
-          <div id="models-gallery">
+          {/* From the field carousel */}
+          <div>
             <h3 className="text-xl font-semibold mb-4">From the field</h3>
-            <FieldCarousel base="/vendors/video/field" />
+            <FieldCarousel base="/vendors/verkada/video/field" />
           </div>
         </section>
       )}
@@ -180,10 +199,9 @@ export default function VendorVerkada() {
         </section>
       )}
 
-      {/* ========== INTERCOM TAB (models first) ========== */}
+      {/* ========== INTERCOM TAB ========== */}
       {active === 'intercom' && (
         <section className="space-y-8">
-          {/* 1) Models */}
           <div>
             <h2 className="text-2xl font-semibold mb-4">Intercom Models</h2>
             <div className="grid md:grid-cols-3 gap-6">
@@ -210,10 +228,8 @@ export default function VendorVerkada() {
                 <div key={m.key} className="card p-6 flex flex-col">
                   <img
                     src={safeSrc(m.img)}
-                    onError={(e)=> { e.currentTarget.src = PLACEHOLDER }}
+                    onError={(e)=>{ e.currentTarget.onerror=null; e.currentTarget.src='/placeholder.png' }}
                     alt={m.key}
-                    loading="lazy"
-                    decoding="async"
                     className="w-full h-40 object-contain mb-4 bg-gray-50 rounded-lg"
                   />
                   <h3 className="text-xl font-semibold">{m.key}</h3>
@@ -227,13 +243,13 @@ export default function VendorVerkada() {
             </div>
           </div>
 
-          {/* 2) Features */}
+          {/* Features (keep if you like) */}
           <div className="grid md:grid-cols-3 gap-6">
             {[
               { title: 'Video Intercom', desc: '5MP video, crisp audio, AI analytics on every call.' },
-              { title: 'Access Controller', desc: 'Grant or deny entry directly from the call UI.' },
+              { title: 'Access Controller', desc: 'Grant/deny entry directly from the call UI.' },
               { title: 'Door Reader', desc: 'HF/LF cards, mobile NFC/BLE, and QR credentials.' },
-              { title: 'Multi-Purpose Keypad', desc: 'PIN entry, MFA, or multi-tenant directory (TD63).' },
+              { title: 'Keypad', desc: 'PIN entry, MFA, or multi-tenant directory (TD63).' },
               { title: 'Clear Imaging', desc: '130° FoV, WDR, and night mode for any lighting.' },
               { title: 'Hear & Be Heard', desc: '4 mics with noise cancellation and echo reduction.' },
             ].map(card => (
@@ -244,7 +260,7 @@ export default function VendorVerkada() {
             ))}
           </div>
 
-          {/* 3) Gallery */}
+          {/* Intercom gallery (optional) */}
           <Gallery base="/vendors/verkada/intercom" />
         </section>
       )}
