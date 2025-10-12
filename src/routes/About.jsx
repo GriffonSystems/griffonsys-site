@@ -15,8 +15,6 @@ export default function About() {
         video surveillance systems for its broad range of customers.
       </p>
 
-      <h2 className="text-2xl font-semibold mb-4">From Paul on LinkedIn</h2>
-
       <div className="grid md:grid-cols-2 gap-6">
         {/* Post 1 */}
         <div className="relative w-full min-h-[520px] rounded-xl overflow-hidden border">
