@@ -1,3 +1,11 @@
+import React from 'react'
+
+export default function VendorVerkada() {
+  React.useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+  }, [])
+  // ...
+}
 // src/routes/VendorVerkada.jsx
 import React from 'react'
 import { Link } from 'react-router-dom'
