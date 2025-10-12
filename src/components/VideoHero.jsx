@@ -2,31 +2,33 @@
 import React from 'react'
 
 export default function VideoHero(){
-  // Update these to match your real filenames in public/hero/
+  // Images (use exact paths in /public/hero)
   const rawImages = [
     '/hero/IMG_3710 2.jpg',
     '/hero/IMG_5030.jpg',
     '/hero/hero1.jpg',
   ]
 
+  // === TUNING KNOBS ===
+  // Make hero taller
+  const HERO_H = 'h-[75vh] md:h-[90vh]'        // try 'h-[85vh] md:h-screen' for maximum
+  // Control crop vs. fit:
+  const FIT_MODE = 'cover'    // 'cover' (fills, crops) or 'contain' (no crop, may letterbox)
+  // Focus area (works with cover/contain)
+  const FOCAL = 'object-[center_30%]' // 'object-center', 'object-[center_top]', etc.
+  // Timing
   const SLIDE_MS = 5000
   const FADE_MS  = 700
 
-  // Change this to 'cover' if you want full-bleed again
-  const FIT = 'contain' // 'contain' (no crop) | 'cover' (fills, may crop)
-  // If using cover, you can bias the focus (e.g., 'center 20%')
-  const FOCUS = 'center center'
-
-  const [images, setImages] = React.useState([])   // only loaded images
+  const [images, setImages] = React.useState([])
   const [idx, setIdx] = React.useState(0)
 
-  // Preload and keep only images that actually load
   React.useEffect(() => {
     let alive = true
     const loaders = rawImages.map(src =>
       new Promise((resolve) => {
         const i = new Image()
-        const url = encodeURI(src) // handles spaces
+        const url = encodeURI(src)
         i.onload  = () => resolve(url)
         i.onerror = () => resolve(null)
         i.src = url
@@ -35,53 +37,54 @@ export default function VideoHero(){
     Promise.all(loaders).then(list => {
       if (!alive) return
       const ok = list.filter(Boolean)
-      setImages(ok.length ? ok : [])
+      setImages(ok)
       setIdx(0)
     })
     return () => { alive = false }
   }, [])
 
-  // Advance slides
   React.useEffect(() => {
     if (images.length <= 1) return
     const t = setInterval(() => setIdx(i => (i + 1) % images.length), SLIDE_MS)
     return () => clearInterval(t)
   }, [images])
 
+  React.useEffect(() => {
+    if (!images.length) return
+    const next = new Image()
+    next.src = images[(idx + 1) % images.length]
+  }, [idx, images])
+
   return (
-    <section className="relative h-[50vh] md:h-[60vh] overflow-hidden">
+    <section className={`relative ${HERO_H} overflow-hidden`}>
+      {/* Slides */}
       <div className="absolute inset-0">
-        {images.length > 0 ? (
-          images.map((src, i) => (
-            <img
-              key={src}
-              src={src}
-              alt=""
-              className={
-                `absolute inset-0 w-full h-full transition-opacity ` +
-                (FIT === 'contain' ? 'object-contain bg-black' : 'object-cover')
-              }
-              style={{
-                opacity: i === idx ? 1 : 0,
-                transitionDuration: `${FADE_MS}ms`,
-                ...(FIT === 'cover' ? { objectPosition: FOCUS } : {})
-              }}
-              aria-hidden={i === idx ? 'false' : 'true'}
-            />
-          ))
-        ) : (
+        {images.length ? images.map((src, i) => (
+          <img
+            key={src}
+            src={src}
+            alt=""
+            className={`absolute inset-0 w-full h-full transition-opacity object-${FIT_MODE} ${FOCAL}`}
+            style={{ opacity: i === idx ? 1 : 0, transitionDuration: `${FADE_MS}ms` }}
+            loading="eager"
+            decoding="async"
+            aria-hidden={i === idx ? 'false' : 'true'}
+          />
+        )) : (
           <div className="absolute inset-0 bg-gray-200" />
         )}
       </div>
 
-      {/* Overlay for text readability */}
-      <div className="absolute inset-0 bg-black/40" />
+      {/* Dark overlay for readability — reduce opacity if you want more image pop */}
+      <div className="absolute inset-0 bg-black/35" />
 
       {/* Text */}
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
-        <h1 className="text-white text-4xl md:text-6xl font-bold mb-4">Video Surveillance Experts for 20+ years</h1>
+        <h1 className="text-white text-4xl md:text-6xl font-bold mb-4">
+          Smarter Security Starts Here
+        </h1>
         <p className="text-white/90 text-lg md:text-xl max-w-2xl">
-          Video Surveillance, Access Control, Intercom — Avigilon, Verkada
+          Video Surveillance &amp; Access Control — Avigilon, Verkada
         </p>
       </div>
 
