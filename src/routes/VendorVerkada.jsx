@@ -62,10 +62,11 @@ export default function VendorVerkada() {
           {/* Category tiles — update image paths to match your files */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { key:'dome',  title:'Dome',        desc:'Reliable and versatile performance in almost any location.', img:'/vendors/verkada/video/CH53_primary_render.png' },
-              { key:'mini',  title:'Mini',        desc:'Compact form factor for discreet monitoring in tight spaces.', img:'/vendors/verkada/video/CM41-E_Front Ground Light.png' },
-              { key:'bullet',title:'Bullet',      desc:'Optimized for license plate recognition and highly-detailed monitoring.', img:'/vendors/verkada/video/CH63_primary_render.png' },
-              { key:'fisheye',title:'Fisheye',    desc:'180-degree monitoring for expansive areas.', img:'/vendors/verkada/video/CF83-E Fisheye NoShadow CF83-E_Fisheye_NoShadow.png' },
+              { key:'dome',  title:'Dome',        desc:'Reliable and versatile performance in almost any location.', img:'/vendors/verkada/video/dome.png' },
+              { key:'mini',  title:'Mini',        desc:'Compact form factor for discreet monitoring in tight spaces.', img:'/vendors/verkada/video/mini.png' },
+              { key:'bullet',title:'Bullet',      desc:'Optimized for license plate recognition and highly-detailed monitoring.', img:'/vendors/verkada/video/bullet.png' },
+              { key:'fisheye',title:'Fisheye',    desc:'180-degree monitoring for expansive areas.', img:'/vendors/verkada/video/fisheye
+                .png' },
               { key:'multisensor',title:'Multisensor', desc:'Two or four sensors in one unit for holistic coverage.', img:'/vendors/verkada/video/CF83 Explode.jpg' },
               { key:'ptz',   title:'PTZ',         desc:'Flexible, wide-area coverage at a distance.', img:'/vendors/verkada/video/20230712_CP5262_PTZ_Camera_Decal.png' },
               { key:'remote',title:'Remote',      desc:'Built-in battery and LTE modem for remote deployments.', img:'/vendors/verkada/video/20230505_CM42_table top.png' },
