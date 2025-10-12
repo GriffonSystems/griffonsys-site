@@ -90,14 +90,14 @@ export default function VendorVerkada() {
       {/* Header with Verkada logo */}
       <div className="flex items-center justify-between mb-6 gap-4">
         <div className="flex items-center gap-3">
-          <img
-            src="/vendors/verkada/logo.svg"
-            onError={(e)=> (e.currentTarget.src = '/vendors/verkada/logo.png')}
-            alt="Verkada"
-            className="h-10 w-auto object-contain"
-            loading="lazy"
-            decoding="async"
-          />
+        <img
+         src="/vendors/verkada/logo.svg"
+         onError={(e)=>{ e.currentTarget.onerror=null; e.currentTarget.src='/vendors/verkada/logo.png' }}
+         alt="Verkada"
+         className="h-10 w-auto object-contain"
+         loading="eager"        // above-the-fold: do not lazy-load
+         decoding="sync"        // avoid async decoding flicker
+             />
           <h1 className="sr-only">Verkada</h1>
         </div>
         <Link to="/contact" className="btn btn-primary">Request a Demo</Link>
