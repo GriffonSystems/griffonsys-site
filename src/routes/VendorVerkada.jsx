@@ -1,15 +1,85 @@
 // src/routes/VendorVerkada.jsx
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Gallery from '../components/Gallery'
+import Gallery from '../components/Gallery' // kept for other tabs
 
+// ---------- Inline carousel (no extra file needed) ----------
+function FieldCarousel({ base = '/vendors/verkada/video/field', intervalMs = 4500, fadeMs = 600 }) {
+  const [images, setImages] = React.useState([])
+  const [idx, setIdx] = React.useState(0)
+
+  React.useEffect(() => {
+    let isMounted = true
+    fetch(`${base}/index.json`, { cache: 'no-store' })
+      .then(r => r.json())
+      .then(data => {
+        const files = Array.isArray(data?.images) ? data.images : []
+        if (isMounted) setImages(files.map(f => `${base}/${encodeURI(f)}`))
+      })
+      .catch(() => isMounted && setImages([]))
+    return () => { isMounted = false }
+  }, [base])
+
+  React.useEffect(() => {
+    if (images.length <= 1) return
+    const t = setInterval(() => setIdx(i => (i + 1) % images.length), intervalMs)
+    return () => clearInterval(t)
+  }, [images, intervalMs])
+
+  React.useEffect(() => {
+    if (!images.length) return
+    const n = new Image()
+    n.src = images[(idx + 1) % images.length]
+  }, [idx, images])
+
+  if (!images.length) {
+    return (
+      <div className="w-full h-64 md:h-80 rounded-xl bg-gray-100 flex items-center justify-center text-gray-500">
+        No photos yet
+      </div>
+    )
+  }
+
+  return (
+    <div className="relative w-full h-64 md:h-80 overflow-hidden rounded-xl">
+      <div className="absolute inset-0">
+        {images.map((src, i) => (
+          <img
+            key={src}
+            src={src}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 w-full h-full object-contain bg-white transition-opacity"
+            style={{ opacity: i === idx ? 1 : 0, transitionDuration: `${fadeMs}ms` }}
+            aria-hidden={i === idx ? 'false' : 'true'}
+          />
+        ))}
+      </div>
+      {images.length > 1 && (
+        <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
+          {images.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setIdx(i)}
+              className={`h-2 w-2 rounded-full ${i === idx ? 'bg-black' : 'bg-black/40'}`}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ---------- Page ----------
 const TABS = [
   { key: 'video',    label: 'Video',    base: '/vendors/verkada/video' },
   { key: 'access',   label: 'Access',   base: '/vendors/verkada/access' },
   { key: 'intercom', label: 'Intercom', base: '/vendors/verkada/intercom' },
 ]
 
-const PLACEHOLDER = '/placeholder.png' // create this at public/placeholder.png
+const PLACEHOLDER = '/placeholder.png' // create public/placeholder.png
 const safeSrc = (p) => encodeURI(p)    // handles spaces in filenames
 
 export default function VendorVerkada() {
@@ -62,14 +132,14 @@ export default function VendorVerkada() {
             </p>
           </div>
 
-          {/* Category tiles — update image paths to match your files in public/vendors/verkada/video/ */}
+          {/* Category tiles — filenames must exist under public/vendors/verkada/video/ */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               { key:'dome',        title:'Dome',        desc:'Reliable and versatile performance in almost any location.',            img:'/vendors/verkada/video/dome.png' },
               { key:'mini',        title:'Mini',        desc:'Compact form factor for discreet monitoring in tight spaces.',         img:'/vendors/verkada/video/mini.png' },
               { key:'bullet',      title:'Bullet',      desc:'Optimized for license plate recognition and highly-detailed monitoring.', img:'/vendors/verkada/video/bullet.png' },
-              { key:'fisheye',    title:'Fisheye',    desc:'180-degree monitoring for expansive areas.', img:'/vendors/verkada/video/fisheye.png' },
-              { key:'multisensor',title:'Multisensor',desc:'Two or four sensors in one unit for holistic coverage.', img:'/vendors/verkada/video/multisensor.png' },
+              { key:'fisheye',     title:'Fisheye',     desc:'180-degree monitoring for expansive areas.',                           img:'/vendors/verkada/video/fisheye.png' },
+              { key:'multisensor', title:'Multisensor', desc:'Two or four sensors in one unit for holistic coverage.',               img:'/vendors/verkada/video/multisensor.png' },
               { key:'ptz',         title:'PTZ',         desc:'Flexible, wide-area coverage at a distance.',                          img:'/vendors/verkada/video/ptz.png' },
               { key:'remote',      title:'Remote',      desc:'Built-in battery and LTE modem for remote deployments.',               img:'/vendors/verkada/video/remote.png' },
             ].map(cat => (
@@ -91,10 +161,10 @@ export default function VendorVerkada() {
             ))}
           </div>
 
-          {/* Gallery below the tiles (reads public/vendors/verkada/video/index.json) */}
+          {/* From the field — cycling slideshow fed by /field/index.json */}
           <div id="models-gallery">
-            <h3 className="text-xl font-semibold mb-4">In the field</h3>
-            <Gallery base="/vendors/verkada/video" />
+            <h3 className="text-xl font-semibold mb-4">From the field</h3>
+            <FieldCarousel base="/vendors/verkada/video/field" />
           </div>
         </section>
       )}
