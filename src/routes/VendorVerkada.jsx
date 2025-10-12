@@ -164,7 +164,7 @@ export default function VendorVerkada() {
           {/* From the field — cycling slideshow fed by /field/index.json */}
           <div id="models-gallery">
             <h3 className="text-xl font-semibold mb-4">From the field</h3>
-            <FieldCarousel base="/vendors/verkada/video" />
+            <FieldCarousel base="/vendors/verkada/video/field" />
           </div>
         </section>
       )}
