@@ -6,17 +6,28 @@ import Gallery from '../components/Gallery'
 const TABS = [
   { key: 'video',    label: 'Video',    base: '/vendors/verkada/video' },
   { key: 'access',   label: 'Access',   base: '/vendors/verkada/access' },
-  { key: 'intercom', label: 'Intercom', base: '/vendors/verkada/intercom' }
+  { key: 'intercom', label: 'Intercom', base: '/vendors/verkada/intercom' },
 ]
+
+const PLACEHOLDER = '/placeholder.png' // put a small fallback image in public/placeholder.png
+const safeSrc = (p) => encodeURI(p)    // handles spaces in filenames
 
 export default function VendorVerkada() {
   const [active, setActive] = React.useState('video')
 
   return (
     <main className="container py-12">
-      {/* Header */}
+      {/* Header with Verkada logo */}
       <div className="flex items-center justify-between mb-6 gap-4">
-        <h1 className="text-3xl font-bold">Verkada</h1>
+        <div className="flex items-center gap-3">
+          <img
+            src="/vendors/verkada/logo.jpg"
+            onError={(e)=> (e.currentTarget.src = '/vendors/verkada/logo.png')}
+            alt="Verkada"
+            className="h-10 w-auto object-contain"
+          />
+          <h1 className="sr-only">Verkada</h1>
+        </div>
         <Link to="/contact" className="btn btn-primary">Request a Demo</Link>
       </div>
 
@@ -38,7 +49,7 @@ export default function VendorVerkada() {
         ))}
       </div>
 
-      {/* VIDEO TAB */}
+      {/* ========== VIDEO TAB ========== */}
       {active === 'video' && (
         <section className="space-y-10">
           <div>
@@ -48,7 +59,7 @@ export default function VendorVerkada() {
             </p>
           </div>
 
-          {/* Category tiles (update image paths as needed) */}
+          {/* Category tiles — update image paths to match your files */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               { key:'dome',  title:'Dome',        desc:'Reliable and versatile performance in almost any location.', img:'/vendors/verkada/video/CH53_primary_render.png' },
@@ -61,7 +72,8 @@ export default function VendorVerkada() {
             ].map(cat => (
               <div key={cat.key} className="card p-6 flex flex-col">
                 <img
-                  src={encodeURI(cat.img)}
+                  src={safeSrc(cat.img)}
+                  onError={(e)=> (e.currentTarget.src = PLACEHOLDER)}
                   alt={cat.title}
                   className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
                 />
@@ -74,7 +86,7 @@ export default function VendorVerkada() {
             ))}
           </div>
 
-          {/* Your gallery below the tiles (reads public/vendors/verkada/video/index.json) */}
+          {/* Gallery below the tiles (reads public/vendors/verkada/video/index.json) */}
           <div id="models-gallery">
             <h3 className="text-xl font-semibold mb-4">In the field</h3>
             <Gallery base="/vendors/verkada/video" />
@@ -82,7 +94,7 @@ export default function VendorVerkada() {
         </section>
       )}
 
-      {/* ACCESS TAB */}
+      {/* ========== ACCESS TAB ========== */}
       {active === 'access' && (
         <section className="space-y-6">
           <p className="text-gray-700">
@@ -92,36 +104,37 @@ export default function VendorVerkada() {
         </section>
       )}
 
-      {/* INTERCOM TAB */}
+      {/* ========== INTERCOM TAB (models first) ========== */}
       {active === 'intercom' && (
         <section className="space-y-8">
-          {/* 1) Models first */}
+          {/* 1) Models */}
           <div>
             <h2 className="text-2xl font-semibold mb-4">Intercom Models</h2>
             <div className="grid md:grid-cols-3 gap-6">
               {[
                 {
-                  key: 'TD33', img: '/vendors/verkada/intercom/td33.jpg', // change extension/path to match your file
+                  key: 'TD33', img: '/vendors/verkada/intercom/td33.jpg',
                   blurb: 'Slim form factor for mullions and tight spaces.',
                   io: ['2 × dry inputs', '1 × dry relay', '1 × RS-485'],
-                  creds: ['LF/HF cards & fobs', 'Mobile NFC/BLE', 'QR code']
+                  creds: ['LF/HF cards & fobs', 'Mobile NFC/BLE', 'QR code'],
                 },
                 {
                   key: 'TD53', img: '/vendors/verkada/intercom/td53.jpg',
                   blurb: 'Full-size intercom with exceptional audio and scan.',
                   io: ['3 × dry inputs', '2 × dry relays', '1 × RS-485'],
-                  creds: ['LF/HF cards & fobs', 'Mobile NFC/BLE', 'QR code']
+                  creds: ['LF/HF cards & fobs', 'Mobile NFC/BLE', 'QR code'],
                 },
                 {
                   key: 'TD63', img: '/vendors/verkada/intercom/td63.jpg',
                   blurb: 'Full-size intercom with integrated keypad.',
                   io: ['3 × dry inputs', '2 × dry relays', '1 × RS-485'],
-                  creds: ['LF/HF cards & fobs', 'Mobile NFC/BLE', 'QR code', 'PIN code']
+                  creds: ['LF/HF cards & fobs', 'Mobile NFC/BLE', 'QR code', 'PIN code'],
                 },
               ].map(m => (
                 <div key={m.key} className="card p-6 flex flex-col">
                   <img
-                    src={m.img}
+                    src={safeSrc(m.img)}
+                    onError={(e)=> (e.currentTarget.src = PLACEHOLDER)}
                     alt={m.key}
                     className="w-full h-40 object-contain mb-4 bg-gray-50 rounded-lg"
                   />
@@ -136,7 +149,7 @@ export default function VendorVerkada() {
             </div>
           </div>
 
-          {/* 2) Feature pillars */}
+          {/* 2) Features */}
           <div className="grid md:grid-cols-3 gap-6">
             {[
               { title: 'Video Intercom', desc: '5MP video, crisp audio, AI analytics on every call.' },
@@ -153,7 +166,7 @@ export default function VendorVerkada() {
             ))}
           </div>
 
-          {/* 3) Intercom gallery */}
+          {/* 3) Gallery */}
           <Gallery base="/vendors/verkada/intercom" />
         </section>
       )}
