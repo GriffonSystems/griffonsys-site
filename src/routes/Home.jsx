@@ -7,7 +7,7 @@ export default function Home(){
       <VideoHero />
 
       <section className="container py-12">
-        <h2 className="text-2xl md:text-3xl font-semibold mb-6">Our Core Solutions</h2>
+        <h2 className="text-2xl md:text-3xl font-semibold mb-6">Core Solutions</h2>
 
         {/* 2×2 on tablet, 4 across on desktop; equal-height cards with bottom-aligned CTAs */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
