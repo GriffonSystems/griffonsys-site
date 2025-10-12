@@ -1,6 +1,27 @@
-{
-  "posts": [
-    "https://www.linkedin.com/feed/update/urn:li:activity:7381430950704046082/",
-    "https://www.linkedin.com/in/paul-grefenstette-0667211/recent-activity/all/"
-  ]
-}
+<p className="text-lg text-gray-800 mb-4">
+  Griffon Systems, Inc. designs high-resolution IP megapixel (Avigilon, Verkada, Axis)
+  video surveillance systems for its broad range of customers.
+</p>
+
+<div className="grid md:grid-cols-2 gap-6">
+  {/* iframe 1 */}
+  <div className="relative w-full" style={{ paddingTop: '140%' }}>
+    <iframe
+      loading="lazy"
+      className="absolute inset-0 w-full h-full"
+      src="https://www.linkedin.com/embed/feed/update/urn:li:activity:7381430950704046082"
+      title="LinkedIn post 1"
+      allow="encrypted-media; clipboard-write"
+    />
+  </div>
+  {/* iframe 2 */}
+  <div className="relative w-full" style={{ paddingTop: '140%' }}>
+    <iframe
+      loading="lazy"
+      className="absolute inset-0 w-full h-full"
+      src="https://www.linkedin.com/posts/paul-grefenstette-0667211_clientsfirst-thebestorwhybother-griffonsystems-activity-7378967268157927425-zfoU?utm_source=share&utm_medium=member_desktop&rcm=ACoAAABIzQ4ByRHc0BeLAeYuXAH0gIuRY4W2b8k"
+      title="LinkedIn post 2"
+      allow="encrypted-media; clipboard-write"
+    />
+  </div>
+</div>
