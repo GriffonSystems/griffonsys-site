@@ -125,13 +125,6 @@ export default function VendorVerkada() {
       {/* ========== VIDEO TAB ========== */}
       {active === 'video' && (
         <section className="space-y-10">
-          <div>
-            <h2 className="text-2xl font-semibold mb-2">Explore our models and get started today</h2>
-            <p className="text-gray-700">
-              Pick the right camera family for your environment. We carry the full Verkada line and can help you size storage, bandwidth, and lenses.
-            </p>
-          </div>
-
           {/* Category tiles — filenames must exist under public/vendors/verkada/video/ */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
