@@ -13,18 +13,7 @@
       title="LinkedIn post 1"
       allow="encrypted-media; clipboard-write"
       referrerPolicy="strict-origin-when-cross-origin"
-    />
-  </div>
 
-  {/* Post 2 */}
-  <div className="relative w-full" style={{ paddingTop: '140%' }}>
-    <iframe
-      loading="lazy"
-      className="absolute inset-0 w-full h-full"
-      src="https://www.linkedin.com/embed/feed/update/urn:li:activity:7378967268157927425"
-      title="LinkedIn post 2"
-      allow="encrypted-media; clipboard-write"
-      referrerPolicy="strict-origin-when-cross-origin"
     />
   </div>
 </div>
