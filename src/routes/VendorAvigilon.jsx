@@ -79,44 +79,44 @@ export default function VendorAvigilon() {
                 key: 'bullet-h6a',
                 title: 'H6A Bullet',
                 desc: 'High-detail coverage and long-range performance.',
-                img: '/vendors/avigilon/video/H6A_Bullet_Product_Detail_Image_1.avif',
+                img: '/vendors/avigilon/H6A_Bullet_Product_Detail_Image_1.avif',
               },
               {
                 key: 'ptz-h6a',
                 title: 'H6A PTZ',
                 desc: 'Flexible, wide-area coverage with powerful zoom.',
-                img: '/vendors/avigilon/video/H6A-PTZ-Product_Detail_Image_2_2024-07-02-210404_cxtc.avif',
+                img: '/vendors/avigilon/H6A-PTZ-Product_Detail_Image_2_2024-07-02-210404_cxtc.avif',
               },
               {
                 key: 'multisensor-h5a',
                 title: 'H5A Multisensor',
                 desc: 'Two or four sensors in one for holistic coverage.',
-                img: '/vendors/avigilon/video/H5A_Multisensor_01_2024-09-02-173128_gmdn.avif',
+                img: '/vendors/avigilon/H5A_Multisensor_01_2024-09-02-173128_gmdn.avif',
               },
               {
                 key: 'modular-h5a',
                 title: 'H5A Modular',
                 desc: 'Split head/encoder design for tight or covert installs.',
-                img: '/vendors/avigilon/video/H5A_Modular_01.avif',
+                img: '/vendors/avigilon/H5A_Modular_01.avif',
               },
               {
                 key: 'dual-head-h5a',
                 title: 'H5A Dual-Head',
                 desc: 'Two imager heads to cover opposing directions.',
-                img: '/vendors/avigilon/video/H5A_Dual_Head_02.avif',
+                img: '/vendors/avigilon/H5A_Dual_Head_02.avif',
               },
               {
                 key: 'specialty-l6a',
                 title: 'L6A (Specialty)',
                 desc: 'Purpose-built imaging for license plates & more.',
-                img: '/vendors/avigilon/video/L6A-Product_Detail_Image_1.avif',
+                img: '/vendors/avigilon/L6A-Product_Detail_Image_1.avif',
               },
               // Optional: a lower-cost bullet line card if you want it shown as “Bullet (Value)”
               {
                 key: 'bullet-h6sl',
                 title: 'H6SL Bullet',
                 desc: 'Cost-effective bullet for essential deployments.',
-                img: '/vendors/avigilon/video/H6SL_Bullet_1.avif',
+                img: '/vendors/avigilon/H6SL_Bullet_1.avif',
               },
             ].map(card => (
               <div key={card.key} className="card p-6 flex flex-col">
