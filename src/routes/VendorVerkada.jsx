@@ -201,7 +201,7 @@ export default function VendorVerkada() {
           {/* From the field carousel */}
           <div>
             <h3 className="text-xl font-semibold mb-4">From the field</h3>
-            <FieldCarousel base="/vendors/verkada/video/field" />
+            <FieldCarousel base="/vendors/video/field" />
           </div>
         </section>
       )}
