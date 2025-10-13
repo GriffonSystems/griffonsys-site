@@ -2,96 +2,67 @@
 import React from 'react'
 
 export default function VideoHero(){
-  // Images (use exact paths in /public/hero)
-  const rawImages = [
-    '/hero/IMG_3710 2.jpg',
-    '/hero/IMG_5030.jpg',
-    '/hero/hero1.jpg',
-    '/hero/hero03.png', 
-    '/hero/hero04.png',
-    '/hero/hero05.png',
-    '/hero/hero06.png' ]
-
-  // === TUNING KNOBS ===
-  // Make hero taller
-  const HERO_H = 'h-[75vh] md:h-[90vh]'        // try 'h-[85vh] md:h-screen' for maximum
-  // Control crop vs. fit:
-  const FIT_MODE = 'cover'    // 'cover' (fills, crops) or 'contain' (no crop, may letterbox)
-  // Focus area (works with cover/contain)
-  const FOCAL = 'object-[center_30%]' // 'object-center', 'object-[center_top]', etc.
-  // Timing
   const SLIDE_MS = 5000
   const FADE_MS  = 700
 
-  const [images, setImages] = React.useState([])
+  const [images, setImages] = React.useState([])  // absolute paths like /hero/xxx.jpg
   const [idx, setIdx] = React.useState(0)
 
+  // Load list from /public/hero/index.json
   React.useEffect(() => {
     let alive = true
-    const loaders = rawImages.map(src =>
-      new Promise((resolve) => {
-        const i = new Image()
-        const url = encodeURI(src)
-        i.onload  = () => resolve(url)
-        i.onerror = () => resolve(null)
-        i.src = url
+    fetch('/hero/index.json', { cache: 'no-store' })
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(data => {
+        const files = Array.isArray(data?.images) ? data.images : []
+        const list = files.map(name => `/hero/${encodeURI(name)}`)
+        if (alive) setImages(list)
       })
-    )
-    Promise.all(loaders).then(list => {
-      if (!alive) return
-      const ok = list.filter(Boolean)
-      setImages(ok)
-      setIdx(0)
-    })
+      .catch(() => { if (alive) setImages([]) })
     return () => { alive = false }
   }, [])
 
+  // Cycle
   React.useEffect(() => {
     if (images.length <= 1) return
     const t = setInterval(() => setIdx(i => (i + 1) % images.length), SLIDE_MS)
     return () => clearInterval(t)
   }, [images])
 
+  // Preload next
   React.useEffect(() => {
     if (!images.length) return
     const next = new Image()
-    next.src = images[(idx + 1) % images.length]
+    next.src = images[(idx + 1) % images.length] + `?v=${Date.now()}`
   }, [idx, images])
 
   return (
-    <section className={`relative ${HERO_H} overflow-hidden`}>
-      {/* Slides */}
+    <section className="relative h-[60vh] md:h-[70vh] overflow-hidden">
       <div className="absolute inset-0">
-        {images.length ? images.map((src, i) => (
+        {(images.length ? images : ['/hero/hero1.jpg']).map((src, i) => (
           <img
             key={src}
-            src={src}
+            src={src + `?v=${idx}`} // tiny cache-buster as you cycle
             alt=""
-            className={`absolute inset-0 w-full h-full transition-opacity object-${FIT_MODE} ${FOCAL}`}
+            className="absolute inset-0 w-full h-full object-cover transition-opacity"
             style={{ opacity: i === idx ? 1 : 0, transitionDuration: `${FADE_MS}ms` }}
-            loading="eager"
-            decoding="async"
             aria-hidden={i === idx ? 'false' : 'true'}
+            loading={i === 0 ? 'eager' : 'lazy'}
+            decoding={i === 0 ? 'sync' : 'async'}
           />
-        )) : (
-          <div className="absolute inset-0 bg-gray-200" />
-        )}
+        ))}
       </div>
 
-      {/* Dark overlay for readability — reduce opacity if you want more image pop */}
-      <div className="absolute inset-0 bg-black/35" />
-
-      {/* Text */}
+      <div className="absolute inset-0 bg-black/40" />
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
-        <h1 className="text-white text-4xl md:text-6xl font-bold mb-4">
-          Video Surveillance Experts for 20+ Years
+        <h1 className="font-optima text-white text-4xl md:text-6xl font-bold mb-4">
+          Smarter Security Starts Here
         </h1>
-        <p className="text-white/90 text-lg md:text-xl max-w-2xl">
+        <p className="font-optima text-white/90 text-lg md:text-xl max-w-2xl">
           Video Surveillance &amp; Access Control — Avigilon, Verkada
         </p>
       </div>
 
-      {/* Dots */}
       {images.length > 1 && (
         <div className="absolute bottom-4 left-0 right-0 z-10 flex justify-center gap-2">
           {images.map((_, i) => (
