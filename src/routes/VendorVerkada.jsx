@@ -188,16 +188,74 @@ export default function VendorVerkada() {
           </div>
         </section>
       )}
+{/* ========== ACCESS TAB ========== */}
+{active === 'access' && (
+  <section className="space-y-10">
+    {/* Hero copy */}
+    <div>
+      <h2 className="text-2xl md:text-3xl font-semibold">
+        Experience the power of hybrid cloud access control
+      </h2>
+    </div>
 
-      {/* ========== ACCESS TAB ========== */}
-      {active === 'access' && (
-        <section className="space-y-6">
-          <p className="text-gray-700">
-            Cloud access control with mobile credentials, role-based policies, and centralized management.
-          </p>
-          <Gallery base="/vendors/verkada/access" />
-        </section>
-      )}
+    {/* Four pillars */}
+    <div className="grid md:grid-cols-2 gap-6">
+      {[
+        {
+          n: '01',
+          title: 'Zero servers',
+          desc:
+            'Simply connect devices to power and internet, and they’re online and fully operational in minutes',
+        },
+        {
+          n: '02',
+          title: 'Manage from anywhere',
+          desc:
+            'Manage devices and users from an intuitive web- and mobile-based platform – even if you’re thousands of miles away',
+        },
+        {
+          n: '03',
+          title: 'Always available',
+          desc:
+            'Maintain door operations even in the event of network outages with edge processing, storage, and cross-device communication',
+        },
+        {
+          n: '04',
+          title: 'Easy to scale',
+          desc:
+            'A system without limits, whether you have 10 doors or 10,000',
+        },
+      ].map(item => (
+        <div key={item.n} className="card p-6 flex gap-4">
+          <div className="flex-shrink-0 h-10 w-10 rounded-full bg-black text-white flex items-center justify-center font-semibold">
+            {item.n}
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold">{item.title}</h3>
+            <p className="text-gray-700">{item.desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    {/* Optional: CTA + (optional) gallery if you keep one for Access */}
+    <div className="flex flex-wrap gap-3">
+      <Link to="/contact" className="btn btn-primary">Request a Demo</Link>
+      <a
+        href="https://www.verkada.com/access-control/"
+        target="_blank"
+        rel="noreferrer"
+        className="btn"
+      >
+        Learn more at Verkada
+      </a>
+    </div>
+
+    {/* If you have access images, keep Gallery; otherwise remove this line */}
+    {/* <Gallery base="/vendors/verkada/access" /> */}
+  </section>
+)}
+      
 
       {/* ========== INTERCOM TAB ========== */}
       {active === 'intercom' && (
