@@ -148,136 +148,137 @@ export default function VendorVerkada() {
           </button>
         ))}
       </div>
-{/* ========== VIDEO TAB ========== */}
-{active === 'video' && (
-  <section className="space-y-10">
-    {/* Category tiles */}
-    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {[
-        { key:'dome',        title:'Dome',        desc:'Reliable and versatile performance in almost any location.',            img:'/vendors/verkada/video/dome.png' },
-        { key:'mini',        title:'Mini',        desc:'Compact form factor for discreet monitoring in tight spaces.',         img:'/vendors/verkada/video/mini.png' },
-        { key:'bullet',      title:'Bullet',      desc:'Optimized for license plate recognition and highly-detailed monitoring.', img:'/vendors/verkada/video/bullet.png' },
-        { key:'fisheye',     title:'Fisheye',     desc:'180-degree monitoring for expansive areas.',                           img:'/vendors/verkada/video/fisheye.png' },
-        { key:'multisensor', title:'Multisensor', desc:'Two or four sensors in one unit for holistic coverage.',               img:'/vendors/verkada/video/multisensor.png' },
-        { key:'ptz',         title:'PTZ',         desc:'Flexible, wide-area coverage at a distance.',                          img:'/vendors/verkada/video/ptz.png' },
-        { key:'remote',      title:'Remote',      desc:'Built-in battery and LTE modem for remote deployments.',               img:'/vendors/verkada/video/remote.png' },
-      ].map(cat => (
-        <div key={cat.key} className="card p-6 flex flex-col">
-          <img
-            src={encodeURI(cat.img)}
-            onError={(e)=>{ e.currentTarget.onerror=null; e.currentTarget.src='/placeholder.png' }}
-            alt={cat.title}
-            loading="lazy"
-            decoding="async"
-            className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
-          />
-          <h3 className="text-xl font-semibold">{cat.title}</h3>
-          <p className="text-gray-700">{cat.desc}</p>
-        </div>
-      ))}
-    </div>
 
-    {/* From the field carousel (keep if you like) */}
-    <div>
-      <h3 className="text-xl font-semibold mb-4">From the field</h3>
-      <FieldCarousel base="/vendors/verkada/video/field" />
-    </div>
-  </section>
-)}
-  
-{/* ========== ACCESS TAB (cards + four pillars) ========== */}
-{active === 'access' && (
-  <section className="space-y-10">
-    {/* Product cards (no CTAs) */}
-    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {[
-        {
-          key: 'single-door',
-          title: 'Single Door Controller',
-          desc: 'Simple, reliable control for a single opening with cloud management.',
-          img: '/vendors/verkada/access/singledoor.png'
-        },
-        {
-          key: 'four-door',
-          title: '4-Door Controller',
-          desc: 'Scale up with a compact panel that handles four doors per unit.',
-          img: '/vendors/verkada/access/4doorcontroller.png'
-        },
-        {
-          key: 'mullion-reader',
-          title: 'Mullion Reader',
-          desc: 'Slim reader for tight jambs; supports NFC/BLE/mobile credentials.',
-          img: '/vendors/verkada/access/singledoorreader.png'
-        },
-        {
-          key: 'keypad-reader',
-          title: 'Keypad Reader',
-          desc: 'Keypad + reader for PIN and card/mobile access with audit trails.',
-          img: '/vendors/verkada/access/keypad.png'
-        }
-      ].map(card => (
-        <div key={card.key} className="card p-6 flex flex-col">
-          <img
-            src={encodeURI(card.img)}
-            onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/placeholder.png' }}
-            alt={card.title}
-            loading="lazy"
-            decoding="async"
-            className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
-          />
-          <h3 className="text-xl font-semibold">{card.title}</h3>
-          <p className="text-gray-700">{card.desc}</p>
-        </div>
-      ))}
-    </div>
+      {/* ========== VIDEO TAB ========== */}
+      {active === 'video' && (
+        <section className="space-y-10">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { key:'dome',        title:'Dome',        desc:'Reliable and versatile performance in almost any location.',            img:'/vendors/verkada/video/dome.png' },
+              { key:'mini',        title:'Mini',        desc:'Compact form factor for discreet monitoring in tight spaces.',         img:'/vendors/verkada/video/mini.png' },
+              { key:'bullet',      title:'Bullet',      desc:'Optimized for license plate recognition and highly-detailed monitoring.', img:'/vendors/verkada/video/bullet.png' },
+              { key:'fisheye',     title:'Fisheye',     desc:'180-degree monitoring for expansive areas.',                           img:'/vendors/verkada/video/fisheye.png' },
+              { key:'multisensor', title:'Multisensor', desc:'Two or four sensors in one unit for holistic coverage.',               img:'/vendors/verkada/video/multisensor.png' },
+              { key:'ptz',         title:'PTZ',         desc:'Flexible, wide-area coverage at a distance.',                          img:'/vendors/verkada/video/ptz.png' },
+              { key:'remote',      title:'Remote',      desc:'Built-in battery and LTE modem for remote deployments.',               img:'/vendors/verkada/video/remote.png' },
+            ].map(cat => (
+              <div key={cat.key} className="card p-6 flex flex-col">
+                <img
+                  src={encodeURI(cat.img)}
+                  onError={(e)=>{ e.currentTarget.onerror=null; e.currentTarget.src='/placeholder.png' }}
+                  alt={cat.title}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
+                />
+                <h3 className="text-xl font-semibold">{cat.title}</h3>
+                <p className="text-gray-700">{cat.desc}</p>
+              </div>
+            ))}
+          </div>
 
-    {/* Four pillars */}
-    <div>
-      </h2>
-      <div className="grid md:grid-cols-2 gap-6">
-        {[
-          {
-            n: '01',
-            title: 'Zero servers',
-            desc: 'Simply connect devices to power and internet, and they’re online and fully operational in minutes'
-          },
-          {
-            n: '02',
-            title: 'Manage from anywhere',
-            desc: 'Manage devices and users from an intuitive web- and mobile-based platform – even if you’re thousands of miles away'
-          },
-          {
-            n: '03',
-            title: 'Always available',
-            desc: 'Maintain door operations even in the event of network outages with edge processing, storage, and cross-device communication'
-          },
-          {
-            n: '04',
-            title: 'Easy to scale',
-            desc: 'A system without limits, whether you have 10 doors or 10,000'
-          }
-        ].map(item => (
-          <div key={item.n} className="card p-6 flex gap-4">
-            <div className="flex-shrink-0 h-10 w-10 rounded-full bg-black text-white flex items-center justify-center font-semibold">
-              {item.n}
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold">{item.title}</h3>
-              <p className="text-gray-700">{item.desc}</p>
+          {/* From the field carousel */}
+          <div>
+            <h3 className="text-xl font-semibold mb-4">From the field</h3>
+            <FieldCarousel base="/vendors/verkada/video/field" />
+          </div>
+        </section>
+      )}
+
+      {/* ========== ACCESS TAB (cards + four pillars) ========== */}
+      {active === 'access' && (
+        <section className="space-y-10">
+          {/* Product cards (no CTAs) */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                key: 'single-door',
+                title: 'Single Door Controller',
+                desc: 'Simple, reliable control for a single opening with cloud management.',
+                img: '/vendors/verkada/access/singledoor.png'
+              },
+              {
+                key: 'four-door',
+                title: '4-Door Controller',
+                desc: 'Scale up with a compact panel that handles four doors per unit.',
+                img: '/vendors/verkada/access/4doorcontroller.png'
+              },
+              {
+                key: 'mullion-reader',
+                title: 'Mullion Reader',
+                desc: 'Slim reader for tight jambs; supports NFC/BLE/mobile credentials.',
+                img: '/vendors/verkada/access/singledoorreader.png'
+              },
+              {
+                key: 'keypad-reader',
+                title: 'Keypad Reader',
+                desc: 'Keypad + reader for PIN and card/mobile access with audit trails.',
+                img: '/vendors/verkada/access/keypad.png'
+              }
+            ].map(card => (
+              <div key={card.key} className="card p-6 flex flex-col">
+                <img
+                  src={encodeURI(card.img)}
+                  onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/placeholder.png' }}
+                  alt={card.title}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
+                />
+                <h3 className="text-xl font-semibold">{card.title}</h3>
+                <p className="text-gray-700">{card.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Four pillars (fixed <h2>) */}
+          <div>
+            <h2 className="text-2xl md:text-3xl font-semibold mb-4">
+              Experience the power of hybrid cloud access control
+            </h2>
+            <div className="grid md:grid-cols-2 gap-6">
+              {[
+                {
+                  n: '01',
+                  title: 'Zero servers',
+                  desc: 'Simply connect devices to power and internet, and they’re online and fully operational in minutes'
+                },
+                {
+                  n: '02',
+                  title: 'Manage from anywhere',
+                  desc: 'Manage devices and users from an intuitive web- and mobile-based platform – even if you’re thousands of miles away'
+                },
+                {
+                  n: '03',
+                  title: 'Always available',
+                  desc: 'Maintain door operations even in the event of network outages with edge processing, storage, and cross-device communication'
+                },
+                {
+                  n: '04',
+                  title: 'Easy to scale',
+                  desc: 'A system without limits, whether you have 10 doors or 10,000'
+                }
+              ].map(item => (
+                <div key={item.n} className="card p-6 flex gap-4">
+                  <div className="flex-shrink-0 h-10 w-10 rounded-full bg-black text-white flex items-center justify-center font-semibold">
+                    {item.n}
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold">{item.title}</h3>
+                    <p className="text-gray-700">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        ))}
-      </div>
-    </div>
 
-    {/* Optional: keep a small field gallery under pillars */}
-    {/* <div>
-      <h3 className="text-xl font-semibold mb-4">From the field</h3>
-      <Gallery base="/vendors/verkada/access" />
-    </div> */}
-  </section>
-)}
-
+          {/* Optional field gallery under pillars
+          <div>
+            <h3 className="text-xl font-semibold mb-4">From the field</h3>
+            <Gallery base="/vendors/verkada/access" />
+          </div> */}
+        </section>
+      )}
 
       {/* ========== INTERCOM TAB ========== */}
       {active === 'intercom' && (
