@@ -1,9 +1,8 @@
 // src/routes/VendorVerkada.jsx
 import React from 'react'
-import { Link } from 'react-router-dom'
-import Gallery from '../components/Gallery'
+import { Link, useLocation } from 'react-router-dom'
 
-// ---------- Stable Verkada logo ----------
+/* ---------- Verkada logo with graceful fallback ---------- */
 function VerkadaLogo({ className = "h-10 w-auto object-contain" }) {
   const [src, setSrc] = React.useState(null)
   React.useEffect(() => {
@@ -37,7 +36,7 @@ function VerkadaLogo({ className = "h-10 w-auto object-contain" }) {
   )
 }
 
-// ---------- From the field carousel ----------
+/* ---------- “From the field” carousel powered by /index.json ---------- */
 function FieldCarousel({ base = '/vendors/verkada/video/field', intervalMs = 4500, fadeMs = 600 }) {
   const [images, setImages] = React.useState([])
   const [idx, setIdx] = React.useState(0)
@@ -45,13 +44,12 @@ function FieldCarousel({ base = '/vendors/verkada/video/field', intervalMs = 450
 
   React.useEffect(() => {
     let alive = true
-    const url = `${base}/index.json`
-    fetch(url)
-      .then(async r => {
+    fetch(`${base}/index.json`)
+      .then(async (r) => {
         if (!r.ok) throw new Error(`HTTP ${r.status}`)
         const data = await r.json()
         const files = Array.isArray(data?.images) ? data.images : []
-        const list = files.map(f => `${base}/${encodeURI(f)}`)
+        const list = files.map((f) => `${base}/${encodeURI(f)}`)
         const key = list.join('|')
         if (alive && list.length && key !== keyRef.current) {
           keyRef.current = key
@@ -65,12 +63,16 @@ function FieldCarousel({ base = '/vendors/verkada/video/field', intervalMs = 450
 
   React.useEffect(() => {
     if (images.length <= 1) return
-    const t = setInterval(() => setIdx(i => (i + 1) % images.length), intervalMs)
+    const t = setInterval(() => setIdx((i) => (i + 1) % images.length), intervalMs)
     return () => clearInterval(t)
   }, [images, intervalMs])
 
   if (!images.length) {
-    return <div className="w-full h-[60vh] md:h-[75vh] rounded-xl bg-gray-100 flex items-center justify-center text-gray-500">From the field: No photos yet</div>
+    return (
+      <div className="w-full h-[60vh] md:h-[75vh] rounded-xl bg-gray-100 flex items-center justify-center text-gray-500">
+        From the field: No photos yet
+      </div>
+    )
   }
 
   return (
@@ -105,20 +107,39 @@ function FieldCarousel({ base = '/vendors/verkada/video/field', intervalMs = 450
   )
 }
 
+/* ---------- Tabs ---------- */
 const TABS = [
   { key: 'video',    label: 'Video' },
   { key: 'access',   label: 'Access' },
   { key: 'intercom', label: 'Intercom' },
 ]
 
-const safeSrc = (p) => encodeURI(p)
-
 export default function VendorVerkada() {
   const [active, setActive] = React.useState('video')
+  const location = useLocation()
 
+  // Open correct tab from URL (#video/#access/#intercom or ?tab=access)
+  React.useEffect(() => {
+    const fromHash  = (location.hash || '').replace('#', '')
+    const fromQuery = new URLSearchParams(location.search).get('tab')
+    const wanted = (fromHash || fromQuery || '').toLowerCase()
+    if (wanted && ['video','access','intercom'].includes(wanted)) {
+      setActive(wanted)
+      window.scrollTo({ top: 0, behavior: 'auto' })
+    }
+  }, [location.hash, location.search])
+
+  // Scroll to top on first mount
   React.useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
   }, [])
+
+  const onTabClick = (key) => {
+    setActive(key)
+    // keep URL shareable without full navigation
+    window.history.replaceState(null, '', `#${key}`)
+    window.scrollTo({ top: 0, behavior: 'auto' })
+  }
 
   return (
     <main className="container py-12">
@@ -133,10 +154,10 @@ export default function VendorVerkada() {
 
       {/* Tabs */}
       <div className="flex flex-wrap gap-2 mb-8">
-        {TABS.map(t => (
+        {TABS.map((t) => (
           <button
             key={t.key}
-            onClick={() => setActive(t.key)}
+            onClick={() => onTabClick(t.key)}
             className={`px-4 py-2 rounded-xl border transition ${
               active === t.key
                 ? 'bg-black text-white border-black'
@@ -149,7 +170,7 @@ export default function VendorVerkada() {
         ))}
       </div>
 
-      {/* ========== VIDEO TAB ========== */}
+      {/* ================= VIDEO ================= */}
       {active === 'video' && (
         <section className="space-y-10">
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -161,18 +182,18 @@ export default function VendorVerkada() {
               { key:'multisensor', title:'Multisensor', desc:'Two or four sensors in one unit for holistic coverage.',               img:'/vendors/verkada/video/multisensor.png' },
               { key:'ptz',         title:'PTZ',         desc:'Flexible, wide-area coverage at a distance.',                          img:'/vendors/verkada/video/ptz.png' },
               { key:'remote',      title:'Remote',      desc:'Built-in battery and LTE modem for remote deployments.',               img:'/vendors/verkada/video/remote.png' },
-            ].map(cat => (
-              <div key={cat.key} className="card p-6 flex flex-col">
+            ].map((card) => (
+              <div key={card.key} className="card p-6 flex flex-col">
                 <img
-                  src={encodeURI(cat.img)}
-                  onError={(e)=>{ e.currentTarget.onerror=null; e.currentTarget.src='/placeholder.png' }}
-                  alt={cat.title}
+                  src={encodeURI(card.img)}
+                  onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/placeholder.png' }}
+                  alt={card.title}
                   loading="lazy"
                   decoding="async"
                   className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
                 />
-                <h3 className="text-xl font-semibold">{cat.title}</h3>
-                <p className="text-gray-700">{cat.desc}</p>
+                <h3 className="text-xl font-semibold">{card.title}</h3>
+                <p className="text-gray-700">{card.desc}</p>
               </div>
             ))}
           </div>
@@ -185,37 +206,37 @@ export default function VendorVerkada() {
         </section>
       )}
 
-      {/* ========== ACCESS TAB (cards + four pillars) ========== */}
+      {/* ================= ACCESS ================= */}
       {active === 'access' && (
         <section className="space-y-10">
-          {/* Product cards (no CTAs) */}
+          {/* Cards (no CTAs) */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               {
                 key: 'single-door',
                 title: 'Single Door Controller',
                 desc: 'Simple, reliable control for a single opening with cloud management.',
-                img: '/vendors/verkada/access/singledoor.png'
+                img: '/vendors/verkada/access/singledoor.png',
               },
               {
                 key: 'four-door',
                 title: '4-Door Controller',
                 desc: 'Scale up with a compact panel that handles four doors per unit.',
-                img: '/vendors/verkada/access/4doorcontroller.png'
+                img: '/vendors/verkada/access/4doorcontroller.png',
               },
               {
                 key: 'mullion-reader',
                 title: 'Mullion Reader',
                 desc: 'Slim reader for tight jambs; supports NFC/BLE/mobile credentials.',
-                img: '/vendors/verkada/access/singledoorreader.png'
+                img: '/vendors/verkada/access/singledoorreader.png',
               },
               {
                 key: 'keypad-reader',
                 title: 'Keypad Reader',
                 desc: 'Keypad + reader for PIN and card/mobile access with audit trails.',
-                img: '/vendors/verkada/access/keypad.png'
-              }
-            ].map(card => (
+                img: '/vendors/verkada/access/keypad.png',
+              },
+            ].map((card) => (
               <div key={card.key} className="card p-6 flex flex-col">
                 <img
                   src={encodeURI(card.img)}
@@ -246,7 +267,7 @@ export default function VendorVerkada() {
                   desc: 'Maintain door operations even in the event of network outages with edge processing, storage, and cross-device communication' },
                 { n: '04', title: 'Easy to scale',
                   desc: 'A system without limits, whether you have 10 doors or 10,000' },
-              ].map(item => (
+              ].map((item) => (
                 <div key={item.n} className="card p-6 flex gap-4">
                   <div className="flex-shrink-0 h-10 w-10 rounded-full bg-black text-white flex items-center justify-center font-semibold">
                     {item.n}
@@ -262,7 +283,7 @@ export default function VendorVerkada() {
         </section>
       )}
 
-      {/* ========== INTERCOM TAB (cards + pillars) ========== */}
+      {/* ================= INTERCOM ================= */}
       {active === 'intercom' && (
         <section className="space-y-10">
           {/* Product cards */}
@@ -286,11 +307,11 @@ export default function VendorVerkada() {
                 desc: 'Integrated keypad for PIN, MFA, and multi-tenant directories.',
                 img: '/vendors/verkada/intercom/td63.jpg',
               },
-            ].map(card => (
+            ].map((card) => (
               <div key={card.key} className="card p-6 flex flex-col">
                 <img
                   src={encodeURI(card.img)}
-                  onError={(e)=>{ e.currentTarget.onerror=null; e.currentTarget.src='/placeholder.png' }}
+                  onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/placeholder.png' }}
                   alt={card.title}
                   loading="lazy"
                   decoding="async"
@@ -307,11 +328,11 @@ export default function VendorVerkada() {
             <h2 className="text-2xl md:text-3xl font-semibold mb-4">Why it stands out</h2>
             <div className="grid md:grid-cols-2 gap-6">
               {[
-                { n: '01', title: 'Clear imaging', desc: '130° FoV, WDR, and night mode for readable faces in any light.' },
+                { n: '01', title: 'Clear imaging',  desc: '130° FoV, WDR, and night mode for readable faces in any light.' },
                 { n: '02', title: 'Hear & be heard', desc: '4-mic array with noise cancellation and echo reduction.' },
                 { n: '03', title: 'Access built-in', desc: 'Grant/deny entry, trigger relays, and log events from the call UI.' },
-                { n: '04', title: 'Cloud management', desc: 'Manage devices and users from web or mobile from anywhere.' },
-              ].map(item => (
+                { n: '04', title: 'Cloud management',desc: 'Manage devices and users from web or mobile from anywhere.' },
+              ].map((item) => (
                 <div key={item.n} className="card p-6 flex gap-4">
                   <div className="flex-shrink-0 h-10 w-10 rounded-full bg-black text-white flex items-center justify-center font-semibold">
                     {item.n}
