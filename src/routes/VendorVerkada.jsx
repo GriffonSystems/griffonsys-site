@@ -279,72 +279,74 @@ export default function VendorVerkada() {
           </div> */}
         </section>
       )}
+{/* ========== INTERCOM TAB (cards + pillars, consistent with other tabs) ========== */}
+{active === 'intercom' && (
+  <section className="space-y-10">
+    {/* Product cards */}
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {[
+        {
+          key: 'TD33',
+          title: 'TD33 — Slim Intercom',
+          desc: 'Mullion-friendly form factor for tight jambs and retrofits.',
+          img: '/vendors/verkada/intercom/td33.jpg',
+        },
+        {
+          key: 'TD53',
+          title: 'TD53 — Intercom',
+          desc: 'Full-size unit with excellent video, audio, and scanning.',
+          img: '/vendors/verkada/intercom/td53.jpg',
+        },
+        {
+          key: 'TD63',
+          title: 'TD63 — Intercom + Keypad',
+          desc: 'Integrated keypad for PIN, MFA, and multi-tenant directories.',
+          img: '/vendors/verkada/intercom/td63.jpg',
+        },
+      ].map(card => (
+        <div key={card.key} className="card p-6 flex flex-col">
+          <img
+            src={encodeURI(card.img)}
+            onError={(e)=>{ e.currentTarget.onerror=null; e.currentTarget.src='/placeholder.png' }}
+            alt={card.title}
+            loading="lazy"
+            decoding="async"
+            className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
+          />
+          <h3 className="text-xl font-semibold">{card.title}</h3>
+          <p className="text-gray-700">{card.desc}</p>
+        </div>
+      ))}
+    </div>
 
-      {/* ========== INTERCOM TAB ========== */}
-      {active === 'intercom' && (
-        <section className="space-y-8">
-          <div>
-            <h2 className="text-2xl font-semibold mb-4">Intercom Models</h2>
-            <div className="grid md:grid-cols-3 gap-6">
-              {[
-                {
-                  key: 'TD33', img: '/vendors/verkada/intercom/td33.jpg',
-                  blurb: 'Slim form factor for mullions and tight spaces.',
-                  io: ['2 × dry inputs', '1 × dry relay', '1 × RS-485'],
-                  creds: ['LF/HF cards & fobs', 'Mobile NFC/BLE', 'QR code'],
-                },
-                {
-                  key: 'TD53', img: '/vendors/verkada/intercom/td53.jpg',
-                  blurb: 'Full-size intercom with exceptional audio and scan.',
-                  io: ['3 × dry inputs', '2 × dry relays', '1 × RS-485'],
-                  creds: ['LF/HF cards & fobs', 'Mobile NFC/BLE', 'QR code'],
-                },
-                {
-                  key: 'TD63', img: '/vendors/verkada/intercom/td63.jpg',
-                  blurb: 'Full-size intercom with integrated keypad.',
-                  io: ['3 × dry inputs', '2 × dry relays', '1 × RS-485'],
-                  creds: ['LF/HF cards & fobs', 'Mobile NFC/BLE', 'QR code', 'PIN code'],
-                },
-              ].map(m => (
-                <div key={m.key} className="card p-6 flex flex-col">
-                  <img
-                    src={safeSrc(m.img)}
-                    onError={(e)=>{ e.currentTarget.onerror=null; e.currentTarget.src='/placeholder.png' }}
-                    alt={m.key}
-                    className="w-full h-40 object-contain mb-4 bg-gray-50 rounded-lg"
-                  />
-                  <h3 className="text-xl font-semibold">{m.key}</h3>
-                  <p className="text-gray-700 mb-4">{m.blurb}</p>
-                  <div className="grid grid-cols-1 gap-2 text-sm text-gray-700">
-                    <div><span className="font-medium">I/O:</span> {m.io.join(' · ')}</div>
-                    <div><span className="font-medium">Credentials:</span> {m.creds.join(' · ')}</div>
-                  </div>
-                </div>
-              ))}
+    {/* Pillars (same visual style as Access) */}
+    <div>
+      <h2 className="text-2xl md:text-3xl font-semibold mb-4">Why it stands out</h2>
+      <div className="grid md:grid-cols-2 gap-6">
+        {[
+          { n: '01', title: 'Clear imaging', desc: '130° FoV, WDR, and night mode for readable faces in any light.' },
+          { n: '02', title: 'Hear & be heard', desc: '4-mic array with noise cancellation and echo reduction.' },
+          { n: '03', title: 'Access built-in', desc: 'Grant/deny entry, trigger relays, and log events from the call UI.' },
+          { n: '04', title: 'Cloud management', desc: 'Manage devices and users from web or mobile from anywhere.' },
+        ].map(item => (
+          <div key={item.n} className="card p-6 flex gap-4">
+            <div className="flex-shrink-0 h-10 w-10 rounded-full bg-black text-white flex items-center justify-center font-semibold">
+              {item.n}
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold">{item.title}</h3>
+              <p className="text-gray-700">{item.desc}</p>
             </div>
           </div>
+        ))}
+      </div>
+    </div>
 
-          {/* Features */}
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              { title: 'Video Intercom', desc: '5MP video, crisp audio, AI analytics on every call.' },
-              { title: 'Access Controller', desc: 'Grant/deny entry directly from the call UI.' },
-              { title: 'Door Reader', desc: 'HF/LF cards, mobile NFC/BLE, and QR credentials.' },
-              { title: 'Keypad', desc: 'PIN entry, MFA, or multi-tenant directory (TD63).' },
-              { title: 'Clear Imaging', desc: '130° FoV, WDR, and night mode for any lighting.' },
-              { title: 'Hear & Be Heard', desc: '4 mics with noise cancellation and echo reduction.' },
-            ].map(card => (
-              <div key={card.title} className="card p-6">
-                <h3 className="text-lg font-semibold mb-2">{card.title}</h3>
-                <p className="text-gray-700">{card.desc}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Intercom gallery */}
-          <Gallery base="/vendors/verkada/intercom" />
-        </section>
-      )}
-    </main>
-  )
-}
+    {/* Optional: keep a small field gallery under pillars */}
+    {/* <div>
+      <h3 className="text-xl font-semibold mb-4">From the field</h3>
+      <Gallery base="/vendors/verkada/intercom" />
+    </div> */}
+  </section>
+)}
+     
