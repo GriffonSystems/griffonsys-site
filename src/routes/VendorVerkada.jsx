@@ -189,60 +189,63 @@ export default function VendorVerkada() {
         </section>
       )}
 
-      {/* ========== ACCESS TAB ========== */}
-      {active === 'access' && (
-        <section className="space-y-10">
-          {/* Hero copy */}
-          <div>
-            <h2 className="text-2xl md:text-3xl font-semibold">
-              Experience the power of hybrid cloud access control
-            </h2>
+ {/* ========== ACCESS TAB (cards like Video) ========== */}
+{active === 'access' && (
+  <section className="space-y-10">
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {[
+        {
+          key: 'single-door',
+          title: 'Single Door Controller',
+          desc: 'Simple, reliable control for a single opening with cloud management.',
+          img: '/vendors/verkada/access/singledoor.png',
+        },
+        {
+          key: 'four-door',
+          title: '4-Door Controller',
+          desc: 'Scale up with a compact panel that handles four doors per unit.',
+          img: '/vendors/verkada/access/4doorcontroller.png',
+        },
+        {
+          key: 'mullion-reader',
+          title: 'Mullion Reader',
+          desc: 'Slim reader for tight jambs; supports NFC/BLE/mobile credentials.',
+          img: '/vendors/verkada/access/singledoorreader.png', // use your mullion image here
+        },
+        {
+          key: 'keypad-reader',
+          title: 'Keypad Reader',
+          desc: 'Keypad + reader for PIN and card/mobile access with audit trails.',
+          img: '/vendors/verkada/access/keypad.png',
+        },
+      ].map(card => (
+        <div key={card.key} className="card p-6 flex flex-col">
+          <img
+            src={encodeURI(card.img)}
+            onError={(e)=>{ e.currentTarget.onerror=null; e.currentTarget.src='/placeholder.png' }}
+            alt={card.title}
+            loading="lazy"
+            decoding="async"
+            className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
+          />
+          <h3 className="text-xl font-semibold">{card.title}</h3>
+          <p className="text-gray-700 mb-4">{card.desc}</p>
+          <div className="mt-auto">
+            {/* Point to your detail pages if/when you add them; /contact for now */}
+            <Link to="/contact" className="btn btn-primary">Learn more</Link>
           </div>
+        </div>
+      ))}
+    </div>
 
-          {/* Four pillars */}
-          <div className="grid md:grid-cols-2 gap-6">
-            {[
-              { n: '01', title: 'Zero servers',
-                desc: 'Simply connect devices to power and internet, and they’re online and fully operational in minutes' },
-              { n: '02', title: 'Manage from anywhere',
-                desc: 'Manage devices and users from an intuitive web- and mobile-based platform – even if you’re thousands of miles away' },
-              { n: '03', title: 'Always available',
-                desc: 'Maintain door operations even in the event of network outages with edge processing, storage, and cross-device communication' },
-              { n: '04', title: 'Easy to scale',
-                desc: 'A system without limits, whether you have 10 doors or 10,000' },
-            ].map(item => (
-              <div key={item.n} className="card p-6 flex gap-4">
-                <div className="flex-shrink-0 h-10 w-10 rounded-full bg-black text-white flex items-center justify-center font-semibold">
-                  {item.n}
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold">{item.title}</h3>
-                  <p className="text-gray-700">{item.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+    {/* Optional: keep the From the field gallery under the cards */}
+    {/* <div>
+      <h3 className="text-xl font-semibold mb-4">From the field</h3>
+      <Gallery base="/vendors/verkada/access" />
+    </div> */}
+  </section>
+)}
 
-          {/* CTAs */}
-          <div className="flex flex-wrap gap-3">
-            <Link to="/contact" className="btn btn-primary">Request a Demo</Link>
-            <a
-              href="https://www.verkada.com/access-control/"
-              target="_blank"
-              rel="noreferrer"
-              className="btn"
-            >
-              Learn more at Verkada
-            </a>
-          </div>
-
-          {/* Access gallery */}
-          <div>
-            <h3 className="text-xl font-semibold mb-4">From the field</h3>
-            <Gallery base="/vendors/verkada/access" />
-          </div>
-        </section>
-      )}
 
       {/* ========== INTERCOM TAB ========== */}
       {active === 'intercom' && (
