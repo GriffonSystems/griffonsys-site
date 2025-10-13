@@ -20,7 +20,7 @@ export default function Home(){
               Modern, scalable systems with AI analytics and remote access.
             </p>
             <div className="mt-auto flex flex-col sm:flex-row gap-3">
-              <Link className="btn btn-primary w-full sm:w-auto" to="/vendors/verkada">
+              <Link className="btn btn-primary w-full sm:w-auto" to="/vendors/verkada#video">
                 Explore Verkada
               </Link>
               <Link className="btn btn-primary w-full sm:w-auto" to="/vendors/avigilon-cloud">
@@ -36,7 +36,7 @@ export default function Home(){
               Mobile credentials, remote unlock, and cloud management for doors and elevators.
             </p>
             <div className="mt-auto flex flex-col sm:flex-row gap-3">
-              <Link className="btn btn-primary w-full sm:w-auto" to="/vendors/verkada">
+              <Link className="btn btn-primary w-full sm:w-auto" to="/vendors/verkada#access">
                 Explore Verkada
               </Link>
               {/* Remove this if you don't have an Alta page yet */}
