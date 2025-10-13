@@ -1,9 +1,9 @@
 // src/routes/VendorVerkada.jsx
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Gallery from '../components/Gallery' // kept for other tabs
+import Gallery from '../components/Gallery'
 
-// ---------- Small, stable logo helper ----------
+// ---------- Stable Verkada logo ----------
 function VerkadaLogo({ className = "h-10 w-auto object-contain" }) {
   const [src, setSrc] = React.useState(null)
   React.useEffect(() => {
@@ -188,139 +188,61 @@ export default function VendorVerkada() {
           </div>
         </section>
       )}
-{/* ========== ACCESS TAB ========== */}
-{active === 'access' && (
-  <section className="space-y-10">
-    {/* Hero copy */}
-    <div>
-      <h2 className="text-2xl md:text-3xl font-semibold">
-        Experience the power of hybrid cloud access control
-      </h2>
-    </div>
 
-    {/* Four pillars */}
-    <div className="grid md:grid-cols-2 gap-6">
-      {[
-        {
-          n: '01',
-          title: 'Zero servers',
-          desc:
-            'Simply connect devices to power and internet, and they’re online and fully operational in minutes',
-        },
-        {
-          n: '02',
-          title: 'Manage from anywhere',
-          desc:
-            'Manage devices and users from an intuitive web- and mobile-based platform – even if you’re thousands of miles away',
-        },
-        {
-          n: '03',
-          title: 'Always available',
-          desc:
-            'Maintain door operations even in the event of network outages with edge processing, storage, and cross-device communication',
-        },
-        {
-          n: '04',
-          title: 'Easy to scale',
-          desc:
-            'A system without limits, whether you have 10 doors or 10,000',
-        },
-      ].map(item => (
-        <div key={item.n} className="card p-6 flex gap-4">
-          <div className="flex-shrink-0 h-10 w-10 rounded-full bg-black text-white flex items-center justify-center font-semibold">
-            {item.n}
-          </div>
+      {/* ========== ACCESS TAB ========== */}
+      {active === 'access' && (
+        <section className="space-y-10">
+          {/* Hero copy */}
           <div>
-            <h3 className="text-lg font-semibold">{item.title}</h3>
-            <p className="text-gray-700">{item.desc}</p>
+            <h2 className="text-2xl md:text-3xl font-semibold">
+              Experience the power of hybrid cloud access control
+            </h2>
           </div>
-        </div>
-      ))}
-    </div>
 
-    {/* CTAs */}
-    <div className="flex flex-wrap gap-3">
-      <Link to="/contact" className="btn btn-primary">Request a Demo</Link>
-      <a
-        href="https://www.verkada.com/access-control/"
-        target="_blank"
-        rel="noreferrer"
-        className="btn"
-      >
-        Learn more at Verkada
-      </a>
-    </div>
-
-    {/* Gallery — reads public/vendors/verkada/access/index.json */}
-    <div>
-      <h3 className="text-xl font-semibold mb-4">From the field</h3>
-      <Gallery base="/vendors/verkada/access" />
-      {/* If your images aren't showing, temporarily replace the line above with <AccessGalleryDebug /> (below). */}
-    </div>
-  </section>
-)}
-
-    {/* Four pillars */}
-    <div className="grid md:grid-cols-2 gap-6">
-      {[
-        {
-          n: '01',
-          title: 'Zero servers',
-          desc:
-            'Simply connect devices to power and internet, and they’re online and fully operational in minutes',
-        },
-        {
-          n: '02',
-          title: 'Manage from anywhere',
-          desc:
-            'Manage devices and users from an intuitive web- and mobile-based platform – even if you’re thousands of miles away',
-        },
-        {
-          n: '03',
-          title: 'Always available',
-          desc:
-            'Maintain door operations even in the event of network outages with edge processing, storage, and cross-device communication',
-        },
-        {
-          n: '04',
-          title: 'Easy to scale',
-          desc:
-            'A system without limits, whether you have 10 doors or 10,000',
-        },
-      ].map(item => (
-        <div key={item.n} className="card p-6 flex gap-4">
-          <div className="flex-shrink-0 h-10 w-10 rounded-full bg-black text-white flex items-center justify-center font-semibold">
-            {item.n}
+          {/* Four pillars */}
+          <div className="grid md:grid-cols-2 gap-6">
+            {[
+              { n: '01', title: 'Zero servers',
+                desc: 'Simply connect devices to power and internet, and they’re online and fully operational in minutes' },
+              { n: '02', title: 'Manage from anywhere',
+                desc: 'Manage devices and users from an intuitive web- and mobile-based platform – even if you’re thousands of miles away' },
+              { n: '03', title: 'Always available',
+                desc: 'Maintain door operations even in the event of network outages with edge processing, storage, and cross-device communication' },
+              { n: '04', title: 'Easy to scale',
+                desc: 'A system without limits, whether you have 10 doors or 10,000' },
+            ].map(item => (
+              <div key={item.n} className="card p-6 flex gap-4">
+                <div className="flex-shrink-0 h-10 w-10 rounded-full bg-black text-white flex items-center justify-center font-semibold">
+                  {item.n}
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold">{item.title}</h3>
+                  <p className="text-gray-700">{item.desc}</p>
+                </div>
+              </div>
+            ))}
           </div>
-          <div>
-            <h3 className="text-lg font-semibold">{item.title}</h3>
-            <p className="text-gray-700">{item.desc}</p>
-          </div>
-        </div>
-      ))}
-    </div>
 
-    {/* Optional: CTA + (optional) gallery if you keep one for Access */}
-    <div className="flex flex-wrap gap-3">
-      <Link to="/contact" className="btn btn-primary">Request a Demo</Link>
-      <a
-        href="https://www.verkada.com/access-control/"
-        target="_blank"
-        rel="noreferrer"
-        className="btn"
-      >
-        Learn more at Verkada
-      </a>
-    </div>
- 
-      {/* Access gallery */}
+          {/* CTAs */}
+          <div className="flex flex-wrap gap-3">
+            <Link to="/contact" className="btn btn-primary">Request a Demo</Link>
+            <a
+              href="https://www.verkada.com/access-control/"
+              target="_blank"
+              rel="noreferrer"
+              className="btn"
+            >
+              Learn more at Verkada
+            </a>
+          </div>
+
+          {/* Access gallery */}
           <div>
             <h3 className="text-xl font-semibold mb-4">From the field</h3>
             <Gallery base="/vendors/verkada/access" />
           </div>
         </section>
       )}
-      
 
       {/* ========== INTERCOM TAB ========== */}
       {active === 'intercom' && (
@@ -366,7 +288,7 @@ export default function VendorVerkada() {
             </div>
           </div>
 
-          {/* Features (keep if you like) */}
+          {/* Features */}
           <div className="grid md:grid-cols-3 gap-6">
             {[
               { title: 'Video Intercom', desc: '5MP video, crisp audio, AI analytics on every call.' },
@@ -383,7 +305,7 @@ export default function VendorVerkada() {
             ))}
           </div>
 
-          {/* Intercom gallery (optional) */}
+          {/* Intercom gallery */}
           <Gallery base="/vendors/verkada/intercom" />
         </section>
       )}
