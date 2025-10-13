@@ -231,33 +231,21 @@ export default function VendorVerkada() {
             ))}
           </div>
 
-          {/* Four pillars (fixed <h2>) */}
+          {/* Four pillars */}
           <div>
             <h2 className="text-2xl md:text-3xl font-semibold mb-4">
               Experience the power of hybrid cloud access control
             </h2>
             <div className="grid md:grid-cols-2 gap-6">
               {[
-                {
-                  n: '01',
-                  title: 'Zero servers',
-                  desc: 'Simply connect devices to power and internet, and they’re online and fully operational in minutes'
-                },
-                {
-                  n: '02',
-                  title: 'Manage from anywhere',
-                  desc: 'Manage devices and users from an intuitive web- and mobile-based platform – even if you’re thousands of miles away'
-                },
-                {
-                  n: '03',
-                  title: 'Always available',
-                  desc: 'Maintain door operations even in the event of network outages with edge processing, storage, and cross-device communication'
-                },
-                {
-                  n: '04',
-                  title: 'Easy to scale',
-                  desc: 'A system without limits, whether you have 10 doors or 10,000'
-                }
+                { n: '01', title: 'Zero servers',
+                  desc: 'Simply connect devices to power and internet, and they’re online and fully operational in minutes' },
+                { n: '02', title: 'Manage from anywhere',
+                  desc: 'Manage devices and users from an intuitive web- and mobile-based platform – even if you’re thousands of miles away' },
+                { n: '03', title: 'Always available',
+                  desc: 'Maintain door operations even in the event of network outages with edge processing, storage, and cross-device communication' },
+                { n: '04', title: 'Easy to scale',
+                  desc: 'A system without limits, whether you have 10 doors or 10,000' },
               ].map(item => (
                 <div key={item.n} className="card p-6 flex gap-4">
                   <div className="flex-shrink-0 h-10 w-10 rounded-full bg-black text-white flex items-center justify-center font-semibold">
@@ -271,82 +259,73 @@ export default function VendorVerkada() {
               ))}
             </div>
           </div>
-
-          {/* Optional field gallery under pillars
-          <div>
-            <h3 className="text-xl font-semibold mb-4">From the field</h3>
-            <Gallery base="/vendors/verkada/access" />
-          </div> */}
         </section>
       )}
-{/* ========== INTERCOM TAB (cards + pillars, consistent with other tabs) ========== */}
-{active === 'intercom' && (
-  <section className="space-y-10">
-    {/* Product cards */}
-    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {[
-        {
-          key: 'TD33',
-          title: 'TD33 — Slim Intercom',
-          desc: 'Mullion-friendly form factor for tight jambs and retrofits.',
-          img: '/vendors/verkada/intercom/td33.jpg',
-        },
-        {
-          key: 'TD53',
-          title: 'TD53 — Intercom',
-          desc: 'Full-size unit with excellent video, audio, and scanning.',
-          img: '/vendors/verkada/intercom/td53.jpg',
-        },
-        {
-          key: 'TD63',
-          title: 'TD63 — Intercom + Keypad',
-          desc: 'Integrated keypad for PIN, MFA, and multi-tenant directories.',
-          img: '/vendors/verkada/intercom/td63.jpg',
-        },
-      ].map(card => (
-        <div key={card.key} className="card p-6 flex flex-col">
-          <img
-            src={encodeURI(card.img)}
-            onError={(e)=>{ e.currentTarget.onerror=null; e.currentTarget.src='/placeholder.png' }}
-            alt={card.title}
-            loading="lazy"
-            decoding="async"
-            className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
-          />
-          <h3 className="text-xl font-semibold">{card.title}</h3>
-          <p className="text-gray-700">{card.desc}</p>
-        </div>
-      ))}
-    </div>
 
-    {/* Pillars (same visual style as Access) */}
-    <div>
-      <h2 className="text-2xl md:text-3xl font-semibold mb-4">Why it stands out</h2>
-      <div className="grid md:grid-cols-2 gap-6">
-        {[
-          { n: '01', title: 'Clear imaging', desc: '130° FoV, WDR, and night mode for readable faces in any light.' },
-          { n: '02', title: 'Hear & be heard', desc: '4-mic array with noise cancellation and echo reduction.' },
-          { n: '03', title: 'Access built-in', desc: 'Grant/deny entry, trigger relays, and log events from the call UI.' },
-          { n: '04', title: 'Cloud management', desc: 'Manage devices and users from web or mobile from anywhere.' },
-        ].map(item => (
-          <div key={item.n} className="card p-6 flex gap-4">
-            <div className="flex-shrink-0 h-10 w-10 rounded-full bg-black text-white flex items-center justify-center font-semibold">
-              {item.n}
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold">{item.title}</h3>
-              <p className="text-gray-700">{item.desc}</p>
+      {/* ========== INTERCOM TAB (cards + pillars) ========== */}
+      {active === 'intercom' && (
+        <section className="space-y-10">
+          {/* Product cards */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                key: 'TD33',
+                title: 'TD33 — Slim Intercom',
+                desc: 'Mullion-friendly form factor for tight jambs and retrofits.',
+                img: '/vendors/verkada/intercom/td33.jpg',
+              },
+              {
+                key: 'TD53',
+                title: 'TD53 — Intercom',
+                desc: 'Full-size unit with excellent video, audio, and scanning.',
+                img: '/vendors/verkada/intercom/td53.jpg',
+              },
+              {
+                key: 'TD63',
+                title: 'TD63 — Intercom + Keypad',
+                desc: 'Integrated keypad for PIN, MFA, and multi-tenant directories.',
+                img: '/vendors/verkada/intercom/td63.jpg',
+              },
+            ].map(card => (
+              <div key={card.key} className="card p-6 flex flex-col">
+                <img
+                  src={encodeURI(card.img)}
+                  onError={(e)=>{ e.currentTarget.onerror=null; e.currentTarget.src='/placeholder.png' }}
+                  alt={card.title}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
+                />
+                <h3 className="text-xl font-semibold">{card.title}</h3>
+                <p className="text-gray-700">{card.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Pillars */}
+          <div>
+            <h2 className="text-2xl md:text-3xl font-semibold mb-4">Why it stands out</h2>
+            <div className="grid md:grid-cols-2 gap-6">
+              {[
+                { n: '01', title: 'Clear imaging', desc: '130° FoV, WDR, and night mode for readable faces in any light.' },
+                { n: '02', title: 'Hear & be heard', desc: '4-mic array with noise cancellation and echo reduction.' },
+                { n: '03', title: 'Access built-in', desc: 'Grant/deny entry, trigger relays, and log events from the call UI.' },
+                { n: '04', title: 'Cloud management', desc: 'Manage devices and users from web or mobile from anywhere.' },
+              ].map(item => (
+                <div key={item.n} className="card p-6 flex gap-4">
+                  <div className="flex-shrink-0 h-10 w-10 rounded-full bg-black text-white flex items-center justify-center font-semibold">
+                    {item.n}
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold">{item.title}</h3>
+                    <p className="text-gray-700">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        ))}
-      </div>
-    </div>
-
-    {/* Optional: keep a small field gallery under pillars */}
-    {/* <div>
-      <h3 className="text-xl font-semibold mb-4">From the field</h3>
-      <Gallery base="/vendors/verkada/intercom" />
-    </div> */}
-  </section>
-)}
-     
+        </section>
+      )}
+    </main>
+  )
+}
