@@ -148,46 +148,43 @@ export default function VendorVerkada() {
           </button>
         ))}
       </div>
+{/* ========== VIDEO TAB ========== */}
+{active === 'video' && (
+  <section className="space-y-10">
+    {/* Category tiles */}
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {[
+        { key:'dome',        title:'Dome',        desc:'Reliable and versatile performance in almost any location.',            img:'/vendors/verkada/video/dome.png' },
+        { key:'mini',        title:'Mini',        desc:'Compact form factor for discreet monitoring in tight spaces.',         img:'/vendors/verkada/video/mini.png' },
+        { key:'bullet',      title:'Bullet',      desc:'Optimized for license plate recognition and highly-detailed monitoring.', img:'/vendors/verkada/video/bullet.png' },
+        { key:'fisheye',     title:'Fisheye',     desc:'180-degree monitoring for expansive areas.',                           img:'/vendors/verkada/video/fisheye.png' },
+        { key:'multisensor', title:'Multisensor', desc:'Two or four sensors in one unit for holistic coverage.',               img:'/vendors/verkada/video/multisensor.png' },
+        { key:'ptz',         title:'PTZ',         desc:'Flexible, wide-area coverage at a distance.',                          img:'/vendors/verkada/video/ptz.png' },
+        { key:'remote',      title:'Remote',      desc:'Built-in battery and LTE modem for remote deployments.',               img:'/vendors/verkada/video/remote.png' },
+      ].map(cat => (
+        <div key={cat.key} className="card p-6 flex flex-col">
+          <img
+            src={encodeURI(cat.img)}
+            onError={(e)=>{ e.currentTarget.onerror=null; e.currentTarget.src='/placeholder.png' }}
+            alt={cat.title}
+            loading="lazy"
+            decoding="async"
+            className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
+          />
+          <h3 className="text-xl font-semibold">{cat.title}</h3>
+          <p className="text-gray-700">{cat.desc}</p>
+        </div>
+      ))}
+    </div>
 
-      {/* ========== VIDEO TAB ========== */}
-      {active === 'video' && (
-        <section className="space-y-10">
-          {/* Category tiles */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { key:'dome',        title:'Dome',        desc:'Reliable and versatile performance in almost any location.',            img:'/vendors/verkada/video/dome.png' },
-              { key:'mini',        title:'Mini',        desc:'Compact form factor for discreet monitoring in tight spaces.',         img:'/vendors/verkada/video/mini.png' },
-              { key:'bullet',      title:'Bullet',      desc:'Optimized for license plate recognition and highly-detailed monitoring.', img:'/vendors/verkada/video/bullet.png' },
-              { key:'fisheye',     title:'Fisheye',     desc:'180-degree monitoring for expansive areas.',                           img:'/vendors/verkada/video/fisheye.png' },
-              { key:'multisensor', title:'Multisensor', desc:'Two or four sensors in one unit for holistic coverage.',               img:'/vendors/verkada/video/multisensor.png' },
-              { key:'ptz',         title:'PTZ',         desc:'Flexible, wide-area coverage at a distance.',                          img:'/vendors/verkada/video/ptz.png' },
-              { key:'remote',      title:'Remote',      desc:'Built-in battery and LTE modem for remote deployments.',               img:'/vendors/verkada/video/remote.png' },
-            ].map(cat => (
-              <div key={cat.key} className="card p-6 flex flex-col">
-                <img
-                  src={safeSrc(cat.img)}
-                  onError={(e)=>{ e.currentTarget.onerror=null; e.currentTarget.src='/placeholder.png' }}
-                  alt={cat.title}
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
-                />
-                <h3 className="text-xl font-semibold">{cat.title}</h3>
-                <p className="text-gray-700 mb-4">{cat.desc}</p>
-                <div className="mt-auto">
-                  <Link to="/contact" className="btn btn-primary">Learn more</Link>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* From the field carousel */}
-          <div>
-            <h3 className="text-xl font-semibold mb-4">From the field</h3>
-            <FieldCarousel base="/vendors/verkada/video/field" />
-          </div>
-        </section>
-      )}
+    {/* From the field carousel (keep if you like) */}
+    <div>
+      <h3 className="text-xl font-semibold mb-4">From the field</h3>
+      <FieldCarousel base="/vendors/verkada/video/field" />
+    </div>
+  </section>
+)}
+  
 {/* ========== ACCESS TAB (cards + four pillars) ========== */}
 {active === 'access' && (
   <section className="space-y-10">
@@ -236,8 +233,6 @@ export default function VendorVerkada() {
 
     {/* Four pillars */}
     <div>
-      <h2 className="text-2xl md:text-3xl font-semibold mb-4">
-        Experience the power of hybrid cloud access control
       </h2>
       <div className="grid md:grid-cols-2 gap-6">
         {[
