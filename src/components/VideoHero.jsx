@@ -7,7 +7,10 @@ export default function VideoHero(){
     '/hero/IMG_3710 2.jpg',
     '/hero/IMG_5030.jpg',
     '/hero/hero1.jpg',
-  ]
+    '/hero/hero03.png', 
+    '/hero/hero04.png',
+    '/hero/hero05.png',
+    '/hero/hero06.png' ]
 
   // === TUNING KNOBS ===
   // Make hero taller
