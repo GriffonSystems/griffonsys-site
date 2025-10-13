@@ -29,20 +29,7 @@ export default function Home(){
             </div>
           </div>
 
-          {/* 2) On-Prem Video Surveillance — Avigilon */}
-          <div className="card p-6 flex flex-col h-full">
-            <h3 className="text-xl font-semibold mb-2">On-Prem Video Surveillance</h3>
-            <p className="text-gray-600 mb-4">
-              Enterprise-grade reliability for campuses, plants, and regulated environments.
-            </p>
-            <div className="mt-auto">
-              <Link className="btn btn-primary w-full md:w-auto" to="/vendors/avigilon">
-                Explore Avigilon
-              </Link>
-            </div>
-          </div>
-
-          {/* 3) Cloud Access Control — Verkada + Alta */}
+          {/* 2) Cloud Access Control — Verkada + Alta */}
           <div className="card p-6 flex flex-col h-full">
             <h3 className="text-xl font-semibold mb-2">Cloud Access Control</h3>
             <p className="text-gray-600 mb-4">
@@ -52,9 +39,22 @@ export default function Home(){
               <Link className="btn btn-primary w-full sm:w-auto" to="/vendors/verkada">
                 Explore Verkada
               </Link>
-              {/* Remove this button if you don't have an Alta page yet */}
+              {/* Remove this if you don't have an Alta page yet */}
               <Link className="btn btn-primary w-full sm:w-auto" to="/vendors/alta">
                 Explore Alta Access
+              </Link>
+            </div>
+          </div>
+
+          {/* 3) On-Prem Video Surveillance — Avigilon */}
+          <div className="card p-6 flex flex-col h-full">
+            <h3 className="text-xl font-semibold mb-2">On-Prem Video Surveillance</h3>
+            <p className="text-gray-600 mb-4">
+              Enterprise-grade reliability for campuses, plants, and regulated environments.
+            </p>
+            <div className="mt-auto">
+              <Link className="btn btn-primary w-full md:w-auto" to="/vendors/avigilon">
+                Explore Avigilon
               </Link>
             </div>
           </div>
