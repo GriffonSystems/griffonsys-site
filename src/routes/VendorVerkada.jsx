@@ -312,11 +312,14 @@ export default function VendorVerkada() {
         Learn more at Verkada
       </a>
     </div>
-
-    {/* If you have access images, keep Gallery; otherwise remove this line */}
-    {/* <Gallery base="/vendors/verkada/access" /> */}
-  </section>
-)}
+ 
+      {/* Access gallery */}
+          <div>
+            <h3 className="text-xl font-semibold mb-4">From the field</h3>
+            <Gallery base="/vendors/verkada/access" />
+          </div>
+        </section>
+      )}
       
 
       {/* ========== INTERCOM TAB ========== */}
