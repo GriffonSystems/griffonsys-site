@@ -1,4 +1,5 @@
 // src/routes/Home.jsx
+import ReviewsMarqueeStatic from '../components/ReviewsMarqueeStatic'
 import VideoHero from '../components/VideoHero'
 import { Link } from 'react-router-dom'
 
@@ -61,6 +62,7 @@ export default function Home(){
 
         </div>
       </section>
+      <ReviewsMarqueeStatic />
     </main>
   )
 }
