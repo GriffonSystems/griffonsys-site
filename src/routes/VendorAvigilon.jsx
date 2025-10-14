@@ -82,7 +82,7 @@ export default function VendorAvigilon() {
               { key:'ptz',         title:'H6X / H6A PTZ',     desc:'Flexible wide-area coverage and long-zoom situational awareness.',       img:'/vendors/avigilon/H6A-PTZ-Product_Detail_Image_2_2024-07-02-210404_cxtc.avif' },
               { key:'multisensor', title:'H6 Multisensor',    desc:'2–4 sensors in one housing for complete scene coverage.',               img:'/vendors/avigilon/H5A_Multisensor_01_2024-09-02-173128_gmdn.avif' },
               { key:'modular',     title:'H5A Modular',       desc:'Tiny head units for covert installs and tight spaces.',                 img:'/vendors/avigilon/H5A_Modular_01.avif' },
-              { key:'fisheye',     title:'H6SL Fisheye',      desc:'180°/360° panoramic views for large open areas.',                       img:'/vendors/avigilon/H6SL_Bullet_1.avif' },
+              { key:'fisheye',     title:'H6SL Fisheye',      desc:'180°/360° panoramic views for large open areas.',                       img:'/vendors/avigilon/fisheye.avif' },
             ].map(card => (
               <div key={card.key} className="card p-6 flex flex-col">
                 <img
