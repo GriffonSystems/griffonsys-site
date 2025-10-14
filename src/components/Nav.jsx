@@ -1,24 +1,45 @@
-import { Link, NavLink } from 'react-router-dom'
+// src/components/Nav.jsx
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { Menu, X } from 'lucide-react'
 
-export default function Nav(){
-  const base='px-3 py-2 rounded-lg text-sm font-medium'
-  const active=({isActive})=> isActive ? base+' bg-black text-white' : base+' hover:bg-gray-100'
+export default function Nav() {
+  const [open, setOpen] = useState(false)
+
   return (
-    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b">
-      <div className="container flex items-center justify-between h-16">
-        <Link to="/" className="flex items-center">
-          <img src="/logos/griffon_logo.svg" onError={(e)=>e.currentTarget.src='/logos/griffon-256.png'} alt="Griffon Systems" className="h-12 w-auto" />
-        </Link>
-        <nav className="hidden md:flex items-center gap-1">
-          <NavLink to="/solutions" className={active}>Solutions</NavLink>
-          <NavLink to="/vendors/verkada" className={active}>Verkada</NavLink>
-          <NavLink to="/vendors/avigilon" className={active}>Avigilon</NavLink>
-          <NavLink to="/vendors/alta" className={active}>Alta</NavLink>
-          <NavLink to="/industries" className={active}>Industries</NavLink>
-          <NavLink to="/about" className={active}>About</NavLink>
-          <NavLink to="/contact" className={active}>Contact</NavLink>
-        </nav>
+    <nav className="fixed top-0 w-full bg-white z-50 shadow-sm">
+      <div className="container flex justify-between items-center py-4">
+        <Link to="/" className="font-semibold text-lg">Griffon Systems</Link>
+
+        {/* Mobile menu button */}
+        <button
+          onClick={() => setOpen(!open)}
+          className="md:hidden p-2 text-gray-700"
+          aria-label="Toggle menu"
+        >
+          {open ? <X size={24} /> : <Menu size={24} />}
+        </button>
+
+        {/* Desktop links */}
+        <div className="hidden md:flex gap-6">
+          <Link to="/">Home</Link>
+          <Link to="/about">About</Link>
+          <Link to="/vendors/verkada">Verkada</Link>
+          <Link to="/vendors/avigilon">Avigilon</Link>
+          <Link to="/contact">Contact</Link>
+        </div>
       </div>
-    </header>
+
+      {/* Mobile dropdown */}
+      {open && (
+        <div className="md:hidden bg-white border-t border-gray-200 flex flex-col space-y-2 p-4">
+          <Link to="/" onClick={() => setOpen(false)}>Home</Link>
+          <Link to="/about" onClick={() => setOpen(false)}>About</Link>
+          <Link to="/vendors/verkada" onClick={() => setOpen(false)}>Verkada</Link>
+          <Link to="/vendors/avigilon" onClick={() => setOpen(false)}>Avigilon</Link>
+          <Link to="/contact" onClick={() => setOpen(false)}>Contact</Link>
+        </div>
+      )}
+    </nav>
   )
 }
