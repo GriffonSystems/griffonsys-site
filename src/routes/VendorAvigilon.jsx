@@ -205,14 +205,29 @@ export default function VendorAvigilon() {
         </section>
       )}
 
-      {/* ========== INTERCOM TAB (placeholder) ========== */}
-      {active === 'intercom' && (
-        <section className="space-y-6">
-          <p className="text-gray-700">
-            Avigilon intercoms & readers — add models and a field gallery here if needed.
-          </p>
-        </section>
-      )}
-    </main>
-  )
-}
+    {/* ========== INTERCOM TAB ========== */}
+{active === 'intercom' && (
+  <section className="space-y-8">
+    <div className="card p-6">
+      <h2 className="text-2xl md:text-3xl font-semibold mb-4">
+        Avigilon — Video Intercom / Reader Pro
+      </h2>
+
+      <div className="w-full flex justify-center">
+        <img
+          src={encodeURI('/vendors/avigilon/VideoIntercomReaderPro_01.avif')}
+          onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/placeholder.png' }}
+          alt="Avigilon Video Intercom Reader Pro"
+          loading="eager"
+          decoding="sync"
+          className="w-full max-w-4xl h-auto object-contain bg-gray-50 rounded-xl"
+        />
+      </div>
+
+      {/* Optional short blurb (edit or remove) */}
+      <p className="text-gray-700 mt-4">
+        Sleek video intercom and reader in one unit — secure entry, clear video, and streamlined installation.
+      </p>
+    </div>
+  </section>
+)}
