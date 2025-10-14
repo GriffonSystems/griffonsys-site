@@ -3,14 +3,23 @@
     {
       "author": "Jane D.",
       "rating": 5,
-      "text": "Paul and the Griffon team were fantastic...",
-      "relativeTime": "2 weeks ago"
+      "text": "Paul and the Griffon team were fantastic — quick install and great training.",
+      "relativeTime": "2 weeks ago",
+      "profilePhoto": ""
     },
     {
       "author": "Facilities Manager",
       "rating": 5,
-      "text": "Clean install, clear training, and great support.",
-      "relativeTime": "1 month ago"
+      "text": "Clean work, professional team, and the AI alerts are a game changer.",
+      "relativeTime": "1 month ago",
+      "profilePhoto": ""
+    },
+    {
+      "author": "Warehouse Ops",
+      "rating": 4.8,
+      "text": "We upgraded to Avigilon and Verkada—coverage and clarity are excellent.",
+      "relativeTime": "3 months ago",
+      "profilePhoto": ""
     }
   ]
 }
