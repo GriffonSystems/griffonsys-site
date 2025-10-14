@@ -1,9 +1,5 @@
 // src/routes/App.jsx
 
-import Nav from '../components/Nav'
-// ...
-<Nav />
-{/* your Routes / page content */}
 import { Routes, Route } from 'react-router-dom'
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
