@@ -77,12 +77,12 @@ export default function VendorAvigilon() {
         <section className="space-y-10">
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { key:'bullet',      title:'H6A Bullet',        desc:'Long-range detail and analytics for perimeters and lots.',               img:'/vendors/avigilon/video/H6A_Bullet_Product_Detail_Image_1.avif' },
-              { key:'dome',        title:'H6 Dome',           desc:'Versatile indoor/outdoor dome for general purpose deployments.',         img:'/vendors/avigilon/video/H6A_Dual_Head_02.avif' },
-              { key:'ptz',         title:'H6X / H6A PTZ',     desc:'Flexible wide-area coverage and long-zoom situational awareness.',       img:'/vendors/avigilon/video/H6A-PTZ-Product_Detail_Image_2_2024-07-02-210404_cxtc.avif' },
-              { key:'multisensor', title:'H6 Multisensor',    desc:'2–4 sensors in one housing for complete scene coverage.',               img:'/vendors/avigilon/video/H5A_Multisensor_01_2024-09-02-173128_gmdn.avif' },
-              { key:'modular',     title:'H5A Modular',       desc:'Tiny head units for covert installs and tight spaces.',                 img:'/vendors/avigilon/video/H5A_Modular_01.avif' },
-              { key:'fisheye',     title:'H6SL Fisheye',      desc:'180°/360° panoramic views for large open areas.',                       img:'/vendors/avigilon/video/H6SL_Bullet_1.avif' },
+              { key:'bullet',      title:'H6A Bullet',        desc:'Long-range detail and analytics for perimeters and lots.',               img:'/vendors/avigilon/H6A_Bullet_Product_Detail_Image_1.avif' },
+              { key:'dome',        title:'H6 Dome',           desc:'Versatile indoor/outdoor dome for general purpose deployments.',         img:'/vendors/avigilon/dome.avif' },
+              { key:'ptz',         title:'H6X / H6A PTZ',     desc:'Flexible wide-area coverage and long-zoom situational awareness.',       img:'/vendors/avigilon/H6A-PTZ-Product_Detail_Image_2_2024-07-02-210404_cxtc.avif' },
+              { key:'multisensor', title:'H6 Multisensor',    desc:'2–4 sensors in one housing for complete scene coverage.',               img:'/vendors/avigilon/H5A_Multisensor_01_2024-09-02-173128_gmdn.avif' },
+              { key:'modular',     title:'H5A Modular',       desc:'Tiny head units for covert installs and tight spaces.',                 img:'/vendors/avigilon/H5A_Modular_01.avif' },
+              { key:'fisheye',     title:'H6SL Fisheye',      desc:'180°/360° panoramic views for large open areas.',                       img:'/vendors/avigilon/H6SL_Bullet_1.avif' },
             ].map(card => (
               <div key={card.key} className="card p-6 flex flex-col">
                 <img
