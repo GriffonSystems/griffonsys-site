@@ -1,45 +1,115 @@
-// src/components/Nav.jsx
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Menu, X } from 'lucide-react'
+import React from 'react'
+import { Link, NavLink } from 'react-router-dom'
+
+/** Griffon logo, tries SVG then PNG as fallback */
+function GriffonLogo({ className = 'h-9 md:h-10 w-auto' }) {
+  const [src, setSrc] = React.useState('/logos/griffon_logo.svg')
+  return (
+    <img
+      src={src}
+      onError={() => setSrc('/logos/griffon-256.png')}
+      alt="Griffon Systems"
+      className={className}
+      width={160}
+      height={40}
+      loading="eager"
+      decoding="sync"
+    />
+  )
+}
 
 export default function Nav() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = React.useState(false)
+  const [scrolled, setScrolled] = React.useState(false)
+
+  // Add shadow on scroll
+  React.useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 4)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  // Close mobile menu on route changes (back/forward)
+  React.useEffect(() => {
+    const close = () => setOpen(false)
+    window.addEventListener('hashchange', close)
+    window.addEventListener('popstate', close)
+    return () => {
+      window.removeEventListener('hashchange', close)
+      window.removeEventListener('popstate', close)
+    }
+  }, [])
+
+  const base = 'px-3 py-2 rounded-lg text-sm font-medium'
+  const active = ({ isActive }) =>
+    isActive ? `${base} bg-black text-white` : `${base} hover:bg-gray-100`
 
   return (
-    <nav className="fixed top-0 w-full bg-white z-50 shadow-sm">
-      <div className="container flex justify-between items-center py-4">
-        <Link to="/" className="font-semibold text-lg">Griffon Systems</Link>
+    <>
+      <header
+        className={`fixed top-0 inset-x-0 z-50 bg-white/90 backdrop-blur transition-shadow ${
+          scrolled ? 'shadow-sm border-b border-gray-200' : ''
+        }`}
+        role="banner"
+      >
+        <div className="container flex items-center justify-between h-16">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-3" aria-label="Go home">
+            <GriffonLogo />
+            <span className="sr-only">Griffon Systems</span>
+          </Link>
 
-        {/* Mobile menu button */}
-        <button
-          onClick={() => setOpen(!open)}
-          className="md:hidden p-2 text-gray-700"
-          aria-label="Toggle menu"
+          {/* Desktop nav */}
+          <nav className="hidden md:flex items-center gap-1" aria-label="Primary">
+            <NavLink to="/solutions" className={active}>Solutions</NavLink>
+            <NavLink to="/vendors/verkada" className={active}>Verkada</NavLink>
+            <NavLink to="/vendors/avigilon" className={active}>Avigilon</NavLink>
+            <NavLink to="/industries" className={active}>Industries</NavLink>
+            <NavLink to="/about" className={active}>About</NavLink>
+            <NavLink to="/contact" className={active}>Contact</NavLink>
+          </nav>
+
+          {/* Mobile toggle */}
+          <button
+            className="md:hidden p-2 rounded-lg hover:bg-gray-100"
+            onClick={() => setOpen(!open)}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            aria-label="Toggle menu"
+          >
+            {open ? (
+              <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            ) : (
+              <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            )}
+          </button>
+        </div>
+
+        {/* Mobile dropdown */}
+        <div
+          id="mobile-menu"
+          className={`md:hidden bg-white border-t border-gray-200 shadow-lg transition-[max-height] overflow-hidden ${
+            open ? 'max-h-[480px]' : 'max-h-0'
+          }`}
         >
-          {open ? <X size={24} /> : <Menu size={24} />}
-        </button>
-
-        {/* Desktop links */}
-        <div className="hidden md:flex gap-6">
-          <Link to="/">Home</Link>
-          <Link to="/about">About</Link>
-          <Link to="/vendors/verkada">Verkada</Link>
-          <Link to="/vendors/avigilon">Avigilon</Link>
-          <Link to="/contact">Contact</Link>
+          <nav className="container flex flex-col py-3" aria-label="Mobile">
+            <NavLink to="/solutions" className={active} onClick={() => setOpen(false)}>Solutions</NavLink>
+            <NavLink to="/vendors/verkada" className={active} onClick={() => setOpen(false)}>Verkada</NavLink>
+            <NavLink to="/vendors/avigilon" className={active} onClick={() => setOpen(false)}>Avigilon</NavLink>
+            <NavLink to="/industries" className={active} onClick={() => setOpen(false)}>Industries</NavLink>
+            <NavLink to="/about" className={active} onClick={() => setOpen(false)}>About</NavLink>
+            <NavLink to="/contact" className={active} onClick={() => setOpen(false)}>Contact</NavLink>
+          </nav>
         </div>
-      </div>
+      </header>
 
-      {/* Mobile dropdown */}
-      {open && (
-        <div className="md:hidden bg-white border-t border-gray-200 flex flex-col space-y-2 p-4">
-          <Link to="/" onClick={() => setOpen(false)}>Home</Link>
-          <Link to="/about" onClick={() => setOpen(false)}>About</Link>
-          <Link to="/vendors/verkada" onClick={() => setOpen(false)}>Verkada</Link>
-          <Link to="/vendors/avigilon" onClick={() => setOpen(false)}>Avigilon</Link>
-          <Link to="/contact" onClick={() => setOpen(false)}>Contact</Link>
-        </div>
-      )}
-    </nav>
+      {/* Spacer so content doesn’t sit under fixed header */}
+      <div className="h-16" aria-hidden="true" />
+    </>
   )
 }
