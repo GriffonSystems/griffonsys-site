@@ -196,14 +196,33 @@ export default function VendorAvigilon() {
         </section>
       )}
 
-      {/* ========== ACCESS TAB (placeholder) ========== */}
-      {active === 'access' && (
-        <section className="space-y-6">
-          <p className="text-gray-700">
-            Avigilon On-Prem & Cloud Access solutions — add your copy and images here.
-          </p>
-        </section>
-      )}
+     {/* ========== ACCESS TAB ========== */}
+{active === 'access' && (
+  <section className="space-y-10">
+    {/* Hero Copy */}
+    <div>
+      <h2 className="text-2xl md:text-3xl font-semibold mb-4">
+        Enhance Security with Avigilon Unity Access
+      </h2>
+      <p className="text-gray-700">
+        Better security starts at the door. Tackle multiple use cases and address physical security challenges from anywhere with this reliable, turnkey solution.
+      </p>
+    </div>
+
+    {/* Embedded Video */}
+    <div className="relative w-full rounded-xl overflow-hidden bg-gray-100 shadow-md">
+      <video
+        className="w-full h-auto rounded-xl"
+        controls
+        preload="metadata"
+        poster="/vendors/avigilon/VideoIntercomReaderPro_01.avif"
+      >
+        <source src="/vendors/avigilon/ACM.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </section>
+)}
 
     {/* ========== INTERCOM TAB ========== */}
 {active === 'intercom' && (
