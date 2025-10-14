@@ -1,0 +1,16 @@
+{
+  "reviews": [
+    {
+      "author": "Jane D.",
+      "rating": 5,
+      "text": "Paul and the Griffon team were fantastic...",
+      "relativeTime": "2 weeks ago"
+    },
+    {
+      "author": "Facilities Manager",
+      "rating": 5,
+      "text": "Clean install, clear training, and great support.",
+      "relativeTime": "1 month ago"
+    }
+  ]
+}
