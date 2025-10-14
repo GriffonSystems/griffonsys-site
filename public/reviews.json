@@ -1,23 +1,23 @@
 {
   "reviews": [
     {
-      "author": "Jane D.",
+      "author": "Tom Allen.",
       "rating": 5,
-      "text": "Paul and the Griffon team were fantastic — quick install and great training.",
-      "relativeTime": "2 weeks ago",
+      "text": "Been working with folks at Griffon for years now. They are friendly and honest and they know their stuff!",
+      "relativeTime": "60 months ago",
       "profilePhoto": ""
     },
     {
-      "author": "Facilities Manager",
+      "author": "Bob Stahurski",
       "rating": 5,
-      "text": "Clean work, professional team, and the AI alerts are a game changer.",
-      "relativeTime": "1 month ago",
+      "text": "The systems and cameras recommended by Paul and his team at Griffon Systems were the prefect solution for our production.",
+      "relativeTime": "7 years ago",
       "profilePhoto": ""
     },
     {
-      "author": "Warehouse Ops",
-      "rating": 4.8,
-      "text": "We upgraded to Avigilon and Verkada—coverage and clarity are excellent.",
+      "author": "Magma31",
+      "rating": 5,
+      "text": "Great company with quick response. Will use again..",
       "relativeTime": "3 months ago",
       "profilePhoto": ""
     }
