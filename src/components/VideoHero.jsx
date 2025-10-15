@@ -56,6 +56,16 @@ export default function VideoHero() {
             setError(null)
           }
         }
+        // After setImages(ok) fails or in the catch:
+if (alive && (!ok || !ok.length)) {
+  // TEMP fallback — replace with your real files
+  setImages([
+    '/hero/hero-01.jpg',
+    '/hero/hero-02.jpg',
+    '/hero/hero-03.jpg'
+  ])
+}
+
       } catch (e) {
         console.warn('VideoHero: failed to load manifest', e)
         if (alive) {
