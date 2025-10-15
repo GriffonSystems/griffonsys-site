@@ -1,125 +1,118 @@
 // src/components/VideoHero.jsx
-// Put near the top of VideoHero.jsx (outside the component)
-const FOCAL_BY_FILE = {
-  'hero-01.jpg': 'center 12%',  // needs top
-  'hero-03.jpg': 'center 12%',  // needs top
-  'hero-04.jpg': 'center 12%',  // needs top
-  'hero-05.png': 'center 12%',  // needs top
-  // others default to center
-}
-
 import React from 'react'
 
-export default function VideoHero(){
+const FOCAL_BY_FILE = {
+  'hero-01.jpg': 'center 15%',
+  'hero-03.jpg': 'center 15%',
+  'hero-04.jpg': 'center 15%',
+  'hero-05.png': 'center 15%',
+}
+
+export default function VideoHero() {
   const BASE = '/hero'
-  const VER  = import.meta.env?.VITE_ASSET_VERSION ? `?v=${import.meta.env.VITE_ASSET_VERSION}` : ''
+  const VER = import.meta.env?.VITE_ASSET_VERSION ? `?v=${import.meta.env.VITE_ASSET_VERSION}` : ''
   const MANIFEST_URL = `${BASE}/index.json${VER}`
 
   const SLIDE_MS = 5000
-  const FADE_MS  = 700
+  const FADE_MS = 700
 
-  const [images, setImages] = React.useState([])      // all candidate URLs (no pre-filter)
-  const [bad, setBad]       = React.useState(() => new Set()) // failed URLs
-  const [idx, setIdx]       = React.useState(0)
+  const [images, setImages] = React.useState([])
+  const [idx, setIdx] = React.useState(0)
+  const [bad, setBad] = React.useState(new Set())
 
-  // Load manifest (do NOT pre-filter with Image() — render and let onError handle)
+  // Load image manifest
   React.useEffect(() => {
     let alive = true
     ;(async () => {
       try {
         const res = await fetch(MANIFEST_URL, { cache: 'no-store' })
-        if (!res.ok) throw new Error(`manifest HTTP ${res.status}`)
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
         const data = await res.json()
-        const names = Array.isArray(data?.images) ? data.images : []
-        const urls  = names.map(n => `${BASE}/${encodeURI(String(n))}${VER}`)
+        const list = (Array.isArray(data?.images) ? data.images : []).map(f => `${BASE}/${encodeURI(f)}${VER}`)
         if (alive) {
-          setImages(urls)
-          setBad(new Set())  // reset failures when list changes
+          setImages(list)
+          setBad(new Set())
           setIdx(0)
         }
-      } catch (e) {
-        console.warn('VideoHero: manifest failed', e)
-        if (alive) {
-          setImages([])      // renders gray fallback
-          setBad(new Set())
-        }
+      } catch (err) {
+        console.warn('VideoHero manifest load failed', err)
+        if (alive) setImages([])
       }
     })()
     return () => { alive = false }
   }, [MANIFEST_URL])
 
-  // Advance slides
+  // Slideshow
+  const valid = images.filter(i => !bad.has(i))
   React.useEffect(() => {
-    const live = images.filter(u => !bad.has(u))
-    if (live.length <= 1) return
-    const t = setInterval(() => {
-      setIdx(i => (i + 1) % live.length)
-    }, SLIDE_MS)
+    if (valid.length <= 1) return
+    const t = setInterval(() => setIdx(i => (i + 1) % valid.length), SLIDE_MS)
     return () => clearInterval(t)
-  }, [images, bad])
+  }, [valid.length])
 
-  // Compute the currently viewable list (exclude broken ones)
-  const liveImages = images.filter(u => !bad.has(u))
-  const showIdx = liveImages.length ? (idx % liveImages.length) : 0
+  const current = valid.length ? idx % valid.length : 0
 
   return (
-    <section className="relative h-[60vh] md:h-[80vh] overflow-hidden">
+    <section className="relative h-[80vh] md:h-[90vh] lg:h-screen overflow-hidden">
+      {/* Slides */}
       <div className="absolute inset-0 bg-black">
-        {liveImages.length ? (
-          liveImages.map((src, i) => (
-            <img
-              key={src}
-              src={src}
-              alt=""
-              loading={i === 0 ? 'eager' : 'lazy'}
-              decoding={i === 0 ? 'sync' : 'async'}
-              className="absolute inset-0 w-full h-full object-cover object-center transition-opacity"
-              style={{ opacity: i === showIdx ? 1 : 0, transitionDuration: `${FADE_MS}ms` }}
-              aria-hidden={i === showIdx ? 'false' : 'true'}
-              onError={() => {
-                // Mark this URL as bad so it’s skipped next render
-                setBad(prev => {
-                  const next = new Set(prev)
-                  next.add(src)
-                  console.warn('Hero failed to load:', src)
-                  return next
-                })
-              }}
-            />
-          ))
+        {valid.length ? (
+          valid.map((src, i) => {
+            const fname = src.split('/').pop()?.split('?')[0] || ''
+            const pos = FOCAL_BY_FILE[fname] || 'center center'
+            return (
+              <img
+                key={src}
+                src={src}
+                alt=""
+                loading={i === 0 ? 'eager' : 'lazy'}
+                decoding={i === 0 ? 'sync' : 'async'}
+                className="absolute inset-0 w-full h-full object-cover transition-opacity"
+                style={{
+                  objectPosition: pos,
+                  opacity: i === current ? 1 : 0,
+                  transitionDuration: `${FADE_MS}ms`,
+                }}
+                onError={() => setBad(p => new Set(p).add(src))}
+              />
+            )
+          })
         ) : (
-          <div className="absolute inset-0 bg-gray-200" />
+          <div className="absolute inset-0 bg-gray-300" />
         )}
       </div>
 
-      {/* Overlay for text readability */}
+      {/* Overlay for contrast */}
       <div className="absolute inset-0 bg-black/35" />
 
-      {/* Headline & subhead (Optima) */}
-      <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
+      {/* Text */}
+      <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-6">
         <h1
           className="text-white text-4xl md:text-6xl font-semibold mb-3"
-          style={{ fontFamily: 'Optima, Candara, "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif' }}
+          style={{
+            fontFamily: 'Optima, Candara, "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif'
+          }}
         >
           Security Experts for 20+ Years
         </h1>
         <p
           className="text-white/90 text-lg md:text-xl max-w-3xl"
-          style={{ fontFamily: 'Optima, Candara, "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif' }}
+          style={{
+            fontFamily: 'Optima, Candara, "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif'
+          }}
         >
           Video Surveillance, Access Control, Intercom — Avigilon, Verkada
         </p>
       </div>
 
       {/* Dots */}
-      {liveImages.length > 1 && (
+      {valid.length > 1 && (
         <div className="absolute bottom-4 left-0 right-0 z-10 flex justify-center gap-2">
-          {liveImages.map((_, i) => (
+          {valid.map((_, i) => (
             <button
               key={i}
               onClick={() => setIdx(i)}
-              className={`h-2 w-2 rounded-full ${i === showIdx ? 'bg-white' : 'bg-white/50'}`}
-              aria-label={`Go to slide ${i + 1}`}
+              className={`h-2 w-2 rounded-full ${i === current ? 'bg-white' : 'bg-white/40'}`}
             />
           ))}
         </div>
