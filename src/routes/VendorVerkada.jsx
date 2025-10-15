@@ -8,8 +8,6 @@ function VerkadaLogo({ className = "h-10 w-auto object-contain" }) {
   React.useEffect(() => {
     let alive = true
     const candidates = [
-      '/vendors/verkada/logo.svg',
-      '/vendors/verkada/logo.png',
       '/vendors/verkada/logo.jpg',
     ]
     ;(async () => {
