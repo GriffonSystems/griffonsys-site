@@ -8,9 +8,7 @@ function AvigilonLogo({ className = 'h-10 w-auto object-contain' }) {
   React.useEffect(() => {
     let alive = true
     const candidates = [
-      '/vendors/avigilon/logo.svg',
-      '/vendors/avigilon/logo.png',
-      '/vendors/avigilon/logo.jpg',
+      '/vendors/avigilon/avigilonlogo.jpg',
     ]
     ;(async () => {
       for (const url of candidates) {
