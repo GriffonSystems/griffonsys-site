@@ -1,4 +1,13 @@
 // src/components/VideoHero.jsx
+// Put near the top of VideoHero.jsx (outside the component)
+const FOCAL_BY_FILE = {
+  'hero-01.jpg': 'center 12%',  // needs top
+  'hero-03.jpg': 'center 12%',  // needs top
+  'hero-04.jpg': 'center 12%',  // needs top
+  'hero-05.png': 'center 12%',  // needs top
+  // others default to center
+}
+
 import React from 'react'
 
 export default function VideoHero(){
