@@ -1,4 +1,3 @@
-// src/components/VideoHero.jsx
 import React from 'react'
 
 export default function VideoHero() {
@@ -13,8 +12,9 @@ export default function VideoHero() {
   const FADE_MS  = 700      // cross-fade duration (ms)
 
   // ---- State ----
-  const [images, setImages] = React.useState([]) // array of resolved image URLs
+  const [images, setImages] = React.useState([])
   const [idx, setIdx] = React.useState(0)
+  const [error, setError] = React.useState(null)
 
   // ---- Load manifest and preload images ----
   React.useEffect(() => {
@@ -24,38 +24,44 @@ export default function VideoHero() {
       try {
         const res = await fetch(MANIFEST_URL, { cache: 'no-store' })
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        const data = await res.json()
+
+        // Attempt JSON parse with clear error handling
+        let data
+        try {
+          data = await res.json()
+        } catch (e) {
+          throw new Error(`Invalid JSON format in ${MANIFEST_URL}`)
+        }
 
         const raw = Array.isArray(data?.images) ? data.images : []
-        // Build absolute paths and encode spaces etc.
         const urls = raw.map(name => `${BASE}/${encodeURI(String(name))}`)
 
-        // (Optional) quick HEAD check to spot 404s during dev
-        // urls.forEach(u => fetch(u, { method: 'HEAD', cache: 'no-store' })
-        //   .then(r => { if (!r.ok) console.warn('Hero 404:', u) })
-        //   .catch(() => console.warn('Hero fetch failed:', u)))
-
-        // Preload; keep only successes
         const loaded = await Promise.all(
-          urls.map(
-            (src) =>
-              new Promise((resolve) => {
-                const i = new Image()
-                i.onload = () => resolve(src)
-                i.onerror = () => resolve(null)
-                i.src = src
-              })
-          )
+          urls.map(src => new Promise(resolve => {
+            const i = new Image()
+            i.onload = () => resolve(src)
+            i.onerror = () => resolve(null)
+            i.src = src
+          }))
         )
+
         const ok = loaded.filter(Boolean)
         if (alive) {
-          setImages(ok)
-          setIdx(0)
-          if (!ok.length) console.warn('VideoHero: no images loaded from', MANIFEST_URL)
+          if (ok.length === 0) {
+            console.warn('VideoHero: no images loaded from', MANIFEST_URL)
+            setError(`No valid images found in ${MANIFEST_URL}`)
+          } else {
+            setImages(ok)
+            setIdx(0)
+            setError(null)
+          }
         }
       } catch (e) {
         console.warn('VideoHero: failed to load manifest', e)
-        if (alive) setImages([])
+        if (alive) {
+          setImages([])
+          setError(e.message)
+        }
       }
     }
 
@@ -70,7 +76,7 @@ export default function VideoHero() {
     return () => clearInterval(t)
   }, [images])
 
-  // ---- Preload next image proactively ----
+  // ---- Preload next image ----
   React.useEffect(() => {
     if (!images.length) return
     const next = new Image()
@@ -78,9 +84,9 @@ export default function VideoHero() {
   }, [idx, images])
 
   return (
-    <section className="relative h-[60vh] md:h-[80vh] overflow-hidden">
-      {/* Slides (stacked, cross-fading). object-cover = fills / zooms */}
-      <div className="absolute inset-0 bg-black">
+    <section className="relative h-[60vh] md:h-[80vh] overflow-hidden bg-black">
+      {/* Slides */}
+      <div className="absolute inset-0">
         {images.length ? (
           images.map((src, i) => (
             <img
@@ -95,14 +101,18 @@ export default function VideoHero() {
             />
           ))
         ) : (
-          <div className="absolute inset-0 bg-gray-200" />
+          <div className="absolute inset-0 bg-gray-800 flex items-center justify-center">
+            <span className="text-gray-300 text-sm font-mono">
+              {error ? `⚠️ ${error}` : 'Loading hero images...'}
+            </span>
+          </div>
         )}
       </div>
 
-      {/* Overlay for text readability */}
+      {/* Overlay */}
       <div className="absolute inset-0 bg-black/35" />
 
-      {/* Headline & subhead (Optima) */}
+      {/* Headline */}
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
         <h1
           className="text-white text-4xl md:text-6xl font-semibold mb-3"
