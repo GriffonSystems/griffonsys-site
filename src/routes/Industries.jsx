@@ -35,7 +35,11 @@ export default function Industries() {
             <img
               src={img}
               alt={title}
-              className="w-full h-48 md:h-60 object-cover transform transition-transform duration-700 hover:scale-105"
+              className={`w-full h-48 md:h-60 object-cover transform transition-transform duration-700 hover:scale-105 ${
+                ['Education', 'Commercial'].includes(title)
+                  ? 'object-[center_20%]'
+                  : 'object-center'
+              }`}
               loading="lazy"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
