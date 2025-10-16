@@ -30,7 +30,9 @@ export default function App() {
         <Route path="/vendors/verkada" element={<VendorVerkada />} />
         <Route path="/vendors/avigilon" element={<VendorAvigilon />} />
         <Route path="/vendors/avigilon-cloud" element={<AvigilonCloud />} />
-        <Route path="/vendors/alta" element={<VendorAlta />} />
+        <Route path="/vendors/alta" element={<VendorAlta />} 
+          <Route path="/from-the-field" element={<FromTheField />} />
+        <Route path="/from-the-field/wireless-link" element={<WirelessLink />} />         
 
         {/* Fallback */}
         <Route path="*" element={<NotFound />} />
