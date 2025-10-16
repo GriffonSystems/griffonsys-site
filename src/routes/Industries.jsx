@@ -22,9 +22,6 @@ export default function Industries() {
     },
   ];
 
-  }`}
-/>
-
   return (
     <main className="container py-12">
       <h1 className="text-3xl font-bold mb-6">Industries</h1>
