@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios'
 
 export default function Contact() {
-  // Toggle this to true when Twilio is live
+  // Toggle Twilio text feature when ready
   const ENABLE_TWILIO = false
 
   const [state, setState] = React.useState({
@@ -14,7 +14,6 @@ export default function Contact() {
   })
   const [status, setStatus] = React.useState('idle')
 
-  // Twilio-related state (currently hidden until ENABLE_TWILIO = true)
   const [textMsg, setTextMsg] = React.useState({ phone: '', message: '' })
   const [textStatus, setTextStatus] = React.useState('idle')
   const [showTextForm, setShowTextForm] = React.useState(false)
@@ -57,6 +56,39 @@ export default function Contact() {
   return (
     <main className="container py-12">
       <h1 className="text-3xl font-bold mb-6">Contact</h1>
+
+      {/* LocalBusiness JSON-LD Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            name: "Griffon Systems, Inc.",
+            image: "https://www.griffonsys.com/logo.png",
+            url: "https://www.griffonsys.com",
+            telephone: "+16306070346",
+            address: {
+              "@type": "PostalAddress",
+              streetAddress: "650 West Grand Ave #206",
+              addressLocality: "Elmhurst",
+              addressRegion: "IL",
+              postalCode: "60126",
+              addressCountry: "US",
+            },
+            openingHours: "Mo-Fr 08:00-17:00",
+            priceRange: "$$",
+            geo: {
+              "@type": "GeoCoordinates",
+              latitude: "41.908517",
+              longitude: "-87.952383",
+            },
+            sameAs: [
+              "https://www.linkedin.com/company/griffon-systems-inc/",
+            ],
+          }),
+        }}
+      />
 
       <form onSubmit={submit} className="grid md:grid-cols-2 gap-6 max-w-4xl">
         <div className="space-y-3">
@@ -117,7 +149,7 @@ export default function Contact() {
             </span>
           )}
 
-          {/* Twilio Section (hidden until ENABLE_TWILIO = true) */}
+          {/* Twilio section remains hidden until ENABLE_TWILIO = true */}
           {ENABLE_TWILIO && (
             <div className="mt-8">
               <button
@@ -156,7 +188,6 @@ export default function Contact() {
                       {textStatus === 'loading' ? 'Texting...' : 'Send Text'}
                     </button>
                   </form>
-
                   {textFeedback && (
                     <p
                       className={`mt-2 text-sm ${
@@ -174,6 +205,33 @@ export default function Contact() {
           )}
         </div>
       </form>
+
+      {/* Business Info + Map */}
+      <div className="mt-12 text-sm text-gray-700 max-w-2xl">
+        <h2 className="text-lg font-semibold mb-2">Our Office</h2>
+        <p>Griffon Systems, Inc.</p>
+        <p>650 West Grand Ave #206</p>
+        <p>Elmhurst, IL 60126</p>
+        <p>
+          <a
+            href="tel:16306070346"
+            className="text-blue-600 hover:underline"
+          >
+            (630) 607-0346
+          </a>
+        </p>
+        <div className="mt-4">
+          <iframe
+            title="Griffon Systems Elmhurst IL"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2968.916651871323!2d-87.9523834!3d41.908517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880e4d45e6bdb44f%3A0xe6d8ec49f2e9c5d5!2s650%20W%20Grand%20Ave%20%23206%2C%20Elmhurst%2C%20IL%2060126!5e0!3m2!1sen!2sus!4v1698412844011"
+            width="100%"
+            height="250"
+            style={{ border: 0 }}
+            allowFullScreen=""
+            loading="lazy"
+          ></iframe>
+        </div>
+      </div>
     </main>
   )
 }
