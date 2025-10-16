@@ -22,6 +22,16 @@ export default function Industries() {
     },
   ];
 
+  <img
+  src={img}
+  alt={title}
+  className={`w-full h-48 md:h-60 object-cover ${
+    ['Education', 'Commercial'].includes(title)
+      ? 'object-[center_20%]'
+      : 'object-center'
+  }`}
+/>
+
   return (
     <main className="container py-12">
       <h1 className="text-3xl font-bold mb-6">Industries</h1>
