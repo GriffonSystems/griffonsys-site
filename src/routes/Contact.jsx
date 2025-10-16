@@ -11,9 +11,9 @@ export default function Contact() {
   })
   const [status, setStatus] = React.useState('idle')
 
-  // For Twilio text form
   const [textMsg, setTextMsg] = React.useState({ phone: '', message: '' })
   const [textStatus, setTextStatus] = React.useState('idle')
+  const [showTextForm, setShowTextForm] = React.useState(false)
 
   const submit = async (e) => {
     e.preventDefault()
@@ -85,9 +85,12 @@ export default function Contact() {
               I agree to be contacted about this request.
             </label>
           </div>
+
+          {/* Main Send Button */}
           <button className="btn btn-primary" type="submit">
             {status === 'loading' ? 'Sending...' : 'Send'}
           </button>
+
           {status === 'ok' && (
             <span className="ml-3 text-green-600">
               Thanks! We’ll be in touch.
@@ -99,44 +102,58 @@ export default function Contact() {
             </span>
           )}
 
-          {/* Twilio Text Option */}
-          <hr className="my-6" />
-          <h2 className="text-lg font-semibold">Prefer a Text?</h2>
-          <form onSubmit={sendText} className="space-y-3">
-            <input
-              className="w-full border rounded-xl p-3"
-              placeholder="Your mobile number (e.g. +13125551234)"
-              value={textMsg.phone}
-              onChange={(e) =>
-                setTextMsg({ ...textMsg, phone: e.target.value })
-              }
-            />
-            <textarea
-              className="w-full border rounded-xl p-3 min-h-[100px]"
-              placeholder="Quick message..."
-              value={textMsg.message}
-              onChange={(e) =>
-                setTextMsg({ ...textMsg, message: e.target.value })
-              }
-            />
+          {/* Collapsible Twilio Section */}
+          <div className="mt-8">
             <button
-              type="submit"
-              className="btn btn-outline"
-              disabled={textStatus === 'loading'}
+              type="button"
+              onClick={() => setShowTextForm(!showTextForm)}
+              className="text-blue-600 underline hover:text-blue-800 transition"
             >
-              {textStatus === 'loading' ? 'Texting...' : 'Send Text'}
+              {showTextForm ? 'Hide Text Option' : 'Prefer a Text Instead?'}
             </button>
-            {textStatus === 'ok' && (
-              <span className="ml-3 text-green-600">
-                Text sent successfully!
-              </span>
+
+            {showTextForm && (
+              <div className="mt-4 p-4 border rounded-xl bg-gray-50 space-y-3 animate-fadeIn">
+                <h2 className="text-lg font-semibold">Send Us a Text</h2>
+                <form onSubmit={sendText} className="space-y-3">
+                  <input
+                    className="w-full border rounded-xl p-3"
+                    placeholder="Your mobile number (e.g. +13125551234)"
+                    value={textMsg.phone}
+                    onChange={(e) =>
+                      setTextMsg({ ...textMsg, phone: e.target.value })
+                    }
+                  />
+                  <textarea
+                    className="w-full border rounded-xl p-3 min-h-[100px]"
+                    placeholder="Quick message..."
+                    value={textMsg.message}
+                    onChange={(e) =>
+                      setTextMsg({ ...textMsg, message: e.target.value })
+                    }
+                  />
+                  <button
+                    type="submit"
+                    className="btn btn-outline"
+                    disabled={textStatus === 'loading'}
+                  >
+                    {textStatus === 'loading' ? 'Texting...' : 'Send Text'}
+                  </button>
+
+                  {textStatus === 'ok' && (
+                    <span className="ml-3 text-green-600">
+                      Text sent successfully!
+                    </span>
+                  )}
+                  {textStatus === 'error' && (
+                    <span className="ml-3 text-red-600">
+                      Failed to send text.
+                    </span>
+                  )}
+                </form>
+              </div>
             )}
-            {textStatus === 'error' && (
-              <span className="ml-3 text-red-600">
-                Failed to send text.
-              </span>
-            )}
-          </form>
+          </div>
         </div>
       </form>
     </main>
