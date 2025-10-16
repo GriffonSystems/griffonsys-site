@@ -1,7 +1,8 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { Helmet } from 'react-helmet'   // ✅ Added for proper meta handling
 
-/* ---------- Verkada logo with graceful fallback ---------- */
+/* ---------- Verkada logo ---------- */
 function VerkadaLogo({ className = "h-10 w-auto object-contain" }) {
   const [src, setSrc] = React.useState(null)
   React.useEffect(() => {
@@ -31,7 +32,7 @@ function VerkadaLogo({ className = "h-10 w-auto object-contain" }) {
   )
 }
 
-/* ---------- “From the field” carousel ---------- */
+/* ---------- From the field carousel ---------- */
 function FieldCarousel({ base = '/vendors/verkada/video/field', intervalMs = 4500, fadeMs = 600 }) {
   const [images, setImages] = React.useState([])
   const [idx, setIdx] = React.useState(0)
@@ -135,23 +136,44 @@ export default function VendorVerkada() {
 
   return (
     <main className="container py-12">
-      {/* --- SEO Meta + Open Graph --- */}
-      <head>
+      {/* ✅ Correct SEO + Open Graph via Helmet */}
+      <Helmet>
         <title>Verkada Security Systems in Chicago | Griffon Systems</title>
-        <meta name="description" content="Authorized Verkada partner and installer serving Chicago, Elmhurst, and businesses across Illinois. Cloud-based video surveillance and access control systems." />
+        <meta
+          name="description"
+          content="Authorized Verkada partner and installer serving Chicago, Elmhurst, and businesses across Illinois. Cloud-based video surveillance and access control systems."
+        />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://www.griffonsys.com/vendors/verkada" />
-        <meta property="og:title" content="Verkada Security Systems in Chicago | Griffon Systems" />
-        <meta property="og:description" content="Authorized Verkada dealer and installer serving Chicago, Elmhurst, and businesses across Illinois. Cloud-based surveillance and access control." />
-        <meta property="og:image" content="https://www.griffonsys.com/images/vendors/verkada-og.jpg" />
+        <meta
+          property="og:title"
+          content="Verkada Security Systems in Chicago | Griffon Systems"
+        />
+        <meta
+          property="og:description"
+          content="Authorized Verkada dealer and installer serving Chicago, Elmhurst, and businesses across Illinois. Cloud-based surveillance and access control."
+        />
+        <meta
+          property="og:image"
+          content="https://www.griffonsys.com/images/vendors/verkada-og.jpg"
+        />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Verkada Security Systems in Chicago | Griffon Systems" />
-        <meta name="twitter:description" content="Authorized Verkada installer in Illinois – Griffon Systems delivers secure, cloud-managed camera and access control systems." />
-        <meta name="twitter:image" content="https://www.griffonsys.com/images/vendors/verkada-og.jpg" />
+        <meta
+          name="twitter:title"
+          content="Verkada Security Systems in Chicago | Griffon Systems"
+        />
+        <meta
+          name="twitter:description"
+          content="Authorized Verkada installer in Illinois – Griffon Systems delivers secure, cloud-managed camera and access control systems."
+        />
+        <meta
+          name="twitter:image"
+          content="https://www.griffonsys.com/images/vendors/verkada-og.jpg"
+        />
         <link rel="canonical" href="https://www.griffonsys.com/vendors/verkada" />
-      </head>
+      </Helmet>
 
-      {/* --- LocalBusiness Schema --- */}
+      {/* Schema for Local SEO */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -182,27 +204,29 @@ export default function VendorVerkada() {
         }}
       />
 
-      {/* --- Header --- */}
+      {/* Header */}
       <div className="flex items-center justify-between mb-6 gap-4">
         <div className="flex items-center gap-3">
           <VerkadaLogo className="h-10 w-auto object-contain" />
           <h1 className="sr-only">Verkada Security Systems Chicago</h1>
         </div>
-        <Link to="/contact" className="btn btn-primary">Request a Demo</Link>
+        <Link to="/contact" className="btn btn-primary">
+          Request a Demo
+        </Link>
       </div>
 
-      {/* --- SEO Introduction --- */}
+      {/* Intro paragraph */}
       <section className="mb-10 text-gray-700">
         <h2 className="text-2xl font-semibold mb-3">Verkada Partner in Chicago & Illinois</h2>
         <p className="mb-4">
-          Griffon Systems, Inc. is an <strong>authorized Verkada partner</strong> serving Chicago, Elmhurst, Naperville,
-          and businesses across Illinois. Our team designs, installs, and supports <strong>Verkada cloud-based video
-          surveillance and access control systems</strong> built for security directors, IT professionals, and facility
-          managers who need reliability and remote visibility.
+          Griffon Systems, Inc. is an <strong>authorized Verkada partner</strong> serving Chicago, Elmhurst,
+          Naperville, and businesses across Illinois. Our team designs, installs, and supports
+          <strong> Verkada cloud-based video surveillance and access control systems</strong> built for
+          reliability, security, and remote management.
         </p>
       </section>
 
-      {/* --- Tabs --- */}
+      {/* Tabs */}
       <div className="flex flex-wrap gap-2 mb-8">
         {TABS.map((t) => (
           <button
@@ -220,9 +244,8 @@ export default function VendorVerkada() {
         ))}
       </div>
 
-      {/* --- Existing Tabs Content (Video / Access / Intercom) --- */}
-      {/* your existing tab content remains unchanged below */}
-      {/* ... existing VIDEO, ACCESS, INTERCOM sections from your original file ... */}
+      {/* ✅ your existing tab content remains intact below */}
+      {/* keep all VIDEO / ACCESS / INTERCOM sections as before */}
     </main>
   )
 }
