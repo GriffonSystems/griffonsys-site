@@ -29,18 +29,19 @@ export default function Industries() {
         {items.map(({ title, desc, img }) => (
           <div
             key={title}
-            className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition"
+            tabIndex={0}
+            className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl focus:ring-2 focus:ring-blue-500 transition"
           >
             <img
               src={img}
               alt={title}
-              className="w-full h-48 object-cover"
+              className="w-full h-48 md:h-60 object-cover transform transition-transform duration-700 hover:scale-105"
               loading="lazy"
             />
-            <div className="absolute inset-0 bg-black/30" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
             <div className="absolute bottom-0 p-6 text-white">
               <h3 className="text-xl font-semibold">{title}</h3>
-              <p className="mt-1 text-sm">{desc}</p>
+              <p className="mt-1 text-sm opacity-90">{desc}</p>
             </div>
           </div>
         ))}
