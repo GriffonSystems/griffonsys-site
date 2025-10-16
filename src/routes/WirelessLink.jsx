@@ -53,7 +53,7 @@ export default function WirelessLink() {
           poster="/images/field/siklu-drone-thumb.jpg"
         >
           {/* ✅ Correct source path (no /public prefix) */}
-          <source src="/videos/siklu-link-demo-web.mp4" type="video/mp4" />
+          <source src="/videos/siklu-link-demo.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </div>
