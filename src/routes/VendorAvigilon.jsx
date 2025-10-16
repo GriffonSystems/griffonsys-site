@@ -1,15 +1,14 @@
 // src/routes/VendorAvigilon.jsx
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet'
 
-/* ---------- Avigilon logo with fallback ---------- */
+/* ---------- Avigilon logo ---------- */
 function AvigilonLogo({ className = 'h-10 w-auto object-contain' }) {
   const [src, setSrc] = React.useState(null)
   React.useEffect(() => {
     let alive = true
-    const candidates = [
-      '/vendors/avigilon/logo.jpg',
-    ]
+    const candidates = ['/vendors/avigilon/logo.jpg']
     ;(async () => {
       for (const url of candidates) {
         try {
@@ -35,7 +34,6 @@ export default function VendorAvigilon() {
   const [active, setActive] = React.useState('video')
 
   React.useEffect(() => {
-    // open at top when navigating here
     if (typeof window !== 'undefined') {
       window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
     }
@@ -43,14 +41,93 @@ export default function VendorAvigilon() {
 
   return (
     <main className="container py-12">
+      {/* ✅ SEO + Open Graph */}
+      <Helmet>
+        <title>Avigilon Security Cameras & Access Control | Griffon Systems</title>
+        <meta
+          name="description"
+          content="Authorized Avigilon partner in Chicago & Illinois. Griffon Systems provides Avigilon video surveillance, access control, and intercom systems for enterprise security."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.griffonsys.com/vendors/avigilon" />
+        <meta
+          property="og:title"
+          content="Avigilon Security Cameras & Access Control | Griffon Systems"
+        />
+        <meta
+          property="og:description"
+          content="Chicago-based Avigilon partner offering advanced video surveillance, AI analytics, and access control solutions for commercial security."
+        />
+        <meta
+          property="og:image"
+          content="https://www.griffonsys.com/images/vendors/avigilon-og.jpg"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Avigilon Security Systems in Chicago | Griffon Systems"
+        />
+        <meta
+          name="twitter:description"
+          content="Authorized Avigilon integrator serving Illinois businesses — advanced cameras, analytics, and access control systems."
+        />
+        <meta
+          name="twitter:image"
+          content="https://www.griffonsys.com/images/vendors/avigilon-og.jpg"
+        />
+        <link rel="canonical" href="https://www.griffonsys.com/vendors/avigilon" />
+      </Helmet>
+
+      {/* Schema for local SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "serviceType": "Avigilon Security System Installation",
+            "provider": {
+              "@type": "LocalBusiness",
+              "name": "Griffon Systems, Inc.",
+              "image": "https://www.griffonsys.com/logo.png",
+              "url": "https://www.griffonsys.com/vendors/avigilon",
+              "telephone": "+16306070346",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "650 West Grand Ave #206",
+                "addressLocality": "Elmhurst",
+                "addressRegion": "IL",
+                "postalCode": "60126",
+                "addressCountry": "US"
+              },
+              "areaServed": ["Chicago", "Elmhurst", "Naperville", "Illinois"],
+              "sameAs": ["https://www.linkedin.com/company/griffon-systems-inc/"]
+            },
+            "brand": "Avigilon",
+            "description": "Authorized Avigilon partner and installer offering AI-powered video surveillance, access control, and intercom systems across Illinois."
+          }),
+        }}
+      />
+
       {/* Header */}
       <div className="flex items-center justify-between mb-6 gap-4">
         <div className="flex items-center gap-3">
           <AvigilonLogo className="h-10 w-auto object-contain" />
-          <h1 className="sr-only">Avigilon</h1>
+          <h1 className="sr-only">Avigilon Security Systems Chicago</h1>
         </div>
         <Link to="/contact" className="btn btn-primary">Request a Demo</Link>
       </div>
+
+      {/* Intro */}
+      <section className="mb-10 text-gray-700">
+        <h2 className="text-2xl font-semibold mb-3">Avigilon Partner in Chicago & Illinois</h2>
+        <p className="mb-4">
+          Griffon Systems, Inc. is an <strong>authorized Avigilon partner</strong> providing
+          <strong> AI-powered video surveillance, access control, and intercom solutions</strong> to
+          organizations across Illinois. We design, install, and maintain scalable systems built for
+          high performance and security.
+        </p>
+      </section>
 
       {/* Tabs */}
       <div className="flex flex-wrap gap-2 mb-8">
@@ -70,17 +147,17 @@ export default function VendorAvigilon() {
         ))}
       </div>
 
-      {/* ========== VIDEO (placeholder for now) ========== */}
+      {/* ========== VIDEO ========== */}
       {active === 'video' && (
         <section className="space-y-10">
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { key:'bullet',      title:'H6A Bullet',        desc:'Long-range detail and analytics for perimeters and lots.',               img:'/vendors/avigilon/H6A_Bullet_Product_Detail_Image_1.avif' },
-              { key:'dome',        title:'H6 Dome',           desc:'Versatile indoor/outdoor dome for general purpose deployments.',         img:'/vendors/avigilon/dome.avif' },
-              { key:'ptz',         title:'H6X / H6A PTZ',     desc:'Flexible wide-area coverage and long-zoom situational awareness.',       img:'/vendors/avigilon/H6A-PTZ-Product_Detail_Image_2_2024-07-02-210404_cxtc.avif' },
-              { key:'multisensor', title:'H6 Multisensor',    desc:'2–4 sensors in one housing for complete scene coverage.',               img:'/vendors/avigilon/H5A_Multisensor_01_2024-09-02-173128_gmdn.avif' },
-              { key:'modular',     title:'H5A Modular',       desc:'Tiny head units for covert installs and tight spaces.',                 img:'/vendors/avigilon/H5A_Modular_01.avif' },
-              { key:'fisheye',     title:'H6SL Fisheye',      desc:'180°/360° panoramic views for large open areas.',                       img:'/vendors/avigilon/fisheye.avif' },
+              { key:'bullet', title:'H6A Bullet', desc:'Long-range detail and analytics for perimeters and lots.', img:'/vendors/avigilon/H6A_Bullet_Product_Detail_Image_1.avif' },
+              { key:'dome', title:'H6 Dome', desc:'Versatile indoor/outdoor dome for general purpose deployments.', img:'/vendors/avigilon/dome.avif' },
+              { key:'ptz', title:'H6X / H6A PTZ', desc:'Flexible wide-area coverage and long-zoom situational awareness.', img:'/vendors/avigilon/H6A-PTZ-Product_Detail_Image_2_2024-07-02-210404_cxtc.avif' },
+              { key:'multisensor', title:'H6 Multisensor', desc:'2–4 sensors in one housing for complete scene coverage.', img:'/vendors/avigilon/H5A_Multisensor_01_2024-09-02-173128_gmdn.avif' },
+              { key:'modular', title:'H5A Modular', desc:'Tiny head units for covert installs and tight spaces.', img:'/vendors/avigilon/H5A_Modular_01.avif' },
+              { key:'fisheye', title:'H6SL Fisheye', desc:'180°/360° panoramic views for large open areas.', img:'/vendors/avigilon/fisheye.avif' },
             ].map(card => (
               <div key={card.key} className="card p-6 flex flex-col">
                 <img
@@ -99,7 +176,7 @@ export default function VendorAvigilon() {
         </section>
       )}
 
-      {/* ========== ACCESS (rewritten copy + video) ========== */}
+      {/* ========== ACCESS ========== */}
       {active === 'access' && (
         <section className="space-y-10">
           <div>
@@ -107,11 +184,11 @@ export default function VendorAvigilon() {
               Enhance Security with Avigilon Unity Access
             </h2>
             <p className="text-gray-700">
-              Better security starts at the door. Tackle multiple use cases and address physical
-              security challenges from anywhere with this reliable, turnkey solution.
+              Better security starts at the door. Manage users, credentials, and permissions
+              seamlessly across sites with Avigilon Unity Access, a reliable, scalable, and
+              easy-to-administer access control platform.
             </p>
           </div>
-
           <div className="relative w-full rounded-xl overflow-hidden bg-gray-100 shadow-md">
             <video
               className="w-full h-auto rounded-xl"
@@ -126,7 +203,7 @@ export default function VendorAvigilon() {
         </section>
       )}
 
-      {/* ========== INTERCOM (single image) ========== */}
+      {/* ========== INTERCOM ========== */}
       {active === 'intercom' && (
         <section className="space-y-8">
           <div className="card p-6">
@@ -144,7 +221,7 @@ export default function VendorAvigilon() {
               />
             </div>
             <p className="text-gray-700 mt-4">
-              Sleek video intercom and reader in one unit—secure entry, clear video, and streamlined installation.
+              Sleek video intercom and reader in one unit — secure entry, clear video, and streamlined installation.
             </p>
           </div>
         </section>
