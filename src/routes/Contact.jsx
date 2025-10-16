@@ -11,9 +11,11 @@ export default function Contact() {
   })
   const [status, setStatus] = React.useState('idle')
 
+  // Text (Twilio) state
   const [textMsg, setTextMsg] = React.useState({ phone: '', message: '' })
   const [textStatus, setTextStatus] = React.useState('idle')
   const [showTextForm, setShowTextForm] = React.useState(false)
+  const [textFeedback, setTextFeedback] = React.useState('')
 
   const submit = async (e) => {
     e.preventDefault()
@@ -30,13 +32,21 @@ export default function Contact() {
   const sendText = async (e) => {
     e.preventDefault()
     setTextStatus('loading')
+    setTextFeedback('')
     try {
-      await axios.post('/api/text', textMsg)
-      setTextStatus('ok')
-      setTextMsg({ phone: '', message: '' })
+      const res = await axios.post('/api/text', textMsg)
+      if (res.status === 200) {
+        setTextStatus('ok')
+        setTextFeedback('✅ Text sent successfully! We’ll reply shortly.')
+        setTextMsg({ phone: '', message: '' })
+      } else {
+        setTextStatus('error')
+        setTextFeedback('❌ Something went wrong sending your text.')
+      }
     } catch (e) {
       console.error(e)
       setTextStatus('error')
+      setTextFeedback('❌ Failed to send text. Please try again.')
     }
   }
 
@@ -86,7 +96,7 @@ export default function Contact() {
             </label>
           </div>
 
-          {/* Main Send Button */}
+          {/* Standard Send Button */}
           <button className="btn btn-primary" type="submit">
             {status === 'loading' ? 'Sending...' : 'Send'}
           </button>
@@ -139,18 +149,20 @@ export default function Contact() {
                   >
                     {textStatus === 'loading' ? 'Texting...' : 'Send Text'}
                   </button>
-
-                  {textStatus === 'ok' && (
-                    <span className="ml-3 text-green-600">
-                      Text sent successfully!
-                    </span>
-                  )}
-                  {textStatus === 'error' && (
-                    <span className="ml-3 text-red-600">
-                      Failed to send text.
-                    </span>
-                  )}
                 </form>
+
+                {/* ✅ On-screen confirmation or error */}
+                {textFeedback && (
+                  <p
+                    className={`mt-2 text-sm ${
+                      textStatus === 'ok'
+                        ? 'text-green-600'
+                        : 'text-red-600'
+                    }`}
+                  >
+                    {textFeedback}
+                  </p>
+                )}
               </div>
             )}
           </div>
