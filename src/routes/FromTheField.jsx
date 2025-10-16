@@ -6,8 +6,8 @@ import { Helmet } from 'react-helmet'
 export default function FromTheField() {
   const projects = [
     {
-      title: 'Chicago Ridge Police – Wireless Camera Network',
-      desc: 'Siklu wireless bridge linking Avigilon surveillance and LPR cameras across the village.',
+      title: 'Police Department – Wireless Camera Network',
+      desc: 'Siklu wireless bridge linking Avigilon surveillance and LPR cameras across multiple intersections.',
       img: '/images/field/siklu-drone-thumb.jpg',
       link: '/from-the-field/wireless-link',
       tag: 'Municipal / Wireless'
