@@ -11,7 +11,7 @@ export default function Contact() {
   })
   const [status, setStatus] = React.useState('idle')
 
-  // New state for texting form
+  // For Twilio text form
   const [textMsg, setTextMsg] = React.useState({ phone: '', message: '' })
   const [textStatus, setTextStatus] = React.useState('idle')
 
@@ -35,6 +35,7 @@ export default function Contact() {
       setTextStatus('ok')
       setTextMsg({ phone: '', message: '' })
     } catch (e) {
+      console.error(e)
       setTextStatus('error')
     }
   }
@@ -70,6 +71,7 @@ export default function Contact() {
             onChange={(e) => setState({ ...state, company: e.target.value })}
           />
         </div>
+
         <div className="space-y-3">
           <textarea
             className="w-full border rounded-xl p-3 min-h-[180px]"
@@ -87,19 +89,23 @@ export default function Contact() {
             {status === 'loading' ? 'Sending...' : 'Send'}
           </button>
           {status === 'ok' && (
-            <span className="ml-3 text-green-600">Thanks! We’ll be in touch.</span>
+            <span className="ml-3 text-green-600">
+              Thanks! We’ll be in touch.
+            </span>
           )}
           {status === 'error' && (
-            <span className="ml-3 text-red-600">Something went wrong.</span>
+            <span className="ml-3 text-red-600">
+              Something went wrong.
+            </span>
           )}
 
-          {/* --- New Twilio text section --- */}
+          {/* Twilio Text Option */}
           <hr className="my-6" />
           <h2 className="text-lg font-semibold">Prefer a Text?</h2>
           <form onSubmit={sendText} className="space-y-3">
             <input
               className="w-full border rounded-xl p-3"
-              placeholder="Your mobile number"
+              placeholder="Your mobile number (e.g. +13125551234)"
               value={textMsg.phone}
               onChange={(e) =>
                 setTextMsg({ ...textMsg, phone: e.target.value })
@@ -121,10 +127,14 @@ export default function Contact() {
               {textStatus === 'loading' ? 'Texting...' : 'Send Text'}
             </button>
             {textStatus === 'ok' && (
-              <span className="ml-3 text-green-600">Text sent successfully!</span>
+              <span className="ml-3 text-green-600">
+                Text sent successfully!
+              </span>
             )}
             {textStatus === 'error' && (
-              <span className="ml-3 text-red-600">Failed to send text.</span>
+              <span className="ml-3 text-red-600">
+                Failed to send text.
+              </span>
             )}
           </form>
         </div>
