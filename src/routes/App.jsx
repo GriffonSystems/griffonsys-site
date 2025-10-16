@@ -1,5 +1,4 @@
 // src/routes/App.jsx
-
 import { Routes, Route } from 'react-router-dom'
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
@@ -14,6 +13,10 @@ import VendorAvigilon from './VendorAvigilon'
 import AvigilonCloud from './AvigilonCloud'
 import VendorAlta from './VendorAlta'
 import NotFound from './NotFound'
+
+// ✅ new imports for your new pages
+import FromTheField from './FromTheField'
+import WirelessLink from './WirelessLink'
 
 export default function App() {
   return (
@@ -30,9 +33,11 @@ export default function App() {
         <Route path="/vendors/verkada" element={<VendorVerkada />} />
         <Route path="/vendors/avigilon" element={<VendorAvigilon />} />
         <Route path="/vendors/avigilon-cloud" element={<AvigilonCloud />} />
-        <Route path="/vendors/alta" element={<VendorAlta />} 
-          <Route path="/from-the-field" element={<FromTheField />} />
-        <Route path="/from-the-field/wireless-link" element={<WirelessLink />} />         
+        <Route path="/vendors/alta" element={<VendorAlta />} />
+
+        {/* ✅ From the Field section */}
+        <Route path="/from-the-field" element={<FromTheField />} />
+        <Route path="/from-the-field/wireless-link" element={<WirelessLink />} />
 
         {/* Fallback */}
         <Route path="*" element={<NotFound />} />
