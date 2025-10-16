@@ -1,6 +1,7 @@
+// src/routes/VendorVerkada.jsx
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Helmet } from 'react-helmet'   // ✅ Added for proper meta handling
+import { Helmet } from 'react-helmet'   // ✅ SEO handled safely
 
 /* ---------- Verkada logo ---------- */
 function VerkadaLogo({ className = "h-10 w-auto object-contain" }) {
@@ -136,116 +137,8 @@ export default function VendorVerkada() {
 
   return (
     <main className="container py-12">
-      {/* ✅ Correct SEO + Open Graph via Helmet */}
+      {/* ✅ SEO + Open Graph */}
       <Helmet>
         <title>Verkada Security Systems in Chicago | Griffon Systems</title>
         <meta
-          name="description"
-          content="Authorized Verkada partner and installer serving Chicago, Elmhurst, and businesses across Illinois. Cloud-based video surveillance and access control systems."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.griffonsys.com/vendors/verkada" />
-        <meta
-          property="og:title"
-          content="Verkada Security Systems in Chicago | Griffon Systems"
-        />
-        <meta
-          property="og:description"
-          content="Authorized Verkada dealer and installer serving Chicago, Elmhurst, and businesses across Illinois. Cloud-based surveillance and access control."
-        />
-        <meta
-          property="og:image"
-          content="https://www.griffonsys.com/images/vendors/verkada-og.jpg"
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Verkada Security Systems in Chicago | Griffon Systems"
-        />
-        <meta
-          name="twitter:description"
-          content="Authorized Verkada installer in Illinois – Griffon Systems delivers secure, cloud-managed camera and access control systems."
-        />
-        <meta
-          name="twitter:image"
-          content="https://www.griffonsys.com/images/vendors/verkada-og.jpg"
-        />
-        <link rel="canonical" href="https://www.griffonsys.com/vendors/verkada" />
-      </Helmet>
-
-      {/* Schema for Local SEO */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Service",
-            "serviceType": "Verkada Security System Installation",
-            "provider": {
-              "@type": "LocalBusiness",
-              "name": "Griffon Systems, Inc.",
-              "image": "https://www.griffonsys.com/logo.png",
-              "url": "https://www.griffonsys.com/vendors/verkada",
-              "telephone": "+16306070346",
-              "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "650 West Grand Ave #206",
-                "addressLocality": "Elmhurst",
-                "addressRegion": "IL",
-                "postalCode": "60126",
-                "addressCountry": "US"
-              },
-              "areaServed": ["Chicago", "Elmhurst", "Naperville", "Illinois"],
-              "sameAs": ["https://www.linkedin.com/company/griffon-systems-inc/"]
-            },
-            "brand": "Verkada",
-            "description": "Authorized Verkada partner and installer providing cloud-managed video surveillance and access control systems across Illinois."
-          }),
-        }}
-      />
-
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6 gap-4">
-        <div className="flex items-center gap-3">
-          <VerkadaLogo className="h-10 w-auto object-contain" />
-          <h1 className="sr-only">Verkada Security Systems Chicago</h1>
-        </div>
-        <Link to="/contact" className="btn btn-primary">
-          Request a Demo
-        </Link>
-      </div>
-
-      {/* Intro paragraph */}
-      <section className="mb-10 text-gray-700">
-        <h2 className="text-2xl font-semibold mb-3">Verkada Partner in Chicago & Illinois</h2>
-        <p className="mb-4">
-          Griffon Systems, Inc. is an <strong>authorized Verkada partner</strong> serving Chicago, Elmhurst,
-          Naperville, and businesses across Illinois. Our team designs, installs, and supports
-          <strong> Verkada cloud-based video surveillance and access control systems</strong> built for
-          reliability, security, and remote management.
-        </p>
-      </section>
-
-      {/* Tabs */}
-      <div className="flex flex-wrap gap-2 mb-8">
-        {TABS.map((t) => (
-          <button
-            key={t.key}
-            onClick={() => onTabClick(t.key)}
-            className={`px-4 py-2 rounded-xl border transition ${
-              active === t.key
-                ? 'bg-black text-white border-black'
-                : 'bg-white hover:bg-gray-100 border-gray-200'
-            }`}
-            aria-pressed={active === t.key}
-          >
-            {t.label}
-          </button>
-        ))}
-      </div>
-
-      {/* ✅ your existing tab content remains intact below */}
-      {/* keep all VIDEO / ACCESS / INTERCOM sections as before */}
-    </main>
-  )
-}
+          name="descript
