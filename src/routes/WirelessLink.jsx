@@ -5,22 +5,22 @@ export default function WirelessLink() {
   return (
     <main className="container py-12">
       <Helmet>
-        <title>Chicago Ridge Police – Wireless Camera Bridge | Griffon Systems</title>
+        <title>Police Department – Wireless Camera Bridge | Griffon Systems</title>
         <meta
           name="description"
-          content="Siklu point-to-point wireless bridge connecting multiple Avigilon surveillance and LPR cameras for the Chicago Ridge Police Department."
+          content="Siklu point-to-point wireless bridge connecting multiple Avigilon surveillance and LPR cameras for a municipal police department."
         />
         <link rel="canonical" href="https://www.griffonsys.com/from-the-field/wireless-link" />
       </Helmet>
 
       <header className="mb-10 text-center">
         <h1 className="text-3xl font-bold mb-3">
-          Chicago Ridge Police – Wireless Camera Bridge
+          Police Department – Wireless Camera Bridge
         </h1>
         <p className="text-gray-600 max-w-2xl mx-auto">
           Griffon Systems designed and installed a Siklu point-to-point wireless network
-          to connect Avigilon surveillance and license-plate-recognition cameras across
-          multiple intersections for the Chicago Ridge Police Department.
+          connecting Avigilon surveillance and license-plate-recognition cameras across
+          multiple intersections for a municipal police department.
         </p>
       </header>
 
@@ -49,8 +49,9 @@ export default function WirelessLink() {
           Avigilon Control Center (ACC).
         </p>
         <p>
-          This system eliminates costly trenching or fiber runs while maintaining
-          <strong> gigabit-class performance</strong> across multiple intersections.
+          This deployment eliminated costly trenching or fiber runs while maintaining
+          <strong> gigabit-class performance</strong> and full-time connectivity across
+          all monitored intersections.
         </p>
       </section>
     </main>
