@@ -66,6 +66,7 @@ export default function Nav() {
             <NavLink to="/vendors/verkada" className={active}>Verkada</NavLink>
             <NavLink to="/vendors/avigilon" className={active}>Avigilon</NavLink>
             <NavLink to="/industries" className={active}>Industries</NavLink>
+            <NavLink to="/from-the-field" className={active}>From the Field</NavLink>
             <NavLink to="/about" className={active}>About</NavLink>
             <NavLink to="/contact" className={active}>Contact</NavLink>
           </nav>
@@ -80,11 +81,21 @@ export default function Nav() {
           >
             {open ? (
               <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                <path
+                  d="M18 6L6 18M6 6l12 12"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
               </svg>
             ) : (
               <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                <path
+                  d="M4 6h16M4 12h16M4 18h16"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
               </svg>
             )}
           </button>
@@ -102,6 +113,7 @@ export default function Nav() {
             <NavLink to="/vendors/verkada" className={active} onClick={() => setOpen(false)}>Verkada</NavLink>
             <NavLink to="/vendors/avigilon" className={active} onClick={() => setOpen(false)}>Avigilon</NavLink>
             <NavLink to="/industries" className={active} onClick={() => setOpen(false)}>Industries</NavLink>
+            <NavLink to="/from-the-field" className={active} onClick={() => setOpen(false)}>From the Field</NavLink>
             <NavLink to="/about" className={active} onClick={() => setOpen(false)}>About</NavLink>
             <NavLink to="/contact" className={active} onClick={() => setOpen(false)}>Contact</NavLink>
           </nav>
