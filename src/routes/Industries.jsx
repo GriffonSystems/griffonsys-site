@@ -22,13 +22,6 @@ export default function Industries() {
     },
   ];
 
-  <img
-  src={img}
-  alt={title}
-  className={`w-full h-48 md:h-60 object-cover ${
-    ['Education', 'Commercial'].includes(title)
-      ? 'object-[center_20%]'
-      : 'object-center'
   }`}
 />
 
