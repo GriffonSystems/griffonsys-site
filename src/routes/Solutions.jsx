@@ -34,7 +34,7 @@ export default function Solutions() {
       title: 'Maintenance & Support',
       desc: 'Health monitoring, quarterly reviews, priority response.',
       img: '/images/solutions/maintenance.jpg',
-      pos: 'center 30%', // 👈 lowers the focus point
+      pos: 'center 35%', // 👈 lowers the focus point
     },
   ]
 
