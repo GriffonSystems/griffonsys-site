@@ -2,6 +2,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
+import FieldCarousel from './VendorVerkada.jsx' // using the same component
 
 export default function FromTheField() {
   const projects = [
@@ -30,58 +31,12 @@ export default function FromTheField() {
 
   return (
     <main className="container py-12">
-      {/* ✅ SEO + OG metadata */}
       <Helmet>
         <title>From the Field | Griffon Systems</title>
-        <meta
-          name="description"
-          content="Real-world installations by Griffon Systems — from municipal camera networks and wireless bridges to manufacturing video and access projects across Illinois."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="From the Field | Griffon Systems" />
-        <meta
-          property="og:description"
-          content="Explore Griffon Systems’ real deployments of Avigilon, Verkada, and Siklu technology — bringing secure connectivity and intelligent surveillance to Illinois."
-        />
-        <meta property="og:image" content="https://www.griffonsys.com/images/field/siklu-drone-thumb.jpg" />
-        <meta property="og:url" content="https://www.griffonsys.com/from-the-field" />
+        <meta name="description" content="Real-world installations by Griffon Systems — from municipal camera networks and wireless bridges to manufacturing video and access projects across Illinois." />
         <link rel="canonical" href="https://www.griffonsys.com/from-the-field" />
       </Helmet>
 
-      {/* ✅ LocalBusiness / Service schema for Google */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Service",
-            "serviceType": "Video Surveillance & Wireless Integration",
-            "provider": {
-              "@type": "LocalBusiness",
-              "name": "Griffon Systems, Inc.",
-              "image": "https://www.griffonsys.com/logo.png",
-              "url": "https://www.griffonsys.com",
-              "telephone": "+16306070346",
-              "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "650 West Grand Ave #206",
-                "addressLocality": "Elmhurst",
-                "addressRegion": "IL",
-                "postalCode": "60126",
-                "addressCountry": "US"
-              },
-              "areaServed": ["Chicago", "Elmhurst", "Naperville", "Illinois"],
-              "sameAs": [
-                "https://www.linkedin.com/company/griffon-systems-inc/"
-              ]
-            },
-            "description":
-              "A showcase of Griffon Systems’ field installations — wireless bridges, camera networks, and cloud-managed security deployments across Illinois."
-          }),
-        }}
-      />
-
-      {/* ---------- Hero ---------- */}
       <header className="mb-10 text-center">
         <h1 className="text-4xl font-bold mb-3">From the Field</h1>
         <p className="text-gray-600 max-w-2xl mx-auto">
@@ -90,25 +45,13 @@ export default function FromTheField() {
         </p>
       </header>
 
-      {/* ---------- Grid of projects ---------- */}
+      {/* Project Cards */}
       <div className="grid md:grid-cols-3 gap-8">
         {projects.map((p) => (
-          <Link
-            key={p.title}
-            to={p.link}
-            className="group card overflow-hidden hover:shadow-xl transition flex flex-col"
-          >
+          <Link key={p.title} to={p.link} className="group card overflow-hidden hover:shadow-xl transition flex flex-col">
             <div className="relative">
-              <img
-                src={p.img}
-                alt={p.title}
-                loading="lazy"
-                decoding="async"
-                className="w-full h-48 object-cover transition-transform group-hover:scale-105"
-              />
-              <div className="absolute bottom-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
-                {p.tag}
-              </div>
+              <img src={p.img} alt={p.title} loading="lazy" decoding="async" className="w-full h-48 object-cover transition-transform group-hover:scale-105" />
+              <div className="absolute bottom-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded">{p.tag}</div>
             </div>
             <div className="p-5 flex flex-col flex-grow">
               <h3 className="text-lg font-semibold mb-1">{p.title}</h3>
@@ -118,6 +61,12 @@ export default function FromTheField() {
           </Link>
         ))}
       </div>
+
+      {/* Carousel under the 3 cards */}
+      <section className="mt-16">
+        <h2 className="text-2xl font-semibold mb-4 text-center">Field Photos</h2>
+        <FieldCarousel base="/vendors/verkada/video/field" />
+      </section>
     </main>
   )
 }
