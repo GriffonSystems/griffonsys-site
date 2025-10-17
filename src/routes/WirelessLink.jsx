@@ -27,31 +27,18 @@ export default function WirelessLink() {
 
       {/* ---------- Video Player ---------- */}
       <div className="flex justify-center mb-10">
-        <div className="relative w-full md:w-3/4 lg:w-2/3 rounded-2xl overflow-hidden shadow-lg bg-black group">
+        <div className="relative w-full md:w-3/4 lg:w-2/3 rounded-2xl overflow-hidden shadow-lg bg-black">
           <video
             className="w-full h-auto aspect-video rounded-2xl"
             controls
+            muted
+            playsInline
             preload="metadata"
             poster="/images/field/siklu-drone-thumb.jpg"
           >
             <source src="/videos/sikludemo.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
-
-          {/* Play overlay (visible before play) */}
-          <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity">
-            <div className="flex items-center gap-2 text-white text-lg font-semibold bg-black/60 px-4 py-2 rounded-full">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 16 16"
-                className="h-5 w-5"
-              >
-                <path d="M6.79 5.093a.5.5 0 0 0-.79.407v4.998a.5.5 0 0 0 .79.407l3.507-2.498a.5.5 0 0 0 0-.814L6.79 5.093z"/>
-              </svg>
-              Play Demo
-            </div>
-          </div>
         </div>
       </div>
 
