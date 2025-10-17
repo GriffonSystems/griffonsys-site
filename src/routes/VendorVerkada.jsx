@@ -19,7 +19,17 @@ function VerkadaLogo({ className = "h-10 w-auto object-contain" }) {
     return () => { alive = false }
   }, [])
   if (!src) return <div className={className} aria-label="Verkada" />
-  return <img src={src} alt="Verkada" className={className} loading="eager" decoding="sync" width={160} height={40} />
+  return (
+    <img
+      src={src}
+      alt="Verkada"
+      className={className}
+      loading="eager"
+      decoding="sync"
+      width={160}
+      height={40}
+    />
+  )
 }
 
 /* ---------- Tabs ---------- */
@@ -52,12 +62,21 @@ export default function VendorVerkada() {
   return (
     <main className="container py-12">
       <Helmet>
-        <title>Verkada Security Systems in Chicago | Griffon Systems</title>
-        <meta name="description" content="Authorized Verkada partner and installer serving Chicago, Elmhurst, and businesses across Illinois. Cloud-based video surveillance and access control systems." />
+        <title>Verkada Security Systems in Illinois | Griffon Systems</title>
+        <meta
+          name="description"
+          content="Authorized Verkada partner providing design, installation, and support for cloud-based video surveillance and access control systems across Illinois."
+        />
         <meta property="og:url" content="https://www.griffonsys.com/vendors/verkada" />
-        <meta property="og:title" content="Verkada Security Systems in Chicago | Griffon Systems" />
-        <meta property="og:description" content="Authorized Verkada dealer and installer serving Chicago, Elmhurst, and businesses across Illinois. Cloud-based surveillance and access control." />
-        <meta property="og:image" content="https://www.griffonsys.com/images/vendors/verkada-og.jpg" />
+        <meta property="og:title" content="Verkada Security Systems in Illinois | Griffon Systems" />
+        <meta
+          property="og:description"
+          content="Authorized Verkada partner providing design, installation, and support for cloud-based video surveillance and access control systems across Illinois."
+        />
+        <meta
+          property="og:image"
+          content="https://www.griffonsys.com/images/vendors/verkada-og.jpg"
+        />
         <link rel="canonical" href="https://www.griffonsys.com/vendors/verkada" />
       </Helmet>
 
@@ -65,19 +84,25 @@ export default function VendorVerkada() {
       <div className="flex items-center justify-between mb-6 gap-4">
         <div className="flex items-center gap-3">
           <VerkadaLogo className="h-10 w-auto object-contain" />
-          <h1 className="sr-only">Verkada Security Systems Chicago</h1>
+          <h1 className="sr-only">Verkada Security Systems Illinois</h1>
         </div>
-        <Link to="/contact" className="btn btn-primary">Request a Demo</Link>
+        <Link to="/contact" className="btn btn-primary">
+          Request a Demo
+        </Link>
       </div>
 
       {/* Intro */}
       <section className="mb-10 text-gray-700">
-        <h2 className="text-2xl font-semibold mb-3">Verkada Partner in Chicago & Illinois</h2>
+        <h2 className="text-2xl font-semibold mb-3">
+          Authorized Verkada Partner in Illinois
+        </h2>
         <p className="mb-4">
-          Griffon Systems, Inc. is an <strong>authorized Verkada partner</strong> serving Chicago, Elmhurst,
-          Naperville, and businesses across Illinois. Our team designs, installs, and supports
-          <strong> Verkada cloud-based video surveillance and access control systems</strong> built for
-          reliability, security, and remote management.
+          <strong>Griffon Systems, Inc.</strong> is an authorized Verkada partner providing
+          expert design, installation, and support for
+          <strong> cloud-based video surveillance and access control systems</strong>
+          across Illinois. Our solutions deliver
+          <strong> reliability, scalability, and secure remote management</strong> for
+          organizations of every size.
         </p>
       </section>
 
@@ -112,7 +137,11 @@ export default function VendorVerkada() {
               { key:'remote', title:'Remote', desc:'Built-in battery and LTE modem for remote deployments.', img:'/vendors/verkada/video/remote.png' },
             ].map(card => (
               <div key={card.key} className="card p-6 flex flex-col">
-                <img src={encodeURI(card.img)} alt={card.title} className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4" />
+                <img
+                  src={encodeURI(card.img)}
+                  alt={card.title}
+                  className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
+                />
                 <h3 className="text-xl font-semibold">{card.title}</h3>
                 <p className="text-gray-700">{card.desc}</p>
               </div>
@@ -131,7 +160,11 @@ export default function VendorVerkada() {
               { key: 'keypad-reader', title: 'Keypad Reader', desc: 'Keypad + reader for PIN and card/mobile access with audit trails.', img: '/vendors/verkada/access/keypad.png' },
             ].map(card => (
               <div key={card.key} className="card p-6 flex flex-col">
-                <img src={encodeURI(card.img)} alt={card.title} className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4" />
+                <img
+                  src={encodeURI(card.img)}
+                  alt={card.title}
+                  className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
+                />
                 <h3 className="text-xl font-semibold">{card.title}</h3>
                 <p className="text-gray-700">{card.desc}</p>
               </div>
@@ -149,7 +182,11 @@ export default function VendorVerkada() {
               { key: 'TD63', title: 'TD63 — Intercom + Keypad', desc: 'Integrated keypad for PIN, MFA, and multi-tenant directories.', img: '/vendors/verkada/intercom/td63.jpg' },
             ].map(card => (
               <div key={card.key} className="card p-6 flex flex-col">
-                <img src={encodeURI(card.img)} alt={card.title} className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4" />
+                <img
+                  src={encodeURI(card.img)}
+                  alt={card.title}
+                  className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
+                />
                 <h3 className="text-xl font-semibold">{card.title}</h3>
                 <p className="text-gray-700">{card.desc}</p>
               </div>
