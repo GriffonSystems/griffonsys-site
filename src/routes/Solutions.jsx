@@ -16,25 +16,25 @@ export default function Solutions() {
       title: 'Access Control',
       desc: 'Mobile credentials, remote unlock, and visitor management.',
       img: '/images/solutions/access-control.jpg',
-      pos: 'center 60%',
+      pos: 'center 30%',
     },
     {
       title: 'Video Intercom',
       desc: 'Secure entry with integrated cameras and cloud calling.',
       img: '/images/solutions/video-intercom.jpg',
-      pos: 'center 99%', // 👈 moves the image down
+      pos: 'center 10%', // 👈 moves the image down
     },
     {
       title: 'Wireless Backhaul',
       desc: 'Point-to-point and mesh links for large properties.',
       img: '/images/solutions/wireless-backhaul.jpg',
-      pos: 'center 90%', // 👈 moves down even more
+      pos: 'center 10%', // 👈 moves down even more
     },
     {
       title: 'Maintenance & Support',
       desc: 'Health monitoring, quarterly reviews, priority response.',
       img: '/images/solutions/maintenance.jpg',
-      pos: 'center 99%', // 👈 lowers the focus point
+      pos: 'center 10%', // 👈 lowers the focus point
     },
   ]
 
