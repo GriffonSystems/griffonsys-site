@@ -80,7 +80,7 @@ export default function FromTheField() {
       {/* ---------- Carousel Below Cards ---------- */}
       <section className="mt-16">
         <h2 className="text-2xl font-semibold mb-4 text-center">Field Photos</h2>
-        <FieldCarousel base="/vendors/verkada/video/field" />
+        <FieldCarousel base="/vendors/video/field" />
       </section>
     </main>
   )
