@@ -34,7 +34,7 @@ export default function WirelessLink() {
             preload="metadata"
             poster="/images/field/siklu-drone-thumb.jpg"
           >
-            <source src="/videos/siklu-link-demo.mp4" type="video/mp4" />
+            <source src="/videos/sikludemo.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
 
