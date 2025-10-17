@@ -4,57 +4,57 @@ import React from 'react'
 export default function FieldCarousel({ base = '/vendors/verkada/video/field', intervalMs = 4500, fadeMs = 600 }) {
   const [images, setImages] = React.useState([])
   const [idx, setIdx] = React.useState(0)
+  const keyRef = React.useRef('')
 
-  // Load the JSON manifest of filenames
   React.useEffect(() => {
-    let isMounted = true
-    fetch(`${base}/index.json`, { cache: 'no-store' })
-      .then(r => r.json())
-      .then(data => {
+    let alive = true
+    fetch(`${base}/index.json`)
+      .then(async (r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`)
+        const data = await r.json()
         const files = Array.isArray(data?.images) ? data.images : []
-        if (isMounted) setImages(files.map(f => `${base}/${encodeURI(f)}`))
+        const list = files.map((f) => `${base}/${encodeURI(f)}`)
+        const key = list.join('|')
+        if (alive && list.length && key !== keyRef.current) {
+          keyRef.current = key
+          setImages(list)
+          setIdx(0)
+        }
       })
-      .catch(() => isMounted && setImages([]))
-    return () => { isMounted = false }
+      .catch(() => { if (alive) setImages([]) })
+    return () => { alive = false }
   }, [base])
 
-  // Auto-advance
   React.useEffect(() => {
     if (images.length <= 1) return
-    const t = setInterval(() => setIdx(i => (i + 1) % images.length), intervalMs)
+    const t = setInterval(() => setIdx((i) => (i + 1) % images.length), intervalMs)
     return () => clearInterval(t)
   }, [images, intervalMs])
 
-  // Preload next img
-  React.useEffect(() => {
-    if (!images.length) return
-    const n = new Image()
-    n.src = images[(idx + 1) % images.length]
-  }, [idx, images])
-
   if (!images.length) {
-    return <div className="w-full h-64 md:h-80 rounded-xl bg-gray-100 flex items-center justify-center text-gray-500">No photos yet</div>
+    return (
+      <div className="w-full h-[60vh] md:h-[75vh] rounded-xl bg-gray-100 flex items-center justify-center text-gray-500">
+        From the field: No photos yet
+      </div>
+    )
   }
 
   return (
-    <div className="relative w-full h-[70vh] md:h-screen overflow-hidden rounded-xl">
-      {/* Slides */}
+    <div className="relative w-full h-[60vh] md:h-[75vh] overflow-hidden rounded-xl">
       <div className="absolute inset-0">
         {images.map((src, i) => (
           <img
             key={src}
             src={src}
             alt=""
-            loading="lazy"
-            decoding="async"
+            loading={i === 0 ? 'eager' : 'lazy'}
+            decoding={i === 0 ? 'sync' : 'async'}
             className="absolute inset-0 w-full h-full object-contain bg-white transition-opacity"
             style={{ opacity: i === idx ? 1 : 0, transitionDuration: `${fadeMs}ms` }}
             aria-hidden={i === idx ? 'false' : 'true'}
           />
         ))}
       </div>
-
-      {/* Dots */}
       {images.length > 1 && (
         <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
           {images.map((_, i) => (
