@@ -28,13 +28,13 @@ export default function Solutions() {
       title: 'Wireless Backhaul',
       desc: 'Point-to-point and mesh links for large properties.',
       img: '/images/solutions/wireless-backhaul.jpg',
-      pos: 'center 22%', // 👈 moves down even more
+      pos: 'center 32%', // 👈 moves down even more
     },
     {
       title: 'Maintenance & Support',
       desc: 'Health monitoring, quarterly reviews, priority response.',
       img: '/images/solutions/maintenance.jpg',
-      pos: 'center 20%', // 👈 lowers the focus point
+      pos: 'center 30%', // 👈 lowers the focus point
     },
   ]
 
