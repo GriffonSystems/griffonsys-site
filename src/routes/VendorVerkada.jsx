@@ -99,7 +99,7 @@ export default function VendorVerkada() {
         <p className="mb-4">
           <strong>Griffon Systems, Inc.</strong> is an authorized Verkada partner providing
           expert design, installation, and support for
-          <strong> cloud-based video surveillance and access control systems</strong>
+          <strong> cloud-based video surveillance and access control systems</strong>{' '}
           across Illinois. Our solutions deliver
           <strong> reliability, scalability, and secure remote management</strong> for
           organizations of every size.
