@@ -1,8 +1,7 @@
-// src/routes/FromTheField.jsx
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
-import FieldCarousel from './VendorVerkada.jsx' // using the same component
+import FieldCarousel from '../components/FieldCarousel.jsx'
 
 export default function FromTheField() {
   const projects = [
@@ -33,10 +32,14 @@ export default function FromTheField() {
     <main className="container py-12">
       <Helmet>
         <title>From the Field | Griffon Systems</title>
-        <meta name="description" content="Real-world installations by Griffon Systems — from municipal camera networks and wireless bridges to manufacturing video and access projects across Illinois." />
+        <meta
+          name="description"
+          content="Real-world installations by Griffon Systems — from municipal camera networks and wireless bridges to manufacturing video and access projects across Illinois."
+        />
         <link rel="canonical" href="https://www.griffonsys.com/from-the-field" />
       </Helmet>
 
+      {/* ---------- Header ---------- */}
       <header className="mb-10 text-center">
         <h1 className="text-4xl font-bold mb-3">From the Field</h1>
         <p className="text-gray-600 max-w-2xl mx-auto">
@@ -45,13 +48,25 @@ export default function FromTheField() {
         </p>
       </header>
 
-      {/* Project Cards */}
-      <div className="grid md:grid-cols-3 gap-8">
+      {/* ---------- Project Cards ---------- */}
+      <div className="grid md:grid-cols-3 gap-8 mb-16">
         {projects.map((p) => (
-          <Link key={p.title} to={p.link} className="group card overflow-hidden hover:shadow-xl transition flex flex-col">
+          <Link
+            key={p.title}
+            to={p.link}
+            className="group card overflow-hidden hover:shadow-xl transition flex flex-col"
+          >
             <div className="relative">
-              <img src={p.img} alt={p.title} loading="lazy" decoding="async" className="w-full h-48 object-cover transition-transform group-hover:scale-105" />
-              <div className="absolute bottom-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded">{p.tag}</div>
+              <img
+                src={p.img}
+                alt={p.title}
+                loading="lazy"
+                decoding="async"
+                className="w-full h-48 object-cover transition-transform group-hover:scale-105"
+              />
+              <div className="absolute bottom-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
+                {p.tag}
+              </div>
             </div>
             <div className="p-5 flex flex-col flex-grow">
               <h3 className="text-lg font-semibold mb-1">{p.title}</h3>
@@ -62,7 +77,7 @@ export default function FromTheField() {
         ))}
       </div>
 
-      {/* Carousel under the 3 cards */}
+      {/* ---------- Carousel Below Cards ---------- */}
       <section className="mt-16">
         <h2 className="text-2xl font-semibold mb-4 text-center">Field Photos</h2>
         <FieldCarousel base="/vendors/verkada/video/field" />
