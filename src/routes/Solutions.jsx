@@ -22,19 +22,19 @@ export default function Solutions() {
       title: 'Video Intercom',
       desc: 'Secure entry with integrated cameras and cloud calling.',
       img: '/images/solutions/video-intercom.jpg',
-      pos: 'center 10%', // 👈 moves the image down
+      pos: 'center 11%', // 👈 moves the image down
     },
     {
       title: 'Wireless Backhaul',
       desc: 'Point-to-point and mesh links for large properties.',
       img: '/images/solutions/wireless-backhaul.jpg',
-      pos: 'center 10%', // 👈 moves down even more
+      pos: 'center 1%', // 👈 moves down even more
     },
     {
       title: 'Maintenance & Support',
       desc: 'Health monitoring, quarterly reviews, priority response.',
       img: '/images/solutions/maintenance.jpg',
-      pos: 'center 10%', // 👈 lowers the focus point
+      pos: 'center 1%', // 👈 lowers the focus point
     },
   ]
 
