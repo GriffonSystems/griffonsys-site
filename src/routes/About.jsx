@@ -26,7 +26,7 @@ export default function About() {
 
         <div className="grid md:grid-cols-2 gap-6">
           {/* Post 1 (left) */}
-          <div className="relative w-full h-[380px] rounded-xl overflow-hidden border shadow-sm bg-white">
+          <div className="relative w-full h-[520px] rounded-xl overflow-hidden border shadow-sm bg-white">
             <iframe
               loading="lazy"
               className="absolute inset-0 w-full h-full"
@@ -38,7 +38,7 @@ export default function About() {
           </div>
 
           {/* Post 2 (right) */}
-          <div className="relative w-full h-[380px] rounded-xl overflow-hidden border shadow-sm bg-white">
+          <div className="relative w-full h-[520px] rounded-xl overflow-hidden border shadow-sm bg-white">
             <iframe
               loading="lazy"
               className="absolute inset-0 w-full h-full"
