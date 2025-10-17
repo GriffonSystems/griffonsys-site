@@ -2,6 +2,7 @@
 import { Routes, Route } from 'react-router-dom'
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
+import { Analytics } from '@vercel/analytics/react' // ✅ added
 
 import Home from './Home'
 import Solutions from './Solutions'
@@ -43,6 +44,9 @@ export default function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
+
+      {/* ✅ Add analytics at the root once */}
+      <Analytics />
     </div>
   )
 }
