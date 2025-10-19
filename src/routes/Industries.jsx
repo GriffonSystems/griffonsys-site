@@ -36,8 +36,10 @@ export default function Industries() {
               src={img}
               alt={title}
               className={`w-full h-48 md:h-60 object-cover transform transition-transform duration-700 hover:scale-105 ${
-                ['Education', 'Commercial'].includes(title)
-                  ? 'object-[center_20%]'
+                title === 'Education'
+                  ? 'object-[center_10%]' // Moves image up more for Education
+                  : title === 'Commercial'
+                  ? 'object-[center_20%]' // Slight upward crop for Commercial
                   : 'object-center'
               }`}
               loading="lazy"
