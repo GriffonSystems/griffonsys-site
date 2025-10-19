@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+  xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Griffon Systems – From the Field</title>
+    <link>https://www.griffonsys.com/from-the-field</link>
+    <description>Real-world installations and success stories from Griffon Systems, Inc. — Illinois’ trusted surveillance and access-control integrator.</description>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 19 Oct 2025 18:00:00 GMT</lastBuildDate>
+    <atom:link href="https://www.griffonsys.com/feed.xml" rel="self" type="application/rss+xml" />
+
+    <!-- Project 1 -->
+    <item>
+      <title>Police Department – Wireless Camera Network</title>
+      <link>https://www.griffonsys.com/from-the-field/wireless-link</link>
+      <guid>https://www.griffonsys.com/from-the-field/wireless-link</guid>
+      <pubDate>Sun, 19 Oct 2025 18:00:00 GMT</pubDate>
+      <description><![CDATA[
+        Siklu wireless bridge linking Avigilon surveillance and LPR cameras across multiple intersections.
+      ]]></description>
+    </item>
+
+    <!-- Project 2 -->
+    <item>
+      <title>Avigilon Manufacturing Deployment</title>
+      <link>https://www.griffonsys.com/from-the-field/avigilon-factory</link>
+      <guid>https://www.griffonsys.com/from-the-field/avigilon-factory</guid>
+      <pubDate>Sun, 19 Oct 2025 18:00:00 GMT</pubDate>
+      <description><![CDATA[
+        AI-powered camera system providing full production-floor visibility and analytics.
+      ]]></description>
+    </item>
+
+    <!-- Project 3 -->
+    <item>
+      <title>Municipal Camera Expansion</title>
+      <link>https://www.griffonsys.com/from-the-field/municipal</link>
+      <guid>https://www.griffonsys.com/from-the-field/municipal</guid>
+      <pubDate>Sun, 19 Oct 2025 18:00:00 GMT</pubDate>
+      <description><![CDATA[
+        Cloud-managed Verkada cameras providing traffic monitoring and remote oversight.
+      ]]></description>
+    </item>
+
+  </channel>
+</rss>
