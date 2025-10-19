@@ -1,14 +1,27 @@
 <!doctype html>
-<html lang='en'>
-<head>
-<meta charset='UTF-8' />
-<meta name='viewport' content='width=device-width, initial-scale=1.0' />
-<title>Griffon Systems</title>
-<meta name='description' content='Enterprise video surveillance and access control — Avigilon, Verkada, and Openpath.' />
-<link rel='icon' href='/favicon.ico'>
-</head>
-<body class='bg-white'>
-<div id='root'></div>
-<script type='module' src='/src/main.jsx'></script>
-</body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Griffon Systems</title>
+    <meta
+      name="description"
+      content="Enterprise video surveillance and access control — Avigilon, Verkada, and Openpath."
+    />
+    <link rel="icon" href="/favicon.ico" />
+
+    <!-- ✅ Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NSMV6YJCZL"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-NSMV6YJCZL');
+    </script>
+  </head>
+
+  <body class="bg-white">
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
