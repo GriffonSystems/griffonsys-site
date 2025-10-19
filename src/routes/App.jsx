@@ -2,7 +2,7 @@
 import { Routes, Route } from 'react-router-dom'
 import Nav from '../components/Nav'
 import Footer from '../components/Footer'
-import { Analytics } from '@vercel/analytics/react' // ✅ added
+import { Analytics } from '@vercel/analytics/react'
 
 import Home from './Home'
 import Solutions from './Solutions'
@@ -15,9 +15,10 @@ import AvigilonCloud from './AvigilonCloud'
 import VendorAlta from './VendorAlta'
 import NotFound from './NotFound'
 
-// ✅ new imports for your new pages
+// ✅ New pages
 import FromTheField from './FromTheField'
 import WirelessLink from './WirelessLink'
+import ComingSoon from './ComingSoon'   // ← add this import
 
 export default function App() {
   return (
@@ -40,12 +41,15 @@ export default function App() {
         <Route path="/from-the-field" element={<FromTheField />} />
         <Route path="/from-the-field/wireless-link" element={<WirelessLink />} />
 
+        {/* ✅ Coming soon placeholders */}
+        <Route path="/from-the-field/avigilon-factory" element={<ComingSoon />} />
+        <Route path="/from-the-field/municipal" element={<ComingSoon />} />
+
         {/* Fallback */}
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <Footer />
 
-      {/* ✅ Add analytics at the root once */}
+      <Footer />
       <Analytics />
     </div>
   )
