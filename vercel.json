@@ -1,6 +1,9 @@
 {
   "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
+    {
+      "source": "/((?!images|videos|vendors|hero|favicon|robots\\.txt|manifest\\.json|.*\\.json).*)",
+      "destination": "/"
+    }
   ],
   "headers": [
     {
