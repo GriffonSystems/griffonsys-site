@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
+import { motion } from 'framer-motion'
 
 function VerkadaLogo({ className = "h-10 w-auto object-contain" }) {
   const [src, setSrc] = React.useState(null)
@@ -41,7 +42,9 @@ const TABS = [
 export default function VendorVerkada() {
   const [active, setActive] = React.useState('video')
   const location = useLocation()
+  const videoRef = React.useRef(null)
 
+  /* ---------- Handle hash/tab routing ---------- */
   React.useEffect(() => {
     const fromHash = (location.hash || '').replace('#', '')
     const fromQuery = new URLSearchParams(location.search).get('tab')
@@ -57,6 +60,20 @@ export default function VendorVerkada() {
     window.history.replaceState(null, '', `#${key}`)
     window.scrollTo({ top: 0, behavior: 'auto' })
   }
+
+  /* ---------- Ensure autoplay works even if browser blocks ---------- */
+  React.useEffect(() => {
+    const vid = videoRef.current
+    if (vid) {
+      const playPromise = vid.play()
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Fallback: enable controls if autoplay blocked
+          vid.controls = true
+        })
+      }
+    }
+  }, [])
 
   return (
     <main className="container py-12">
@@ -194,7 +211,7 @@ export default function VendorVerkada() {
         </section>
       )}
 
-      {/* ALPR Video Section (autoplaying muted loop) */}
+      {/* ALPR Video Section (autoplaying, muted, fade-in) */}
       <section className="mt-16 text-center">
         <h2 className="text-2xl font-semibold mb-4">
           Automatic License Plate Recognition (ALPR)
@@ -204,22 +221,26 @@ export default function VendorVerkada() {
           for secure facility entry, parking management, and perimeter monitoring.
         </p>
 
-        <div className="max-w-4xl mx-auto aspect-video rounded-lg overflow-hidden shadow-lg">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="max-w-4xl mx-auto aspect-video rounded-lg overflow-hidden shadow-lg"
+        >
           <video
+            ref={videoRef}
             autoPlay
             muted
             loop
             playsInline
-            preload="none"
-            loading="lazy"
             poster="https://embed-ssl.wistia.com/deliveries/06f8ad69e811e9ccf678b80dc38a2ea560673db6.jpg?image_crop_resized=960x540"
             className="w-full h-full object-cover"
             decoding="async"
           >
             <source src="/videos/verkada-alpr.mp4" type="video/mp4" />
-            Your browser does not support HTML5 video.
           </video>
-        </div>
+        </motion.div>
 
         <p className="text-sm text-gray-500 mt-2">
           © Verkada Inc. — Video courtesy of Verkada Marketing Team.
