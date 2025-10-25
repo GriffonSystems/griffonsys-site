@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
-import { motion } from 'framer-motion'
 
 function VerkadaLogo({ className = "h-10 w-auto object-contain" }) {
   const [src, setSrc] = React.useState(null)
@@ -43,8 +42,9 @@ export default function VendorVerkada() {
   const [active, setActive] = React.useState('video')
   const location = useLocation()
   const videoRef = React.useRef(null)
+  const [visible, setVisible] = React.useState(false)
 
-  /* ---------- Handle hash/tab routing ---------- */
+  /* ---------- Tab sync with URL ---------- */
   React.useEffect(() => {
     const fromHash = (location.hash || '').replace('#', '')
     const fromQuery = new URLSearchParams(location.search).get('tab')
@@ -61,18 +61,29 @@ export default function VendorVerkada() {
     window.scrollTo({ top: 0, behavior: 'auto' })
   }
 
-  /* ---------- Ensure autoplay works even if browser blocks ---------- */
+  /* ---------- Autoplay fallback ---------- */
   React.useEffect(() => {
     const vid = videoRef.current
     if (vid) {
       const playPromise = vid.play()
       if (playPromise !== undefined) {
         playPromise.catch(() => {
-          // Fallback: enable controls if autoplay blocked
           vid.controls = true
         })
       }
     }
+  }, [])
+
+  /* ---------- Fade-in on scroll ---------- */
+  React.useEffect(() => {
+    const el = document.getElementById('alpr-video')
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => setVisible(entry.isIntersecting),
+      { threshold: 0.3 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
   }, [])
 
   return (
@@ -211,7 +222,7 @@ export default function VendorVerkada() {
         </section>
       )}
 
-      {/* ALPR Video Section (autoplaying, muted, fade-in) */}
+      {/* ALPR Video Section */}
       <section className="mt-16 text-center">
         <h2 className="text-2xl font-semibold mb-4">
           Automatic License Plate Recognition (ALPR)
@@ -221,12 +232,11 @@ export default function VendorVerkada() {
           for secure facility entry, parking management, and perimeter monitoring.
         </p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="max-w-4xl mx-auto aspect-video rounded-lg overflow-hidden shadow-lg"
+        <div
+          id="alpr-video"
+          className={`max-w-4xl mx-auto aspect-video rounded-lg overflow-hidden shadow-lg transition-all duration-700 ease-out ${
+            visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
         >
           <video
             ref={videoRef}
@@ -240,7 +250,7 @@ export default function VendorVerkada() {
           >
             <source src="/videos/verkada-alpr.mp4" type="video/mp4" />
           </video>
-        </motion.div>
+        </div>
 
         <p className="text-sm text-gray-500 mt-2">
           © Verkada Inc. — Video courtesy of Verkada Marketing Team.
