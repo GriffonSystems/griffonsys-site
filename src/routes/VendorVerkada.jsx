@@ -194,7 +194,7 @@ export default function VendorVerkada() {
         </section>
       )}
 
-      {/* ALPR Video Section (lazy-loaded) */}
+      {/* ALPR Video Section (autoplaying muted loop) */}
       <section className="mt-16 text-center">
         <h2 className="text-2xl font-semibold mb-4">
           Automatic License Plate Recognition (ALPR)
@@ -206,7 +206,9 @@ export default function VendorVerkada() {
 
         <div className="max-w-4xl mx-auto aspect-video rounded-lg overflow-hidden shadow-lg">
           <video
-            controls
+            autoPlay
+            muted
+            loop
             playsInline
             preload="none"
             loading="lazy"
