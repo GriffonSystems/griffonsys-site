@@ -194,25 +194,34 @@ export default function VendorVerkada() {
         </section>
       )}
 
-      {/* ALPR Video Section */}
+      {/* ALPR Video Section (lazy-loaded) */}
       <section className="mt-16 text-center">
         <h2 className="text-2xl font-semibold mb-4">
           Automatic License Plate Recognition (ALPR)
         </h2>
         <p className="text-gray-700 mb-6 max-w-2xl mx-auto">
-          Verkada’s ALPR solution helps automatically detect, identify, and log vehicles
-          for secure facility entry, parking management, and perimeter monitoring —
-          fully integrated within the Command platform.
+          See how Verkada’s ALPR solution automatically detects and logs vehicle plates
+          for secure facility entry, parking management, and perimeter monitoring.
         </p>
+
         <div className="max-w-4xl mx-auto aspect-video rounded-lg overflow-hidden shadow-lg">
-          <iframe
-            src="https://www.verkada.com/solutions/alpr/?wvideo=12wtrfxii4"
-            className="w-full h-full"
-            allow="autoplay; encrypted-media"
-            allowFullScreen
-            title="Verkada ALPR Video"
-          ></iframe>
+          <video
+            controls
+            playsInline
+            preload="none"
+            loading="lazy"
+            poster="https://embed-ssl.wistia.com/deliveries/06f8ad69e811e9ccf678b80dc38a2ea560673db6.jpg?image_crop_resized=960x540"
+            className="w-full h-full object-cover"
+            decoding="async"
+          >
+            <source src="/videos/verkada-alpr.mp4" type="video/mp4" />
+            Your browser does not support HTML5 video.
+          </video>
         </div>
+
+        <p className="text-sm text-gray-500 mt-2">
+          © Verkada Inc. — Video courtesy of Verkada Marketing Team.
+        </p>
       </section>
     </main>
   )
