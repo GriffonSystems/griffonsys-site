@@ -1,4 +1,3 @@
-// src/routes/VendorVerkada.jsx
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
@@ -194,6 +193,27 @@ export default function VendorVerkada() {
           </div>
         </section>
       )}
+
+      {/* ALPR Video Section */}
+      <section className="mt-16 text-center">
+        <h2 className="text-2xl font-semibold mb-4">
+          Automatic License Plate Recognition (ALPR)
+        </h2>
+        <p className="text-gray-700 mb-6 max-w-2xl mx-auto">
+          Verkada’s ALPR solution helps automatically detect, identify, and log vehicles
+          for secure facility entry, parking management, and perimeter monitoring —
+          fully integrated within the Command platform.
+        </p>
+        <div className="max-w-4xl mx-auto aspect-video rounded-lg overflow-hidden shadow-lg">
+          <iframe
+            src="https://www.verkada.com/solutions/alpr/?wvideo=12wtrfxii4"
+            className="w-full h-full"
+            allow="autoplay; encrypted-media"
+            allowFullScreen
+            title="Verkada ALPR Video"
+          ></iframe>
+        </div>
+      </section>
     </main>
   )
 }
