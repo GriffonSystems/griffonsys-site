@@ -18,7 +18,7 @@ const TABS = [
   { key: "intercom", label: "Intercom" },
 ]
 
-// 🔹 PRETTY PRODUCT TITLES + DESCRIPTIONS
+// ---------- PRODUCT TITLES & DESCRIPTIONS ----------
 const PRODUCT_INFO = {
   "slbullet.png": {
     title: "H6SL Bullet Camera",
@@ -28,55 +28,54 @@ const PRODUCT_INFO = {
     title: "H5A Bullet Camera",
     desc: "Rugged, high-performance bullet camera offering clear imaging in all environments.",
   },
-  "dome.png": {
-    title: "H6 Mini Dome Camera",
-    desc: "Low-profile indoor dome camera ideal for discreet monitoring and simple installation.",
+  "H6SL_Dome_1.avif": {
+    title: "H6SL Dome Camera",
+    desc: "Weatherproof dome camera that secures your site with AI-powered video analytics and an optional mic.",
   },
-  "h5m.png": {
-    title: "H5M Mini Dome Camera",
-    desc: "Compact, cost-effective dome camera providing reliable video security indoors or out.",
+  "H5A_Multisensor_01_2024-09-02-173128_gmdn.avif": {
+    title: "H5A Multisensor Camera",
+    desc: "Covers all angles with 180°, 270°, or 360° views from a single housing using multiple sensors.",
   },
   "H5A_Dual_Head_02.avif": {
     title: "H5A Dual Head Camera",
-    desc: "Dual-sensor camera that provides wide coverage with flexible positioning in tight spaces.",
-  },
-  "fisheye.avif": {
-    title: "H5A Fisheye Camera",
-    desc: "360° fisheye coverage for complete situational awareness without blind spots.",
+    desc: "Dual-sensor camera offering flexible positioning and wide coverage for hallways or intersections.",
   },
   "thermal.png": {
     title: "H5A Thermal Camera",
-    desc: "Long-range perimeter protection using advanced heat-sensing technology.",
+    desc: "Provides long-range perimeter protection with heat-based detection and analytics.",
   },
   "pro.png": {
     title: "H5 Pro Camera",
-    desc: "High-resolution IP box camera capturing image detail up to 10K for large-area coverage.",
+    desc: "High-resolution IP camera capturing image detail up to 10K for expansive scene coverage.",
   },
   "h5a_Modular_01.avif": {
     title: "H5A Modular Camera",
-    desc: "Compact modular camera offering discreet installation and flexible sensor placement.",
+    desc: "Compact modular design enabling discreet monitoring with flexible sensor placement.",
   },
   "lpr.png": {
     title: "L6A Enterprise LPR Camera",
-    desc: "License plate recognition camera fusing LPR and video to enhance law enforcement visibility.",
+    desc: "Advanced license plate recognition camera with integrated analytics for vehicle tracking.",
   },
 }
 
+// ---------- COMPONENT ----------
 export default function VendorAvigilon() {
   const location = useLocation()
   const [active, setActive] = React.useState("video")
   const [videoImages, setVideoImages] = React.useState([])
 
+  // Handle tab changes via URL hash (#video, #access, etc.)
   React.useEffect(() => {
     const hash = (location.hash || "").replace("#", "").toLowerCase()
     if (["video", "access", "intercom"].includes(hash)) setActive(hash)
   }, [location.hash])
 
+  // Load Avigilon image list from JSON
   React.useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}vendors/avigilon/index.json`)
       .then((res) => res.json())
       .then((data) => setVideoImages(data.images || []))
-      .catch((err) => console.error("Failed to load Avigilon JSON", err))
+      .catch((err) => console.error("Failed to load Avigilon JSON:", err))
   }, [])
 
   const onTabClick = (key) => {
@@ -87,6 +86,7 @@ export default function VendorAvigilon() {
 
   const grid = "grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
 
+  // ---------- ACCESS PRODUCTS ----------
   const accessProducts = [
     {
       key: "acm",
@@ -108,6 +108,7 @@ export default function VendorAvigilon() {
     },
   ]
 
+  // ---------- INTERCOM PRODUCTS ----------
   const intercomProducts = [
     {
       key: "readerpro",
@@ -119,22 +120,23 @@ export default function VendorAvigilon() {
       key: "h4intercom",
       title: "H4 Video Intercom",
       desc: "Legacy unified intercom for Avigilon Unity deployments.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/H5A_Modular_01.avif`,
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/intercom.png`,
     },
     {
       key: "infrastructure",
       title: "Video Infrastructure Integration",
       desc: "Seamless integration between Avigilon Command and intercom endpoints.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/Videoinfrastructure_Benefit_1_v1.avif`,
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/Videoinf.png`,
     },
   ]
 
+  // ---------- RENDER VIDEO GRID ----------
   const renderVideoGrid = () => (
     <div className={grid}>
       {videoImages.map((file) => {
         const info = PRODUCT_INFO[file] || {
           title: file.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " "),
-          desc: "High-performance Avigilon video camera.",
+          desc: "Avigilon camera model for enterprise environments.",
         }
         return (
           <div
@@ -147,13 +149,14 @@ export default function VendorAvigilon() {
               className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
             />
             <h3 className="text-xl font-semibold mb-2">{info.title}</h3>
-            <p className="text-gray-700 text-sm mb-3">{info.desc}</p>
+            <p className="text-gray-700 text-sm">{info.desc}</p>
           </div>
         )
       })}
     </div>
   )
 
+  // ---------- GENERIC GRID RENDERER ----------
   const renderGrid = (list) => (
     <div className={grid}>
       {list.map((card) => (
@@ -181,16 +184,18 @@ export default function VendorAvigilon() {
     </div>
   )
 
+  // ---------- PAGE STRUCTURE ----------
   return (
     <main className="container py-12">
       <Helmet>
         <title>Avigilon Security Systems | Griffon Systems Inc.</title>
         <meta
           name="description"
-          content="Authorized Avigilon partner in Illinois providing video surveillance, access control, and intercom systems for manufacturing, schools, and municipalities."
+          content="Authorized Avigilon partner in Illinois providing video surveillance, access control, and intercom systems for manufacturing, education, and municipalities."
         />
       </Helmet>
 
+      {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <AvigilonLogo />
         <Link to="/contact" className="btn btn-primary">
@@ -198,6 +203,7 @@ export default function VendorAvigilon() {
         </Link>
       </div>
 
+      {/* Tabs */}
       <div className="flex flex-wrap gap-2 mb-10">
         {TABS.map((t) => (
           <button
@@ -214,6 +220,7 @@ export default function VendorAvigilon() {
         ))}
       </div>
 
+      {/* Tab Content */}
       {active === "video" && renderVideoGrid()}
       {active === "access" && renderGrid(accessProducts)}
       {active === "intercom" && renderGrid(intercomProducts)}
