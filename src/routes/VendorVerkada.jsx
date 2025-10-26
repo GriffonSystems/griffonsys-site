@@ -51,8 +51,8 @@ export default function VendorVerkada() {
     { key: "multisensor", title: "Multisensor", desc: "Two or four sensors in one unit for holistic coverage.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/multisensor.png` },
     { key: "ptz", title: "PTZ", desc: "Pan-tilt-zoom for flexible, wide-area coverage.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/ptz.png` },
     { key: "remote", title: "Remote", desc: "Battery and LTE for mobile or remote deployments.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/remote.png` },
-    { key: "dualhead", title: "Dual-Head (CY53-E)", desc: "Two 5MP sensors in one housing for versatile coverage.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/dualhead.png` },
-    { key: "viewstation", title: "Viewing Station", desc: "Appliance for live camera walls and command centers.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/viewstation.png` },
+    { key: "dualhead", title: "Dual-Head (CY53-E)", desc: "Two 5MP sensors in one housing for versatile coverage.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/dualhead.jpeg` },
+    { key: "viewstation", title: "Viewing Station", desc: "Appliance for live camera walls and command centers.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/viewstation.jpeg` },
   ]
 
   const accessProducts = [
