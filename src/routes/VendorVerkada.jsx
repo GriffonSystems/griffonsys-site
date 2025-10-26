@@ -44,19 +44,7 @@ export default function VendorVerkada() {
     { key: "viewstation", title: "Viewing Station", desc: "Appliance for live camera walls.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/viewstation.png` },
   ]
 
-  const accessProducts = [
-    { key: "single", title: "Single Door Controller", desc: "Simple, reliable cloud-managed door control.", img: `${import.meta.env.BASE_URL}vendors/verkada/access/singledoor.png` },
-    { key: "four", title: "4-Door Controller", desc: "Scalable control panel for four doors.", img: `${import.meta.env.BASE_URL}vendors/verkada/access/4doorcontroller.png` },
-    { key: "mullion", title: "Mullion Reader", desc: "Slim reader for tight jambs, supports NFC/BLE.", img: `${import.meta.env.BASE_URL}vendors/verkada/access/singledoorreader.png` },
-    { key: "keypad", title: "Keypad Reader", desc: "PIN + card/mobile access with audit trails.", img: `${import.meta.env.BASE_URL}vendors/verkada/access/keypad.png` },
-  ]
-
-  const intercomProducts = [
-    { key: "td33", title: "TD33 — Slim Intercom", desc: "Mullion-friendly form factor for retrofits.", img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td33.jpg` },
-    { key: "td53", title: "TD53 — Intercom", desc: "Full-size intercom with HD video and audio.", img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td53.jpg` },
-    { key: "td63", title: "TD63 — Intercom + Keypad", desc: "Integrated keypad for MFA and directories.", img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td63.jpg` },
-  ]
-
+  // ----- Render -----
   const renderGrid = (list) => (
     <div className={grid}>
       {list.map((p) => (
@@ -73,7 +61,6 @@ export default function VendorVerkada() {
     </div>
   )
 
-  // ----- Render -----
   return (
     <main className="container py-12">
       <Helmet>
@@ -107,47 +94,64 @@ export default function VendorVerkada() {
         ))}
       </div>
 
-      {/* Content */}
-      <section className={active === "video" ? "block" : "hidden"}>
-        {renderGrid(videoProducts)}
-      </section>
-      <section className={active === "access" ? "block" : "hidden"}>
-        {renderGrid(accessProducts)}
-      </section>
-      <section className={active === "intercom" ? "block" : "hidden"}>
-        {renderGrid(intercomProducts)}
-      </section>
+      {/* Video Tab */}
+      {active === "video" && (
+        <>
+          {renderGrid(videoProducts)}
 
-      {/* Bottom Videos */}
-      <section className="mt-16 text-center">
-        <h2 className="text-2xl font-semibold mb-8">Verkada Solutions in Action</h2>
-        <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
-          <div>
-            <h3 className="text-xl font-semibold mb-3">Automatic License Plate Recognition (ALPR)</h3>
-            <div className="aspect-video rounded-lg overflow-hidden shadow-lg mb-2">
-              <iframe
-                src="https://fast.wistia.net/embed/iframe/12wtrfxii4?videoFoam=true"
-                title="Verkada ALPR"
-                allow="autoplay; fullscreen"
-                frameBorder="0"
-                className="w-full h-full"
-              ></iframe>
+          {/* Verkada Solutions Section */}
+          <section className="mt-16 text-center">
+            <h2 className="text-2xl font-semibold mb-8">Verkada Solutions in Action</h2>
+            <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
+              <div>
+                <h3 className="text-xl font-semibold mb-3">Automatic License Plate Recognition (ALPR)</h3>
+                <div className="aspect-video rounded-lg overflow-hidden shadow-lg mb-2">
+                  <iframe
+                    src="https://fast.wistia.net/embed/iframe/12wtrfxii4?videoFoam=true"
+                    title="Verkada ALPR"
+                    allow="autoplay; fullscreen"
+                    frameBorder="0"
+                    className="w-full h-full"
+                  ></iframe>
+                </div>
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-3">Incident Management</h3>
+                <div className="aspect-video rounded-lg overflow-hidden shadow-lg mb-2">
+                  <iframe
+                    src="https://fast.wistia.net/embed/iframe/wvjnlck3kd?videoFoam=true"
+                    title="Verkada Incident Management"
+                    allow="autoplay; fullscreen"
+                    frameBorder="0"
+                    className="w-full h-full"
+                  ></iframe>
+                </div>
+              </div>
             </div>
-          </div>
-          <div>
-            <h3 className="text-xl font-semibold mb-3">Incident Management</h3>
-            <div className="aspect-video rounded-lg overflow-hidden shadow-lg mb-2">
-              <iframe
-                src="https://fast.wistia.net/embed/iframe/wvjnlck3kd?videoFoam=true"
-                title="Verkada Incident Management"
-                allow="autoplay; fullscreen"
-                frameBorder="0"
-                className="w-full h-full"
-              ></iframe>
-            </div>
-          </div>
-        </div>
-      </section>
+          </section>
+        </>
+      )}
+
+      {/* Access Tab */}
+      {active === "access" && (
+        <section className="text-center text-gray-700 max-w-2xl mx-auto">
+          <h2 className="text-2xl font-semibold mb-4">Verkada Access Control</h2>
+          <p>
+            Secure, cloud-managed door access control with flexible configuration options and
+            seamless integration into Verkada Command.
+          </p>
+        </section>
+      )}
+
+      {/* Intercom Tab */}
+      {active === "intercom" && (
+        <section className="text-center text-gray-700 max-w-2xl mx-auto">
+          <h2 className="text-2xl font-semibold mb-4">Verkada Intercom</h2>
+          <p>
+            Smart video intercom systems with HD video, intuitive controls, and full integration with Verkada Command for visitor management and remote unlocking.
+          </p>
+        </section>
+      )}
     </main>
   )
 }
