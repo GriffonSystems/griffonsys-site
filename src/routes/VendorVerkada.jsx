@@ -14,48 +14,72 @@ function VerkadaLogo({ className = "h-10 w-auto object-contain" }) {
   )
 }
 
+/* ---------- Tabs ---------- */
+const TABS = [
+  { key: "video", label: "Video" },
+  { key: "access", label: "Access" },
+  { key: "intercom", label: "Intercom" },
+]
+
 export default function VendorVerkada() {
-  const location = useLocation()
   const [active, setActive] = React.useState("video")
+  const location = useLocation()
 
   React.useEffect(() => {
-    const hash = (location.hash || "").replace("#", "").toLowerCase()
-    if (["video", "access", "intercom"].includes(hash)) setActive(hash)
+    const fromHash = (location.hash || "").replace("#", "")
+    const wanted = (fromHash || "").toLowerCase()
+    if (wanted && ["video", "access", "intercom"].includes(wanted)) {
+      setActive(wanted)
+      window.scrollTo({ top: 0, behavior: "auto" })
+    }
   }, [location.hash])
 
-  const changeTab = (key) => {
+  const onTabClick = (key) => {
     setActive(key)
     window.history.replaceState(null, "", `#${key}`)
-    window.scrollTo({ top: 0, behavior: "smooth" })
+    window.scrollTo({ top: 0, behavior: "auto" })
   }
 
   const grid = "grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
 
-  // ----- Products -----
+  // -------------------- PRODUCTS --------------------
   const videoProducts = [
-    { key: "dome", title: "Dome", desc: "Reliable performance for most locations.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/dome.png` },
+    { key: "dome", title: "Dome", desc: "Reliable performance for most environments.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/dome.png` },
     { key: "mini", title: "Mini", desc: "Compact form factor for tight spaces.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/mini.png` },
-    { key: "bullet", title: "Bullet", desc: "Optimized for license plate recognition.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/bullet.png` },
-    { key: "fisheye", title: "Fisheye", desc: "180° panoramic coverage.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/fisheye.png` },
-    { key: "multisensor", title: "Multisensor", desc: "Two or four sensors in one unit.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/multisensor.png` },
-    { key: "ptz", title: "PTZ", desc: "Pan-tilt-zoom coverage for wide areas.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/ptz.png` },
-    { key: "remote", title: "Remote", desc: "Battery + LTE for mobile deployments.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/remote.png` },
-    { key: "dualhead", title: "Dual-Head (CY53-E)", desc: "Two 5 MP sensors in one enclosure.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/dualhead.png` },
-    { key: "viewstation", title: "Viewing Station", desc: "Appliance for live camera walls.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/viewstation.png` },
+    { key: "bullet", title: "Bullet", desc: "Optimized for license plate recognition and detail.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/bullet.png` },
+    { key: "fisheye", title: "Fisheye", desc: "180° panoramic coverage for large spaces.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/fisheye.png` },
+    { key: "multisensor", title: "Multisensor", desc: "Two or four sensors in one unit for holistic coverage.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/multisensor.png` },
+    { key: "ptz", title: "PTZ", desc: "Pan-tilt-zoom for flexible, wide-area coverage.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/ptz.png` },
+    { key: "remote", title: "Remote", desc: "Battery and LTE for mobile or remote deployments.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/remote.png` },
+    { key: "dualhead", title: "Dual-Head (CY53-E)", desc: "Two 5MP sensors in one housing for versatile coverage.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/dualhead.png` },
+    { key: "viewstation", title: "Viewing Station", desc: "Appliance for live camera walls and command centers.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/viewstation.png` },
   ]
 
-  // ----- Render -----
+  const accessProducts = [
+    { key: "singledoor", title: "Single Door Controller", desc: "Simple, reliable control for one opening with cloud management.", img: `${import.meta.env.BASE_URL}vendors/verkada/access/singledoor.png` },
+    { key: "4doorcontroller", title: "4-Door Controller", desc: "Compact panel that controls up to four doors per unit.", img: `${import.meta.env.BASE_URL}vendors/verkada/access/4doorcontroller.png` },
+    { key: "singledoorreader", title: "Mullion Reader", desc: "Slim reader for tight jambs; supports NFC/BLE/mobile credentials.", img: `${import.meta.env.BASE_URL}vendors/verkada/access/singledoorreader.png` },
+    { key: "keypad", title: "Keypad Reader", desc: "Reader + keypad for PIN and card/mobile access.", img: `${import.meta.env.BASE_URL}vendors/verkada/access/keypad.png` },
+  ]
+
+  const intercomProducts = [
+    { key: "TD33", title: "TD33 — Slim Intercom", desc: "Mullion-friendly form factor for retrofits and tight jambs.", img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td33.jpg` },
+    { key: "TD53", title: "TD53 — Intercom", desc: "Full-size unit with high-quality video, audio, and scanning.", img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td53.jpg` },
+    { key: "TD63", title: "TD63 — Intercom + Keypad", desc: "Integrated keypad for PIN, MFA, and multi-tenant directories.", img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td63.jpg` },
+  ]
+
+  // -------------------- RENDER --------------------
   const renderGrid = (list) => (
     <div className={grid}>
-      {list.map((p) => (
-        <div key={p.key} className="card p-6 flex flex-col">
+      {list.map((card) => (
+        <div key={card.key} className="card p-6 flex flex-col">
           <img
-            src={p.img}
-            alt={p.title}
+            src={card.img}
+            alt={card.title}
             className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
           />
-          <h3 className="text-xl font-semibold">{p.title}</h3>
-          <p className="text-gray-700">{p.desc}</p>
+          <h3 className="text-xl font-semibold">{card.title}</h3>
+          <p className="text-gray-700">{card.desc}</p>
         </div>
       ))}
     </div>
@@ -64,42 +88,56 @@ export default function VendorVerkada() {
   return (
     <main className="container py-12">
       <Helmet>
-        <title>Verkada Security Systems | Griffon Systems</title>
+        <title>Verkada Security Systems in Illinois | Griffon Systems</title>
         <meta
           name="description"
-          content="Authorized Verkada partner providing cloud-managed video surveillance, access control, and intercom systems throughout Illinois."
+          content="Authorized Verkada partner providing design, installation, and support for cloud-based video surveillance, access control, and intercom systems across Illinois."
         />
+        <meta property="og:url" content="https://www.griffonsys.com/vendors/verkada" />
+        <meta property="og:title" content="Verkada Security Systems in Illinois | Griffon Systems" />
+        <meta
+          property="og:description"
+          content="Authorized Verkada partner providing design, installation, and support for cloud-based video surveillance, access control, and intercom systems across Illinois."
+        />
+        <meta
+          property="og:image"
+          content="https://www.griffonsys.com/images/vendors/verkada-og.jpg"
+        />
+        <link rel="canonical" href="https://www.griffonsys.com/vendors/verkada" />
       </Helmet>
 
       {/* Header */}
-      <div className="flex items-center justify-between mb-8">
-        <VerkadaLogo />
-        <Link to="/contact" className="btn btn-primary">Request a Demo</Link>
+      <div className="flex items-center justify-between mb-6 gap-4">
+        <div className="flex items-center gap-3">
+          <VerkadaLogo />
+          <h1 className="sr-only">Verkada Security Systems Illinois</h1>
+        </div>
+        <Link to="/contact" className="btn btn-primary">
+          Request a Demo
+        </Link>
       </div>
 
       {/* Tabs */}
       <div className="flex flex-wrap gap-2 mb-10">
-        {["video", "access", "intercom"].map((tab) => (
+        {TABS.map((t) => (
           <button
-            key={tab}
-            onClick={() => changeTab(tab)}
+            key={t.key}
+            onClick={() => onTabClick(t.key)}
             className={`px-4 py-2 rounded-xl border transition ${
-              active === tab
+              active === t.key
                 ? "bg-black text-white border-black"
                 : "bg-white hover:bg-gray-100 border-gray-200"
             }`}
           >
-            {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            {t.label}
           </button>
         ))}
       </div>
 
-      {/* Video Tab */}
+      {/* Tab Content */}
       {active === "video" && (
         <>
           {renderGrid(videoProducts)}
-
-          {/* Verkada Solutions Section */}
           <section className="mt-16 text-center">
             <h2 className="text-2xl font-semibold mb-8">Verkada Solutions in Action</h2>
             <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
@@ -132,26 +170,8 @@ export default function VendorVerkada() {
         </>
       )}
 
-      {/* Access Tab */}
-      {active === "access" && (
-        <section className="text-center text-gray-700 max-w-2xl mx-auto">
-          <h2 className="text-2xl font-semibold mb-4">Verkada Access Control</h2>
-          <p>
-            Secure, cloud-managed door access control with flexible configuration options and
-            seamless integration into Verkada Command.
-          </p>
-        </section>
-      )}
-
-      {/* Intercom Tab */}
-      {active === "intercom" && (
-        <section className="text-center text-gray-700 max-w-2xl mx-auto">
-          <h2 className="text-2xl font-semibold mb-4">Verkada Intercom</h2>
-          <p>
-            Smart video intercom systems with HD video, intuitive controls, and full integration with Verkada Command for visitor management and remote unlocking.
-          </p>
-        </section>
-      )}
+      {active === "access" && renderGrid(accessProducts)}
+      {active === "intercom" && renderGrid(intercomProducts)}
     </main>
   )
 }
