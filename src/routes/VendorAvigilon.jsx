@@ -17,7 +17,7 @@ function AvigilonLogo({ className = "h-10 w-auto object-contain" }) {
 const TABS = [
   { key: "video", label: "Video" },
   { key: "access", label: "Access" },
-  { key: "analytics", label: "Analytics" },
+  { key: "intercom", label: "Intercom" },
 ]
 
 export default function VendorAvigilon() {
@@ -26,7 +26,7 @@ export default function VendorAvigilon() {
 
   React.useEffect(() => {
     const hash = (location.hash || "").replace("#", "").toLowerCase()
-    if (["video", "access", "analytics"].includes(hash)) setActive(hash)
+    if (["video", "access", "intercom"].includes(hash)) setActive(hash)
   }, [location.hash])
 
   const onTabClick = (key) => {
@@ -42,38 +42,38 @@ export default function VendorAvigilon() {
     {
       key: "thermal",
       title: "H5A Thermal Camera",
-      desc: "Outdoor bullet camera that delivers long-range perimeter protection using heat-sensing technology for low-visibility or high-security environments.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/H5A_Modular_01.avif`,
+      desc: "Long-range perimeter protection with heat-sensing technology for poor visibility environments.",
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/thermal.png`,
     },
     {
       key: "pro",
       title: "H5 Pro Camera",
-      desc: "Ultra-high-resolution IP camera providing up to 10K (61MP) detail for wide-area coverage and unmatched clarity.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/H5A_Dual_Head_02.avif`,
+      desc: "High-resolution IP camera capturing up to 10K detail for maximum scene coverage.",
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/pro.png`,
     },
     {
       key: "slbullet",
       title: "H6SL Bullet Camera",
-      desc: "The H6SL Bullet delivers superior situational awareness and long-range detail — available in both Unity On-Premise and Alta Cloud-Native options.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/H6SL_Bullet_1.avif`,
+      desc: "Compact AI-powered bullet IP camera offering superior situational awareness and long-range detail.",
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/slbullet.png`,
+    },
+    {
+      key: "multisensor",
+      title: "H6A Multisensor",
+      desc: "Four-sensor panoramic coverage for large areas requiring multiple viewpoints.",
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/H5A_Multisensor_01_2024-09-02-173128_gmdn.avif`,
     },
     {
       key: "ptz",
       title: "H6A PTZ Camera",
-      desc: "High-speed pan-tilt-zoom camera designed for wide-area coverage and detailed tracking.",
+      desc: "High-speed pan-tilt-zoom camera delivering wide-area coverage and detail.",
       img: `${import.meta.env.BASE_URL}vendors/avigilon/H6A-PTZ-Product_Detail_Image_2_2024-07-02-210404_cxtc.avif`,
     },
     {
-      key: "multisensor",
-      title: "H5A Multisensor",
-      desc: "Four independent sensors offering 360° coverage with advanced analytics.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/H5A_Multisensor_01_2024-09-02-173128_gmdn.avif`,
-    },
-    {
-      key: "infrastructure",
-      title: "Video Infrastructure",
-      desc: "Reliable and secure Avigilon recording and management platforms for any scale.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/Videoinfrastructure_Benefit_1_v1.avif`,
+      key: "overview",
+      title: "Avigilon Camera Overview",
+      desc: "Full lineup of Avigilon Unity and Alta cameras built for reliability and intelligence.",
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/CamerasOverview_850x850-1.avif`,
     },
   ]
 
@@ -81,33 +81,45 @@ export default function VendorAvigilon() {
     {
       key: "acm",
       title: "Access Control Manager (ACM)",
-      desc: "Enterprise-grade access control system integrated with Avigilon Unity and Alta.",
+      desc: "Scalable on-premise access control platform integrated with Avigilon Unity.",
       img: `${import.meta.env.BASE_URL}vendors/avigilon/ACM.mp4`,
     },
     {
       key: "readerpro",
       title: "Video Intercom Reader Pro",
-      desc: "Two-in-one door reader and video intercom solution for secure, cloud-connected entry.",
+      desc: "Reader and video intercom combined in one secure, cloud-connected device.",
       img: `${import.meta.env.BASE_URL}vendors/avigilon/VideoIntercomReaderPro_01.avif`,
     },
-  ]
-
-  const analyticsProducts = [
     {
-      key: "appearance-search",
-      title: "Appearance Search",
-      desc: "AI-powered search that allows operators to locate people or vehicles across all cameras within seconds.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/CamerasOverview_850x850-1.avif`,
-    },
-    {
-      key: "focus-of-attention",
-      title: "Focus of Attention",
-      desc: "Intuitive interface highlighting events requiring immediate attention through color and animation cues.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/fisheye.avif`,
+      key: "rackmounted",
+      title: "Rack-Mounted Controller",
+      desc: "Compact, enterprise-grade controller to manage door hardware and access points.",
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/Rack-mounted-Cloud-Connector-Product_Detail_Image_1200x900_2024.avif`,
     },
   ]
 
-  // ---------- Render ----------
+  const intercomProducts = [
+    {
+      key: "readerpro",
+      title: "Video Intercom Reader Pro",
+      desc: "Smart intercom solution providing HD video, door control, and remote unlocking.",
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/VideoIntercomReaderPro_01.avif`,
+    },
+    {
+      key: "h4intercom",
+      title: "H4 Video Intercom",
+      desc: "Legacy unified intercom designed for Avigilon Unity deployments.",
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/H5A_Modular_01.avif`,
+    },
+    {
+      key: "infrastructure",
+      title: "Video Infrastructure Integration",
+      desc: "Seamless integration between Avigilon Command and intercom endpoints.",
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/Videoinfrastructure_Benefit_1_v1.avif`,
+    },
+  ]
+
+  // ---------- RENDER ----------
   const renderGrid = (list) => (
     <div className={grid}>
       {list.map((card) => (
@@ -135,14 +147,14 @@ export default function VendorAvigilon() {
     </div>
   )
 
-  // ---------- Page ----------
+  // ---------- PAGE ----------
   return (
     <main className="container py-12">
       <Helmet>
         <title>Avigilon Security Systems | Griffon Systems Inc.</title>
         <meta
           name="description"
-          content="Authorized Avigilon partner providing design, installation, and support for video surveillance, access control, and analytics systems across Illinois."
+          content="Authorized Avigilon partner in Illinois providing camera, access control, and intercom systems for manufacturing, schools, and municipalities."
         />
         <meta
           property="og:image"
@@ -194,7 +206,7 @@ export default function VendorAvigilon() {
       )}
 
       {active === "access" && renderGrid(accessProducts)}
-      {active === "analytics" && renderGrid(analyticsProducts)}
+      {active === "intercom" && renderGrid(intercomProducts)}
     </main>
   )
 }
