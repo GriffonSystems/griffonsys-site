@@ -194,7 +194,7 @@ export default function VendorVerkada() {
         </section>
       )}
 
-      {/* ALPR Section with official Wistia embed */}
+      {/* ALPR Section with responsive iframe */}
       <section className="mt-16 text-center">
         <h2 className="text-2xl font-semibold mb-4">
           Automatic License Plate Recognition (ALPR)
@@ -204,20 +204,17 @@ export default function VendorVerkada() {
           for secure facility entry, parking management, and perimeter monitoring.
         </p>
 
-        <div
-          className="max-w-4xl mx-auto"
-          dangerouslySetInnerHTML={{
-            __html: `
-              <script src="https://fast.wistia.com/embed/medias/12wtrfxii4.jsonp" async></script>
-              <script src="https://fast.wistia.com/assets/external/E-v1.js" async></script>
-              <div class="wistia_responsive_padding" style="padding:56.25% 0 0 0;position:relative;">
-                <div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;">
-                  <div class="wistia_embed wistia_async_12wtrfxii4 videoFoam=true" style="height:100%;width:100%">&nbsp;</div>
-                </div>
-              </div>
-            `,
-          }}
-        />
+        <div className="max-w-4xl mx-auto aspect-video rounded-lg overflow-hidden shadow-lg">
+          <iframe
+            src="https://fast.wistia.net/embed/iframe/12wtrfxii4?videoFoam=true"
+            title="Verkada ALPR"
+            allow="autoplay; fullscreen"
+            allowTransparency="true"
+            frameBorder="0"
+            scrolling="no"
+            className="w-full h-full"
+          ></iframe>
+        </div>
 
         <p className="text-sm text-gray-500 mt-2">
           © Verkada Inc. — Video hosted by Verkada Marketing on Wistia.
