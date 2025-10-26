@@ -1,12 +1,14 @@
 {
   "title": "Avigilon – Video Solutions",
   "images": [
-    "thermal.png",
-    "pro.png",
     "slbullet.png",
     "h5a-bullet.png",
     "h5a-dome.png",
     "h5m.png",
     "h6sl.png"
+    "thermal.png",
+    "pro.png",
+    "modcam.png",
+    "lpr.png"
   ]
 }
