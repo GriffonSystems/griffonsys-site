@@ -25,16 +25,16 @@ const PRODUCT_INFO = {
     desc: "AI-powered bullet IP camera delivering superior situational awareness and long-range detail.",
   },
   "h5a-bullet.png": {
-    title: "H5A Bullet Camera",
-    desc: "Rugged, high-performance bullet camera offering clear imaging in all environments.",
+    title: "H5A Multi-Head Camera",
+    desc: "Flexible multi-sensor design delivering up to 360° coverage with independent positioning for each sensor — ideal for corridors, corners, and wide areas.",
   },
   "H6SL_Dome_1.avif": {
     title: "H6SL Dome Camera",
-    desc: "Weatherproof dome camera that secures your site with AI-powered video analytics and an optional mic.",
+    desc: "The H6SL Dome is a weatherproof dome camera that secures your site by offering AI-powered video analytics and an optional mic.",
   },
   "H5A_Multisensor_01_2024-09-02-173128_gmdn.avif": {
     title: "H5A Multisensor Camera",
-    desc: "Covers all angles with 180°, 270°, or 360° views from a single housing using multiple sensors.",
+    desc: "Be covered from all angles with the H5A Multisensor camera that can deliver 180°, 270°, or 360° views.",
   },
   "H5A_Dual_Head_02.avif": {
     title: "H5A Dual Head Camera",
@@ -104,7 +104,7 @@ export default function VendorAvigilon() {
       key: "rackmounted",
       title: "Rack-Mounted Controller",
       desc: "Enterprise-grade controller to manage door hardware and access points.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/Rack-mounted-Cloud-Connector-Product_Detail_Image_1200x900_2024.avif`,
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/controller.png`,
     },
   ]
 
@@ -120,7 +120,7 @@ export default function VendorAvigilon() {
       key: "h4intercom",
       title: "H4 Video Intercom",
       desc: "Legacy unified intercom for Avigilon Unity deployments.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/H5A_Modular_01.avif`,
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/intercom.png`,
     },
     {
       key: "infrastructure",
