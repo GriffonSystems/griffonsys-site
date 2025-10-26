@@ -1,4 +1,7 @@
 {
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": null,
   "rewrites": [
     {
       "source": "/((?!images|vendors|videos|hero|favicon|robots\\.txt|manifest\\.json|.*\\.json|.*\\.(png|jpg|jpeg|gif|svg|webp|avif|ico|css|js|mp4|webm)).*)",
@@ -7,29 +10,12 @@
   ],
   "headers": [
     {
-      "source": "/hero/index.json",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-store" }
-      ]
-    },
-    {
       "source": "/(images|vendors|videos)/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
-    },
-    {
-      "source": "/videos/(.*)\\.mp4",
-      "headers": [
-        { "key": "Content-Type", "value": "video/mp4" },
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
-    },
-    {
-      "source": "/videos/(.*)\\.webm",
-      "headers": [
-        { "key": "Content-Type", "value": "video/webm" },
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     }
   ]
