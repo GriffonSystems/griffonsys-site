@@ -41,10 +41,7 @@ const TABS = [
 export default function VendorVerkada() {
   const [active, setActive] = React.useState('video')
   const location = useLocation()
-  const videoRef = React.useRef(null)
-  const [visible, setVisible] = React.useState(false)
 
-  /* ---------- Tab sync with URL ---------- */
   React.useEffect(() => {
     const fromHash = (location.hash || '').replace('#', '')
     const fromQuery = new URLSearchParams(location.search).get('tab')
@@ -60,31 +57,6 @@ export default function VendorVerkada() {
     window.history.replaceState(null, '', `#${key}`)
     window.scrollTo({ top: 0, behavior: 'auto' })
   }
-
-  /* ---------- Autoplay fallback ---------- */
-  React.useEffect(() => {
-    const vid = videoRef.current
-    if (vid) {
-      const playPromise = vid.play()
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          vid.controls = true
-        })
-      }
-    }
-  }, [])
-
-  /* ---------- Fade-in on scroll ---------- */
-  React.useEffect(() => {
-    const el = document.getElementById('alpr-video')
-    if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => setVisible(entry.isIntersecting),
-      { threshold: 0.3 }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
 
   return (
     <main className="container py-12">
@@ -222,7 +194,7 @@ export default function VendorVerkada() {
         </section>
       )}
 
-      {/* ALPR Video Section */}
+      {/* ALPR Section with official Wistia embed */}
       <section className="mt-16 text-center">
         <h2 className="text-2xl font-semibold mb-4">
           Automatic License Plate Recognition (ALPR)
@@ -233,27 +205,22 @@ export default function VendorVerkada() {
         </p>
 
         <div
-          id="alpr-video"
-          className={`max-w-4xl mx-auto aspect-video rounded-lg overflow-hidden shadow-lg transition-all duration-700 ease-out ${
-            visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
-          }`}
-        >
-          <video
-            ref={videoRef}
-            autoPlay
-            muted
-            loop
-            playsInline
-            poster="https://embed-ssl.wistia.com/deliveries/06f8ad69e811e9ccf678b80dc38a2ea560673db6.jpg?image_crop_resized=960x540"
-            className="w-full h-full object-cover"
-            decoding="async"
-          >
-            <source src="/videos/verkada-alpr.mp4" type="video/mp4" />
-          </video>
-        </div>
+          className="max-w-4xl mx-auto"
+          dangerouslySetInnerHTML={{
+            __html: `
+              <script src="https://fast.wistia.com/embed/medias/12wtrfxii4.jsonp" async></script>
+              <script src="https://fast.wistia.com/assets/external/E-v1.js" async></script>
+              <div class="wistia_responsive_padding" style="padding:56.25% 0 0 0;position:relative;">
+                <div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;">
+                  <div class="wistia_embed wistia_async_12wtrfxii4 videoFoam=true" style="height:100%;width:100%">&nbsp;</div>
+                </div>
+              </div>
+            `,
+          }}
+        />
 
         <p className="text-sm text-gray-500 mt-2">
-          © Verkada Inc. — Video courtesy of Verkada Marketing Team.
+          © Verkada Inc. — Video hosted by Verkada Marketing on Wistia.
         </p>
       </section>
     </main>
