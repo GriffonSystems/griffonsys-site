@@ -16,7 +16,13 @@ function VerkadaLogo({ className = "h-10 w-auto object-contain" }) {
 
 export default function VendorVerkada() {
   const location = useLocation()
-  const [active, setActive] = React.useState("video")
+  // ✅ Determine tab immediately before first render
+  const initialHash = typeof window !== "undefined"
+    ? (window.location.hash || "").replace("#", "").toLowerCase()
+    : "video"
+  const [active, setActive] = React.useState(
+    ["video", "access", "intercom"].includes(initialHash) ? initialHash : "video"
+  )
 
   React.useEffect(() => {
     const hash = (location.hash || "").replace("#", "").toLowerCase()
@@ -35,7 +41,7 @@ export default function VendorVerkada() {
     window.history.replaceState(null, "", `#${key}`)
   }
 
-  const cardGrid = "grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+  const grid = "grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
 
   const videoProducts = [
     { key: "dome", title: "Dome", desc: "Reliable performance for most locations.", img: "/vendors/verkada/video/dome.png" },
@@ -63,7 +69,7 @@ export default function VendorVerkada() {
   ]
 
   const renderGrid = (list) => (
-    <div className={cardGrid}>
+    <div className={grid}>
       {list.map((p) => (
         <div key={p.key} className="card p-6 flex flex-col">
           <img
