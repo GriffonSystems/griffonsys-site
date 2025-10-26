@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet"
 function VerkadaLogo({ className = "h-10 w-auto object-contain" }) {
   return (
     <img
-      src="/vendors/verkada/logo.jpg"
+      src={new URL("/vendors/verkada/logo.jpg", import.meta.url).href}
       alt="Verkada"
       className={className}
       width={160}
@@ -16,24 +16,20 @@ function VerkadaLogo({ className = "h-10 w-auto object-contain" }) {
 
 export default function VendorVerkada() {
   const location = useLocation()
-  // ✅ Determine tab immediately before first render
-  const initialHash = typeof window !== "undefined"
-    ? (window.location.hash || "").replace("#", "").toLowerCase()
-    : "video"
+  const initialHash =
+    typeof window !== "undefined"
+      ? (window.location.hash || "").replace("#", "").toLowerCase()
+      : "video"
   const [active, setActive] = React.useState(
-    ["video", "access", "intercom"].includes(initialHash) ? initialHash : "video"
+    ["video", "access", "intercom"].includes(initialHash)
+      ? initialHash
+      : "video"
   )
 
   React.useEffect(() => {
     const hash = (location.hash || "").replace("#", "").toLowerCase()
     if (["video", "access", "intercom"].includes(hash)) setActive(hash)
   }, [location.hash])
-
-  const tabs = [
-    { key: "video", label: "Video" },
-    { key: "access", label: "Access" },
-    { key: "intercom", label: "Intercom" },
-  ]
 
   const changeTab = (key) => {
     setActive(key)
@@ -44,28 +40,28 @@ export default function VendorVerkada() {
   const grid = "grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
 
   const videoProducts = [
-    { key: "dome", title: "Dome", desc: "Reliable performance for most locations.", img: "/vendors/verkada/video/dome.png" },
-    { key: "mini", title: "Mini", desc: "Compact form factor for tight spaces.", img: "/vendors/verkada/video/mini.png" },
-    { key: "bullet", title: "Bullet", desc: "Optimized for license plate recognition.", img: "/vendors/verkada/video/bullet.png" },
-    { key: "fisheye", title: "Fisheye", desc: "180° panoramic coverage.", img: "/vendors/verkada/video/fisheye.png" },
-    { key: "multisensor", title: "Multisensor", desc: "Two or four sensors in one unit.", img: "/vendors/verkada/video/multisensor.png" },
-    { key: "ptz", title: "PTZ", desc: "Pan-tilt-zoom coverage for wide areas.", img: "/vendors/verkada/video/ptz.png" },
-    { key: "remote", title: "Remote", desc: "Battery + LTE for mobile deployments.", img: "/vendors/verkada/video/remote.png" },
-    { key: "dualhead", title: "Dual-Head (CY53-E)", desc: "Two 5 MP sensors in one enclosure.", img: "/vendors/verkada/video/dualhead.png" },
-    { key: "viewstation", title: "Viewing Station", desc: "Appliance for live camera walls.", img: "/vendors/verkada/video/viewstation.png" },
+    { key: "dome", title: "Dome", desc: "Reliable performance for most locations.", img: new URL("/vendors/verkada/video/dome.png", import.meta.url).href },
+    { key: "mini", title: "Mini", desc: "Compact form factor for tight spaces.", img: new URL("/vendors/verkada/video/mini.png", import.meta.url).href },
+    { key: "bullet", title: "Bullet", desc: "Optimized for license plate recognition.", img: new URL("/vendors/verkada/video/bullet.png", import.meta.url).href },
+    { key: "fisheye", title: "Fisheye", desc: "180° panoramic coverage.", img: new URL("/vendors/verkada/video/fisheye.png", import.meta.url).href },
+    { key: "multisensor", title: "Multisensor", desc: "Two or four sensors in one unit.", img: new URL("/vendors/verkada/video/multisensor.png", import.meta.url).href },
+    { key: "ptz", title: "PTZ", desc: "Pan-tilt-zoom coverage for wide areas.", img: new URL("/vendors/verkada/video/ptz.png", import.meta.url).href },
+    { key: "remote", title: "Remote", desc: "Battery + LTE for mobile deployments.", img: new URL("/vendors/verkada/video/remote.png", import.meta.url).href },
+    { key: "dualhead", title: "Dual-Head (CY53-E)", desc: "Two 5 MP sensors in one enclosure.", img: new URL("/vendors/verkada/video/dualhead.png", import.meta.url).href },
+    { key: "viewstation", title: "Viewing Station", desc: "Appliance for live camera walls.", img: new URL("/vendors/verkada/video/viewstation.png", import.meta.url).href },
   ]
 
   const accessProducts = [
-    { key: "single", title: "Single Door Controller", desc: "Simple, reliable cloud-managed door control.", img: "/vendors/verkada/access/singledoor.png" },
-    { key: "four", title: "4-Door Controller", desc: "Scalable control panel for four doors.", img: "/vendors/verkada/access/4doorcontroller.png" },
-    { key: "mullion", title: "Mullion Reader", desc: "Slim reader for tight jambs, supports NFC/BLE.", img: "/vendors/verkada/access/singledoorreader.png" },
-    { key: "keypad", title: "Keypad Reader", desc: "PIN + card/mobile access with audit trails.", img: "/vendors/verkada/access/keypad.png" },
+    { key: "single", title: "Single Door Controller", desc: "Simple, reliable cloud-managed door control.", img: new URL("/vendors/verkada/access/singledoor.png", import.meta.url).href },
+    { key: "four", title: "4-Door Controller", desc: "Scalable control panel for four doors.", img: new URL("/vendors/verkada/access/4doorcontroller.png", import.meta.url).href },
+    { key: "mullion", title: "Mullion Reader", desc: "Slim reader for tight jambs, supports NFC/BLE.", img: new URL("/vendors/verkada/access/singledoorreader.png", import.meta.url).href },
+    { key: "keypad", title: "Keypad Reader", desc: "PIN + card/mobile access with audit trails.", img: new URL("/vendors/verkada/access/keypad.png", import.meta.url).href },
   ]
 
   const intercomProducts = [
-    { key: "td33", title: "TD33 — Slim Intercom", desc: "Mullion-friendly form factor for retrofits.", img: "/vendors/verkada/intercom/td33.jpg" },
-    { key: "td53", title: "TD53 — Intercom", desc: "Full-size intercom with HD video and audio.", img: "/vendors/verkada/intercom/td53.jpg" },
-    { key: "td63", title: "TD63 — Intercom + Keypad", desc: "Integrated keypad for MFA and directories.", img: "/vendors/verkada/intercom/td63.jpg" },
+    { key: "td33", title: "TD33 — Slim Intercom", desc: "Mullion-friendly form factor for retrofits.", img: new URL("/vendors/verkada/intercom/td33.jpg", import.meta.url).href },
+    { key: "td53", title: "TD53 — Intercom", desc: "Full-size intercom with HD video and audio.", img: new URL("/vendors/verkada/intercom/td53.jpg", import.meta.url).href },
+    { key: "td63", title: "TD63 — Intercom + Keypad", desc: "Integrated keypad for MFA and directories.", img: new URL("/vendors/verkada/intercom/td63.jpg", import.meta.url).href },
   ]
 
   const renderGrid = (list) => (
@@ -98,35 +94,33 @@ export default function VendorVerkada() {
 
       {/* Tabs */}
       <div className="flex flex-wrap gap-2 mb-10">
-        {tabs.map((t) => (
+        {["video","access","intercom"].map((tab) => (
           <button
-            key={t.key}
-            onClick={() => changeTab(t.key)}
+            key={tab}
+            onClick={() => changeTab(tab)}
             className={`px-4 py-2 rounded-xl border transition ${
-              active === t.key
+              active === tab
                 ? "bg-black text-white border-black"
                 : "bg-white hover:bg-gray-100 border-gray-200"
             }`}
           >
-            {t.label}
+            {tab.charAt(0).toUpperCase() + tab.slice(1)}
           </button>
         ))}
       </div>
 
-      {/* Always mounted */}
+      {/* Tabs content */}
       <section className={`${active === "video" ? "block" : "hidden"}`}>
         {renderGrid(videoProducts)}
       </section>
-
       <section className={`${active === "access" ? "block" : "hidden"}`}>
         {renderGrid(accessProducts)}
       </section>
-
       <section className={`${active === "intercom" ? "block" : "hidden"}`}>
         {renderGrid(intercomProducts)}
       </section>
 
-      {/* Videos */}
+      {/* Bottom Videos */}
       <section className="mt-16 text-center">
         <h2 className="text-2xl font-semibold mb-8">Verkada Solutions in Action</h2>
         <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
