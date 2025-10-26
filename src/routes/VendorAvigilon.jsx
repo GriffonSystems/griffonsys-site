@@ -24,7 +24,7 @@ const PRODUCT_INFO = {
     title: "H6SL Bullet Camera",
     desc: "AI-powered bullet IP camera delivering superior situational awareness and long-range detail.",
   },
-  "dome.avif": {
+  "H6SL_Dome_1.avif": {
     title: "H6SL Dome Camera",
     desc: "Weatherproof dome camera that secures your site with AI-powered analytics and an optional mic.",
   },
@@ -40,6 +40,14 @@ const PRODUCT_INFO = {
     title: "H5A Modular Camera",
     desc: "Compact modular design enabling discreet monitoring with flexible sensor placement.",
   },
+  "H5M.avif": {
+    title: "H5M Mini Dome Camera",
+    desc: "Compact, cost-effective dome ideal for indoor or sheltered outdoor applications.",
+  },
+  "fisheye.avif": {
+    title: "H5A Fisheye Camera",
+    desc: "360° panoramic fisheye camera that provides complete situational awareness in a single view.",
+  },
   "thermal.png": {
     title: "H5A Thermal Camera",
     desc: "Provides long-range perimeter protection with heat-based detection and analytics.",
@@ -48,31 +56,23 @@ const PRODUCT_INFO = {
     title: "H5 Pro Camera",
     desc: "High-resolution IP camera capturing image detail up to 10K for expansive scene coverage.",
   },
-  "H5M.avif": {
-    title: "H5M Dome Camera",
-    desc: "The H5M is an outdoor dome security camera that allows you to be up and running quickly with its tool-free design.",
-  },
-  "fisheye.avif": {
-    title: "H5A Fisheye Camera",
-    desc: "360° panoramic fisheye camera that provides complete situational awareness in a single view.",
-  },
   "lpr.png": {
     title: "L6A Enterprise LPR Camera",
     desc: "Advanced license plate recognition camera with integrated analytics for vehicle tracking.",
   },
 }
 
-// Define the ideal visual order
+// ---------- CAMERA DISPLAY ORDER ----------
 const CAMERA_ORDER = [
   "slbullet.png",
   "H6SL_Dome_1.avif",
   "H5A_Multisensor_01_2024-09-02-173128_gmdn.avif",
   "H5A_Dual_Head_02.avif",
-  "h5a_Modular_01.avif",
+  "H5A_Modular_01.avif",
+  "H5M.avif",
+  "fisheye.avif",
   "thermal.png",
   "pro.png",
-  "h5m.png",
-  "fisheye.avif",
   "lpr.png",
 ]
 
