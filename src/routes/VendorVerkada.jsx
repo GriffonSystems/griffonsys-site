@@ -13,6 +13,7 @@ function VerkadaLogo({ className = "h-10 w-auto object-contain" }) {
     />
   )
 }
+console.log("Active tab:", active)
 
 export default function VendorVerkada() {
   const location = useLocation()
