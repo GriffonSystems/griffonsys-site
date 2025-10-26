@@ -58,6 +58,12 @@ export default function VendorAvigilon() {
       img: `${import.meta.env.BASE_URL}vendors/avigilon/slbullet.png`,
     },
     {
+      key: "dome",
+      title: "H6 Mini Dome Camera",
+      desc: "Low-profile indoor dome camera designed for discreet monitoring and easy installation.",
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/dome.avif`,
+    },
+    {
       key: "multisensor",
       title: "H6A Multisensor",
       desc: "Four-sensor panoramic coverage for large areas requiring multiple viewpoints.",
@@ -68,12 +74,6 @@ export default function VendorAvigilon() {
       title: "H6A PTZ Camera",
       desc: "High-speed pan-tilt-zoom camera delivering wide-area coverage and detail.",
       img: `${import.meta.env.BASE_URL}vendors/avigilon/H6A-PTZ-Product_Detail_Image_2_2024-07-02-210404_cxtc.avif`,
-    },
-    {
-      key: "overview",
-      title: "Avigilon Camera Overview",
-      desc: "Full lineup of Avigilon Unity and Alta cameras built for reliability and intelligence.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/CamerasOverview_850x850-1.avif`,
     },
   ]
 
@@ -189,22 +189,7 @@ export default function VendorAvigilon() {
       </div>
 
       {/* Tab Content */}
-      {active === "video" && (
-        <>
-          {renderGrid(videoProducts)}
-          <div className="text-center mt-10">
-            <a
-              href="https://www.avigilon.com/security-cameras"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block border border-black rounded-full px-6 py-2 text-sm font-medium hover:bg-black hover:text-white transition"
-            >
-              Compare Cameras
-            </a>
-          </div>
-        </>
-      )}
-
+      {active === "video" && renderGrid(videoProducts)}
       {active === "access" && renderGrid(accessProducts)}
       {active === "intercom" && renderGrid(intercomProducts)}
     </main>
