@@ -24,25 +24,21 @@ const PRODUCT_INFO = {
     title: "H6SL Bullet Camera",
     desc: "AI-powered bullet IP camera delivering superior situational awareness and long-range detail.",
   },
+  "H6SL_Dome_1.avif": {
+    title: "H6SL Dome Camera",
+    desc: "Weatherproof dome camera that secures your site with AI-powered analytics and an optional mic.",
+  },
   "H5A_Multisensor_01_2024-09-02-173128_gmdn.avif": {
     title: "H5A Multisensor Camera",
-    desc: "Be covered from all angles with the H5A Multisensor camera that can deliver 180°, 270°, or 360° views.",
-  },
-  "dome.png": {
-    title: "H6SL Dome Camera",
-    desc: "The H6SL Dome is a weatherproof dome camera that secures your site by offering AI-powered video analytics and an optional mic.",
-  },
-  "h5m.png": {
-    title: "H5M Mini Dome Camera",
-    desc: "Compact and cost-effective mini dome camera ideal for indoor or covered outdoor applications.",
+    desc: "Covers all angles with 180°, 270°, or 360° views from a single housing using multiple sensors.",
   },
   "H5A_Dual_Head_02.avif": {
     title: "H5A Dual Head Camera",
     desc: "Dual-sensor camera offering flexible positioning and wide coverage for hallways or intersections.",
   },
-  "fisheye.avif": {
-    title: "H5A Fisheye Camera",
-    desc: "360° panoramic fisheye camera that provides complete situational awareness in a single view.",
+  "h5a_Modular_01.avif": {
+    title: "H5A Modular Camera",
+    desc: "Compact modular design enabling discreet monitoring with flexible sensor placement.",
   },
   "thermal.png": {
     title: "H5A Thermal Camera",
@@ -52,9 +48,13 @@ const PRODUCT_INFO = {
     title: "H5 Pro Camera",
     desc: "High-resolution IP camera capturing image detail up to 10K for expansive scene coverage.",
   },
-  "h5a_Modular_01.avif": {
-    title: "H5A Modular Camera",
-    desc: "Compact modular design enabling discreet monitoring with flexible sensor placement.",
+  "h5m.png": {
+    title: "H5M Mini Dome Camera",
+    desc: "Compact and cost-effective mini dome camera ideal for indoor or covered outdoor applications.",
+  },
+  "fisheye.avif": {
+    title: "H5A Fisheye Camera",
+    desc: "360° panoramic fisheye camera that provides complete situational awareness in a single view.",
   },
   "lpr.png": {
     title: "L6A Enterprise LPR Camera",
@@ -62,20 +62,41 @@ const PRODUCT_INFO = {
   },
 }
 
+// Define the ideal visual order
+const CAMERA_ORDER = [
+  "slbullet.png",
+  "H6SL_Dome_1.avif",
+  "H5A_Multisensor_01_2024-09-02-173128_gmdn.avif",
+  "H5A_Dual_Head_02.avif",
+  "h5a_Modular_01.avif",
+  "thermal.png",
+  "pro.png",
+  "h5m.png",
+  "fisheye.avif",
+  "lpr.png",
+]
+
+// ---------- COMPONENT ----------
 export default function VendorAvigilon() {
   const location = useLocation()
   const [active, setActive] = React.useState("video")
   const [videoImages, setVideoImages] = React.useState([])
 
+  // Handle tab change via hash
   React.useEffect(() => {
     const hash = (location.hash || "").replace("#", "").toLowerCase()
     if (["video", "access", "intercom"].includes(hash)) setActive(hash)
   }, [location.hash])
 
+  // Load Avigilon JSON and sort images
   React.useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}vendors/avigilon/index.json`)
       .then((res) => res.json())
-      .then((data) => setVideoImages(data.images || []))
+      .then((data) => {
+        const imgs = data.images || []
+        const sorted = CAMERA_ORDER.filter((x) => imgs.includes(x))
+        setVideoImages(sorted)
+      })
       .catch((err) => console.error("Failed to load Avigilon JSON:", err))
   }, [])
 
@@ -131,7 +152,7 @@ export default function VendorAvigilon() {
     },
   ]
 
-  // ---------- VIDEO GRID ----------
+  // ---------- RENDER VIDEO GRID ----------
   const renderVideoGrid = () => (
     <div className={grid}>
       {videoImages.map((file) => {
