@@ -148,7 +148,7 @@ export default function VendorAvigilon() {
       key: "infrastructure",
       title: "Video Infrastructure Integration",
       desc: "Seamless integration between Avigilon Command and intercom endpoints.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/Videoinfrastructure_Benefit_1_v1.avif`,
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/Videoinf.png`,
     },
   ]
 
