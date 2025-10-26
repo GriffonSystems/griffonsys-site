@@ -36,7 +36,7 @@ const PRODUCT_INFO = {
     title: "H5A Dual Head Camera",
     desc: "Dual-sensor camera offering flexible positioning and wide coverage for hallways or intersections.",
   },
-  "h5a_Modular_01.avif": {
+  "H5A_Modular_01.avif": {
     title: "H5A Modular Camera",
     desc: "Compact modular design enabling discreet monitoring with flexible sensor placement.",
   },
@@ -48,9 +48,9 @@ const PRODUCT_INFO = {
     title: "H5 Pro Camera",
     desc: "High-resolution IP camera capturing image detail up to 10K for expansive scene coverage.",
   },
-  "h5m.png": {
-    title: "H5M Mini Dome Camera",
-    desc: "Compact and cost-effective mini dome camera ideal for indoor or covered outdoor applications.",
+  "dome.png": {
+    title: "H6SL Dome Camera",
+    desc: "The H6SL Dome is a weatherproof dome camera that secures your site by offering AI-powered video analytics and an optional mic.",
   },
   "fisheye.avif": {
     title: "H5A Fisheye Camera",
