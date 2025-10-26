@@ -35,7 +35,7 @@ export default function VendorVerkada() {
     window.history.replaceState(null, "", `#${key}`)
   }
 
-  const grid = "grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+  const cardGrid = "grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
 
   const videoProducts = [
     { key: "dome", title: "Dome", desc: "Reliable performance for most locations.", img: "/vendors/verkada/video/dome.png" },
@@ -63,10 +63,14 @@ export default function VendorVerkada() {
   ]
 
   const renderGrid = (list) => (
-    <div className={grid}>
+    <div className={cardGrid}>
       {list.map((p) => (
         <div key={p.key} className="card p-6 flex flex-col">
-          <img src={p.img} alt={p.title} className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4" />
+          <img
+            src={p.img}
+            alt={p.title}
+            className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
+          />
           <h3 className="text-xl font-semibold">{p.title}</h3>
           <p className="text-gray-700">{p.desc}</p>
         </div>
@@ -77,9 +81,10 @@ export default function VendorVerkada() {
   return (
     <main className="container py-12">
       <Helmet>
-        <title>Verkada Systems | Griffon Systems</title>
+        <title>Verkada Security Systems | Griffon Systems</title>
       </Helmet>
 
+      {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <VerkadaLogo />
         <Link to="/contact" className="btn btn-primary">Request a Demo</Link>
@@ -102,10 +107,18 @@ export default function VendorVerkada() {
         ))}
       </div>
 
-      {/* Always mounted sections */}
-      <section className={`${active === "video" ? "" : "hidden"}`}>{renderGrid(videoProducts)}</section>
-      <section className={`${active === "access" ? "" : "hidden"}`}>{renderGrid(accessProducts)}</section>
-      <section className={`${active === "intercom" ? "" : "hidden"}`}>{renderGrid(intercomProducts)}</section>
+      {/* Always mounted */}
+      <section className={`${active === "video" ? "block" : "hidden"}`}>
+        {renderGrid(videoProducts)}
+      </section>
+
+      <section className={`${active === "access" ? "block" : "hidden"}`}>
+        {renderGrid(accessProducts)}
+      </section>
+
+      <section className={`${active === "intercom" ? "block" : "hidden"}`}>
+        {renderGrid(intercomProducts)}
+      </section>
 
       {/* Videos */}
       <section className="mt-16 text-center">
