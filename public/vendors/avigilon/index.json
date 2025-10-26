@@ -3,13 +3,13 @@
   "images": [
     "slbullet.png",
     "H5A_Multisensor_01_2024-09-02-173128_gmdn.avif",
-    "dome.png",
-    "h5m.png",
-    "H5A_Dual_Head_02.avif",
-    "fisheye.avif",
+    "H5A_Dual_Head_02.avif",    
+    "h5a_Modular_01.avif",
     "thermal.png",
     "pro.png",
-    "h5a_Modular_01.avif",
-    "lpr.png"
+    "h5m.png",
+    "fisheye.avif",
+    "lpr.png",
+    "dome.png"
   ]
 }
