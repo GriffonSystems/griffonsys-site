@@ -43,58 +43,52 @@ export default function VendorAvigilon() {
       key: "thermal",
       title: "H5A Thermal Camera",
       desc: "Outdoor bullet camera that delivers long-range perimeter protection using heat-sensing technology for low-visibility or high-security environments.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/video/thermal.png`,
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/H5A_Modular_01.avif`,
     },
     {
       key: "pro",
       title: "H5 Pro Camera",
       desc: "Ultra-high-resolution IP camera providing up to 10K (61MP) detail for wide-area coverage and unmatched clarity.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/video/pro.png`,
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/H5A_Dual_Head_02.avif`,
     },
     {
       key: "slbullet",
       title: "H6SL Bullet Camera",
-      desc: "The H6SL Bullet is a bullet IP camera delivering superior situational awareness and long-range detail — available in both Unity On-Premise and Alta Cloud-Native options.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/video/slbullet.png`,
+      desc: "The H6SL Bullet delivers superior situational awareness and long-range detail — available in both Unity On-Premise and Alta Cloud-Native options.",
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/H6SL_Bullet_1.avif`,
     },
     {
-      key: "h5a-bullet",
-      title: "H5A Bullet",
-      desc: "Next-generation bullet camera with advanced object detection and analytics.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/video/h5a-bullet.png`,
+      key: "ptz",
+      title: "H6A PTZ Camera",
+      desc: "High-speed pan-tilt-zoom camera designed for wide-area coverage and detailed tracking.",
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/H6A-PTZ-Product_Detail_Image_2_2024-07-02-210404_cxtc.avif`,
     },
     {
-      key: "h5a-dome",
-      title: "H5A Dome",
-      desc: "Vandal-resistant indoor/outdoor dome with adaptive IR and wide dynamic range.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/video/h5a-dome.png`,
+      key: "multisensor",
+      title: "H5A Multisensor",
+      desc: "Four independent sensors offering 360° coverage with advanced analytics.",
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/H5A_Multisensor_01_2024-09-02-173128_gmdn.avif`,
     },
     {
-      key: "h5m",
-      title: "H5M Camera",
-      desc: "Cost-effective option for small spaces requiring 2–5 MP performance.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/video/h5m.png`,
-    },
-    {
-      key: "h6sl",
-      title: "H6SL Dome",
-      desc: "Simplified dome camera designed for fast installation and reliable AI-based detection.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/video/h6sl.png`,
+      key: "infrastructure",
+      title: "Video Infrastructure",
+      desc: "Reliable and secure Avigilon recording and management platforms for any scale.",
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/Videoinfrastructure_Benefit_1_v1.avif`,
     },
   ]
 
   const accessProducts = [
     {
       key: "acm",
-      title: "ACM Access Control Manager",
-      desc: "Enterprise-grade access control system with Avigilon Unity integration.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/access/acm.png`,
+      title: "Access Control Manager (ACM)",
+      desc: "Enterprise-grade access control system integrated with Avigilon Unity and Alta.",
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/ACM.mp4`,
     },
     {
-      key: "reader",
-      title: "Smart Reader",
-      desc: "Secure readers supporting RFID, mobile credentials, and unified management.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/access/reader.png`,
+      key: "readerpro",
+      title: "Video Intercom Reader Pro",
+      desc: "Two-in-one door reader and video intercom solution for secure, cloud-connected entry.",
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/VideoIntercomReaderPro_01.avif`,
     },
   ]
 
@@ -102,14 +96,14 @@ export default function VendorAvigilon() {
     {
       key: "appearance-search",
       title: "Appearance Search",
-      desc: "AI-powered search technology that allows operators to locate a person or vehicle across cameras within seconds.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/analytics/appearance-search.png`,
+      desc: "AI-powered search that allows operators to locate people or vehicles across all cameras within seconds.",
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/CamerasOverview_850x850-1.avif`,
     },
     {
       key: "focus-of-attention",
       title: "Focus of Attention",
-      desc: "Revolutionary interface highlighting events that require immediate attention through intuitive color and animation cues.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/analytics/focus-of-attention.png`,
+      desc: "Intuitive interface highlighting events requiring immediate attention through color and animation cues.",
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/fisheye.avif`,
     },
   ]
 
@@ -121,11 +115,19 @@ export default function VendorAvigilon() {
           key={card.key}
           className="card p-6 flex flex-col bg-white rounded-2xl shadow-sm hover:shadow-md transition"
         >
-          <img
-            src={card.img}
-            alt={card.title}
-            className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
-          />
+          {card.img.endsWith(".mp4") ? (
+            <video
+              src={card.img}
+              controls
+              className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
+            />
+          ) : (
+            <img
+              src={card.img}
+              alt={card.title}
+              className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
+            />
+          )}
           <h3 className="text-xl font-semibold mb-2">{card.title}</h3>
           <p className="text-gray-700 text-sm">{card.desc}</p>
         </div>
@@ -140,16 +142,11 @@ export default function VendorAvigilon() {
         <title>Avigilon Security Systems | Griffon Systems Inc.</title>
         <meta
           name="description"
-          content="Authorized Avigilon partner providing camera, access control, and analytics solutions throughout Illinois. Featuring H6SL Bullet, H5A Thermal, and H5 Pro cameras."
+          content="Authorized Avigilon partner providing design, installation, and support for video surveillance, access control, and analytics systems across Illinois."
         />
         <meta
           property="og:image"
           content="https://www.griffonsys.com/images/vendors/avigilon-og.jpg"
-        />
-        <meta property="og:title" content="Avigilon Security Systems | Griffon Systems Inc." />
-        <meta
-          property="og:description"
-          content="Authorized Avigilon partner delivering professional design, installation, and support for advanced video surveillance and access control systems."
         />
         <link rel="canonical" href="https://www.griffonsys.com/vendors/avigilon" />
       </Helmet>
