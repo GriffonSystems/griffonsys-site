@@ -24,7 +24,7 @@ const PRODUCT_INFO = {
     title: "H6SL Bullet Camera",
     desc: "AI-powered bullet IP camera delivering superior situational awareness and long-range detail.",
   },
-  "H6SL_Dome_1.avif": {
+  "dome.avif": {
     title: "H6SL Dome Camera",
     desc: "Weatherproof dome camera that secures your site with AI-powered analytics and an optional mic.",
   },
@@ -48,9 +48,9 @@ const PRODUCT_INFO = {
     title: "H5 Pro Camera",
     desc: "High-resolution IP camera capturing image detail up to 10K for expansive scene coverage.",
   },
-  "dome.png": {
-    title: "H6SL Dome Camera",
-    desc: "The H6SL Dome is a weatherproof dome camera that secures your site by offering AI-powered video analytics and an optional mic.",
+  "H5M.avif": {
+    title: "H5M Dome Camera",
+    desc: "The H5M is an outdoor dome security camera that allows you to be up and running quickly with its tool-free design.",
   },
   "fisheye.avif": {
     title: "H5A Fisheye Camera",
