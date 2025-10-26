@@ -126,7 +126,7 @@ export default function VendorAvigilon() {
       key: "rackmounted",
       title: "Rack-Mounted Controller",
       desc: "Enterprise-grade controller to manage door hardware and access points.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/Rack-mounted-Cloud-Connector-Product_Detail_Image_1200x900_2024.avif`,
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/Rack.avif`,
     },
   ]
 
@@ -142,7 +142,7 @@ export default function VendorAvigilon() {
       key: "h4intercom",
       title: "H4 Video Intercom",
       desc: "Legacy unified intercom for Avigilon Unity deployments.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/intercom.avif`,
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/intercom.png`,
     },
     {
       key: "infrastructure",
