@@ -125,7 +125,7 @@ export default function VendorVerkada() {
       {/* Tab Content */}
       {active === 'video' && (
         <section className="space-y-10">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               { key:'dome', title:'Dome', desc:'Reliable and versatile performance in almost any location.', img:'/vendors/verkada/video/dome.png' },
               { key:'mini', title:'Mini', desc:'Compact form factor for discreet monitoring in tight spaces.', img:'/vendors/verkada/video/mini.png' },
@@ -136,51 +136,6 @@ export default function VendorVerkada() {
               { key:'remote', title:'Remote', desc:'Built-in battery and LTE modem for remote deployments.', img:'/vendors/verkada/video/remote.png' },
               { key:'dualhead', title:'Dual-Head (CY53-E)', desc:'Two 5MP sensors in one enclosure for dual-view coverage from a single mount — ideal for corners, corridors, or intersections.', img:'/vendors/verkada/video/dualhead.png' },
               { key:'viewstation', title:'Viewing Station', desc:'Dedicated plug-and-play appliance for displaying up to 36 camera feeds in real time.', img:'/vendors/verkada/video/viewstation.png' },
-            ].map(card => (
-              <div key={card.key} className="card p-6 flex flex-col">
-                <img
-                  src={encodeURI(card.img)}
-                  alt={card.title}
-                  className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
-                />
-                <h3 className="text-xl font-semibold">{card.title}</h3>
-                <p className="text-gray-700">{card.desc}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {active === 'access' && (
-        <section className="space-y-10">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { key: 'single-door', title: 'Single Door Controller', desc: 'Simple, reliable control for a single opening with cloud management.', img: '/vendors/verkada/access/singledoor.png' },
-              { key: 'four-door', title: '4-Door Controller', desc: 'Scale up with a compact panel that handles four doors per unit.', img: '/vendors/verkada/access/4doorcontroller.png' },
-              { key: 'mullion-reader', title: 'Mullion Reader', desc: 'Slim reader for tight jambs; supports NFC/BLE/mobile credentials.', img: '/vendors/verkada/access/singledoorreader.png' },
-              { key: 'keypad-reader', title: 'Keypad Reader', desc: 'Keypad + reader for PIN and card/mobile access with audit trails.', img: '/vendors/verkada/access/keypad.png' },
-            ].map(card => (
-              <div key={card.key} className="card p-6 flex flex-col">
-                <img
-                  src={encodeURI(card.img)}
-                  alt={card.title}
-                  className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
-                />
-                <h3 className="text-xl font-semibold">{card.title}</h3>
-                <p className="text-gray-700">{card.desc}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {active === 'intercom' && (
-        <section className="space-y-10">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { key: 'TD33', title: 'TD33 — Slim Intercom', desc: 'Mullion-friendly form factor for tight jambs and retrofits.', img: '/vendors/verkada/intercom/td33.jpg' },
-              { key: 'TD53', title: 'TD53 — Intercom', desc: 'Full-size unit with excellent video, audio, and scanning.', img: '/vendors/verkada/intercom/td53.jpg' },
-              { key: 'TD63', title: 'TD63 — Intercom + Keypad', desc: 'Integrated keypad for PIN, MFA, and multi-tenant directories.', img: '/vendors/verkada/intercom/td63.jpg' },
             ].map(card => (
               <div key={card.key} className="card p-6 flex flex-col">
                 <img
