@@ -194,57 +194,58 @@ export default function VendorVerkada() {
         </section>
       )}
 
-      {/* ALPR Video */}
+      {/* Two-column video section */}
       <section className="mt-16 text-center">
-        <h2 className="text-2xl font-semibold mb-4">
-          Automatic License Plate Recognition (ALPR)
+        <h2 className="text-2xl font-semibold mb-8">
+          Verkada Solutions in Action
         </h2>
-        <p className="text-gray-700 mb-6 max-w-2xl mx-auto">
-          See how Verkada’s ALPR solution automatically detects and logs vehicle plates
-          for secure facility entry, parking management, and perimeter monitoring.
-        </p>
 
-        <div className="max-w-4xl mx-auto aspect-video rounded-lg overflow-hidden shadow-lg">
-          <iframe
-            src="https://fast.wistia.net/embed/iframe/12wtrfxii4?videoFoam=true"
-            title="Verkada ALPR"
-            allow="autoplay; fullscreen"
-            allowTransparency="true"
-            frameBorder="0"
-            scrolling="no"
-            className="w-full h-full"
-          ></iframe>
+        <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
+          {/* ALPR */}
+          <div>
+            <h3 className="text-xl font-semibold mb-3">
+              Automatic License Plate Recognition (ALPR)
+            </h3>
+            <div className="aspect-video rounded-lg overflow-hidden shadow-lg mb-2">
+              <iframe
+                src="https://fast.wistia.net/embed/iframe/12wtrfxii4?videoFoam=true"
+                title="Verkada ALPR"
+                allow="autoplay; fullscreen"
+                allowTransparency="true"
+                frameBorder="0"
+                scrolling="no"
+                className="w-full h-full"
+              ></iframe>
+            </div>
+            <p className="text-sm text-gray-600">
+              Identify and log vehicle plates for secure facility entry, parking, and perimeter management.
+            </p>
+          </div>
+
+          {/* Incident Management */}
+          <div>
+            <h3 className="text-xl font-semibold mb-3">
+              Incident Management
+            </h3>
+            <div className="aspect-video rounded-lg overflow-hidden shadow-lg mb-2">
+              <iframe
+                src="https://fast.wistia.net/embed/iframe/wvjnlck3kd?videoFoam=true"
+                title="Verkada Incident Management"
+                allow="autoplay; fullscreen"
+                allowTransparency="true"
+                frameBorder="0"
+                scrolling="no"
+                className="w-full h-full"
+              ></iframe>
+            </div>
+            <p className="text-sm text-gray-600">
+              Simplify video review, evidence sharing, and coordination across your organization.
+            </p>
+          </div>
         </div>
 
-        <p className="text-sm text-gray-500 mt-2">
-          © Verkada Inc. — Video hosted by Verkada Marketing on Wistia.
-        </p>
-      </section>
-
-      {/* Incident Management Video */}
-      <section className="mt-16 text-center">
-        <h2 className="text-2xl font-semibold mb-4">
-          Incident Management
-        </h2>
-        <p className="text-gray-700 mb-6 max-w-2xl mx-auto">
-          See how Verkada’s Incident Management solution simplifies video review,
-          evidence sharing, and response coordination across your organization.
-        </p>
-
-        <div className="max-w-4xl mx-auto aspect-video rounded-lg overflow-hidden shadow-lg">
-          <iframe
-            src="https://fast.wistia.net/embed/iframe/wvjnlck3kd?videoFoam=true"
-            title="Verkada Incident Management"
-            allow="autoplay; fullscreen"
-            allowTransparency="true"
-            frameBorder="0"
-            scrolling="no"
-            className="w-full h-full"
-          ></iframe>
-        </div>
-
-        <p className="text-sm text-gray-500 mt-2">
-          © Verkada Inc. — Video hosted by Verkada Marketing on Wistia.
+        <p className="text-xs text-gray-500 mt-6">
+          © Verkada Inc. — Videos hosted by Verkada Marketing on Wistia.
         </p>
       </section>
     </main>
