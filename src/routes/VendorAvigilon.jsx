@@ -28,7 +28,7 @@ const PRODUCT_INFO = {
     title: "H6SL Dome Camera",
     desc: "Weatherproof dome camera that secures your site with AI-powered analytics and an optional mic.",
   },
-  "H5A_Multisensor_01_2024-09-02-173128_gmdn.avif": {
+  "H5A_Multisensor.png": {
     title: "H5A Multisensor Camera",
     desc: "Covers all angles with 180°, 270°, or 360° views from a single housing using multiple sensors.",
   },
