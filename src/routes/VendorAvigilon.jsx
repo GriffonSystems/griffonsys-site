@@ -62,19 +62,16 @@ const PRODUCT_INFO = {
   },
 }
 
-// ---------- COMPONENT ----------
 export default function VendorAvigilon() {
   const location = useLocation()
   const [active, setActive] = React.useState("video")
   const [videoImages, setVideoImages] = React.useState([])
 
-  // Handle tab changes via URL hash (#video, #access, etc.)
   React.useEffect(() => {
     const hash = (location.hash || "").replace("#", "").toLowerCase()
     if (["video", "access", "intercom"].includes(hash)) setActive(hash)
   }, [location.hash])
 
-  // Load Avigilon image list from JSON
   React.useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}vendors/avigilon/index.json`)
       .then((res) => res.json())
@@ -90,7 +87,7 @@ export default function VendorAvigilon() {
 
   const grid = "grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
 
-  // ---------- ACCESS PRODUCTS ----------
+  // ---------- ACCESS ----------
   const accessProducts = [
     {
       key: "acm",
@@ -112,7 +109,7 @@ export default function VendorAvigilon() {
     },
   ]
 
-  // ---------- INTERCOM PRODUCTS ----------
+  // ---------- INTERCOM ----------
   const intercomProducts = [
     {
       key: "readerpro",
@@ -132,3 +129,99 @@ export default function VendorAvigilon() {
       desc: "Seamless integration between Avigilon Command and intercom endpoints.",
       img: `${import.meta.env.BASE_URL}vendors/avigilon/Videoinfrastructure_Benefit_1_v1.avif`,
     },
+  ]
+
+  // ---------- VIDEO GRID ----------
+  const renderVideoGrid = () => (
+    <div className={grid}>
+      {videoImages.map((file) => {
+        const info = PRODUCT_INFO[file] || {
+          title: file.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " "),
+          desc: "Avigilon camera model for enterprise environments.",
+        }
+        return (
+          <div
+            key={file}
+            className="card p-6 flex flex-col bg-white rounded-2xl shadow-sm hover:shadow-md transition"
+          >
+            <img
+              src={`${import.meta.env.BASE_URL}vendors/avigilon/${file}`}
+              alt={info.title}
+              className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
+            />
+            <h3 className="text-xl font-semibold mb-2">{info.title}</h3>
+            <p className="text-gray-700 text-sm">{info.desc}</p>
+          </div>
+        )
+      })}
+    </div>
+  )
+
+  // ---------- GENERIC GRID ----------
+  const renderGrid = (list) => (
+    <div className={grid}>
+      {list.map((card) => (
+        <div
+          key={card.key}
+          className="card p-6 flex flex-col bg-white rounded-2xl shadow-sm hover:shadow-md transition"
+        >
+          {card.img.endsWith(".mp4") ? (
+            <video
+              src={card.img}
+              controls
+              className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
+            />
+          ) : (
+            <img
+              src={card.img}
+              alt={card.title}
+              className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
+            />
+          )}
+          <h3 className="text-xl font-semibold mb-2">{card.title}</h3>
+          <p className="text-gray-700 text-sm">{card.desc}</p>
+        </div>
+      ))}
+    </div>
+  )
+
+  // ---------- PAGE ----------
+  return (
+    <main className="container py-12">
+      <Helmet>
+        <title>Avigilon Security Systems | Griffon Systems Inc.</title>
+        <meta
+          name="description"
+          content="Authorized Avigilon partner in Illinois providing video surveillance, access control, and intercom systems for manufacturing, education, and municipalities."
+        />
+      </Helmet>
+
+      <div className="flex items-center justify-between mb-8">
+        <AvigilonLogo />
+        <Link to="/contact" className="btn btn-primary">
+          Request a Quote
+        </Link>
+      </div>
+
+      <div className="flex flex-wrap gap-2 mb-10">
+        {TABS.map((t) => (
+          <button
+            key={t.key}
+            onClick={() => onTabClick(t.key)}
+            className={`px-4 py-2 rounded-xl border transition ${
+              active === t.key
+                ? "bg-black text-white border-black"
+                : "bg-white hover:bg-gray-100 border-gray-200"
+            }`}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {active === "video" && renderVideoGrid()}
+      {active === "access" && renderGrid(accessProducts)}
+      {active === "intercom" && renderGrid(intercomProducts)}
+    </main>
+  )
+}
