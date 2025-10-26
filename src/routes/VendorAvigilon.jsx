@@ -24,21 +24,25 @@ const PRODUCT_INFO = {
     title: "H6SL Bullet Camera",
     desc: "AI-powered bullet IP camera delivering superior situational awareness and long-range detail.",
   },
-  "h5a-bullet.png": {
-    title: "H5A Multi-Head Camera",
-    desc: "Flexible multi-sensor design delivering up to 360° coverage with independent positioning for each sensor — ideal for corridors, corners, and wide areas.",
-  },
-  "H6SL_Dome_1.avif": {
-    title: "H6SL Dome Camera",
-    desc: "The H6SL Dome is a weatherproof dome camera that secures your site by offering AI-powered video analytics and an optional mic.",
-  },
   "H5A_Multisensor_01_2024-09-02-173128_gmdn.avif": {
     title: "H5A Multisensor Camera",
     desc: "Be covered from all angles with the H5A Multisensor camera that can deliver 180°, 270°, or 360° views.",
   },
+  "dome.png": {
+    title: "H6SL Dome Camera",
+    desc: "The H6SL Dome is a weatherproof dome camera that secures your site by offering AI-powered video analytics and an optional mic.",
+  },
+  "h5m.png": {
+    title: "H5M Mini Dome Camera",
+    desc: "Compact and cost-effective mini dome camera ideal for indoor or covered outdoor applications.",
+  },
   "H5A_Dual_Head_02.avif": {
     title: "H5A Dual Head Camera",
     desc: "Dual-sensor camera offering flexible positioning and wide coverage for hallways or intersections.",
+  },
+  "fisheye.avif": {
+    title: "H5A Fisheye Camera",
+    desc: "360° panoramic fisheye camera that provides complete situational awareness in a single view.",
   },
   "thermal.png": {
     title: "H5A Thermal Camera",
@@ -104,7 +108,7 @@ export default function VendorAvigilon() {
       key: "rackmounted",
       title: "Rack-Mounted Controller",
       desc: "Enterprise-grade controller to manage door hardware and access points.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/controller.png`,
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/Rack-mounted-Cloud-Connector-Product_Detail_Image_1200x900_2024.avif`,
     },
   ]
 
@@ -120,7 +124,7 @@ export default function VendorAvigilon() {
       key: "h4intercom",
       title: "H4 Video Intercom",
       desc: "Legacy unified intercom for Avigilon Unity deployments.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/intercom.png`,
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/H5A_Modular_01.avif`,
     },
     {
       key: "infrastructure",
@@ -128,102 +132,3 @@ export default function VendorAvigilon() {
       desc: "Seamless integration between Avigilon Command and intercom endpoints.",
       img: `${import.meta.env.BASE_URL}vendors/avigilon/Videoinfrastructure_Benefit_1_v1.avif`,
     },
-  ]
-
-  // ---------- RENDER VIDEO GRID ----------
-  const renderVideoGrid = () => (
-    <div className={grid}>
-      {videoImages.map((file) => {
-        const info = PRODUCT_INFO[file] || {
-          title: file.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " "),
-          desc: "Avigilon camera model for enterprise environments.",
-        }
-        return (
-          <div
-            key={file}
-            className="card p-6 flex flex-col bg-white rounded-2xl shadow-sm hover:shadow-md transition"
-          >
-            <img
-              src={`${import.meta.env.BASE_URL}vendors/avigilon/${file}`}
-              alt={info.title}
-              className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
-            />
-            <h3 className="text-xl font-semibold mb-2">{info.title}</h3>
-            <p className="text-gray-700 text-sm">{info.desc}</p>
-          </div>
-        )
-      })}
-    </div>
-  )
-
-  // ---------- GENERIC GRID RENDERER ----------
-  const renderGrid = (list) => (
-    <div className={grid}>
-      {list.map((card) => (
-        <div
-          key={card.key}
-          className="card p-6 flex flex-col bg-white rounded-2xl shadow-sm hover:shadow-md transition"
-        >
-          {card.img.endsWith(".mp4") ? (
-            <video
-              src={card.img}
-              controls
-              className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
-            />
-          ) : (
-            <img
-              src={card.img}
-              alt={card.title}
-              className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
-            />
-          )}
-          <h3 className="text-xl font-semibold mb-2">{card.title}</h3>
-          <p className="text-gray-700 text-sm">{card.desc}</p>
-        </div>
-      ))}
-    </div>
-  )
-
-  // ---------- PAGE STRUCTURE ----------
-  return (
-    <main className="container py-12">
-      <Helmet>
-        <title>Avigilon Security Systems | Griffon Systems Inc.</title>
-        <meta
-          name="description"
-          content="Authorized Avigilon partner in Illinois providing video surveillance, access control, and intercom systems for manufacturing, education, and municipalities."
-        />
-      </Helmet>
-
-      {/* Header */}
-      <div className="flex items-center justify-between mb-8">
-        <AvigilonLogo />
-        <Link to="/contact" className="btn btn-primary">
-          Request a Quote
-        </Link>
-      </div>
-
-      {/* Tabs */}
-      <div className="flex flex-wrap gap-2 mb-10">
-        {TABS.map((t) => (
-          <button
-            key={t.key}
-            onClick={() => onTabClick(t.key)}
-            className={`px-4 py-2 rounded-xl border transition ${
-              active === t.key
-                ? "bg-black text-white border-black"
-                : "bg-white hover:bg-gray-100 border-gray-200"
-            }`}
-          >
-            {t.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Tab Content */}
-      {active === "video" && renderVideoGrid()}
-      {active === "access" && renderGrid(accessProducts)}
-      {active === "intercom" && renderGrid(intercomProducts)}
-    </main>
-  )
-}
