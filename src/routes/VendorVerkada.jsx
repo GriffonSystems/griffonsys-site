@@ -125,7 +125,7 @@ export default function VendorVerkada() {
       {/* Tab Content */}
       {active === 'video' && (
         <section className="space-y-10">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { key:'dome', title:'Dome', desc:'Reliable and versatile performance in almost any location.', img:'/vendors/verkada/video/dome.png' },
               { key:'mini', title:'Mini', desc:'Compact form factor for discreet monitoring in tight spaces.', img:'/vendors/verkada/video/mini.png' },
@@ -134,6 +134,8 @@ export default function VendorVerkada() {
               { key:'multisensor', title:'Multisensor', desc:'Two or four sensors in one unit for holistic coverage.', img:'/vendors/verkada/video/multisensor.png' },
               { key:'ptz', title:'PTZ', desc:'Flexible, wide-area coverage at a distance.', img:'/vendors/verkada/video/ptz.png' },
               { key:'remote', title:'Remote', desc:'Built-in battery and LTE modem for remote deployments.', img:'/vendors/verkada/video/remote.png' },
+              { key:'dualhead', title:'Dual-Head (CY53-E)', desc:'Two 5MP sensors in one enclosure for dual-view coverage from a single mount — ideal for corners, corridors, or intersections.', img:'/vendors/verkada/video/dualhead.png' },
+              { key:'viewstation', title:'Viewing Station', desc:'Dedicated plug-and-play appliance for displaying up to 36 camera feeds in real time.', img:'/vendors/verkada/video/viewstation.png' },
             ].map(card => (
               <div key={card.key} className="card p-6 flex flex-col">
                 <img
