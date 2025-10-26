@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/((?!images|vendors|videos|hero|favicon|robots\\.txt|manifest\\.json|.*\\.json).*)",
-      "destination": "/"
+      "source": "/((?!images|vendors|videos|hero|favicon|robots\\.txt|manifest\\.json|.*\\.json|.*\\.(png|jpg|jpeg|gif|svg|webp|avif|ico|css|js|mp4|webm)).*)",
+      "destination": "/index.html"
     }
   ],
   "headers": [
