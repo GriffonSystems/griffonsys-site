@@ -1,4 +1,6 @@
-// ✅ Prevent Vite from pruning vendor images during build
+// ✅ Force-include static vendor images in the Vite build
+import "./keep-vendors-assets.js"
+
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
