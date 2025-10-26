@@ -109,7 +109,7 @@ export default function VendorAvigilon() {
       key: "h4intercom",
       title: "H4 Video Intercom",
       desc: "Legacy unified intercom designed for Avigilon Unity deployments.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/H5A_Modular_01.avif`,
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/intercom.png`,
     },
     {
       key: "infrastructure",
