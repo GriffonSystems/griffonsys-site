@@ -34,10 +34,10 @@ export default function Home() {
                 Modern, scalable systems with AI analytics and remote access.
               </p>
               <div className="mt-auto flex flex-col sm:flex-row gap-3">
-                <Link className="btn btn-primary w-full sm:w-auto" to="/vendors/verkada#video">
+                <Link className="btn btn-primary w-full sm:w-auto" to="/brands/verkada#video">
                   Explore Verkada
                 </Link>
-                <Link className="btn btn-primary w-full sm:w-auto" to="/vendors/avigilon-cloud">
+                <Link className="btn btn-primary w-full sm:w-auto" to="/brands/avigilon-cloud">
                   Explore Avigilon
                 </Link>
               </div>
@@ -56,10 +56,10 @@ export default function Home() {
                 Mobile credentials, remote unlock, and cloud management for doors and elevators.
               </p>
               <div className="mt-auto flex flex-col sm:flex-row gap-3">
-                <Link className="btn btn-primary w-full sm:w-auto" to="/vendors/verkada#access">
+                <Link className="btn btn-primary w-full sm:w-auto" to="/brands/verkada#access">
                   Explore Verkada
                 </Link>
-                <Link className="btn btn-primary w-full sm:w-auto" to="/vendors/alta">
+                <Link className="btn btn-primary w-full sm:w-auto" to="/brands/alta">
                   Explore Alta Access
                 </Link>
               </div>
@@ -78,7 +78,7 @@ export default function Home() {
                 Enterprise-grade reliability for campuses, plants, and regulated environments.
               </p>
               <div className="mt-auto">
-                <Link className="btn btn-primary w-full md:w-auto" to="/vendors/avigilon">
+                <Link className="btn btn-primary w-full md:w-auto" to="/brands/avigilon">
                   Explore Avigilon
                 </Link>
               </div>
