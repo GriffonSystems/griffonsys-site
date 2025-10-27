@@ -1,22 +1,15 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "redirects": [
-    {
-      "source": "/brands/:path*",
-      "destination": "/vendors/:path*",
-      "permanent": true
-    }
-  ],
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/((?!hero|images|brands|videos|logos|favicon|robots\\.txt|manifest\\.json|.*\\.json).*)",
       "destination": "/index.html"
     }
   ],
   "headers": [
     {
-      "source": "/(images|vendors|videos|logos|hero)/(.*)",
+      "source": "/(hero|images|brands|videos|logos)/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -25,37 +18,20 @@
       ]
     },
     {
-      "source": "/.*\\.json",
+      "source": "/videos/(.*)\\.(mp4|webm)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(.*\\.json|index\\.html)",
       "headers": [
         {
           "key": "Cache-Control",
           "value": "no-store"
-        }
-      ]
-    },
-    {
-      "source": "/videos/(.*)\\.mp4",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "video/mp4"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/videos/(.*)\\.webm",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "video/webm"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
         }
       ]
     }
