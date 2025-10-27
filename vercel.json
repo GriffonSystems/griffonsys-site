@@ -18,7 +18,7 @@
       ]
     },
     {
-      "source": "/(images|vendors|videos)/(.*)",
+      "source": "/(images|vendors|videos|logos)/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
