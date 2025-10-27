@@ -63,8 +63,8 @@ export default function Nav() {
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-1" aria-label="Primary">
             <NavLink to="/solutions" className={active}>Solutions</NavLink>
-            <NavLink to="/vendors/verkada" className={active}>Verkada</NavLink>
-            <NavLink to="/vendors/avigilon" className={active}>Avigilon</NavLink>
+            <NavLink to="/brands/verkada" className={active}>Verkada</NavLink>
+            <NavLink to="/brands/avigilon" className={active}>Avigilon</NavLink>
             <NavLink to="/industries" className={active}>Industries</NavLink>
             <NavLink to="/from-the-field" className={active}>From the Field</NavLink>
             <NavLink to="/about" className={active}>About</NavLink>
@@ -110,8 +110,8 @@ export default function Nav() {
         >
           <nav className="container flex flex-col py-3" aria-label="Mobile">
             <NavLink to="/solutions" className={active} onClick={() => setOpen(false)}>Solutions</NavLink>
-            <NavLink to="/vendors/verkada" className={active} onClick={() => setOpen(false)}>Verkada</NavLink>
-            <NavLink to="/vendors/avigilon" className={active} onClick={() => setOpen(false)}>Avigilon</NavLink>
+            <NavLink to="/brands/verkada" className={active} onClick={() => setOpen(false)}>Verkada</NavLink>
+            <NavLink to="/brands/avigilon" className={active} onClick={() => setOpen(false)}>Avigilon</NavLink>
             <NavLink to="/industries" className={active} onClick={() => setOpen(false)}>Industries</NavLink>
             <NavLink to="/from-the-field" className={active} onClick={() => setOpen(false)}>From the Field</NavLink>
             <NavLink to="/about" className={active} onClick={() => setOpen(false)}>About</NavLink>
