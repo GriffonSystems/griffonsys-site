@@ -1,13 +1,13 @@
 {
   "rewrites": [
     {
+      "source": "/vendors/(?!.*\\.json$)(.*)",
+      "destination": "/index.html"
+    },
+    {
       "source": "/((?!images|videos|hero|favicon|robots\\.txt|manifest\\.json|.*\\.json).*)",
       "destination": "/index.html"
     }
-  ],
-  "redirects": [
-    { "source": "/:path*/", "destination": "/:path*", "permanent": true },
-    { "source": "http://(.*)", "destination": "https://www.griffonsys.com", "permanent": true }
   ],
   "headers": [
     {
@@ -19,20 +19,6 @@
     {
       "source": "/(images|vendors|videos)/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
-    },
-    {
-      "source": "/videos/(.*)\\.mp4",
-      "headers": [
-        { "key": "Content-Type", "value": "video/mp4" },
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
-    },
-    {
-      "source": "/videos/(.*)\\.webm",
-      "headers": [
-        { "key": "Content-Type", "value": "video/webm" },
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]
     }
