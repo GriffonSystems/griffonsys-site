@@ -66,7 +66,7 @@ const PRODUCT_INFO = {
 const CAMERA_ORDER = [
   "slbullet.png",
   "H6SL_Dome_1.avif",
-  "H5A_Multisensor_01_2024-09-02-173128_gmdn.avif",
+  "H5A_Multisensor.png",
   "H5A_Dual_Head_02.avif",
   "H5A_Modular_01.avif",
   "H5M.avif",
