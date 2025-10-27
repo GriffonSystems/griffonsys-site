@@ -217,13 +217,19 @@ export default function VendorAvigilon() {
         />
       </Helmet>
 
-      <div className="flex items-center justify-between mb-8">
-        <AvigilonLogo />
-        <Link to="/contact" className="btn btn-primary">
-          Request a Quote
-        </Link>
-      </div>
-
+     <div className="flex items-center justify-between mb-8">
+  <div className="flex items-center gap-4">
+    <AvigilonLogo className="h-10 w-auto object-contain" />
+    <img
+      src={`${import.meta.env.BASE_URL}vendors/avigilon/avigilon-text.png`}
+      alt="Avigilon"
+      className="h-6 w-auto object-contain"
+    />
+  </div>
+  <Link to="/contact" className="btn btn-primary">
+    Request a Quote
+  </Link>
+</div>
       <div className="flex flex-wrap gap-2 mb-10">
         {TABS.map((t) => (
           <button
