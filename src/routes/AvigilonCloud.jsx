@@ -18,28 +18,44 @@ const TABS = [
   { key: "intercom", label: "Intercom" },
 ]
 
-// ---------- PRODUCT INFO ----------
+// ---------- CLOUD CAMERA INFO ----------
 const PRODUCT_INFO = {
   "H6X_Cloud.avif": {
     title: "H6X Cloud Camera",
-    desc: "Avigilon’s newest AI-powered cloud camera with edge analytics and encrypted cloud connection.",
+    desc: "Avigilon Alta’s flagship cloud-native camera with edge AI analytics, encrypted video streaming, and remote management through the Avigilon Alta platform.",
   },
-  "H6SL_Cloud.avif": {
-    title: "H6SL Cloud Camera",
-    desc: "Compact cloud-ready camera ideal for retail, office, and education environments.",
+  "slbullet.png": {
+    title: "H6SL Bullet Cloud Camera",
+    desc: "AI-powered outdoor bullet camera offering reliable long-range coverage, simple plug-and-play cloud onboarding, and smart alerts through Alta’s intuitive interface.",
+  },
+  "H6SL_Dome_1.avif": {
+    title: "H6SL Dome Cloud Camera",
+    desc: "Discreet and weather-resistant dome camera that connects directly to the Avigilon Alta Cloud for secure, encrypted video storage and AI-assisted event search.",
+  },
+  "H5A_Multisensor.png": {
+    title: "H5A Multisensor Cloud",
+    desc: "Multi-sensor 180°/270°/360° coverage with built-in cloud connectivity — enabling full-site visibility and simplified device management from a single dashboard.",
   },
   "H6Mini.avif": {
     title: "H6 Mini Dome Cloud",
-    desc: "Small form factor indoor camera with integrated AI and direct-to-cloud streaming.",
+    desc: "Compact AI-driven indoor camera for office or retail environments, streaming securely to Avigilon Alta without the need for NVRs or local servers.",
   },
   "H5A_Hybrid.avif": {
     title: "H5A Hybrid Bridge",
-    desc: "Connects existing on-prem cameras securely to the Avigilon Alta Cloud for hybrid recording.",
+    desc: "Bridge existing Unity or legacy cameras to Avigilon Alta Cloud for centralized hybrid video management.",
   },
 }
 
-const CAMERA_ORDER = ["H6X_Cloud.avif", "H6SL_Cloud.avif", "H6Mini.avif", "H5A_Hybrid.avif"]
+const CAMERA_ORDER = [
+  "H6X_Cloud.avif",
+  "slbullet.png",
+  "H6SL_Dome_1.avif",
+  "H5A_Multisensor.png",
+  "H6Mini.avif",
+  "H5A_Hybrid.avif",
+]
 
+// ---------- COMPONENT ----------
 export default function VendorAvigilonCloud() {
   const location = useLocation()
   const [active, setActive] = React.useState("overview")
@@ -50,9 +66,9 @@ export default function VendorAvigilonCloud() {
     if (["overview", "cameras", "intercom"].includes(hash)) setActive(hash)
   }, [location.hash])
 
-  // Load image list
+  // Load image list (optional JSON manifest)
   React.useEffect(() => {
-    fetch(`${import.meta.env.BASE_URL}vendors/avigilon-cloud/index.json`)
+    fetch(`${import.meta.env.BASE_URL}vendors/avigilon/index.json`)
       .then((res) => res.json())
       .then((data) => {
         const imgs = data.images || []
@@ -75,7 +91,7 @@ export default function VendorAvigilonCloud() {
     {
       key: "readerpro",
       title: "Video Intercom Reader Pro",
-      desc: "Cloud-managed intercom and access reader in one sleek device for modern entryways.",
+      desc: "Cloud-managed intercom and access reader in one sleek device for modern entryways, fully managed through Avigilon Alta.",
       img: `${import.meta.env.BASE_URL}vendors/avigilon/VideoIntercomReaderPro_01.avif`,
     },
   ]
@@ -83,7 +99,7 @@ export default function VendorAvigilonCloud() {
   // ---------- RENDER CAMERA GRID ----------
   const renderCameraGrid = () => (
     <div className={grid}>
-      {videoImages.map((file) => {
+      {CAMERA_ORDER.map((file) => {
         const info = PRODUCT_INFO[file] || {
           title: file.replace(/\.[^/.]+$/, ""),
           desc: "Avigilon Alta Cloud-enabled camera.",
@@ -94,7 +110,7 @@ export default function VendorAvigilonCloud() {
             className="card p-6 flex flex-col bg-white rounded-2xl shadow-sm hover:shadow-md transition"
           >
             <img
-              src={`${import.meta.env.BASE_URL}vendors/avigilon-cloud/${file}`}
+              src={`${import.meta.env.BASE_URL}vendors/avigilon/${file}`}
               alt={info.title}
               className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
             />
@@ -150,7 +166,7 @@ export default function VendorAvigilonCloud() {
         detect, verify, and respond to events in real time. Centralized
         management provides a unified view across multiple facilities, while
         automatic updates and continuous health monitoring keep systems
-        up-to-date and performing at their best.
+        performing at their best.
       </p>
 
       <ul className="list-disc list-inside text-gray-700 space-y-2 mb-6">
