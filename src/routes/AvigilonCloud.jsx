@@ -155,27 +155,46 @@ export default function VendorAvigilonCloud() {
     </div>
   )
 
-  // ---------- OVERVIEW ----------
-  const renderOverview = () => (
-    <div className="max-w-3xl">
-      <h2 className="text-2xl font-semibold mb-4">Avigilon Alta Cloud Platform</h2>
-      <p className="text-gray-700 mb-4">
-        Avigilon Cloud (Alta) delivers enterprise-grade video security with the simplicity
-        and scalability of the cloud. Cameras connect directly to the secure Avigilon platform
-        —no servers or NVRs required—allowing centralized management across all sites.
-      </p>
-      <ul className="list-disc list-inside text-gray-700 space-y-2 mb-6">
-        <li>Remote access and system health monitoring</li>
-        <li>AI analytics and motion alerts built in</li>
-        <li>Seamless integration with Avigilon Alta Access and Intercom</li>
-        <li>End-to-end encryption and automatic firmware updates</li>
-      </ul>
+ // ---------- OVERVIEW ----------
+const renderOverview = () => (
+  <div className="max-w-3xl">
+    <img
+      src={`${import.meta.env.BASE_URL}vendors/avigilon-cloud/avigiloncloud.avif`}
+      alt="Avigilon Cloud Video"
+      className="rounded-2xl mb-6 shadow-sm"
+    />
 
-      <Link to="/contact" className="btn btn-primary">
-        Request a Cloud Demo
-      </Link>
-    </div>
-  )
+    <h2 className="text-2xl font-semibold mb-4">Avigilon Alta Cloud Video</h2>
+
+    <p className="text-gray-700 mb-4">
+      Avigilon Alta Cloud Video is the next generation of video management —
+      built for simplicity, scalability, and security. Part of the Avigilon
+      ecosystem, Alta delivers a fully cloud-native platform that eliminates
+      on-premise servers and enables instant, secure access to video from
+      anywhere.
+    </p>
+
+    <p className="text-gray-700 mb-4">
+      Powered by advanced AI analytics, Avigilon Cloud lets organizations
+      detect, verify, and respond to events in real time. Centralized
+      management provides a unified view across multiple facilities, while
+      automatic updates and continuous health monitoring keep systems
+      up-to-date and performing at their best.
+    </p>
+
+    <ul className="list-disc list-inside text-gray-700 space-y-2 mb-6">
+      <li>View and manage video securely from any device, anywhere</li>
+      <li>AI-powered search, detection, and motion-based alerts</li>
+      <li>End-to-end encryption and automatic firmware updates</li>
+      <li>Centralized user and site management across all locations</li>
+      <li>Seamless integration with Avigilon Alta Access and Intercom</li>
+    </ul>
+
+    <Link to="/contact" className="btn btn-primary">
+      Request a Cloud Demo
+    </Link>
+  </div>
+)
 
   // ---------- PAGE ----------
   return (
