@@ -1,3 +1,11 @@
 User-agent: *
 Allow: /
+
+# Block system or API routes
+Disallow: /api/
+Disallow: /vendors/
+Disallow: /hero/
+Disallow: /assets/
+
+# Sitemap reference
 Sitemap: https://www.griffonsys.com/sitemap.xml
