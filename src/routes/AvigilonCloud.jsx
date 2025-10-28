@@ -15,7 +15,6 @@ function AvigilonLogo({ className = "h-10 w-auto object-contain" }) {
 const TABS = [
   { key: "overview", label: "Overview" },
   { key: "cameras", label: "Cloud Cameras" },
-  { key: "access", label: "Alta Access" },
   { key: "intercom", label: "Intercom" },
 ]
 
@@ -48,7 +47,7 @@ export default function VendorAvigilonCloud() {
 
   React.useEffect(() => {
     const hash = (location.hash || "").replace("#", "").toLowerCase()
-    if (["overview", "cameras", "access", "intercom"].includes(hash)) setActive(hash)
+    if (["overview", "cameras", "intercom"].includes(hash)) setActive(hash)
   }, [location.hash])
 
   // Load image list
@@ -71,28 +70,6 @@ export default function VendorAvigilonCloud() {
 
   const grid = "grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
 
-  // ---------- ACCESS ----------
-  const accessProducts = [
-    {
-      key: "readerpro",
-      title: "Video Intercom Reader Pro",
-      desc: "Unified door access and video intercom with cloud management via Avigilon Alta Access.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/VideoIntercomReaderPro_01.avif`,
-    },
-    {
-      key: "cloudhub",
-      title: "Cloud Access Hub",
-      desc: "Cloud-connected door controller supporting encrypted communication and mobile credentials.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon-cloud/AccessHub.avif`,
-    },
-    {
-      key: "mobileapp",
-      title: "Alta Mobile App",
-      desc: "Manage access, view live video, and control doors from your mobile device anywhere.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon-cloud/mobileapp.png`,
-    },
-  ]
-
   // ---------- INTERCOM ----------
   const intercomProducts = [
     {
@@ -100,12 +77,6 @@ export default function VendorAvigilonCloud() {
       title: "Video Intercom Reader Pro",
       desc: "Cloud-managed intercom and access reader in one sleek device for modern entryways.",
       img: `${import.meta.env.BASE_URL}vendors/avigilon/VideoIntercomReaderPro_01.avif`,
-    },
-    {
-      key: "mobileanswer",
-      title: "Mobile Answering",
-      desc: "Receive video calls, unlock doors, and grant access directly from your smartphone or desktop app.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon-cloud/mobileanswer.png`,
     },
   ]
 
@@ -155,46 +126,46 @@ export default function VendorAvigilonCloud() {
     </div>
   )
 
- // ---------- OVERVIEW ----------
-const renderOverview = () => (
-  <div className="max-w-3xl">
-    <img
-      src={`${import.meta.env.BASE_URL}vendors/avigilon-cloud/avigiloncloud.avif`}
-      alt="Avigilon Cloud Video"
-      className="rounded-2xl mb-6 shadow-sm"
-    />
+  // ---------- OVERVIEW ----------
+  const renderOverview = () => (
+    <div className="max-w-3xl">
+      <img
+        src={`${import.meta.env.BASE_URL}vendors/avigilon-cloud/avigiloncloud.avif`}
+        alt="Avigilon Cloud Video"
+        className="rounded-2xl mb-6 shadow-sm"
+      />
 
-    <h2 className="text-2xl font-semibold mb-4">Avigilon Alta Cloud Video</h2>
+      <h2 className="text-2xl font-semibold mb-4">Avigilon Alta Cloud Video</h2>
 
-    <p className="text-gray-700 mb-4">
-      Avigilon Alta Cloud Video is the next generation of video management —
-      built for simplicity, scalability, and security. Part of the Avigilon
-      ecosystem, Alta delivers a fully cloud-native platform that eliminates
-      on-premise servers and enables instant, secure access to video from
-      anywhere.
-    </p>
+      <p className="text-gray-700 mb-4">
+        Avigilon Alta Cloud Video is the next generation of video management —
+        built for simplicity, scalability, and security. Part of the Avigilon
+        ecosystem, Alta delivers a fully cloud-native platform that eliminates
+        on-premise servers and enables instant, secure access to video from
+        anywhere.
+      </p>
 
-    <p className="text-gray-700 mb-4">
-      Powered by advanced AI analytics, Avigilon Cloud lets organizations
-      detect, verify, and respond to events in real time. Centralized
-      management provides a unified view across multiple facilities, while
-      automatic updates and continuous health monitoring keep systems
-      up-to-date and performing at their best.
-    </p>
+      <p className="text-gray-700 mb-4">
+        Powered by advanced AI analytics, Avigilon Cloud lets organizations
+        detect, verify, and respond to events in real time. Centralized
+        management provides a unified view across multiple facilities, while
+        automatic updates and continuous health monitoring keep systems
+        up-to-date and performing at their best.
+      </p>
 
-    <ul className="list-disc list-inside text-gray-700 space-y-2 mb-6">
-      <li>View and manage video securely from any device, anywhere</li>
-      <li>AI-powered search, detection, and motion-based alerts</li>
-      <li>End-to-end encryption and automatic firmware updates</li>
-      <li>Centralized user and site management across all locations</li>
-      <li>Seamless integration with Avigilon Alta Access and Intercom</li>
-    </ul>
+      <ul className="list-disc list-inside text-gray-700 space-y-2 mb-6">
+        <li>View and manage video securely from any device, anywhere</li>
+        <li>AI-powered search, detection, and motion-based alerts</li>
+        <li>End-to-end encryption and automatic firmware updates</li>
+        <li>Centralized user and site management across all locations</li>
+        <li>Seamless integration with Avigilon Alta Intercom</li>
+      </ul>
 
-    <Link to="/contact" className="btn btn-primary">
-      Request a Cloud Demo
-    </Link>
-  </div>
-)
+      <Link to="/contact" className="btn btn-primary">
+        Request a Cloud Demo
+      </Link>
+    </div>
+  )
 
   // ---------- PAGE ----------
   return (
@@ -203,7 +174,7 @@ const renderOverview = () => (
         <title>Avigilon Cloud (Alta) | Griffon Systems Inc.</title>
         <meta
           name="description"
-          content="Avigilon Alta Cloud video surveillance and access control — secure, scalable, and AI-powered for modern enterprises."
+          content="Avigilon Alta Cloud video surveillance — secure, scalable, and AI-powered for modern enterprises."
         />
       </Helmet>
 
@@ -241,7 +212,6 @@ const renderOverview = () => (
       {/* Content */}
       {active === "overview" && renderOverview()}
       {active === "cameras" && renderCameraGrid()}
-      {active === "access" && renderGrid(accessProducts)}
       {active === "intercom" && renderGrid(intercomProducts)}
     </main>
   )
