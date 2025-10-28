@@ -40,9 +40,9 @@ const PRODUCT_INFO = {
     title: "H6 Mini Dome Cloud",
     desc: "Compact AI-driven indoor camera for office or retail environments, streaming securely to Avigilon Alta without the need for NVRs or local servers.",
   },
-  "H5A_Hybrid.avif": {
-    title: "H5A Hybrid Bridge",
-    desc: "Bridge existing Unity or legacy cameras to Avigilon Alta Cloud for centralized hybrid video management.",
+  "Rack.avif": {
+    title: "Alta Cloud Connector (Rack-Mounted)",
+    desc: "Integrates existing cameras to Avigilon Alta Cloud for AI analytics, cloud security, and centralized management. Enables a seamless transition to cloud video with up to 192 TB of raw storage, AI-powered video analytics, and support for up to 200 cameras or sensors.",
   },
 }
 
@@ -52,7 +52,7 @@ const CAMERA_ORDER = [
   "H6SL_Dome_1.avif",
   "H5A_Multisensor.png",
   "H6Mini.avif",
-  "H5A_Hybrid.avif",
+  "Rack.avif",
 ]
 
 // ---------- COMPONENT ----------
@@ -66,7 +66,7 @@ export default function VendorAvigilonCloud() {
     if (["overview", "cameras", "intercom"].includes(hash)) setActive(hash)
   }, [location.hash])
 
-  // Load image list (optional JSON manifest)
+  // Load Avigilon image list (optional JSON)
   React.useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}vendors/avigilon/index.json`)
       .then((res) => res.json())
@@ -75,7 +75,7 @@ export default function VendorAvigilonCloud() {
         const sorted = CAMERA_ORDER.filter((x) => imgs.includes(x))
         setVideoImages(sorted)
       })
-      .catch((err) => console.error("Failed to load Avigilon Cloud JSON:", err))
+      .catch((err) => console.error("Failed to load Avigilon JSON:", err))
   }, [])
 
   const onTabClick = (key) => {
