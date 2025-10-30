@@ -19,16 +19,18 @@ const TABS = [
   { key: "video", label: "Video" },
   { key: "access", label: "Access" },
   { key: "intercom", label: "Intercom" },
+  { key: "connectivity", label: "Connectivity" },
 ]
 
 export default function VendorVerkada() {
   const [active, setActive] = React.useState("video")
+  const [showVideo, setShowVideo] = React.useState(false)
   const location = useLocation()
 
   React.useEffect(() => {
     const fromHash = (location.hash || "").replace("#", "")
     const wanted = (fromHash || "").toLowerCase()
-    if (wanted && ["video", "access", "intercom"].includes(wanted)) {
+    if (wanted && ["video", "access", "intercom", "connectivity"].includes(wanted)) {
       setActive(wanted)
       window.scrollTo({ top: 0, behavior: "auto" })
     }
@@ -42,7 +44,7 @@ export default function VendorVerkada() {
 
   const grid = "grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
 
-  // -------------------- PRODUCTS --------------------
+  /* ---------- PRODUCTS ---------- */
   const videoProducts = [
     { key: "dome", title: "Dome", desc: "Reliable performance for most environments.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/dome.png` },
     { key: "mini", title: "Mini", desc: "Compact form factor for tight spaces.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/mini.png` },
@@ -68,43 +70,89 @@ export default function VendorVerkada() {
     { key: "TD63", title: "TD63 — Intercom + Keypad", desc: "Integrated keypad for PIN, MFA, and multi-tenant directories.", img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td63.jpg` },
   ]
 
-  // -------------------- RENDER --------------------
+  const connectivityProducts = [
+    {
+      key: "gc31e",
+      title: "GC31-E Outdoor Cellular Gateway",
+      desc: "Deploy Verkada anywhere — pole, lot, or rooftop with LTE backhaul and PoE output.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/connectivity/gc31e.jpg`,
+      url: "https://www.verkada.com/gateways/gc31-e/",
+      video: "https://www.youtube.com/embed/fb9LNytX7ac?autoplay=1",
+    },
+  ]
+
+  /* ---------- RENDER GRID ---------- */
   const renderGrid = (list) => (
     <div className={grid}>
       {list.map((card) => (
-        <div key={card.key} className="card p-6 flex flex-col">
-          <img
-            src={card.img}
-            alt={card.title}
-            className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
-          />
-          <h3 className="text-xl font-semibold">{card.title}</h3>
-          <p className="text-gray-700">{card.desc}</p>
+        <div
+          key={card.key}
+          onClick={() => card.video && setShowVideo(card.video)}
+          className={`card p-6 flex flex-col bg-white rounded-2xl shadow-sm hover:shadow-md transition ${
+            card.video ? "cursor-pointer hover:shadow-lg hover:scale-[1.02]" : ""
+          }`}
+        >
+          <a
+            href={card.url || "#"}
+            onClick={(e) => {
+              if (card.video) e.preventDefault()
+            }}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src={card.img}
+              alt={card.title}
+              className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
+            />
+          </a>
+          <h3 className="text-xl font-semibold mb-1">{card.title}</h3>
+          <p className="text-gray-700 text-sm">{card.desc}</p>
         </div>
       ))}
     </div>
   )
 
+  /* ---------- MODAL ---------- */
+  const renderModal = () =>
+    showVideo && (
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm animate-fadeIn"
+        onClick={() => setShowVideo(false)}
+      >
+        <div
+          className="relative bg-black rounded-2xl overflow-hidden shadow-xl w-[90%] max-w-4xl aspect-video"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <iframe
+            src={showVideo}
+            title="Verkada Connectivity Case Study"
+            className="absolute inset-0 w-full h-full"
+            allow="autoplay; encrypted-media"
+            allowFullScreen
+          />
+          <button
+            onClick={() => setShowVideo(false)}
+            className="absolute top-3 right-3 bg-white/20 hover:bg-white/40 rounded-full p-2 text-white"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+    )
+
+  /* ---------- PAGE ---------- */
   return (
     <main className="container py-12">
       <Helmet>
         <title>Verkada Security Systems in Illinois | Griffon Systems</title>
         <meta
           name="description"
-          content="Authorized Verkada partner providing design, installation, and support for cloud-based video surveillance, access control, and intercom systems across Illinois."
+          content="Authorized Verkada partner providing design, installation, and support for cloud-based video surveillance, access control, intercom, and connectivity solutions across Illinois."
         />
-        <meta property="og:url" content="https://www.griffonsys.com/vendors/verkada" />
-        <meta property="og:title" content="Verkada Security Systems in Illinois | Griffon Systems" />
-        <meta
-          property="og:description"
-          content="Authorized Verkada partner providing design, installation, and support for cloud-based video surveillance, access control, and intercom systems across Illinois."
-        />
-        <meta
-          property="og:image"
-          content="https://www.griffonsys.com/images/vendors/verkada-og.jpg"
-        />
-        <link rel="canonical" href="https://www.griffonsys.com/vendors/verkada" />
       </Helmet>
+
+      {renderModal()}
 
       {/* Header */}
       <div className="flex items-center justify-between mb-6 gap-4">
@@ -135,43 +183,10 @@ export default function VendorVerkada() {
       </div>
 
       {/* Tab Content */}
-      {active === "video" && (
-        <>
-          {renderGrid(videoProducts)}
-          <section className="mt-16 text-center">
-            <h2 className="text-2xl font-semibold mb-8">Verkada Solutions in Action</h2>
-            <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
-              <div>
-                <h3 className="text-xl font-semibold mb-3">Automatic License Plate Recognition (ALPR)</h3>
-                <div className="aspect-video rounded-lg overflow-hidden shadow-lg mb-2">
-                  <iframe
-                    src="https://fast.wistia.net/embed/iframe/12wtrfxii4?videoFoam=true"
-                    title="Verkada ALPR"
-                    allow="autoplay; fullscreen"
-                    frameBorder="0"
-                    className="w-full h-full"
-                  ></iframe>
-                </div>
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold mb-3">Incident Management</h3>
-                <div className="aspect-video rounded-lg overflow-hidden shadow-lg mb-2">
-                  <iframe
-                    src="https://fast.wistia.net/embed/iframe/wvjnlck3kd?videoFoam=true"
-                    title="Verkada Incident Management"
-                    allow="autoplay; fullscreen"
-                    frameBorder="0"
-                    className="w-full h-full"
-                  ></iframe>
-                </div>
-              </div>
-            </div>
-          </section>
-        </>
-      )}
-
+      {active === "video" && renderGrid(videoProducts)}
       {active === "access" && renderGrid(accessProducts)}
       {active === "intercom" && renderGrid(intercomProducts)}
+      {active === "connectivity" && renderGrid(connectivityProducts)}
     </main>
   )
 }
