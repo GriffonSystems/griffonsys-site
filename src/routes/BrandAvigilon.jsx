@@ -80,13 +80,11 @@ export default function VendorAvigilon() {
   const [videoImages, setVideoImages] = React.useState([])
   const [showVideo, setShowVideo] = React.useState(null)
 
-  // Handle tab via hash
   React.useEffect(() => {
     const hash = (location.hash || "").replace("#", "").toLowerCase()
     if (["video", "access", "intercom"].includes(hash)) setActive(hash)
   }, [location.hash])
 
-  // Load JSON for Avigilon
   React.useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}vendors/avigilon/index.json`)
       .then((res) => res.json())
@@ -220,6 +218,34 @@ export default function VendorAvigilon() {
           Describe a scene and instantly create an alert — next-gen Avigilon analytics.
         </p>
       </div>
+
+      {/* --- Avigilon Unity Suite Teaser --- */}
+      <div
+        onClick={() => setShowVideo("unity")}
+        className="card p-6 flex flex-col bg-white rounded-2xl shadow-sm cursor-pointer hover:shadow-lg hover:scale-[1.02] transition"
+      >
+        <div className="relative">
+          <img
+            src={`${import.meta.env.BASE_URL}vendors/avigilon/unity-thumb.jpg`}
+            alt="Avigilon Unity End-to-End Security"
+            className="w-full h-40 object-cover bg-gray-50 rounded-lg mb-4"
+          />
+          <div className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/30 rounded-lg transition">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-14 w-14 text-white opacity-80 hover:opacity-100 transition"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+        </div>
+        <h3 className="text-xl font-semibold mb-2">Avigilon Unity Suite</h3>
+        <p className="text-gray-700 text-sm">
+          Explore Avigilon Unity’s end-to-end video, analytics, and access control platform.
+        </p>
+      </div>
     </div>
   )
 
@@ -258,7 +284,11 @@ export default function VendorAvigilon() {
     const videoSrc =
       showVideo === "lpr"
         ? "https://www.youtube.com/embed/bJS9dWi1uzk?autoplay=1"
-        : "https://www.youtube.com/embed/8ZZ5ri2QXUE?autoplay=1"
+        : showVideo === "visual"
+        ? "https://www.youtube.com/embed/8ZZ5ri2QXUE?autoplay=1"
+        : showVideo === "unity"
+        ? "https://www.youtube.com/embed/GGypm25cNs8?autoplay=1"
+        : ""
 
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
