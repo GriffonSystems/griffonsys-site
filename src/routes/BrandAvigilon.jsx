@@ -18,7 +18,7 @@ const TABS = [
   { key: "intercom", label: "Intercom" },
 ]
 
-// ---------- PRODUCT TITLES & DESCRIPTIONS ----------
+// ---------- PRODUCT INFO ----------
 const PRODUCT_INFO = {
   "slbullet.png": {
     title: "H6SL Bullet Camera",
@@ -62,7 +62,7 @@ const PRODUCT_INFO = {
   },
 }
 
-// ---------- CAMERA DISPLAY ORDER ----------
+// ---------- DISPLAY ORDER ----------
 const CAMERA_ORDER = [
   "slbullet.png",
   "H6SL_Dome_1.avif",
@@ -81,14 +81,17 @@ export default function VendorAvigilon() {
   const location = useLocation()
   const [active, setActive] = React.useState("video")
   const [videoImages, setVideoImages] = React.useState([])
+  const [showVideo, setShowVideo] = React.useState(false)
 
-  // Handle tab change via hash
+  const YOUTUBE_URL = "https://www.youtube.com/embed/bJS9dWi1uzk"
+
+  // Handle tab via hash
   React.useEffect(() => {
     const hash = (location.hash || "").replace("#", "").toLowerCase()
     if (["video", "access", "intercom"].includes(hash)) setActive(hash)
   }, [location.hash])
 
-  // Load Avigilon JSON and sort images
+  // Load Avigilon JSON
   React.useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}vendors/avigilon/index.json`)
       .then((res) => res.json())
@@ -160,16 +163,39 @@ export default function VendorAvigilon() {
           title: file.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " "),
           desc: "Avigilon camera model for enterprise environments.",
         }
+        const isLPR = file === "lpr.png"
+
         return (
           <div
             key={file}
-            className="card p-6 flex flex-col bg-white rounded-2xl shadow-sm hover:shadow-md transition"
+            onClick={() => isLPR && setShowVideo(true)}
+            className={`card p-6 flex flex-col bg-white rounded-2xl shadow-sm transition ${
+              isLPR
+                ? "cursor-pointer hover:shadow-lg hover:scale-[1.02]"
+                : "hover:shadow-md"
+            }`}
           >
-            <img
-              src={`${import.meta.env.BASE_URL}vendors/avigilon/${file}`}
-              alt={info.title}
-              className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
-            />
+            <div className="relative">
+              <img
+                src={`${import.meta.env.BASE_URL}vendors/avigilon/${file}`}
+                alt={info.title}
+                className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
+              />
+
+              {/* Play icon overlay */}
+              {isLPR && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/30 rounded-lg transition">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-14 w-14 text-white opacity-80 hover:opacity-100 transition"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              )}
+            </div>
             <h3 className="text-xl font-semibold mb-2">{info.title}</h3>
             <p className="text-gray-700 text-sm">{info.desc}</p>
           </div>
@@ -206,6 +232,28 @@ export default function VendorAvigilon() {
     </div>
   )
 
+  // ---------- MODAL ----------
+  const renderModal = () =>
+    showVideo && (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+        <div className="relative bg-black rounded-2xl overflow-hidden shadow-xl w-[90%] max-w-4xl aspect-video">
+          <iframe
+            src={`${YOUTUBE_URL}?autoplay=1`}
+            title="L6A Enterprise LPR Camera"
+            className="absolute inset-0 w-full h-full"
+            allow="autoplay; encrypted-media"
+            allowFullScreen
+          />
+          <button
+            onClick={() => setShowVideo(false)}
+            className="absolute top-3 right-3 bg-white/20 hover:bg-white/40 rounded-full p-2 text-white"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+    )
+
   // ---------- PAGE ----------
   return (
     <main className="container py-12">
@@ -217,19 +265,22 @@ export default function VendorAvigilon() {
         />
       </Helmet>
 
-     <div className="flex items-center justify-between mb-8">
-  <div className="flex items-center gap-4">
-    <AvigilonLogo className="h-10 w-auto object-contain" />
-    <img
-      src={`${import.meta.env.BASE_URL}vendors/avigilon/avigilon-text.png`}
-      alt="Avigilon"
-      className="h-6 w-auto object-contain"
-    />
-  </div>
-  <Link to="/contact" className="btn btn-primary">
-    Request a Quote
-  </Link>
-</div>
+      {renderModal()}
+
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center gap-4">
+          <AvigilonLogo className="h-10 w-auto object-contain" />
+          <img
+            src={`${import.meta.env.BASE_URL}vendors/avigilon/avigilon-text.png`}
+            alt="Avigilon"
+            className="h-6 w-auto object-contain"
+          />
+        </div>
+        <Link to="/contact" className="btn btn-primary">
+          Request a Quote
+        </Link>
+      </div>
+
       <div className="flex flex-wrap gap-2 mb-10">
         {TABS.map((t) => (
           <button
