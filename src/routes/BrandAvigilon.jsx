@@ -18,7 +18,6 @@ const TABS = [
   { key: "intercom", label: "Intercom" },
 ]
 
-// ---------- PRODUCT INFO ----------
 const PRODUCT_INFO = {
   "slbullet.png": {
     title: "H6SL Bullet Camera",
@@ -62,7 +61,6 @@ const PRODUCT_INFO = {
   },
 }
 
-// ---------- DISPLAY ORDER ----------
 const CAMERA_ORDER = [
   "slbullet.png",
   "H6SL_Dome_1.avif",
@@ -76,14 +74,11 @@ const CAMERA_ORDER = [
   "lpr.png",
 ]
 
-// ---------- COMPONENT ----------
 export default function VendorAvigilon() {
   const location = useLocation()
   const [active, setActive] = React.useState("video")
   const [videoImages, setVideoImages] = React.useState([])
-  const [showVideo, setShowVideo] = React.useState(false)
-
-  const YOUTUBE_URL = "https://www.youtube.com/embed/bJS9dWi1uzk"
+  const [showVideo, setShowVideo] = React.useState(null)
 
   // Handle tab via hash
   React.useEffect(() => {
@@ -91,7 +86,7 @@ export default function VendorAvigilon() {
     if (["video", "access", "intercom"].includes(hash)) setActive(hash)
   }, [location.hash])
 
-  // Load Avigilon JSON
+  // Load JSON for Avigilon
   React.useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}vendors/avigilon/index.json`)
       .then((res) => res.json())
@@ -111,7 +106,6 @@ export default function VendorAvigilon() {
 
   const grid = "grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
 
-  // ---------- ACCESS ----------
   const accessProducts = [
     {
       key: "acm",
@@ -133,7 +127,6 @@ export default function VendorAvigilon() {
     },
   ]
 
-  // ---------- INTERCOM ----------
   const intercomProducts = [
     {
       key: "readerpro",
@@ -155,7 +148,7 @@ export default function VendorAvigilon() {
     },
   ]
 
-  // ---------- RENDER VIDEO GRID ----------
+  // ---------- VIDEO GRID ----------
   const renderVideoGrid = () => (
     <div className={grid}>
       {videoImages.map((file) => {
@@ -168,7 +161,7 @@ export default function VendorAvigilon() {
         return (
           <div
             key={file}
-            onClick={() => isLPR && setShowVideo(true)}
+            onClick={() => isLPR && setShowVideo("lpr")}
             className={`card p-6 flex flex-col bg-white rounded-2xl shadow-sm transition ${
               isLPR
                 ? "cursor-pointer hover:shadow-lg hover:scale-[1.02]"
@@ -181,8 +174,6 @@ export default function VendorAvigilon() {
                 alt={info.title}
                 className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
               />
-
-              {/* Play icon overlay */}
               {isLPR && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/30 rounded-lg transition">
                   <svg
@@ -201,6 +192,34 @@ export default function VendorAvigilon() {
           </div>
         )
       })}
+
+      {/* --- Visual Alerts Teaser --- */}
+      <div
+        onClick={() => setShowVideo("visual")}
+        className="card p-6 flex flex-col bg-white rounded-2xl shadow-sm cursor-pointer hover:shadow-lg hover:scale-[1.02] transition"
+      >
+        <div className="relative">
+          <img
+            src={`${import.meta.env.BASE_URL}vendors/avigilon/visualalerts-thumb.jpg`}
+            alt="Visual Alerts Coming Soon"
+            className="w-full h-40 object-cover bg-gray-50 rounded-lg mb-4"
+          />
+          <div className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/30 rounded-lg transition">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-14 w-14 text-white opacity-80 hover:opacity-100 transition"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+        </div>
+        <h3 className="text-xl font-semibold mb-2">Visual Alerts (Coming Soon)</h3>
+        <p className="text-gray-700 text-sm">
+          Describe a scene and instantly create an alert — next-gen Avigilon analytics.
+        </p>
+      </div>
     </div>
   )
 
@@ -233,19 +252,26 @@ export default function VendorAvigilon() {
   )
 
   // ---------- MODAL ----------
-  const renderModal = () =>
-    showVideo && (
+  const renderModal = () => {
+    if (!showVideo) return null
+
+    const videoSrc =
+      showVideo === "lpr"
+        ? "https://www.youtube.com/embed/bJS9dWi1uzk?autoplay=1"
+        : "https://www.youtube.com/embed/8ZZ5ri2QXUE?autoplay=1"
+
+    return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
         <div className="relative bg-black rounded-2xl overflow-hidden shadow-xl w-[90%] max-w-4xl aspect-video">
           <iframe
-            src={`${YOUTUBE_URL}?autoplay=1`}
-            title="L6A Enterprise LPR Camera"
+            src={videoSrc}
+            title="Avigilon Demo Video"
             className="absolute inset-0 w-full h-full"
             allow="autoplay; encrypted-media"
             allowFullScreen
           />
           <button
-            onClick={() => setShowVideo(false)}
+            onClick={() => setShowVideo(null)}
             className="absolute top-3 right-3 bg-white/20 hover:bg-white/40 rounded-full p-2 text-white"
           >
             ✕
@@ -253,6 +279,7 @@ export default function VendorAvigilon() {
         </div>
       </div>
     )
+  }
 
   // ---------- PAGE ----------
   return (
