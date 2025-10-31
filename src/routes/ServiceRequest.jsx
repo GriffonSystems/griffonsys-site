@@ -9,27 +9,25 @@ export default function ServiceRequest() {
     email: "",
     issue: "",
     urgent: false,
-    photo: null,
   })
   const [status, setStatus] = useState("idle")
 
   const handleChange = (e) => {
-    const { name, value, type, checked, files } = e.target
-    if (type === "checkbox") setFormData({ ...formData, [name]: checked })
-    else if (type === "file") setFormData({ ...formData, photo: files[0] })
-    else setFormData({ ...formData, [name]: value })
+    const { name, value, type, checked } = e.target
+    setFormData({ ...formData, [name]: type === "checkbox" ? checked : value })
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setStatus("loading")
 
-    const body = new FormData()
-    Object.entries(formData).forEach(([k, v]) => body.append(k, v))
-
     try {
-      // 🔧 Replace `/api/contact` with your actual service/Twilio endpoint
-      const res = await fetch("/api/service", { method: "POST", body })
+      const res = await fetch("/api/service", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      })
+
       if (!res.ok) throw new Error("Request failed")
 
       setStatus("success")
@@ -40,7 +38,6 @@ export default function ServiceRequest() {
         email: "",
         issue: "",
         urgent: false,
-        photo: null,
       })
     } catch (err) {
       console.error(err)
@@ -72,7 +69,7 @@ export default function ServiceRequest() {
             value={formData.company}
             onChange={handleChange}
             required
-            className="input w-full"
+            className="input w-full border rounded-xl p-3"
             placeholder="e.g. Elmhurst Manufacturing Co."
           />
         </div>
@@ -84,7 +81,7 @@ export default function ServiceRequest() {
             value={formData.contact}
             onChange={handleChange}
             required
-            className="input w-full"
+            className="input w-full border rounded-xl p-3"
             placeholder="Your name"
           />
         </div>
@@ -97,7 +94,7 @@ export default function ServiceRequest() {
               value={formData.phone}
               onChange={handleChange}
               type="tel"
-              className="input w-full"
+              className="input w-full border rounded-xl p-3"
               placeholder="630-607-0346"
             />
           </div>
@@ -108,7 +105,7 @@ export default function ServiceRequest() {
               value={formData.email}
               onChange={handleChange}
               type="email"
-              className="input w-full"
+              className="input w-full border rounded-xl p-3"
               placeholder="you@company.com"
             />
           </div>
@@ -124,34 +121,22 @@ export default function ServiceRequest() {
             onChange={handleChange}
             rows={4}
             required
-            className="input w-full"
+            className="input w-full border rounded-xl p-3 min-h-[150px]"
             placeholder="Describe the camera, intercom, or access issue..."
           />
         </div>
 
-        <div className="flex items-center justify-between">
-          <label className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              name="urgent"
-              checked={formData.urgent}
-              onChange={handleChange}
-              className="h-4 w-4 accent-black"
-            />
-            <span className="text-sm text-gray-700">
-              Mark as <strong>Urgent</strong>
-            </span>
-          </label>
-
-          <div>
-            <input
-              type="file"
-              name="photo"
-              accept="image/*"
-              onChange={handleChange}
-              className="text-sm text-gray-600"
-            />
-          </div>
+        <div className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            name="urgent"
+            checked={formData.urgent}
+            onChange={handleChange}
+            className="h-4 w-4 accent-black"
+          />
+          <span className="text-sm text-gray-700">
+            Mark as <strong>Urgent</strong>
+          </span>
         </div>
 
         <button
@@ -171,7 +156,7 @@ export default function ServiceRequest() {
         )}
         {status === "error" && (
           <p className="text-red-600 text-center mt-3">
-            ❌ There was a problem sending your request. Please call 630-607-0346.
+            ❌ There was a problem sending your request. Please call (630) 607-0346.
           </p>
         )}
       </form>
