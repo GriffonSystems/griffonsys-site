@@ -29,7 +29,7 @@ export default function ServiceRequest() {
 
     try {
       // 🔧 Replace `/api/contact` with your actual service/Twilio endpoint
-      const res = await fetch("/api/contact", { method: "POST", body })
+      const res = await fetch("/api/service", { method: "POST", body })
       if (!res.ok) throw new Error("Request failed")
 
       setStatus("success")
