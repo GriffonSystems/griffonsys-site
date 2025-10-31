@@ -20,6 +20,9 @@ import FromTheField from "./FromTheField"
 import WirelessLink from "./WirelessLink"
 import ComingSoon from "./ComingSoon"
 
+// ✅ Add this import
+import ServiceRequest from "./ServiceRequest"
+
 export default function App() {
   return (
     <div className="min-h-screen bg-white text-gray-900">
@@ -32,6 +35,9 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
 
+        {/* ✅ Add your new Service / Maintenance page */}
+        <Route path="/service" element={<ServiceRequest />} />
+
         {/* ✅ Brands (formerly Vendors) */}
         <Route path="/brands/verkada" element={<BrandVerkada />} />
         <Route path="/brands/avigilon" element={<BrandAvigilon />} />
@@ -40,16 +46,10 @@ export default function App() {
 
         {/* ✅ From the Field section */}
         <Route path="/from-the-field" element={<FromTheField />} />
-        <Route
-          path="/from-the-field/wireless-link"
-          element={<WirelessLink />}
-        />
+        <Route path="/from-the-field/wireless-link" element={<WirelessLink />} />
 
         {/* ✅ Coming soon placeholders */}
-        <Route
-          path="/from-the-field/avigilon-factory"
-          element={<ComingSoon />}
-        />
+        <Route path="/from-the-field/avigilon-factory" element={<ComingSoon />} />
         <Route path="/from-the-field/municipal" element={<ComingSoon />} />
 
         {/* Fallback */}
