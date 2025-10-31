@@ -30,7 +30,7 @@ export default function Nav() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Close mobile menu on route changes (back/forward)
+  // Close mobile menu on route changes
   React.useEffect(() => {
     const close = () => setOpen(false)
     window.addEventListener('hashchange', close)
@@ -69,6 +69,14 @@ export default function Nav() {
             <NavLink to="/from-the-field" className={active}>From the Field</NavLink>
             <NavLink to="/about" className={active}>About</NavLink>
             <NavLink to="/contact" className={active}>Contact</NavLink>
+
+            {/* ✅ New “Service” button */}
+            <Link
+              to="/service"
+              className="ml-3 px-3 py-2 rounded-lg text-sm font-semibold bg-black text-white hover:bg-gray-800 transition"
+            >
+              Service
+            </Link>
           </nav>
 
           {/* Mobile toggle */}
@@ -116,6 +124,15 @@ export default function Nav() {
             <NavLink to="/from-the-field" className={active} onClick={() => setOpen(false)}>From the Field</NavLink>
             <NavLink to="/about" className={active} onClick={() => setOpen(false)}>About</NavLink>
             <NavLink to="/contact" className={active} onClick={() => setOpen(false)}>Contact</NavLink>
+
+            {/* ✅ “Service” link in mobile menu */}
+            <NavLink
+              to="/service"
+              className={active}
+              onClick={() => setOpen(false)}
+            >
+              Service
+            </NavLink>
           </nav>
         </div>
       </header>
