@@ -21,8 +21,8 @@ export default async function handler(req, res) {
       SMTP_FROM,
     } = process.env
 
-    const SMTP_TO = "service@griffonsys.com" // 👈 hardcode destination
-
+    const SMTP_TO = process.env.SMTP_TO_SERVICE
+    
     if (!(SMTP_HOST && SMTP_PORT && SMTP_USER && SMTP_PASS && SMTP_FROM))
       return res.status(500).json({ ok: false, error: "Missing SMTP env vars" })
 
