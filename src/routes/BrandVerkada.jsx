@@ -183,7 +183,37 @@ export default function VendorVerkada() {
       </div>
 
       {/* Tab Content */}
-      {active === "video" && renderGrid(videoProducts)}
+      {active === "video" && (
+        <>
+          {renderGrid(videoProducts)}
+
+          {/* Verkada Wistia Promo Video */}
+          <div className="mt-12 text-center">
+            <a
+              href="https://www.verkada.com/security-cameras/?wvideo=dxkrisglgn"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="https://embed-ssl.wistia.com/deliveries/8fea68dbfb118ce77eaa9b64991c0768.jpg?image_play_button_size=2x&image_crop_resized=960x538&image_play_button_rounded=1&image_play_button_color=06aff8e0"
+                alt="Security Cameras | Commercial Video Security | Verkada"
+                className="mx-auto rounded-2xl shadow-lg w-full max-w-[400px] h-auto object-cover"
+              />
+            </a>
+            <p className="mt-3">
+              <a
+                href="https://www.verkada.com/security-cameras/?wvideo=dxkrisglgn"
+                className="text-blue-600 hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Security Cameras | Commercial Video Security | Verkada
+              </a>
+            </p>
+          </div>
+        </>
+      )}
+
       {active === "access" && renderGrid(accessProducts)}
       {active === "intercom" && renderGrid(intercomProducts)}
       {active === "connectivity" && renderGrid(connectivityProducts)}
