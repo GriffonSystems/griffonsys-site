@@ -1,4 +1,4 @@
-    import React from "react"
+import React from "react"
 import { Link, useLocation } from "react-router-dom"
 import { Helmet } from "react-helmet"
 
@@ -187,12 +187,17 @@ export default function VendorVerkada() {
         <>
           {renderGrid(videoProducts)}
 
+          {/* Section Heading */}
+          <h2 className="text-2xl sm:text-3xl font-semibold mt-16 mb-6 text-center">
+            Watch Product Overview
+          </h2>
+
           {/* Embedded Wistia Video (full-width, responsive) */}
-          <div className="mt-12 w-full">
+          <div className="w-full">
             <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-lg">
               <iframe
                 src="https://fast.wistia.net/embed/iframe/dxkrisglgn?seo=false&videoFoam=true"
-                title="Verkada Security Cameras"
+                title="Verkada Security Cameras Overview"
                 allow="autoplay; fullscreen; picture-in-picture"
                 allowFullScreen
                 frameBorder="0"
