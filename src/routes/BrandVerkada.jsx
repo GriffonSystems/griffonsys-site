@@ -1,4 +1,4 @@
-import React from "react"
+    import React from "react"
 import { Link, useLocation } from "react-router-dom"
 import { Helmet } from "react-helmet"
 
@@ -187,29 +187,18 @@ export default function VendorVerkada() {
         <>
           {renderGrid(videoProducts)}
 
-          {/* Verkada Wistia Promo Video */}
-          <div className="mt-12 text-center">
-            <a
-              href="https://www.verkada.com/security-cameras/?wvideo=dxkrisglgn"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src="https://embed-ssl.wistia.com/deliveries/8fea68dbfb118ce77eaa9b64991c0768.jpg?image_play_button_size=2x&image_crop_resized=960x538&image_play_button_rounded=1&image_play_button_color=06aff8e0"
-                alt="Security Cameras | Commercial Video Security | Verkada"
-                className="mx-auto rounded-2xl shadow-lg w-full max-w-[400px] h-auto object-cover"
-              />
-            </a>
-            <p className="mt-3">
-              <a
-                href="https://www.verkada.com/security-cameras/?wvideo=dxkrisglgn"
-                className="text-blue-600 hover:underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Security Cameras | Commercial Video Security | Verkada
-              </a>
-            </p>
+          {/* Embedded Wistia Video (full-width, responsive) */}
+          <div className="mt-12 w-full">
+            <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-lg">
+              <iframe
+                src="https://fast.wistia.net/embed/iframe/dxkrisglgn?seo=false&videoFoam=true"
+                title="Verkada Security Cameras"
+                allow="autoplay; fullscreen; picture-in-picture"
+                allowFullScreen
+                frameBorder="0"
+                className="absolute inset-0 w-full h-full"
+              ></iframe>
+            </div>
           </div>
         </>
       )}
