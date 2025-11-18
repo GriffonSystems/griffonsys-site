@@ -1,21 +1,26 @@
 // src/components/VideoHero.jsx
 import React from 'react'
 
-// filename → focal point (top bias for 1,3,4,5)
+// Updated focal points for ALL new hero images
 const FOCAL_BY_FILE = {
-  'hero-01.jpg': 'center 10%',
-  'hero-03.jpg': 'center 15%',
-  'hero-04.jpg': 'center 5%',
-  'hero-05.png': 'center 5%',
+  'hero-07a.jpg': 'center 5%',   // FIRST IMAGE — show more top
+  'hero-02.jpg':  'center 50%',
+  'hero-03a.jpg': 'center 15%',
+  'hero-04a.jpg': 'center 5%',
+  'hero-05a.jpg': 'center 5%',
+  'hero-01.jpg':  'center 10%',
+  'hero-06a.jpg': 'center 50%',
 }
 
 export default function VideoHero() {
   const BASE = '/hero'
-  const VER = import.meta.env?.VITE_ASSET_VERSION ? `?v=${import.meta.env.VITE_ASSET_VERSION}` : ''
+  const VER = import.meta.env?.VITE_ASSET_VERSION
+    ? `?v=${import.meta.env.VITE_ASSET_VERSION}`
+    : ''
   const MANIFEST_URL = `${BASE}/index.json${VER}`
 
   const SLIDE_MS = 5000
-  const FADE_MS  = 700
+  const FADE_MS = 700
 
   const [images, setImages] = React.useState([])
   const [idx, setIdx] = React.useState(0)
@@ -29,7 +34,9 @@ export default function VideoHero() {
         const res = await fetch(MANIFEST_URL, { cache: 'no-store' })
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
         const data = await res.json()
-        const list = (Array.isArray(data?.images) ? data.images : []).map(f => `${BASE}/${encodeURI(f)}${VER}`)
+        const list = (Array.isArray(data?.images) ? data.images : []).map(
+          (f) => `${BASE}/${encodeURI(f)}${VER}`
+        )
         if (alive) {
           setImages(list)
           setBad(new Set())
@@ -40,32 +47,37 @@ export default function VideoHero() {
         if (alive) setImages([])
       }
     })()
-    return () => { alive = false }
+    return () => {
+      alive = false
+    }
   }, [MANIFEST_URL])
 
   // Only keep images that loaded
-  const live = images.filter(u => !bad.has(u))
+  const live = images.filter((u) => !bad.has(u))
 
   // Auto-advance
   React.useEffect(() => {
     if (live.length <= 1) return
-    const t = setInterval(() => setIdx(i => (i + 1) % live.length), SLIDE_MS)
+    const t = setInterval(
+      () => setIdx((i) => (i + 1) % live.length),
+      SLIDE_MS
+    )
     return () => clearInterval(t)
   }, [live.length])
 
-  const current = live.length ? (idx % live.length) : 0
+  const current = live.length ? idx % live.length : 0
 
   return (
     <section className="relative h-[80vh] md:h-[90vh] lg:h-screen overflow-hidden">
       {/* Inject keyframes for Ken Burns */}
       <style>{`
         @keyframes kbZoomIn {
-          from { transform: scale(1.03); }
-          to   { transform: scale(1.12); }
+          from { transform: scale(1.00); }
+          to   { transform: scale(1.06); }
         }
         @keyframes kbZoomOut {
-          from { transform: scale(1.12); }
-          to   { transform: scale(1.03); }
+          from { transform: scale(1.06); }
+          to   { transform: scale(1.00); }
         }
         @media (prefers-reduced-motion: reduce) {
           .kb-anim { animation: none !important; }
@@ -77,8 +89,8 @@ export default function VideoHero() {
         {live.length ? (
           live.map((src, i) => {
             const fname = src.split('/').pop()?.split('?')[0] || ''
-            const pos   = FOCAL_BY_FILE[fname] || 'center 50%'
-            const kbName = i % 2 === 0 ? 'kbZoomIn' : 'kbZoomOut' // alternate direction per slide
+            const pos = FOCAL_BY_FILE[fname] || 'center 50%'
+            const kbName = i % 2 === 0 ? 'kbZoomIn' : 'kbZoomOut'
 
             return (
               <img
@@ -92,10 +104,14 @@ export default function VideoHero() {
                   objectPosition: pos,
                   opacity: i === current ? 1 : 0,
                   transitionDuration: `${FADE_MS}ms`,
-                  animation: `${kbName} ${SLIDE_MS + FADE_MS}ms ease-in-out infinite alternate`,
+                  animation: `${kbName} ${
+                    SLIDE_MS + FADE_MS
+                  }ms ease-in-out infinite alternate`,
                 }}
                 aria-hidden={i === current ? 'false' : 'true'}
-                onError={() => setBad(prev => new Set(prev).add(src))}
+                onError={() =>
+                  setBad((prev) => new Set(prev).add(src))
+                }
               />
             )
           })
@@ -107,17 +123,23 @@ export default function VideoHero() {
       {/* Overlay for contrast */}
       <div className="absolute inset-0 bg-black/35" />
 
-      {/* Headline / Subhead (Optima stack) */}
+      {/* Headline / Subhead */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-6">
         <h1
           className="text-white text-4xl md:text-6xl font-semibold mb-3"
-          style={{ fontFamily: 'Optima, Candara, "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif' }}
+          style={{
+            fontFamily:
+              'Optima, Candara, "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
+          }}
         >
           Security Experts for 20+ Years
         </h1>
         <p
           className="text-white/90 text-lg md:text-xl max-w-3xl"
-          style={{ fontFamily: 'Optima, Candara, "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif' }}
+          style={{
+            fontFamily:
+              'Optima, Candara, "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
+          }}
         >
           Video Surveillance, Access Control, Intercom — Avigilon, Verkada
         </p>
@@ -130,7 +152,9 @@ export default function VideoHero() {
             <button
               key={i}
               onClick={() => setIdx(i)}
-              className={`h-2 w-2 rounded-full ${i === current ? 'bg-white' : 'bg-white/40'}`}
+              className={`h-2 w-2 rounded-full ${
+                i === current ? 'bg-white' : 'bg-white/40'
+              }`}
               aria-label={`Go to slide ${i + 1}`}
             />
           ))}
