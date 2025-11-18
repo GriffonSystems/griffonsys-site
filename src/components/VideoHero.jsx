@@ -3,7 +3,7 @@ import React from 'react'
 
 // filename → focal point (top bias for 1,3,4,5)
 const FOCAL_BY_FILE = {
-  'hero-01.jpg': 'center 15%',
+  'hero-01.jpg': 'center 10%',
   'hero-03.jpg': 'center 15%',
   'hero-04.jpg': 'center 5%',
   'hero-05.png': 'center 5%',
