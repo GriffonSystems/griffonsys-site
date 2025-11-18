@@ -97,7 +97,7 @@ export default function VendorVerkada() {
       key: "gc31e",
       title: "GC31-E Outdoor Cellular Gateway",
       desc: "Deploy Verkada anywhere — pole, lot, or rooftop with LTE backhaul and PoE output.",
-      img: `${import.meta.env.BASE_URL}vendors/verkada/connectivity/gc31e.jpg`,
+      img: `${import.meta.env.BASE_URL}vendors/verkada/connectivity/gc31.webp`,
       url: "https://www.verkada.com/gateways/gc31-e/",
       video: "https://www.youtube.com/embed/fb9LNytX7ac?autoplay=1",
     },
