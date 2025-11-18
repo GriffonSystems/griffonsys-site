@@ -70,7 +70,7 @@ export default function VendorVerkada() {
       key: "TS12",
       title: "TS12 — Audio Intercom",
       desc: "Audio-only intercom with cloud-managed calling, clear communication, and simple deployment for gates and entry points.",
-      img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/ts12.jpg`,
+      img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/TS12.webp`,
     },
     {
       key: "TD33",
