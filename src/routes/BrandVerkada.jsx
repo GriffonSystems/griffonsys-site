@@ -64,10 +64,32 @@ export default function VendorVerkada() {
     { key: "keypad", title: "Keypad Reader", desc: "Reader + keypad for PIN and card/mobile access.", img: `${import.meta.env.BASE_URL}vendors/verkada/access/keypad.png` },
   ]
 
+  /* ---------- UPDATED INTERCOM SECTION (TS12 ADDED) ---------- */
   const intercomProducts = [
-    { key: "TD33", title: "TD33 — Slim Intercom", desc: "Mullion-friendly form factor for retrofits and tight jambs.", img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td33.jpg` },
-    { key: "TD53", title: "TD53 — Intercom", desc: "Full-size unit with high-quality video, audio, and scanning.", img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td53.jpg` },
-    { key: "TD63", title: "TD63 — Intercom + Keypad", desc: "Integrated keypad for PIN, MFA, and multi-tenant directories.", img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td63.jpg` },
+    {
+      key: "TS12",
+      title: "TS12 — Audio Intercom",
+      desc: "Audio-only intercom with cloud-managed calling, clear communication, and simple deployment for gates and entry points.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/ts12.jpg`,
+    },
+    {
+      key: "TD33",
+      title: "TD33 — Slim Intercom",
+      desc: "Mullion-friendly form factor for retrofits and tight jambs.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td33.jpg`,
+    },
+    {
+      key: "TD53",
+      title: "TD53 — Intercom",
+      desc: "Full-size unit with high-quality video, audio, and scanning.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td53.jpg`,
+    },
+    {
+      key: "TD63",
+      title: "TD63 — Intercom + Keypad",
+      desc: "Integrated keypad for PIN, MFA, and multi-tenant directories.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td63.jpg`,
+    },
   ]
 
   const connectivityProducts = [
@@ -187,12 +209,10 @@ export default function VendorVerkada() {
         <>
           {renderGrid(videoProducts)}
 
-          {/* Section Heading */}
           <h2 className="text-2xl sm:text-3xl font-semibold mt-16 mb-6 text-center">
             Watch Product Overview
           </h2>
 
-          {/* Embedded Wistia Video (full-width, responsive) */}
           <div className="w-full">
             <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-lg">
               <iframe
