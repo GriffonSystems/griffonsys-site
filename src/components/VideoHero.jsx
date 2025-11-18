@@ -5,8 +5,8 @@ import React from 'react'
 const FOCAL_BY_FILE = {
   'hero-01.jpg': 'center 15%',
   'hero-03.jpg': 'center 15%',
-  'hero-04.jpg': 'center 15%',
-  'hero-05.png': 'center 15%',
+  'hero-04.jpg': 'center 5%',
+  'hero-05.png': 'center 5%',
 }
 
 export default function VideoHero() {
