@@ -6,8 +6,8 @@ const FOCAL_BY_FILE = {
   'hero-07a.jpg': 'center 5%',   // FIRST IMAGE — show more top
   'hero-02.jpg':  'center 50%',
   'hero-03a.jpg': 'center 15%',
-  'hero-04a.jpg': 'center 5%',
-  'hero-05a.jpg': 'center 5%',
+  'hero-04a.jpg': 'center 15%',
+  'hero-05a.jpg': 'center 15%',
   'hero-01.jpg':  'center 10%',
   'hero-06a.jpg': 'center 50%',
 }
