@@ -76,19 +76,19 @@ export default function VendorVerkada() {
       key: "TD33",
       title: "TD33 — Slim Intercom",
       desc: "Mullion-friendly form factor for retrofits and tight jambs.",
-      img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td33.jpg`,
+      img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td33.webp`,
     },
     {
       key: "TD53",
       title: "TD53 — Intercom",
       desc: "Full-size unit with high-quality video, audio, and scanning.",
-      img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td53.jpg`,
+      img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td53.webp`,
     },
     {
       key: "TD63",
       title: "TD63 — Intercom + Keypad",
       desc: "Integrated keypad for PIN, MFA, and multi-tenant directories.",
-      img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td63.jpg`,
+      img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td63.webp`,
     },
   ]
 
