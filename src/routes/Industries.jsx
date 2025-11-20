@@ -1,29 +1,38 @@
 import React from "react"
+import { useNavigate } from "react-router-dom"
 
 export default function Industries() {
   const [showVideo, setShowVideo] = React.useState(false)
+  const navigate = useNavigate()
 
   const items = [
     {
       title: "Manufacturing",
       desc: "Rugged systems for production floors and yards",
       img: "/images/industries/manufacturing.jpg",
+      focal: "object-[center_25%]",
+      link: "/industries/manufacturing-security",
     },
     {
       title: "Education",
       desc: "K-12 and Higher-Ed with privacy controls and alerts",
       img: "/images/industries/education.jpg",
       video: "https://www.youtube.com/embed/hhfsZHMLMEk?autoplay=1",
+      focal: "object-[center_10%]",
     },
     {
       title: "Municipal",
       desc: "City facilities, utilities, and law enforcement needs",
       img: "/images/industries/municipal.jpg",
+      focal: "object-center",
+      link: "/industries/municipal-security",
     },
     {
       title: "Commercial",
       desc: "Offices, retail, and mixed-use properties",
       img: "/images/industries/commercial.jpg",
+      focal: "object-[center_20%]",
+      link: "/industries/commercial-security",
     },
   ]
 
@@ -43,7 +52,7 @@ export default function Industries() {
           >
             <iframe
               src={showVideo}
-              title="Avigilon Unity Case Study: Rogers Public Schools"
+              title="Industry Video"
               className="absolute inset-0 w-full h-full"
               allow="autoplay; encrypted-media"
               allowFullScreen
@@ -58,29 +67,32 @@ export default function Industries() {
         </div>
       )}
 
+      {/* ---- GRID ---- */}
       <div className="grid md:grid-cols-2 gap-6">
-        {items.map(({ title, desc, img, video }) => (
+        {items.map(({ title, desc, img, focal, video, link }) => (
           <div
             key={title}
             tabIndex={0}
-            onClick={() => video && setShowVideo(video)}
-            className={`relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl focus:ring-2 focus:ring-blue-500 transition ${
-              video ? "cursor-pointer" : ""
+            onClick={() => {
+              if (video) {
+                setShowVideo(video)
+              } else if (link) {
+                navigate(link)
+              }
+            }}
+            className={`relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition ${
+              video || link ? "cursor-pointer" : ""
             }`}
           >
             <img
               src={img}
               alt={title}
-              className={`w-full h-48 md:h-60 object-cover transform transition-transform duration-700 hover:scale-105 ${
-                title === "Education"
-                  ? "object-[center_10%]"
-                  : title === "Commercial"
-                  ? "object-[center_20%]"
-                  : "object-center"
-              }`}
+              className={`w-full h-48 md:h-60 object-cover transform transition-transform duration-700 hover:scale-105 ${focal}`}
               loading="lazy"
             />
+
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+
             <div className="absolute bottom-0 p-6 text-white">
               <h3 className="text-xl font-semibold">{title}</h3>
               <p className="mt-1 text-sm opacity-90">{desc}</p>
