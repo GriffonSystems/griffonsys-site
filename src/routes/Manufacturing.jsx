@@ -111,7 +111,7 @@ export default function Manufacturing() {
               <li>Advanced video analytics</li>
               <li>High-resolution industrial cameras</li>
               <li>Long-term retention & customizable storage</li>
-              <li>Integration with Alta Access control</li>
+              <li>Integration with ACM Access control</li>
             </ul>
           </div>
 
@@ -144,21 +144,32 @@ export default function Manufacturing() {
         </p>
       </section>
 
-      {/* ---- CASE STUDY ---- */}
-      <section className="mb-24">
-        <h2 className="text-2xl md:text-3xl font-semibold mb-6">
-          Case Study: Midwest Manufacturing Facility
-        </h2>
+      {/* ---- CASE STUDY (with background image) ---- */}
+      <section className="mb-24 relative rounded-3xl overflow-hidden shadow-xl">
 
-        <div className="bg-gray-100 rounded-3xl p-8 shadow-md">
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: "url('/images/industries/manufacturing2.jpg')",
+            filter: "brightness(0.55)",
+          }}
+        />
+
+        {/* Content */}
+        <div className="relative z-10 p-10 md:p-14 text-white">
+          <h2 className="text-2xl md:text-3xl font-semibold mb-6">
+            Case Study: Midwest Manufacturing Facility
+          </h2>
+
           <h3 className="text-xl font-semibold mb-3">Overview</h3>
-          <p className="text-gray-700 mb-4">
+          <p className="mb-4 opacity-95">
             A 220,000 sq ft Illinois manufacturer needed end-to-end visibility
             across their production lines, warehouse, and exterior yard.
           </p>
 
           <h3 className="text-xl font-semibold mb-2">Solution</h3>
-          <ul className="list-disc pl-5 text-gray-700 space-y-1 mb-4">
+          <ul className="list-disc pl-5 opacity-95 space-y-1 mb-4">
             <li>58 Avigilon cameras</li>
             <li>Alta Access Control on 34 doors</li>
             <li>Siklu EH-series wireless for yard coverage</li>
@@ -166,7 +177,7 @@ export default function Manufacturing() {
           </ul>
 
           <h3 className="text-xl font-semibold mb-2">Outcome</h3>
-          <p className="text-gray-700">
+          <p className="opacity-95">
             Reduced incidents by 40%, improved safety compliance, and eliminated
             blind spots across the plant.
           </p>
