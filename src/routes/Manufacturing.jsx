@@ -153,7 +153,7 @@ export default function Manufacturing() {
           style={{
             backgroundImage:
               "linear-gradient(to right, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%), url('/images/industries/manufacturing2.jpg')",
-            backgroundSize: "80%",   // 
+            backgroundSize: "60%",   // 
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center top",
           }}
