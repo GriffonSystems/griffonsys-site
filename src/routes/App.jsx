@@ -15,13 +15,14 @@ import AvigilonCloud from "./AvigilonCloud"
 import VendorAlta from "./VendorAlta"
 import NotFound from "./NotFound"
 
-// ✅ New pages
 import FromTheField from "./FromTheField"
 import WirelessLink from "./WirelessLink"
 import ComingSoon from "./ComingSoon"
 
-// ✅ Add this import
 import ServiceRequest from "./ServiceRequest"
+
+// ✅ NEW: Import Manufacturing Page
+import Manufacturing from "./Manufacturing"
 
 export default function App() {
   return (
@@ -35,20 +36,23 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
 
-        {/* ✅ Add your new Service / Maintenance page */}
+        {/* NEW: Manufacturing Landing Page */}
+        <Route path="/manufacturing" element={<Manufacturing />} />
+
+        {/* Service / Maintenance */}
         <Route path="/service" element={<ServiceRequest />} />
 
-        {/* ✅ Brands (formerly Vendors) */}
+        {/* Brand pages */}
         <Route path="/brands/verkada" element={<BrandVerkada />} />
         <Route path="/brands/avigilon" element={<BrandAvigilon />} />
         <Route path="/brands/avigilon-cloud" element={<AvigilonCloud />} />
         <Route path="/brands/alta" element={<VendorAlta />} />
 
-        {/* ✅ From the Field section */}
+        {/* From the Field */}
         <Route path="/from-the-field" element={<FromTheField />} />
         <Route path="/from-the-field/wireless-link" element={<WirelessLink />} />
 
-        {/* ✅ Coming soon placeholders */}
+        {/* Coming Soon placeholders */}
         <Route path="/from-the-field/avigilon-factory" element={<ComingSoon />} />
         <Route path="/from-the-field/municipal" element={<ComingSoon />} />
 
