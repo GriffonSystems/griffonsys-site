@@ -12,19 +12,23 @@ export default function Manufacturing() {
             alt="Manufacturing Security"
             className="absolute inset-0 w-full h-full object-cover object-[center_25%]"
           />
+
           <div className="absolute inset-0 bg-black/50" />
-          <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-12 text-white">
+
+          <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-12 text-white max-w-2xl">
             <h1 className="text-3xl md:text-5xl font-bold mb-4">
               Security Solutions for Illinois Manufacturers
             </h1>
-            <p className="text-lg md:text-xl opacity-90 max-w-2xl">
+
+            <p className="text-lg md:text-xl opacity-90">
               Protect your production lines, restricted areas, and workforce
               with Avigilon & Verkada video surveillance, smart access control,
               and ruggedized deployments designed for industrial environments.
             </p>
+
             <Link
               to="/contact?subject=Manufacturing%20Security%20Assessment"
-              className="mt-6 inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-lg shadow"
+              className="mt-6 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-lg shadow w-fit"
             >
               Schedule Free Facility Assessment
             </Link>
