@@ -111,7 +111,7 @@ export default function Manufacturing() {
               <li>Advanced video analytics</li>
               <li>High-resolution industrial cameras</li>
               <li>Long-term retention & customizable storage</li>
-              <li>Integration with Alta Access control</li>
+              <li>Integration with ACM Access control</li>
             </ul>
           </div>
 
@@ -153,7 +153,7 @@ export default function Manufacturing() {
           style={{
             backgroundImage:
               "linear-gradient(to right, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%), url('/images/industries/manufacturing2.jpg')",
-            backgroundSize: "contain",   // 👈 FULL IMAGE, NO ZOOM
+            backgroundSize: "80%",   // 
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center top",
           }}
@@ -173,9 +173,9 @@ export default function Manufacturing() {
 
           <h3 className="text-xl font-semibold mb-2">Solution</h3>
           <ul className="list-disc pl-5 opacity-95 space-y-1 mb-4">
-            <li>58 Avigilon cameras</li>
-            <li>Alta Access Control on 34 doors</li>
-            <li>Siklu EH-series wireless for yard coverage</li>
+            <li>98 Avigilon cameras</li>
+            <li>ACM Access Control on 34 doors</li>
+            <li>Siklu PTP wireless connecting multiple builidings</li>
             <li>Unified monitoring from a single dashboard</li>
           </ul>
 
