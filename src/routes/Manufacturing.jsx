@@ -1,9 +1,85 @@
 import React from "react"
 import { Link } from "react-router-dom"
+import { Helmet } from "react-helmet"
 
 export default function Manufacturing() {
   return (
     <main className="container py-12">
+
+      {/* ---- SEO ---- */}
+      <Helmet>
+        <title>Manufacturing Security Solutions | Video Surveillance & Access Control | Griffon Systems</title>
+        <meta 
+          name="description" 
+          content="Griffon Systems provides Avigilon, Verkada, and ACM access control security solutions for Illinois manufacturers — including industrial video surveillance, wireless backhaul, yard monitoring, PPE verification, and restricted zone protection." 
+        />
+
+        <meta 
+          name="keywords" 
+          content="manufacturing security, factory video surveillance, industrial cameras, warehouse security, avigilon installer illinois, verkada installer chicago, access control manufacturing, siklu wireless backhaul, osha compliance cameras, industrial security chicago" 
+        />
+
+        <link
+          rel="canonical"
+          href="https://www.griffonsys.com/industries/manufacturing"
+        />
+
+        {/* ---- OpenGraph ---- */}
+        <meta property="og:title" content="Manufacturing Security Solutions | Griffon Systems" />
+        <meta 
+          property="og:description" 
+          content="Security systems engineered for manufacturing — Avigilon & Verkada surveillance, ACM access control, wireless backhaul, OSHA compliance, and yard monitoring." 
+        />
+        <meta 
+          property="og:image" 
+          content="https://www.griffonsys.com/images/industries/manufacturing2.jpg" 
+        />
+        <meta property="og:url" content="https://www.griffonsys.com/industries/manufacturing" />
+        <meta property="og:type" content="website" />
+
+        {/* ---- Twitter Card ---- */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Manufacturing Security Solutions | Griffon Systems" />
+        <meta 
+          name="twitter:description" 
+          content="Industrial video surveillance, access control, and wireless backhaul designed for Illinois manufacturing facilities." 
+        />
+        <meta 
+          name="twitter:image" 
+          content="https://www.griffonsys.com/images/industries/manufacturing2.jpg" 
+        />
+
+        {/* ---- JSON-LD Structured Data ---- */}
+        <script type="application/ld+json">
+          {`
+          {
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": "Manufacturing Security Solutions",
+            "description": "Video surveillance, access control, wireless backhaul, and OSHA compliance tools for Illinois manufacturing facilities.",
+            "image": "https://www.griffonsys.com/images/industries/manufacturing2.jpg",
+            "brand": { "@type": "Brand", "name": "Griffon Systems" },
+            "url": "https://www.griffonsys.com/industries/manufacturing",
+            "areaServed": "Illinois",
+            "provider": {
+              "@type": "LocalBusiness",
+              "name": "Griffon Systems, Inc.",
+              "url": "https://www.griffonsys.com",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "650 West Grand Ave #206",
+                "addressLocality": "Elmhurst",
+                "addressRegion": "IL",
+                "postalCode": "60126",
+                "addressCountry": "US"
+              },
+              "telephone": "+16306070346"
+            }
+          }
+        `}
+        </script>
+      </Helmet>
+
       {/* ---- HERO ---- */}
       <section className="mb-16">
         <div className="relative overflow-hidden rounded-3xl shadow-lg h-[40vh] md:h-[55vh]">
@@ -144,22 +220,19 @@ export default function Manufacturing() {
         </p>
       </section>
 
-      {/* ---- CASE STUDY (FULL IMAGE ZOOM OUT) ---- */}
+      {/* ---- CASE STUDY ---- */}
       <section className="mb-24 relative rounded-3xl overflow-hidden shadow-xl">
-
-        {/* Fully zoomed-out background image */}
         <div
           className="absolute inset-0 bg-center bg-black"
           style={{
             backgroundImage:
               "linear-gradient(to right, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%), url('/images/industries/manufacturing2.jpg')",
-            backgroundSize: "60%",   // 
+            backgroundSize: "60%",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center bottom",
           }}
         />
 
-        {/* Content */}
         <div className="relative z-10 p-10 md:p-14 text-white max-w-2xl">
           <h2 className="text-2xl md:text-3xl font-semibold mb-6">
             Case Study: Midwest Manufacturing Facility
@@ -203,6 +276,7 @@ export default function Manufacturing() {
           Schedule Free Assessment
         </Link>
       </section>
+
     </main>
   )
 }
