@@ -144,19 +144,22 @@ export default function Manufacturing() {
         </p>
       </section>
 
-      {/* ---- CASE STUDY (Updated with manufacturing2.jpg + gradient) ---- */}
+      {/* ---- CASE STUDY (FULL IMAGE ZOOM OUT) ---- */}
       <section className="mb-24 relative rounded-3xl overflow-hidden shadow-xl">
 
-        {/* Background Image (NO ZOOM, full quality, top anchored) */}
+        {/* Fully zoomed-out background image */}
         <div
-          className="absolute inset-0 bg-cover bg-[center_top]"
+          className="absolute inset-0 bg-center bg-black"
           style={{
             backgroundImage:
               "linear-gradient(to right, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%), url('/images/industries/manufacturing2.jpg')",
+            backgroundSize: "contain",   // 👈 FULL IMAGE, NO ZOOM
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center top",
           }}
         />
 
-        {/* Text Content */}
+        {/* Content */}
         <div className="relative z-10 p-10 md:p-14 text-white max-w-2xl">
           <h2 className="text-2xl md:text-3xl font-semibold mb-6">
             Case Study: Midwest Manufacturing Facility
@@ -170,10 +173,10 @@ export default function Manufacturing() {
 
           <h3 className="text-xl font-semibold mb-2">Solution</h3>
           <ul className="list-disc pl-5 opacity-95 space-y-1 mb-4">
-            <li>98 Avigilon cameras</li>
-            <li>ACM Access Control on 34 doors</li>
-            <li>Siklu PTP wireless for high-bandwidth building connectivity</li>
-            <li>Unified monitoring and control from a single dashboard</li>
+            <li>58 Avigilon cameras</li>
+            <li>Alta Access Control on 34 doors</li>
+            <li>Siklu EH-series wireless for yard coverage</li>
+            <li>Unified monitoring from a single dashboard</li>
           </ul>
 
           <h3 className="text-xl font-semibold mb-2">Outcome</h3>
