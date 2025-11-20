@@ -155,7 +155,7 @@ export default function Manufacturing() {
               "linear-gradient(to right, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%), url('/images/industries/manufacturing2.jpg')",
             backgroundSize: "60%",   // 
             backgroundRepeat: "no-repeat",
-            backgroundPosition: "center top",
+            backgroundPosition: "center bottom",
           }}
         />
 
@@ -175,7 +175,7 @@ export default function Manufacturing() {
           <ul className="list-disc pl-5 opacity-95 space-y-1 mb-4">
             <li>98 Avigilon cameras</li>
             <li>ACM Access Control on 34 doors</li>
-            <li>Siklu PTP wireless connecting multiple builidings</li>
+            <li>Siklu PTP wireless connecting multiple buildings</li>
             <li>Unified monitoring from a single dashboard</li>
           </ul>
 
