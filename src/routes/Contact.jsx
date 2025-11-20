@@ -19,6 +19,15 @@ export default function Contact() {
   const [showTextForm, setShowTextForm] = React.useState(false)
   const [textFeedback, setTextFeedback] = React.useState('')
 
+  // ✅ FIX: override browser auto-scroll caused by Google Maps iframe
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+    }, 50)
+
+    return () => clearTimeout(timer)
+  }, [])
+
   const submit = async (e) => {
     e.preventDefault()
     setStatus('loading')
@@ -149,7 +158,7 @@ export default function Contact() {
             </span>
           )}
 
-          {/* Twilio section remains hidden until ENABLE_TWILIO = true */}
+          {/* Twilio option (hidden until ENABLE_TWILIO is true) */}
           {ENABLE_TWILIO && (
             <div className="mt-8">
               <button
@@ -206,7 +215,7 @@ export default function Contact() {
         </div>
       </form>
 
-      {/* Business Info + Map */}
+      {/* Business Info + Google Map */}
       <div className="mt-12 text-sm text-gray-700 max-w-2xl">
         <h2 className="text-lg font-semibold mb-2">Our Office</h2>
         <p>Griffon Systems, Inc.</p>
