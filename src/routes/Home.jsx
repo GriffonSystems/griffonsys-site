@@ -22,7 +22,7 @@ export default function Home() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
 
-          {/* ⭐ NEW — LPR & NCIC CONNECTED PATROL */}
+          {/* ⭐ NEW — NCIC CONNECTED LPR */}
           <div
             className="relative card p-6 flex flex-col h-full bg-cover bg-center rounded-2xl overflow-hidden"
             style={{ backgroundImage: "url('/images/home/lpr.jpg')" }}
