@@ -58,7 +58,7 @@ export default function Commercial() {
             "@type": "Product",
             "name": "Commercial Security Solutions",
             "description": "Video surveillance, access control, monitoring, and loss prevention systems for Illinois commercial properties.",
-            "image": "https://www.griffonsys.com/images/industries/commercial.jpg",
+            "image": "https://www.griffonsys.com/images/industries/commercial2.jpg",
             "brand": { "@type": "Brand", "name": "Griffon Systems" },
             "url": "https://www.griffonsys.com/industries/commercial",
             "areaServed": "Illinois",
@@ -227,7 +227,6 @@ export default function Commercial() {
           </h3>
           <ul className="list-disc pl-5 opacity-95 space-y-1 mb-4">
             <li>Avigilon cameras covering registers, sales floor, and entrances</li>
-            <li>Verkada cameras for cloud remote access & alerting</li>
             <li>Access control for stock rooms and employee-only areas</li>
             <li>Real-time video monitoring from mobile and HQ</li>
           </ul>
