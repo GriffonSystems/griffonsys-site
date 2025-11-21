@@ -44,7 +44,7 @@ export default function App() {
         {/* Landing Pages */}
         <Route path="/manufacturing" element={<Manufacturing />} />
         <Route path="/municipal" element={<Municipal />} />
-        <Route path="/commercial-security" element={<Commercial />} /> {/* ✅ NEW */}
+        <Route path="/commercial" element={<Commercial />} /> {/* ✅ NEW */}
 
         {/* Service / Maintenance */}
         <Route path="/service" element={<ServiceRequest />} />
