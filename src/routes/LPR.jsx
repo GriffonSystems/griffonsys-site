@@ -146,24 +146,6 @@ export default function LPR() {
         </div>
       </section>
 
-      {/* ---- CASE STUDY ---- */}
-      <section className="mb-24 bg-gray-100 p-10 rounded-3xl shadow-md">
-        <h2 className="text-2xl md:text-3xl font-semibold mb-6" style={{ fontFamily: "Optima" }}>
-          Case Study: Illinois Police Department
-        </h2>
-
-        <p className="mb-4 text-gray-800">
-          A local department deployed solar-powered CR63-E LPR units at three 
-          high-traffic intersections to track stolen vehicles.
-        </p>
-
-        <ul className="list-disc pl-5 text-gray-700 space-y-1">
-          <li>Matched NCIC hotlist in under 3 seconds</li>
-          <li>Captured plates at 110 ft in all lighting conditions</li>
-          <li>Integrated with dispatch alerting</li>
-        </ul>
-      </section>
-
       {/* ---- CTA ---- */}
       <section className="text-center mb-24">
         <h2 className="text-2xl md:text-3xl font-bold mb-4" style={{ fontFamily: "Optima" }}>
