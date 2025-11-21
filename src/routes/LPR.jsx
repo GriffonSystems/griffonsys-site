@@ -70,8 +70,7 @@ export default function LPR() {
             </h1>
 
             <p className="text-lg md:text-xl opacity-90" style={{ fontFamily: "Optima" }}>
-              Real-time NCIC, SOS, and Hotlist alerts powered by Verkada CR series 
-              and Avigilon LPR analytics — deployable anywhere.
+              Real-time NCIC, SOS, and Hotlist alerts
             </p>
 
             <button
