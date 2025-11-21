@@ -1,73 +1,116 @@
-// src/routes/App.jsx
-import { Routes, Route } from "react-router-dom"
-import Nav from "../components/Nav"
-import Footer from "../components/Footer"
-import { Analytics } from "@vercel/analytics/react"
+// src/routes/Home.jsx
+import ReviewsMarqueeStatic from '../components/ReviewsMarqueeStatic'
+import VideoHero from '../components/VideoHero'
+import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet'
 
-import Home from "./Home"
-import Solutions from "./Solutions"
-import Contact from "./Contact"
-import About from "./About"
-import Industries from "./Industries"
-import BrandVerkada from "./BrandVerkada"
-import BrandAvigilon from "./BrandAvigilon"
-import AvigilonCloud from "./AvigilonCloud"
-import VendorAlta from "./VendorAlta"
-import NotFound from "./NotFound"
-
-// Sections
-import FromTheField from "./FromTheField"
-import WirelessLink from "./WirelessLink"
-import ComingSoon from "./ComingSoon"
-
-// Service / Maintenance
-import ServiceRequest from "./ServiceRequest"
-
-// Landing Pages
-import Manufacturing from "./Manufacturing"
-import Municipal from "./Municipal"
-import Commercial from "./Commercial"   // ✅ NEW
-
-export default function App() {
+export default function Home() {
   return (
-    <div className="min-h-screen bg-white text-gray-900">
-      <Nav />
-      <Routes>
+    <main>
+      <Helmet>
+        <title>Griffon Systems | Video Surveillance & Access Control Solutions</title>
+        <meta
+          name="description"
+          content="Illinois-based integrator delivering Avigilon, Verkada, and Alta video surveillance and access control systems for manufacturing, municipal, and enterprise clients."
+        />
+        <link rel="canonical" href="https://www.griffonsys.com" />
+      </Helmet>
 
-        {/* Main pages */}
-        <Route path="/" element={<Home />} />
-        <Route path="/solutions" element={<Solutions />} />
-        <Route path="/industries" element={<Industries />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
+      <VideoHero />
 
-        {/* Landing Pages */}
-        <Route path="/manufacturing" element={<Manufacturing />} />
-        <Route path="/municipal" element={<Municipal />} />
-        <Route path="/commercial" element={<Commercial />} /> {/* ✅ NEW */}
+      <section className="container py-12">
+        <h2 className="text-2xl md:text-3xl font-semibold mb-6">Core Solutions</h2>
 
-        {/* Service / Maintenance */}
-        <Route path="/service" element={<ServiceRequest />} />
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
 
-        {/* Brand pages */}
-        <Route path="/brands/verkada" element={<BrandVerkada />} />
-        <Route path="/brands/avigilon" element={<BrandAvigilon />} />
-        <Route path="/brands/avigilon-cloud" element={<AvigilonCloud />} />
-        <Route path="/brands/alta" element={<VendorAlta />} />
+          {/* ✅ NEW — LPR SOLUTION CARD (FIRST POSITION) */}
+          <div
+            className="relative card p-6 flex flex-col h-full bg-cover bg-center rounded-2xl overflow-hidden"
+            style={{ backgroundImage: "url('/images/lpr/lpr-hero.jpg')" }}
+          >
+            <div className="absolute inset-0 bg-black/50"></div>
 
-        {/* From the Field */}
-        <Route path="/from-the-field" element={<FromTheField />} />
-        <Route path="/from-the-field/wireless-link" element={<WirelessLink />} />
+            <div className="relative z-10 flex flex-col h-full text-white">
+              <h3 className="text-xl font-semibold mb-2">License Plate Recognition (LPR)</h3>
+              <p className="text-gray-100 mb-4">
+                Real-time NCIC, IL SOS, and Hotlist alerts powered by Verkada’s CR63-E remote camera.
+              </p>
 
-        {/* Coming Soon placeholders */}
-        <Route path="/from-the-field/avigilon-factory" element={<ComingSoon />} />
+              <div className="mt-auto flex flex-col sm:flex-row gap-3">
+                <Link className="btn btn-primary w-full sm:w-auto" to="/lpr">
+                  Explore LPR Solutions
+                </Link>
+              </div>
+            </div>
+          </div>
 
-        {/* Fallback */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+          {/* Cloud Video Surveillance */}
+          <div
+            className="relative card p-6 flex flex-col h-full bg-cover bg-center rounded-2xl overflow-hidden"
+            style={{ backgroundImage: "url('/images/home/cloud-video.jpg')" }}
+          >
+            <div className="absolute inset-0 bg-black/50" />
+            <div className="relative z-10 flex flex-col h-full text-white">
+              <h3 className="text-xl font-semibold mb-2">Cloud Video Surveillance</h3>
+              <p className="text-gray-100 mb-4">
+                Modern, scalable systems with AI analytics and remote access.
+              </p>
+              <div className="mt-auto flex flex-col sm:flex-row gap-3">
+                <Link className="btn btn-primary w-full sm:w-auto" to="/brands/verkada#video">
+                  Explore Verkada
+                </Link>
+                <Link className="btn btn-primary w-full sm:w-auto" to="/brands/avigilon-cloud">
+                  Explore Avigilon
+                </Link>
+              </div>
+            </div>
+          </div>
 
-      <Footer />
-      <Analytics />
-    </div>
+          {/* Cloud Access Control */}
+          <div
+            className="relative card p-6 flex flex-col h-full bg-cover bg-center rounded-2xl overflow-hidden"
+            style={{ backgroundImage: "url('/images/home/cloud-access.jpg')" }}
+          >
+            <div className="absolute inset-0 bg-black/50" />
+            <div className="relative z-10 flex flex-col h-full text-white">
+              <h3 className="text-xl font-semibold mb-2">Cloud Access Control</h3>
+              <p className="text-gray-100 mb-4">
+                Mobile credentials, remote unlock, and cloud management for doors and elevators.
+              </p>
+              <div className="mt-auto flex flex-col sm:flex-row gap-3">
+                <Link className="btn btn-primary w-full sm:w-auto" to="/brands/verkada#access">
+                  Explore Verkada
+                </Link>
+                <Link className="btn btn-primary w-full sm:w-auto" to="/brands/alta">
+                  Explore Alta Access
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* On-Prem Video Surveillance */}
+          <div
+            className="relative card p-6 flex flex-col h-full bg-cover bg-center rounded-2xl overflow-hidden"
+            style={{ backgroundImage: "url('/images/home/onprem.jpg')" }}
+          >
+            <div className="absolute inset-0 bg-black/50" />
+            <div className="relative z-10 flex flex-col h-full text-white">
+              <h3 className="text-xl font-semibold mb-2">On-Prem Video Surveillance</h3>
+              <p className="text-gray-100 mb-4">
+                Enterprise-grade reliability for campuses, plants, and regulated environments.
+              </p>
+              <div className="mt-auto">
+                <Link className="btn btn-primary w-full md:w-auto" to="/brands/avigilon">
+                  Explore Avigilon
+                </Link>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <ReviewsMarqueeStatic />
+    </main>
   )
 }
