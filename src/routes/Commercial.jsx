@@ -48,7 +48,7 @@ export default function Commercial() {
         />
         <meta 
           name="twitter:image" 
-          content="https://www.griffonsys.com/images/industries/commercial.jpg" 
+          content="https://www.griffonsys.com/images/industries/commercial2.jpg" 
         />
 
         {/* ---- JSON-LD Structured Data ---- */}
@@ -59,7 +59,7 @@ export default function Commercial() {
               "@type": "Product",
               "name": "Commercial Security Solutions",
               "description": "Video surveillance, access control, monitoring, and loss prevention systems for Illinois commercial properties.",
-              "image": "https://www.griffonsys.com/images/industries/commercial.jpg",
+              "image": "https://www.griffonsys.com/images/industries/commercial2.jpg",
               "url": "https://www.griffonsys.com/commercial",
               "areaServed": "Illinois",
               "brand": { "@type": "Brand", "name": "Griffon Systems" },
