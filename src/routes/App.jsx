@@ -25,7 +25,8 @@ import ServiceRequest from "./ServiceRequest"
 
 // Landing Pages
 import Manufacturing from "./Manufacturing"
-import Municipal from "./Municipal"   // ✅ NEW
+import Municipal from "./Municipal"
+import Commercial from "./Commercial"   // ✅ NEW
 
 export default function App() {
   return (
@@ -42,7 +43,8 @@ export default function App() {
 
         {/* Landing Pages */}
         <Route path="/manufacturing" element={<Manufacturing />} />
-        <Route path="/municipal" element={<Municipal />} /> {/* ✅ NEW */}
+        <Route path="/municipal" element={<Municipal />} />
+        <Route path="/commercial-security" element={<Commercial />} /> {/* ✅ NEW */}
 
         {/* Service / Maintenance */}
         <Route path="/service" element={<ServiceRequest />} />
@@ -59,9 +61,6 @@ export default function App() {
 
         {/* Coming Soon placeholders */}
         <Route path="/from-the-field/avigilon-factory" element={<ComingSoon />} />
-
-        {/* Removed → /from-the-field/municipal */}
-        {/* <Route path="/from-the-field/municipal" element={<ComingSoon />} /> */}
 
         {/* Fallback */}
         <Route path="*" element={<NotFound />} />
