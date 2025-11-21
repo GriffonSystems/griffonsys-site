@@ -22,12 +22,35 @@ export default function Home() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
 
+          {/* ⭐ NEW — LPR & NCIC CONNECTED PATROL */}
+          <div
+            className="relative card p-6 flex flex-col h-full bg-cover bg-center rounded-2xl overflow-hidden"
+            style={{ backgroundImage: "url('/images/home/lpr.jpg')" }}
+          >
+            <div className="absolute inset-0 bg-black/50" />
+            <div className="relative z-10 flex flex-col h-full text-white">
+              <h3 className="text-xl font-semibold mb-2">LPR & NCIC Connected Patrol</h3>
+              <p className="text-gray-100 mb-4">
+                Real-time hotlist alerts, stolen vehicle hits, and patrol car visibility using Verkada Remote LPR.
+              </p>
+
+              <div className="mt-auto">
+                <Link
+                  className="btn btn-primary w-full md:w-auto"
+                  to="/brands/verkada#video"
+                >
+                  Explore LPR Options
+                </Link>
+              </div>
+            </div>
+          </div>
+
           {/* 1) Cloud Video Surveillance */}
           <div
             className="relative card p-6 flex flex-col h-full bg-cover bg-center rounded-2xl overflow-hidden"
             style={{ backgroundImage: "url('/images/home/cloud-video.jpg')" }}
           >
-            <div className="absolute inset-0 bg-black/50" /> {/* overlay */}
+            <div className="absolute inset-0 bg-black/50" />
             <div className="relative z-10 flex flex-col h-full text-white">
               <h3 className="text-xl font-semibold mb-2">Cloud Video Surveillance</h3>
               <p className="text-gray-100 mb-4">
@@ -66,7 +89,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* 3) On-Prem Video Surveillance */}
+          {/* 3) On-Prem Video */}
           <div
             className="relative card p-6 flex flex-col h-full bg-cover bg-center rounded-2xl overflow-hidden"
             style={{ backgroundImage: "url('/images/home/onprem.jpg')" }}
