@@ -79,7 +79,7 @@ export default function LPR() {
 
           <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-12 text-white max-w-3xl">
             <h1 className="text-3xl md:text-5xl font-bold mb-4" style={{ fontFamily: "Optima" }}>
-              License Plate Recognition for Illinois Agencies
+              License Plate Recognition for Illinois Law Enforcement
             </h1>
 
             <p className="text-lg md:text-xl opacity-90" style={{ fontFamily: "Optima" }}>
