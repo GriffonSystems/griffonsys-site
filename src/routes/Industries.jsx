@@ -11,7 +11,7 @@ export default function Industries() {
       desc: "Rugged systems for production floors and yards",
       img: "/images/industries/manufacturing.jpg",
       focal: "object-[center_25%]",
-      link: "/manufacturing",   // 👈 DIRECT LINK TO Manufacturing.jsx
+      link: "/manufacturing",
     },
     {
       title: "Education",
@@ -25,7 +25,7 @@ export default function Industries() {
       desc: "City facilities, utilities, and law enforcement needs",
       img: "/images/industries/municipal.jpg",
       focal: "object-center",
-      link: "/municipal-security",
+      link: "/municipal",   // ✅ FIXED
     },
     {
       title: "Commercial",
@@ -74,11 +74,8 @@ export default function Industries() {
             key={title}
             tabIndex={0}
             onClick={() => {
-              if (video) {
-                setShowVideo(video)
-              } else if (link) {
-                navigate(link)
-              }
+              if (video) setShowVideo(video)
+              else if (link) navigate(link)
             }}
             className={`relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition ${
               video || link ? "cursor-pointer" : ""
