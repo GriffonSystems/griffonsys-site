@@ -1,8 +1,46 @@
-import React from "react"
+import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import { Helmet } from "react-helmet"
+import axios from "axios"
 
 export default function LPR() {
+  const [showForm, setShowForm] = useState(false)
+  const [status, setStatus] = useState("idle")
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    company: "",
+  })
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value })
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setStatus("loading")
+
+    try {
+      await axios.post("/api/contact", {
+        name: form.name,
+        email: form.email,
+        company: form.company,
+        phone: "",
+        message: "Request for LPR Demo Unit",
+      })
+
+      setStatus("ok")
+      setTimeout(() => {
+        setStatus("idle")
+        setShowForm(false)
+        setForm({ name: "", email: "", company: "" })
+      }, 2000)
+    } catch (err) {
+      console.error(err)
+      setStatus("error")
+    }
+  }
+
   return (
     <main className="container py-12">
 
@@ -13,58 +51,7 @@ export default function LPR() {
           name="description" 
           content="Illinois LPR systems with NCIC, SOS and Hotlist alerts. Cloud-managed Verkada CR series and Avigilon LPR cameras for police, municipal, and campus traffic monitoring." 
         />
-
-        <link 
-          rel="canonical" 
-          href="https://www.griffonsys.com/lpr" 
-        />
-
-        {/* ---- OpenGraph ---- */}
-        <meta property="og:title" content="License Plate Recognition (LPR) | NCIC & Hotlist Alerts | Griffon Systems" />
-        <meta 
-          property="og:description" 
-          content="Modern LPR solutions for Illinois police and municipal agencies — NCIC, SOS, Hotlist alerts, real-time detections, and mobile deployments." 
-        />
-        <meta 
-          property="og:image" 
-          content="https://www.griffonsys.com/images/lpr/lpr-hero.jpg" 
-        />
-        <meta property="og:type" content="website" />
-
-        {/* ---- Twitter ---- */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta 
-          name="twitter:description" 
-          content="LPR solutions with NCIC, SOS, and Hotlist alerts for law enforcement and municipalities." 
-        />
-
-        {/* ---- JSON-LD ---- */}
-        <script type="application/ld+json">
-          {`
-            {
-              "@context": "https://schema.org",
-              "@type": "Product",
-              "name": "License Plate Recognition (LPR)",
-              "description": "LPR cameras with NCIC, SOS, and Hotlist alerting for Illinois police, municipal agencies, and campuses.",
-              "image": "https://www.griffonsys.com/images/lpr/lpr-hero.jpg",
-              "brand": { "@type": "Brand", "name": "Griffon Systems" },
-              "url": "https://www.griffonsys.com/lpr",
-              "provider": {
-                "@type": "LocalBusiness",
-                "name": "Griffon Systems, Inc.",
-                "address": {
-                  "@type": "PostalAddress",
-                  "streetAddress": "650 W Grand Ave #206",
-                  "addressLocality": "Elmhurst",
-                  "addressRegion": "IL",
-                  "postalCode": "60126",
-                  "addressCountry": "US"
-                },
-                "telephone": "+16306070346"
-              }
-            }
-          `}
-        </script>
+        <link rel="canonical" href="https://www.griffonsys.com/lpr" />
       </Helmet>
 
       {/* ---- HERO ---- */}
@@ -87,12 +74,12 @@ export default function LPR() {
               and Avigilon LPR analytics — deployable anywhere.
             </p>
 
-            <Link 
-              to="/contact?subject=LPR%20Demo%20Request"
+            <button
+              onClick={() => setShowForm(true)}
               className="mt-6 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-lg shadow w-fit"
             >
               Request LPR Demo Unit
-            </Link>
+            </button>
           </div>
         </div>
       </section>
@@ -123,7 +110,7 @@ export default function LPR() {
       <section className="mb-20 grid md:grid-cols-2 gap-10">
         <img
           src="/images/lpr/lpr-hero.jpg"
-          alt="LPR Pole Mount with Beam Straps"
+          alt="LPR Pole Mount"
           className="rounded-3xl shadow-lg w-full object-cover"
         />
 
@@ -155,13 +142,88 @@ export default function LPR() {
           Schedule a demo or request a short-term pilot program.
         </p>
 
-        <Link
-          to="/contact?subject=LPR%20Demo%20Request"
+        <button
+          onClick={() => setShowForm(true)}
           className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl text-lg shadow-md"
         >
           Request LPR Demo
-        </Link>
+        </button>
       </section>
+
+      {/* ---- MODAL FORM (Same as Solutions) ---- */}
+      {showForm && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 relative">
+            <button
+              onClick={() => setShowForm(false)}
+              className="absolute top-2 right-3 text-gray-500 hover:text-gray-800 text-2xl leading-none"
+            >
+              &times;
+            </button>
+
+            {status !== "ok" ? (
+              <>
+                <h2 className="text-2xl font-semibold mb-4">Request LPR Demo</h2>
+
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <input
+                    name="name"
+                    value={form.name}
+                    onChange={handleChange}
+                    placeholder="Your Name"
+                    required
+                    className="w-full border border-gray-300 rounded p-2"
+                  />
+
+                  <input
+                    name="company"
+                    value={form.company}
+                    onChange={handleChange}
+                    placeholder="Department / Company"
+                    className="w-full border border-gray-300 rounded p-2"
+                  />
+
+                  <input
+                    type="email"
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    placeholder="Email"
+                    required
+                    className="w-full border border-gray-300 rounded p-2"
+                  />
+
+                  <div className="flex items-center gap-2">
+                    <input id="consent" type="checkbox" required className="h-4 w-4" />
+                    <label htmlFor="consent" className="text-sm text-gray-600">
+                      I agree to be contacted about this request.
+                    </label>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+                    disabled={status === "loading"}
+                  >
+                    {status === "loading" ? "Sending..." : "Send Request"}
+                  </button>
+
+                  {status === "error" && (
+                    <p className="text-red-600 text-sm mt-2">
+                      Something went wrong. Please try again.
+                    </p>
+                  )}
+                </form>
+              </>
+            ) : (
+              <div className="text-center py-8">
+                <h3 className="text-xl font-semibold mb-2">Thank you!</h3>
+                <p>Your demo request has been received.</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
     </main>
   )
