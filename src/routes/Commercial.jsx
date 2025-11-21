@@ -194,10 +194,10 @@ export default function Commercial() {
           className="absolute inset-0 bg-center bg-black"
           style={{
             backgroundImage:
-              "linear-gradient(to right, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%), url('/images/industries/commercial.jpg')",
+              "linear-gradient(to right, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%), url('/images/industries/commercial2.jpg')",
             backgroundSize: "60%",
             backgroundRepeat: "no-repeat",
-            backgroundPosition: "center bottom",
+            backgroundPosition: "center",
           }}
         />
 
