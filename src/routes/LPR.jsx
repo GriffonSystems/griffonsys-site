@@ -122,7 +122,7 @@ export default function LPR() {
       {/* ---- MOBILE / POLE DEPLOYMENTS ---- */}
       <section className="mb-20 grid md:grid-cols-2 gap-10">
         <img
-          src="/images/lpr/lpr-pole.jpg"
+          src="/images/lpr/lpr-hero.jpg"
           alt="LPR Pole Mount with Beam Straps"
           className="rounded-3xl shadow-lg w-full object-cover"
         />
