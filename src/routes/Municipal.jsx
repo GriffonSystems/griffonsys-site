@@ -39,7 +39,7 @@ export default function Municipal() {
           <img
             src="/images/industries/muni.jpg"
             alt="Municipal Security"
-            className="absolute inset-0 w-full h-full object-cover object-[center_35%]"
+            className="absolute inset-0 w-full h-full object-cover object-[center_15%]"
           />
 
           <div className="absolute inset-0 bg-black/50" />
