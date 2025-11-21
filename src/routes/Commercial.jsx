@@ -33,7 +33,7 @@ export default function Commercial() {
         />
         <meta 
           property="og:image" 
-          content="https://www.griffonsys.com/images/industries/commercial.jpg" 
+          content="https://www.griffonsys.com/images/industries/commercial2.jpg" 
         />
         <meta property="og:url" content="https://www.griffonsys.com/industries/commercial" />
         <meta property="og:type" content="website" />
