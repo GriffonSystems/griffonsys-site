@@ -34,7 +34,7 @@ export default function Commercial() {
         />
         <meta 
           property="og:image" 
-          content="https://www.griffonsys.com/images/industries/commercial.jpg" 
+          content="https://www.griffonsys.com/images/industries/commercial2.jpg" 
         />
         <meta property="og:url" content="https://www.griffonsys.com/commercial" />
         <meta property="og:type" content="website" />
@@ -86,7 +86,7 @@ export default function Commercial() {
       <section className="mb-16">
         <div className="relative overflow-hidden rounded-3xl shadow-lg h-[40vh] md:h-[55vh]">
           <img
-            src="/images/industries/commercial.jpg"
+            src="/images/industries/commercial2.jpg"
             alt="Commercial Security"
             className="absolute inset-0 w-full h-full object-cover object-center"
           />
