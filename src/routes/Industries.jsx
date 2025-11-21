@@ -32,7 +32,7 @@ export default function Industries() {
       desc: "Offices, retail, and mixed-use properties",
       img: "/images/industries/commercial.jpg",
       focal: "object-[center_20%]",
-      link: "/commercial-security",
+      link: "/commercial",
     },
   ]
 
