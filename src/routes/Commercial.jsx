@@ -1,3 +1,4 @@
+// src/routes/Commercial.jsx
 import React from "react"
 import { Link } from "react-router-dom"
 import { Helmet } from "react-helmet"
@@ -8,7 +9,9 @@ export default function Commercial() {
 
       {/* ---- SEO ---- */}
       <Helmet>
-        <title>Commercial Security Solutions | Video Surveillance & Access Control | Griffon Systems</title>
+        <title>
+          Commercial Security Solutions | Video Surveillance & Access Control | Griffon Systems
+        </title>
 
         <meta 
           name="description" 
@@ -20,10 +23,8 @@ export default function Commercial() {
           content="commercial security, business security cameras, office video surveillance, chicago security integrator, avigilon installer, verkada dealer illinois, access control office, retail security cameras, loss prevention cameras, commercial alarm systems" 
         />
 
-        <link
-          rel="canonical"
-          href="https://www.griffonsys.com/industries/commercial"
-        />
+        {/* Correct canonical */}
+        <link rel="canonical" href="https://www.griffonsys.com/commercial" />
 
         {/* ---- OpenGraph ---- */}
         <meta property="og:title" content="Commercial Security Solutions | Griffon Systems" />
@@ -33,9 +34,9 @@ export default function Commercial() {
         />
         <meta 
           property="og:image" 
-          content="https://www.griffonsys.com/images/industries/commercial2.jpg" 
+          content="https://www.griffonsys.com/images/industries/commercial.jpg" 
         />
-        <meta property="og:url" content="https://www.griffonsys.com/industries/commercial" />
+        <meta property="og:url" content="https://www.griffonsys.com/commercial" />
         <meta property="og:type" content="website" />
 
         {/* ---- Twitter ---- */}
@@ -47,37 +48,37 @@ export default function Commercial() {
         />
         <meta 
           name="twitter:image" 
-          content="https://www.griffonsys.com/images/industries/commercial2.jpg" 
+          content="https://www.griffonsys.com/images/industries/commercial.jpg" 
         />
 
-        {/* ---- JSON-LD ---- */}
+        {/* ---- JSON-LD Structured Data ---- */}
         <script type="application/ld+json">
           {`
-          {
-            "@context": "https://schema.org",
-            "@type": "Product",
-            "name": "Commercial Security Solutions",
-            "description": "Video surveillance, access control, monitoring, and loss prevention systems for Illinois commercial properties.",
-            "image": "https://www.griffonsys.com/images/industries/commercial2.jpg",
-            "brand": { "@type": "Brand", "name": "Griffon Systems" },
-            "url": "https://www.griffonsys.com/industries/commercial",
-            "areaServed": "Illinois",
-            "provider": {
-              "@type": "LocalBusiness",
-              "name": "Griffon Systems, Inc.",
-              "url": "https://www.griffonsys.com",
-              "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "650 West Grand Ave #206",
-                "addressLocality": "Elmhurst",
-                "addressRegion": "IL",
-                "postalCode": "60126",
-                "addressCountry": "US"
-              },
-              "telephone": "+16306070346"
+            {
+              "@context": "https://schema.org",
+              "@type": "Product",
+              "name": "Commercial Security Solutions",
+              "description": "Video surveillance, access control, monitoring, and loss prevention systems for Illinois commercial properties.",
+              "image": "https://www.griffonsys.com/images/industries/commercial.jpg",
+              "url": "https://www.griffonsys.com/commercial",
+              "areaServed": "Illinois",
+              "brand": { "@type": "Brand", "name": "Griffon Systems" },
+              "provider": {
+                "@type": "LocalBusiness",
+                "name": "Griffon Systems, Inc.",
+                "url": "https://www.griffonsys.com",
+                "telephone": "+16306070346",
+                "address": {
+                  "@type": "PostalAddress",
+                  "streetAddress": "650 West Grand Ave #206",
+                  "addressLocality": "Elmhurst",
+                  "addressRegion": "IL",
+                  "postalCode": "60126",
+                  "addressCountry": "US"
+                }
+              }
             }
-          }
-        `}
+          `}
         </script>
       </Helmet>
 
