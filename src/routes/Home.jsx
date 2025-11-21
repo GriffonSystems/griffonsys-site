@@ -29,9 +29,9 @@ export default function Home() {
           >
             <div className="absolute inset-0 bg-black/50" />
             <div className="relative z-10 flex flex-col h-full text-white">
-              <h3 className="text-xl font-semibold mb-2">LPR & NCIC Connected Patrol</h3>
+              <h3 className="text-xl font-semibold mb-2">NCIC LPR</h3>
               <p className="text-gray-100 mb-4">
-                Real-time hotlist alerts, stolen vehicle hits, and patrol car visibility using Verkada Remote LPR.
+                Real-time hotlist alerts.
               </p>
 
               <div className="mt-auto">
