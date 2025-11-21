@@ -58,7 +58,7 @@ export default function LPR() {
       <section className="mb-16">
         <div className="relative overflow-hidden rounded-3xl shadow-lg h-[40vh] md:h-[55vh]">
           <img
-            src="/images/lpr/lpr-hero.jpg"
+            src="/hero/hero-01.jpg"
             alt="LPR Camera — Illinois NCIC & Hotlist Alerts"
             className="absolute inset-0 w-full h-full object-cover object-center"
           />
