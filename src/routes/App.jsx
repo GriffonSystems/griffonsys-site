@@ -15,20 +15,24 @@ import AvigilonCloud from "./AvigilonCloud"
 import VendorAlta from "./VendorAlta"
 import NotFound from "./NotFound"
 
+// Sections
 import FromTheField from "./FromTheField"
 import WirelessLink from "./WirelessLink"
 import ComingSoon from "./ComingSoon"
 
+// Service / Maintenance
 import ServiceRequest from "./ServiceRequest"
 
-// ✅ NEW: Import Manufacturing Page
+// Landing Pages
 import Manufacturing from "./Manufacturing"
+import Municipal from "./Municipal"   // ✅ NEW
 
 export default function App() {
   return (
     <div className="min-h-screen bg-white text-gray-900">
       <Nav />
       <Routes>
+
         {/* Main pages */}
         <Route path="/" element={<Home />} />
         <Route path="/solutions" element={<Solutions />} />
@@ -36,8 +40,9 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
 
-        {/* NEW: Manufacturing Landing Page */}
+        {/* Landing Pages */}
         <Route path="/manufacturing" element={<Manufacturing />} />
+        <Route path="/municipal" element={<Municipal />} /> {/* ✅ NEW */}
 
         {/* Service / Maintenance */}
         <Route path="/service" element={<ServiceRequest />} />
@@ -54,7 +59,9 @@ export default function App() {
 
         {/* Coming Soon placeholders */}
         <Route path="/from-the-field/avigilon-factory" element={<ComingSoon />} />
-        <Route path="/from-the-field/municipal" element={<ComingSoon />} />
+
+        {/* Removed → /from-the-field/municipal */}
+        {/* <Route path="/from-the-field/municipal" element={<ComingSoon />} /> */}
 
         {/* Fallback */}
         <Route path="*" element={<NotFound />} />
