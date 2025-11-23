@@ -4,6 +4,13 @@ import axios from 'axios'
 export default function Solutions() {
   const items = [
     {
+      title: 'Direct Camera Ordering',
+      desc: 'Skip the sales rep. Order cameras, readers, and accessories directly.',
+      img: '/images/solutions/direct-order.jpg',
+      pos: 'center 40%',
+      direct: true, // flag so modal title changes
+    },
+    {
       title: 'Cloud Video Surveillance',
       desc: 'Simple deployment, remote access, and automatic updates.',
       img: '/images/solutions/cloud-video.jpg',
@@ -61,7 +68,7 @@ export default function Solutions() {
         name: state.name,
         email: state.email,
         company: state.company,
-        phone: '', // optional
+        phone: '',
         message: `Request for more information about: ${selected}`,
       })
       setStatus('ok')
@@ -84,7 +91,7 @@ export default function Solutions() {
         {items.map((item) => (
           <button
             key={item.title}
-            onClick={() => setSelected(item.title)}
+            onClick={() => setSelected(item)}
             className="relative text-left rounded-lg overflow-hidden group focus:outline-none focus:ring-2 focus:ring-blue-500"
             style={{
               backgroundImage: `url(${item.img})`,
@@ -116,8 +123,18 @@ export default function Solutions() {
             {status !== 'ok' ? (
               <>
                 <h2 className="text-2xl font-semibold mb-4">
-                  Request Info — {selected}
+                  {selected.direct
+                    ? 'Quick Order Request — Cameras & Accessories'
+                    : `Request Info — ${selected.title}`}
                 </h2>
+
+                {selected.direct && (
+                  <p className="text-gray-600 mb-4">
+                    No scheduler. No sales rep.  
+                    Just tell us what you want and we’ll send pricing immediately.
+                  </p>
+                )}
+
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <input
                     name="name"
@@ -169,7 +186,7 @@ export default function Solutions() {
             ) : (
               <div className="text-center py-8">
                 <h3 className="text-xl font-semibold mb-2">Thank you!</h3>
-                <p>We’ll send more information about {selected} shortly.</p>
+                <p>We’ll respond with pricing and details shortly.</p>
               </div>
             )}
           </div>
