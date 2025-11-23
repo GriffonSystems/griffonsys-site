@@ -44,7 +44,7 @@ const COLORS = {
 const randomShape = () => {
   const keys = Object.keys(SHAPES)
   const r = keys[Math.floor(Math.random() * keys.length)]
-  return { shape: SHAPES[r], type: r, x: 3, y: 0 }
+  return { shape: SHAPES[r], type: r, x: 3, y: -1 } // FIX: start slightly above top
 }
 
 const rotate = (matrix) => {
@@ -71,7 +71,22 @@ export default function TetrisGame() {
     return JSON.parse(localStorage.getItem("tetrisHighScores") || "[]")
   })
 
-  const speeds = { 1: 800, 2: 500, 3: 300 }
+  // MUCH FASTER SPEEDS
+  const speeds = {
+    1: 500,
+    2: 300,
+    3: 150,
+    4: 100,
+    5: 70,
+  }
+
+  // auto level-up based on score
+  useEffect(() => {
+    if (score > 3500) setLevel(5)
+    else if (score > 2000) setLevel(4)
+    else if (score > 1200) setLevel(3)
+    else if (score > 500) setLevel(2)
+  }, [score])
 
   const collision = (p = current) => {
     for (let y = 0; y < p.shape.length; y++) {
@@ -79,6 +94,7 @@ export default function TetrisGame() {
         if (p.shape[y][x]) {
           const newX = p.x + x
           const newY = p.y + y
+
           if (
             newX < 0 ||
             newX >= COLS ||
@@ -107,8 +123,9 @@ export default function TetrisGame() {
 
   const clearLines = () => {
     let cleared = 0
+
     const newBoard = board.filter((row) => {
-      if (row.every((c) => c)) {
+      if (row.every((v) => v)) {
         cleared++
         return false
       }
@@ -117,10 +134,8 @@ export default function TetrisGame() {
 
     while (newBoard.length < ROWS) newBoard.unshift(Array(COLS).fill(0))
 
-    if (cleared) {
-      setScore((s) => s + cleared * 100)
-      if (score > 500) setLevel(2)
-      if (score > 1200) setLevel(3)
+    if (cleared > 0) {
+      setScore((s) => s + cleared * 150) // faster scoring
     }
 
     setBoard(newBoard)
@@ -128,6 +143,7 @@ export default function TetrisGame() {
 
   const drop = () => {
     const moved = { ...current, y: current.y + 1 }
+
     if (!collision(moved)) {
       setCurrent(moved)
     } else {
@@ -146,12 +162,14 @@ export default function TetrisGame() {
     const list = [...highScores, score]
       .sort((a, b) => b - a)
       .slice(0, 10)
+
     setHighScores(list)
     localStorage.setItem("tetrisHighScores", JSON.stringify(list))
   }
 
   const handleKey = (e) => {
     if (gameOver) return
+
     if (e.key === "ArrowLeft") {
       const m = { ...current, x: current.x - 1 }
       if (!collision(m)) setCurrent(m)
@@ -172,16 +190,21 @@ export default function TetrisGame() {
     return () => window.removeEventListener("keydown", handleKey)
   })
 
+  // 🔥 FIXED stable drop loop (faster speeds, no infinite intervals)
   useEffect(() => {
+    if (gameOver) return
+
     const interval = setInterval(() => {
-      if (!gameOver) drop()
+      drop()
     }, speeds[level])
+
     return () => clearInterval(interval)
   }, [level, gameOver])
 
   useEffect(() => {
     const canvas = canvasRef.current
     const ctx = canvas.getContext("2d")
+
     ctx.clearRect(0, 0, 300, 600)
 
     board.forEach((row, y) =>
