@@ -11,7 +11,7 @@ export default function TetrisModal({ open, onClose }) {
   const ROWS = 20;
   const COLS = 10;
   const BLOCK = 30;
-  const DROP_SPEED = 550;
+  const DROP_SPEED = 650;
 
   const colors = [
     null,
