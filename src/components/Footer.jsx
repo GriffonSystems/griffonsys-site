@@ -55,7 +55,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
               >
                 <img
-                  src="/icons/facebook.svg"
+                  src="/logos/facebook.png"
                   alt="Facebook"
                   className="h-6 w-6 opacity-80 hover:opacity-100"
                 />
@@ -68,7 +68,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
               >
                 <img
-                  src="/icons/linkedin.svg"
+                  src="/logos/linkedin.png"
                   alt="LinkedIn"
                   className="h-6 w-6 opacity-80 hover:opacity-100"
                 />
