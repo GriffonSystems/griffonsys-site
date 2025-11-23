@@ -2,16 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 
 export default function TetrisModal({ open, onClose }) {
   const canvasRef = useRef(null);
-  const logoRef = useRef(null);
-
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
 
-  // ----- GAME CONSTANTS -----
   const ROWS = 20;
   const COLS = 10;
   const BLOCK = 30;
-  const DROP_SPEED = 650;
 
   const colors = [
     null,
@@ -47,49 +43,36 @@ export default function TetrisModal({ open, onClose }) {
       [6, 6, 0],
       [0, 6, 6],
     ],
-    [
-      [7, 7, 7],
-      [0, 7, 0],
-    ],
+    [[7, 7, 7], [0, 7, 0]],
   ];
 
-  let board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
   let piece = null;
-  let lastDrop = 0;
+  let board = [];
 
-  // PRELOAD LOGO
-  useEffect(() => {
-    const img = new Image();
-    img.src = "/logos/griffon_logo.svg";
-    img.onload = () => (logoRef.current = img);
-  }, []);
+  // ---------- Board ----------
+  const resetBoard = () => {
+    board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
+  };
 
-  // NEW PIECE
   const randomPiece = () => {
     const type = Math.floor(Math.random() * 7) + 1;
     return {
-      shape: shapes[type].map((row) => [...row]),
+      shape: shapes[type].map((r) => [...r]),
       x: 3,
       y: 0,
       type,
     };
   };
 
-  // COLLISION
   const collide = (p) => {
     for (let r = 0; r < p.shape.length; r++) {
       for (let c = 0; c < p.shape[r].length; c++) {
         if (p.shape[r][c] !== 0) {
-          let nx = p.x + c;
-          let ny = p.y + r;
-          if (
-            nx < 0 ||
-            nx >= COLS ||
-            ny >= ROWS ||
-            (ny >= 0 && board[ny][nx] !== 0)
-          ) {
-            return true;
-          }
+          const nx = p.x + c;
+          const ny = p.y + r;
+
+          if (nx < 0 || nx >= COLS || ny >= ROWS) return true;
+          if (ny >= 0 && board[ny][nx] !== 0) return true;
         }
       }
     }
@@ -106,24 +89,11 @@ export default function TetrisModal({ open, onClose }) {
     }
   };
 
-  // ROTATE
-  const rotatePiece = () => {
-    const rotated = piece.shape[0].map((_, i) =>
-      piece.shape.map((row) => row[i]).reverse()
+  const rotate = (p) => {
+    const rotated = p.shape[0].map((_, i) =>
+      p.shape.map((row) => row[i]).reverse()
     );
-    const test = { ...piece, shape: rotated };
-    if (!collide(test)) piece.shape = rotated;
-  };
-
-  const movePiece = (dir) => {
-    const test = { ...piece, x: piece.x + dir };
-    if (!collide(test)) piece.x += dir;
-  };
-
-  const dropFast = () => {
-    while (!collide({ ...piece, y: piece.y + 1 })) {
-      piece.y++;
-    }
+    return { ...p, shape: rotated };
   };
 
   const clearLines = () => {
@@ -136,11 +106,12 @@ export default function TetrisModal({ open, onClose }) {
         r++;
       }
     }
-    if (cleared) setScore((s) => s + cleared * 100);
+    if (cleared > 0) setScore((s) => s + cleared * 100);
   };
 
-  // DRAW
-  const draw = (ctx) => {
+  // ---------- Draw ----------
+  const draw = (ctx, logo) => {
+    ctx.clearRect(0, 0, COLS * BLOCK, ROWS * BLOCK);
     ctx.fillStyle = "#111";
     ctx.fillRect(0, 0, COLS * BLOCK, ROWS * BLOCK);
 
@@ -154,7 +125,7 @@ export default function TetrisModal({ open, onClose }) {
       }
     }
 
-    // active piece
+    // falling piece
     if (piece) {
       for (let r = 0; r < piece.shape.length; r++) {
         for (let c = 0; c < piece.shape[r].length; c++) {
@@ -171,118 +142,126 @@ export default function TetrisModal({ open, onClose }) {
       }
     }
 
-    // WATERMARK — STRONGER + CENTERED
-    if (logoRef.current) {
-      const size = 90;
-      ctx.save();
-      ctx.globalAlpha = 0.38; // <-- MUCH MORE VISIBLE
-      ctx.drawImage(
-        logoRef.current,
-        (COLS * BLOCK) / 2 - size / 2,
-        (ROWS * BLOCK) / 2 - size / 2,
-        size,
-        size
-      );
-      ctx.restore();
+    // centered faint griffon logo
+    if (logo.complete) {
+      ctx.globalAlpha = 0.18;
+      const size = 120;
+      const cx = (COLS * BLOCK - size) / 2;
+      const cy = (ROWS * BLOCK - size) / 2;
+      ctx.drawImage(logo, cx, cy, size, size);
+      ctx.globalAlpha = 1;
     }
   };
 
-  // GAME LOOP
-  const loop = (time, ctx) => {
-    if (!open || gameOver) return;
+  // ---------- Game Loop ----------
+  const gameLoop = (ctx, logo) => {
+    if (!open) return;
 
-    if (time - lastDrop > DROP_SPEED) {
-      lastDrop = time;
-      piece.y++;
+    piece.y++;
 
+    if (collide(piece)) {
+      piece.y--;
+
+      merge(piece);
+      clearLines();
+      piece = randomPiece();
+
+      // protect first spawn
       if (collide(piece)) {
-        piece.y--;
-        merge(piece);
-        clearLines();
-        piece = randomPiece();
-        if (collide(piece)) {
-          setGameOver(true);
-          return;
-        }
+        setGameOver(true);
+        return;
       }
     }
 
-    draw(ctx);
-    requestAnimationFrame((t) => loop(t, ctx));
+    draw(ctx, logo);
+    setTimeout(() => requestAnimationFrame(() => gameLoop(ctx, logo)), 500);
   };
 
   const startGame = () => {
-    board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
-    piece = randomPiece();
+    resetBoard();
     setScore(0);
     setGameOver(false);
+
+    piece = randomPiece();
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
-    requestAnimationFrame((t) => {
-      lastDrop = t;
-      loop(t, ctx);
-    });
+    const logo = new Image();
+    logo.src = "/logos/griffon_logo.svg";
+
+    requestAnimationFrame(() => gameLoop(ctx, logo));
   };
 
-  // CONTROLS
-  useEffect(() => {
-    const handle = (e) => {
-      if (!open || gameOver) return;
-
-      if (e.key === "ArrowLeft") movePiece(-1);
-      if (e.key === "ArrowRight") movePiece(1);
-      if (e.key === "ArrowUp") rotatePiece();
-      if (e.key === "ArrowDown") piece.y++;
-      if (e.key === " ") dropFast();
-    };
-
-    window.addEventListener("keydown", handle);
-    return () => window.removeEventListener("keydown", handle);
-  }, [open, gameOver]);
-
+  // ---------- Start when opened ----------
   useEffect(() => {
     if (open) startGame();
   }, [open]);
 
+  // ---------- Controls ----------
+  useEffect(() => {
+    if (!open) return;
+
+    const handleKey = (e) => {
+      if (gameOver) return;
+
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext("2d");
+      let newPiece = { ...piece, shape: piece.shape.map((r) => [...r]) };
+
+      if (e.key === "ArrowLeft") newPiece.x--;
+      if (e.key === "ArrowRight") newPiece.x++;
+      if (e.key === "ArrowDown") newPiece.y++;
+      if (e.key === "ArrowUp") newPiece = rotate(newPiece);
+
+      if (!collide(newPiece)) piece = newPiece;
+
+      draw(ctx, new Image());
+    };
+
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [open, gameOver]);
+
   return (
-    open && (
-      <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 backdrop-blur-sm">
-        <div className="bg-white rounded-2xl shadow-2xl p-6 relative w-[420px]">
-          <button
-            onClick={onClose}
-            className="absolute top-3 right-3 text-gray-500 hover:text-black text-xl"
-          >
-            &times;
-          </button>
+    <>
+      {open && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl shadow-2xl p-6 relative w-[420px]">
+            <button
+              onClick={onClose}
+              className="absolute top-3 right-3 text-gray-500 hover:text-black text-xl"
+            >
+              ×
+            </button>
 
-          <h2 className="text-xl font-semibold mb-2 text-center">
-            Griffon Tetris
-          </h2>
+            <h2 className="text-xl font-semibold mb-3 text-center">
+              Griffon Tetris
+            </h2>
 
-          <canvas
-            ref={canvasRef}
-            width={COLS * BLOCK}
-            height={ROWS * BLOCK}
-            className="border border-gray-200 mx-auto mb-3 rounded-lg bg-black"
-          />
+            <canvas
+              ref={canvasRef}
+              width={COLS * BLOCK}
+              height={ROWS * BLOCK}
+              className="border border-gray-300 mx-auto mb-3 rounded-lg bg-black"
+            />
 
-          <p className="text-center text-lg mb-4 font-medium">Score: {score}</p>
+            <p className="text-center text-lg font-medium mb-2">Score: {score}</p>
 
-          {gameOver && (
-            <div className="text-center">
-              <p className="text-red-500 font-bold text-lg mb-3">GAME OVER</p>
-              <button
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl"
-                onClick={startGame}
-              >
-                Restart
-              </button>
-            </div>
-          )}
+            {gameOver && (
+              <div className="text-center mt-3">
+                <p className="text-red-600 font-bold text-lg mb-3">GAME OVER</p>
+                <button
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl"
+                  onClick={startGame}
+                >
+                  Restart Game
+                </button>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    )
+      )}
+    </>
   );
 }
