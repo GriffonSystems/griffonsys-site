@@ -1,86 +1,112 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export default function TetrisModal({ open, onClose }) {
   const canvasRef = useRef(null);
-  const [grid, setGrid] = useState([]);
-  const [piece, setPiece] = useState(null);
-  const [intervalId, setIntervalId] = useState(null);
-  const [score, setScore] = useState(0);
-  const [highScore, setHighScore] = useState(
-    Number(localStorage.getItem("tetrisHighScore") || 0)
-  );
-  const [state, setState] = useState("intro"); // intro | playing | gameover | paused
+  const [gameStarted, setGameStarted] = useState(false);
 
-  const ROWS = 20;
   const COLS = 10;
+  const ROWS = 20;
   const BLOCK = 30;
 
-  const GRIFFON_LOGO = "/logos/griffon_logo.svg";
-
+  // Colors for each Tetromino
   const COLORS = {
-    I: "#42a5f5",
-    O: "#ffeb3b",
-    T: "#ab47bc",
-    S: "#66bb6a",
-    Z: "#ef5350",
-    J: "#5c6bc0",
-    L: "#ffa726",
+    I: "#00f0f0",
+    J: "#0000f0",
+    L: "#f0a000",
+    O: "#f0f000",
+    S: "#00f000",
+    T: "#a000f0",
+    Z: "#f00000",
   };
 
+  // Tetromino shapes
   const SHAPES = {
-    I: [[1, 1, 1, 1]],
-    O: [
-      [1, 1],
-      [1, 1],
-    ],
-    T: [
-      [1, 1, 1],
-      [0, 1, 0],
-    ],
-    S: [
-      [0, 1, 1],
-      [1, 1, 0],
-    ],
-    Z: [
-      [1, 1, 0],
-      [0, 1, 1],
+    I: [
+      [1, 1, 1, 1]
     ],
     J: [
       [1, 0, 0],
-      [1, 1, 1],
+      [1, 1, 1]
     ],
     L: [
       [0, 0, 1],
-      [1, 1, 1],
+      [1, 1, 1]
+    ],
+    O: [
+      [1, 1],
+      [1, 1]
+    ],
+    S: [
+      [0, 1, 1],
+      [1, 1, 0]
+    ],
+    T: [
+      [0, 1, 0],
+      [1, 1, 1]
+    ],
+    Z: [
+      [1, 1, 0],
+      [0, 1, 1]
     ],
   };
 
   const randomPiece = () => {
     const keys = Object.keys(SHAPES);
-    const type = keys[Math.floor(Math.random() * keys.length)];
+    const key = keys[Math.floor(Math.random() * keys.length)];
     return {
-      type,
-      shape: SHAPES[type],
-      row: 0,
-      col: Math.floor(COLS / 2) - 1,
+      shape: SHAPES[key],
+      color: COLORS[key],
+      x: 3,
+      y: 0,
     };
   };
 
-  const initGrid = () => {
-    return Array.from({ length: ROWS }, () => Array(COLS).fill(null));
+  let board = Array.from({ length: ROWS }, () => Array(COLS).fill(null));
+  let piece = randomPiece();
+  let dropInterval = 500;
+  let lastTime = 0;
+  let animationFrame;
+
+  const drawBoard = (ctx) => {
+    ctx.clearRect(0, 0, COLS * BLOCK, ROWS * BLOCK);
+    ctx.fillStyle = "#111";
+    ctx.fillRect(0, 0, COLS * BLOCK, ROWS * BLOCK);
+
+    // Render locked blocks
+    for (let y = 0; y < ROWS; y++) {
+      for (let x = 0; x < COLS; x++) {
+        if (board[y][x]) {
+          ctx.fillStyle = board[y][x];
+          ctx.fillRect(x * BLOCK, y * BLOCK, BLOCK - 2, BLOCK - 2);
+        }
+      }
+    }
+
+    // Render active piece
+    piece.shape.forEach((row, dy) => {
+      row.forEach((value, dx) => {
+        if (value) {
+          ctx.fillStyle = piece.color;
+          ctx.fillRect(
+            (piece.x + dx) * BLOCK,
+            (piece.y + dy) * BLOCK,
+            BLOCK - 2,
+            BLOCK - 2
+          );
+        }
+      });
+    });
   };
 
-  const rotate = (shape) =>
-    shape[0].map((_, i) => shape.map((r) => r[i]).reverse());
-
-  const collide = (p, g) => {
-    for (let r = 0; r < p.shape.length; r++) {
-      for (let c = 0; c < p.shape[0].length; c++) {
+  const collision = (offsetX, offsetY) => {
+    for (let y = 0; y < piece.shape.length; y++) {
+      for (let x = 0; x < piece.shape[y].length; x++) {
         if (
-          p.shape[r][c] &&
-          (g[p.row + r] === undefined ||
-            g[p.row + r][p.col + c] === undefined ||
-            g[p.row + r][p.col + c])
+          piece.shape[y][x] &&
+          (board[piece.y + y + offsetY]?.[piece.x + x + offsetX] !== null ||
+            piece.x + x + offsetX < 0 ||
+            piece.x + x + offsetX >= COLS ||
+            piece.y + y + offsetY >= ROWS)
         ) {
           return true;
         }
@@ -89,228 +115,120 @@ export default function TetrisModal({ open, onClose }) {
     return false;
   };
 
-  const merge = (p, g) => {
-    const newGrid = g.map((row) => [...row]);
-    p.shape.forEach((r, i) => {
-      r.forEach((v, j) => {
-        if (v) newGrid[p.row + i][p.col + j] = p.type;
+  const rotate = () => {
+    const rotated = piece.shape[0].map((_, i) =>
+      piece.shape.map((row) => row[i]).reverse()
+    );
+    const previous = piece.shape;
+    piece.shape = rotated;
+    if (collision(0, 0)) piece.shape = previous;
+  };
+
+  const mergePiece = () => {
+    piece.shape.forEach((row, dy) => {
+      row.forEach((value, dx) => {
+        if (value) {
+          board[piece.y + dy][piece.x + dx] = piece.color;
+        }
       });
     });
-    return newGrid;
   };
 
-  const clearLines = (g) => {
-    let cleared = 0;
-    const newGrid = g.filter((row) => {
-      if (row.every((v) => v)) {
-        cleared++;
-        return false;
-      }
-      return true;
-    });
+  const clearLines = () => {
+    board = board.filter(row => row.some(cell => cell === null) || row.every(cell => cell !== null) === false);
 
-    while (newGrid.length < ROWS) newGrid.unshift(Array(COLS).fill(null));
-    if (cleared > 0) setScore((s) => s + cleared * 100);
-    return newGrid;
+    const missing = ROWS - board.length;
+    while (board.length < ROWS) {
+      board.unshift(new Array(COLS).fill(null));
+    }
   };
 
-  // ---- Game Loop ----
+  const drop = () => {
+    if (!collision(0, 1)) {
+      piece.y++;
+    } else {
+      mergePiece();
+      clearLines();
+      piece = randomPiece();
+      if (collision(0, 0)) startNewGame();
+    }
+  };
+
+  const update = (time = 0) => {
+    const delta = time - lastTime;
+    if (delta > dropInterval) {
+      drop();
+      lastTime = time;
+    }
+
+    const ctx = canvasRef.current.getContext("2d");
+    drawBoard(ctx);
+
+    animationFrame = requestAnimationFrame(update);
+  };
+
+  const startNewGame = () => {
+    board = Array.from({ length: ROWS }, () => Array(COLS).fill(null));
+    piece = randomPiece();
+    lastTime = 0;
+  };
+
   useEffect(() => {
     if (!open) return;
 
-    if (state === "playing" && !intervalId) {
-      const id = setInterval(() => {
-        moveDown();
-      }, 500);
-      setIntervalId(id);
-    }
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
 
-    return () => clearInterval(intervalId);
-  }, [open, state]);
+    canvas.width = COLS * BLOCK;
+    canvas.height = ROWS * BLOCK;
 
-  useEffect(() => {
-    if (open) {
-      setGrid(initGrid());
-      setPiece(randomPiece());
-    }
+    startNewGame();
+    setGameStarted(true);
+
+    animationFrame = requestAnimationFrame(update);
+
+    const keyHandler = (e) => {
+      if (e.key === "ArrowLeft" && !collision(-1, 0)) piece.x--;
+      if (e.key === "ArrowRight" && !collision(1, 0)) piece.x++;
+      if (e.key === "ArrowDown" && !collision(0, 1)) piece.y++;
+      if (e.key === "ArrowUp") rotate();
+    };
+
+    window.addEventListener("keydown", keyHandler);
+
+    return () => {
+      window.removeEventListener("keydown", keyHandler);
+      cancelAnimationFrame(animationFrame);
+    };
   }, [open]);
-
-  const moveDown = () => {
-    if (state !== "playing") return;
-
-    const newPiece = { ...piece, row: piece.row + 1 };
-    if (collide(newPiece, grid)) {
-      const merged = merge(piece, grid);
-      const cleared = clearLines(merged);
-      setGrid(cleared);
-
-      const next = randomPiece();
-      if (collide(next, cleared)) {
-        setState("gameover");
-        if (score > highScore) {
-          setHighScore(score);
-          localStorage.setItem("tetrisHighScore", score);
-        }
-      } else {
-        setPiece(next);
-      }
-      return;
-    }
-    setPiece(newPiece);
-  };
-
-  const move = (dir) => {
-    if (state !== "playing") return;
-
-    const newPiece = { ...piece, col: piece.col + dir };
-    if (!collide(newPiece, grid)) setPiece(newPiece);
-  };
-
-  const rotatePiece = () => {
-    if (state !== "playing") return;
-    const rotated = { ...piece, shape: rotate(piece.shape) };
-    if (!collide(rotated, grid)) setPiece(rotated);
-  };
-
-  const startPlaying = () => {
-    setScore(0);
-    setPiece(randomPiece());
-    setGrid(initGrid());
-    setState("playing");
-  };
-
-  // ---- Rendering ----
-  useEffect(() => {
-    if (!canvasRef.current || !open) return;
-
-    const ctx = canvasRef.current.getContext("2d");
-    ctx.clearRect(0, 0, COLS * BLOCK, ROWS * BLOCK);
-
-    // Draw grid
-    grid.forEach((row, r) =>
-      row.forEach((v, c) => {
-        if (v) {
-          ctx.fillStyle = COLORS[v];
-          ctx.fillRect(c * BLOCK, r * BLOCK, BLOCK, BLOCK);
-        }
-      })
-    );
-
-    // Draw piece
-    piece?.shape.forEach((row, r) =>
-      row.forEach((v, c) => {
-        if (v) {
-          ctx.fillStyle = COLORS[piece.type];
-          ctx.fillRect(
-            (piece.col + c) * BLOCK,
-            (piece.row + r) * BLOCK,
-            BLOCK,
-            BLOCK
-          );
-        }
-      })
-    );
-  });
 
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[9999] flex items-center justify-center p-4">
-      <div className="bg-white p-6 rounded-2xl shadow-2xl max-w-lg w-full relative">
+    <div
+      className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
+      onClick={onClose}
+    >
+      <div
+        className="bg-gray-900 p-4 rounded-2xl shadow-2xl relative border border-gray-700"
+        onClick={(e) => e.stopPropagation()}
+      >
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 text-gray-700 text-2xl"
+          className="absolute top-2 right-3 text-gray-300 hover:text-white text-xl"
         >
-          ✕
+          ×
         </button>
 
-        {/* ---- INTRO SCREEN ---- */}
-        {state === "intro" && (
-          <div className="text-center">
-            <img
-              src={GRIFFON_LOGO}
-              alt="Griffon"
-              className="w-24 mx-auto mb-4 opacity-90"
-            />
-            <h2 className="text-2xl font-semibold mb-3">Griffon Tetris</h2>
-            <p className="text-gray-600 mb-6">
-              A quick game while you wait for your next deployment.
-            </p>
-            <button
-              onClick={startPlaying}
-              className="bg-black text-white px-6 py-3 rounded-xl text-lg"
-            >
-              Start Game
-            </button>
-          </div>
-        )}
+        <h2 className="text-center text-white text-lg mb-3 font-semibold">
+          Griffon Systems — Tetris
+        </h2>
 
-        {/* ---- GAME OVER ---- */}
-        {state === "gameover" && (
-          <div className="text-center">
-            <img
-              src={GRIFFON_LOGO}
-              alt="Griffon"
-              className="w-24 mx-auto mb-4"
-            />
-            <h2 className="text-2xl font-bold mb-3">Game Over</h2>
-            <p className="mb-2 text-lg">Score: {score}</p>
-            <p className="mb-6 text-gray-700">High Score: {highScore}</p>
-            <button
-              onClick={startPlaying}
-              className="bg-black text-white px-6 py-3 rounded-xl text-lg"
-            >
-              Play Again
-            </button>
-          </div>
-        )}
+        <canvas ref={canvasRef} className="bg-black rounded" />
 
-        {/* ---- GAME DISPLAY ---- */}
-        {(state === "playing" || state === "paused") && (
-          <div className="flex flex-col items-center">
-            <canvas
-              ref={canvasRef}
-              width={COLS * BLOCK}
-              height={ROWS * BLOCK}
-              className="border border-gray-300 rounded"
-            />
-
-            <div className="flex justify-between w-full mt-4">
-              <p className="text-lg">Score: {score}</p>
-              <p className="text-lg">High Score: {highScore}</p>
-            </div>
-
-            <div className="flex gap-3 mt-4">
-              <button
-                className="px-4 py-2 bg-gray-200 rounded"
-                onClick={() => move(-1)}
-              >
-                ◀
-              </button>
-              <button
-                className="px-4 py-2 bg-gray-200 rounded"
-                onClick={rotatePiece}
-              >
-                ⟳
-              </button>
-              <button
-                className="px-4 py-2 bg-gray-200 rounded"
-                onClick={() => move(1)}
-              >
-                ▶
-              </button>
-            </div>
-
-            <button
-              onClick={() =>
-                setState(state === "paused" ? "playing" : "paused")
-              }
-              className="mt-4 text-sm underline"
-            >
-              {state === "paused" ? "Resume" : "Pause"}
-            </button>
-          </div>
-        )}
+        <p className="text-gray-400 text-xs text-center mt-3">
+          ← → = Move • ↑ = Rotate • ↓ = Soft Drop
+        </p>
       </div>
     </div>
   );
