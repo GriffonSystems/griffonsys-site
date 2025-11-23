@@ -57,7 +57,7 @@ export default function Footer() {
                 <img
                   src="/logos/facebook.svg"
                   alt="Facebook"
-                  className="h-6 w-6 opacity-80 hover:opacity-100"
+                  className="h-6 w-6 brightness-200 hover:brightness-150"
                 />
               </a>
 
@@ -70,12 +70,12 @@ export default function Footer() {
                 <img
                   src="/logos/linkedin.svg"
                   alt="LinkedIn"
-                  className="h-6 w-6 opacity-80 hover:opacity-100"
+                  className="h-6 w-6 brightness-200 hover:brightness-150"
                 />
               </a>
             </div>
 
-            {/* ---- NEW: Tetris directly under social icons ---- */}
+            {/* ---- Tetris under social icons ---- */}
             <button
               onClick={() => setTetrisOpen(true)}
               className="text-blue-400 hover:text-blue-300 underline text-sm"
