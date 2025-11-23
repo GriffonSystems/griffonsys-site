@@ -2,6 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 
 export default function TetrisModal({ open, onClose }) {
   const canvasRef = useRef(null);
+  const logoRef = useRef(null);
+
+  // Persistent refs so React re-renders don't reset the game
+  const boardRef = useRef([]);
+  const pieceRef = useRef(null);
+  const loopRef = useRef(null);
+
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
 
@@ -9,17 +16,19 @@ export default function TetrisModal({ open, onClose }) {
   const COLS = 10;
   const BLOCK = 30;
 
+  // Colors (index = block type)
   const colors = [
     null,
-    "#00f0f0",
-    "#0000f0",
-    "#f0a000",
-    "#f0f000",
-    "#00f000",
-    "#a000f0",
-    "#f00000",
+    "#00f0f0", // I
+    "#0000f0", // J
+    "#f0a000", // L
+    "#f0f000", // O
+    "#00f000", // S
+    "#a000f0", // T
+    "#f00000", // Z
   ];
 
+  // Tetromino shapes
   const shapes = [
     [],
     [[1, 1, 1, 1]],
@@ -46,11 +55,14 @@ export default function TetrisModal({ open, onClose }) {
     [[7, 7, 7], [0, 7, 0]],
   ];
 
-  let piece = null;
-  let board = [];
+  // ---------------------------
+  // Utility functions
+  // ---------------------------
 
   const resetBoard = () => {
-    board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
+    boardRef.current = Array.from({ length: ROWS }, () =>
+      Array(COLS).fill(0)
+    );
   };
 
   const randomPiece = () => {
@@ -64,11 +76,13 @@ export default function TetrisModal({ open, onClose }) {
   };
 
   const collide = (p) => {
+    const board = boardRef.current;
     for (let r = 0; r < p.shape.length; r++) {
       for (let c = 0; c < p.shape[r].length; c++) {
         if (p.shape[r][c] !== 0) {
           let newX = p.x + c;
           let newY = p.y + r;
+
           if (
             newX < 0 ||
             newX >= COLS ||
@@ -84,6 +98,7 @@ export default function TetrisModal({ open, onClose }) {
   };
 
   const merge = (p) => {
+    const board = boardRef.current;
     for (let r = 0; r < p.shape.length; r++) {
       for (let c = 0; c < p.shape[r].length; c++) {
         if (p.shape[r][c] !== 0) {
@@ -102,6 +117,8 @@ export default function TetrisModal({ open, onClose }) {
 
   const clearLines = () => {
     let cleared = 0;
+    const board = boardRef.current;
+
     for (let r = ROWS - 1; r >= 0; r--) {
       if (board[r].every((cell) => cell !== 0)) {
         board.splice(r, 1);
@@ -114,10 +131,13 @@ export default function TetrisModal({ open, onClose }) {
   };
 
   const draw = (ctx) => {
-    ctx.clearRect(0, 0, COLS * BLOCK, ROWS * BLOCK);
+    const board = boardRef.current;
+    const piece = pieceRef.current;
+
     ctx.fillStyle = "#111";
     ctx.fillRect(0, 0, COLS * BLOCK, ROWS * BLOCK);
 
+    // Draw board blocks
     for (let r = 0; r < ROWS; r++) {
       for (let c = 0; c < COLS; c++) {
         if (board[r][c] !== 0) {
@@ -127,6 +147,7 @@ export default function TetrisModal({ open, onClose }) {
       }
     }
 
+    // Draw active piece
     if (piece) {
       for (let r = 0; r < piece.shape.length; r++) {
         for (let c = 0; c < piece.shape[r].length; c++) {
@@ -143,97 +164,159 @@ export default function TetrisModal({ open, onClose }) {
       }
     }
 
-    // ------ Griffon Logo Watermark ------
-    const logo = new Image();
-    logo.src = "/logos/griffon_logo.svg";
-    logo.onload = () => {
-      const size = 70;
-      const opacity = 0.15;
-      ctx.globalAlpha = opacity;
-      ctx.drawImage(logo, COLS * BLOCK - size - 5, ROWS * BLOCK - size - 5, size, size);
+    // Draw Griffon logo watermark
+    const logo = logoRef.current;
+    if (logo.complete) {
+      ctx.globalAlpha = 0.15;
+      ctx.drawImage(
+        logo,
+        COLS * BLOCK - 70 - 5,
+        ROWS * BLOCK - 70 - 5,
+        70,
+        70
+      );
       ctx.globalAlpha = 1.0;
-    };
+    }
   };
 
-  const gameLoop = (ctx) => {
-    if (!open) return;
+  // ---------------------------
+  // Game Loop
+  // ---------------------------
+
+  const tick = () => {
+    const ctx = canvasRef.current.getContext("2d");
+    const piece = { ...pieceRef.current };
 
     piece.y++;
 
     if (collide(piece)) {
       piece.y--;
-      merge(piece);
+      merge(pieceRef.current);
       clearLines();
-      piece = randomPiece();
 
-      if (collide(piece)) {
+      const newPiece = randomPiece();
+      if (collide(newPiece)) {
         setGameOver(true);
+        cancelAnimationFrame(loopRef.current);
         return;
       }
+      pieceRef.current = newPiece;
+    } else {
+      pieceRef.current = piece;
     }
 
     draw(ctx);
-    setTimeout(() => requestAnimationFrame(() => gameLoop(ctx)), 500);
+    loopRef.current = requestAnimationFrame(tick);
   };
 
   const startGame = () => {
     resetBoard();
-    piece = randomPiece();
+    pieceRef.current = randomPiece();
     setScore(0);
     setGameOver(false);
 
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
+    const ctx = canvasRef.current.getContext("2d");
     draw(ctx);
-    requestAnimationFrame(() => gameLoop(ctx));
+
+    cancelAnimationFrame(loopRef.current);
+    loopRef.current = requestAnimationFrame(tick);
   };
 
+  // ---------------------------
+  // Keyboard Controls
+  // ---------------------------
+
+  const handleKey = (e) => {
+    if (!open) return;
+
+    let piece = { ...pieceRef.current };
+
+    if (e.key === "Escape") return onClose();
+
+    if (e.key === "ArrowLeft") {
+      piece.x--;
+      if (!collide(piece)) pieceRef.current = piece;
+    }
+    if (e.key === "ArrowRight") {
+      piece.x++;
+      if (!collide(piece)) pieceRef.current = piece;
+    }
+    if (e.key === "ArrowUp") {
+      const rotated = rotate(piece);
+      if (!collide(rotated)) pieceRef.current = rotated;
+    }
+    if (e.key === "ArrowDown") {
+      piece.y++;
+      if (!collide(piece)) pieceRef.current = piece;
+    }
+    if (e.key === " ") {
+      while (!collide(piece)) piece.y++;
+      piece.y--;
+      pieceRef.current = piece;
+    }
+  };
+
+  // ---------------------------
+  // Effects
+  // ---------------------------
+
   useEffect(() => {
-    if (open) startGame();
+    if (open) {
+      logoRef.current = new Image();
+      logoRef.current.src = "/logos/griffon_logo.svg";
+      window.addEventListener("keydown", handleKey);
+      startGame();
+    } else {
+      cancelAnimationFrame(loopRef.current);
+      window.removeEventListener("keydown", handleKey);
+    }
+
+    return () => window.removeEventListener("keydown", handleKey);
   }, [open]);
 
+  // ---------------------------
+  // Render
+  // ---------------------------
+
   return (
-    <>
-      {open && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl shadow-2xl p-6 relative w-[420px]">
-            {/* Close Button */}
-            <button
-              onClick={onClose}
-              className="absolute top-3 right-3 text-gray-500 hover:text-black text-xl"
-            >
-              &times;
-            </button>
+    open && (
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+        <div className="bg-white rounded-2xl shadow-2xl p-6 relative w-[420px]">
+          <button
+            onClick={onClose}
+            className="absolute top-3 right-3 text-gray-500 hover:text-black text-xl"
+          >
+            &times;
+          </button>
 
-            <h2 className="text-xl font-semibold mb-2 text-center">
-              Griffon Tetris
-            </h2>
+          <h2 className="text-xl font-semibold mb-2 text-center">
+            Griffon Tetris
+          </h2>
 
-            <canvas
-              ref={canvasRef}
-              width={COLS * BLOCK}
-              height={ROWS * BLOCK}
-              className="border border-gray-300 mx-auto mb-3 rounded-lg bg-black"
-            />
+          <canvas
+            ref={canvasRef}
+            width={COLS * BLOCK}
+            height={ROWS * BLOCK}
+            className="border border-gray-300 mx-auto mb-3 rounded-lg bg-black"
+          />
 
-            <p className="text-center text-lg font-medium mb-4">
-              Score: {score}
-            </p>
+          <p className="text-center text-lg font-medium mb-4">
+            Score: {score}
+          </p>
 
-            {gameOver && (
-              <div className="text-center">
-                <p className="text-red-600 font-bold text-lg mb-3">GAME OVER</p>
-                <button
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl"
-                  onClick={startGame}
-                >
-                  Restart Game
-                </button>
-              </div>
-            )}
-          </div>
+          {gameOver && (
+            <div className="text-center">
+              <p className="text-red-600 font-bold text-lg mb-3">GAME OVER</p>
+              <button
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl"
+                onClick={startGame}
+              >
+                Restart Game
+              </button>
+            </div>
+          )}
         </div>
-      )}
-    </>
+      </div>
+    )
   );
 }
