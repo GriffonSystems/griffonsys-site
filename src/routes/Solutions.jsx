@@ -4,13 +4,6 @@ import axios from 'axios'
 export default function Solutions() {
   const items = [
     {
-      title: 'Direct Camera Ordering',
-      desc: 'Skip the sales rep. Order cameras, readers, and accessories directly.',
-      img: '/images/solutions/direct-order.jpg',
-      pos: 'center 40%',
-      direct: true, // flag so modal title changes
-    },
-    {
       title: 'Cloud Video Surveillance',
       desc: 'Simple deployment, remote access, and automatic updates.',
       img: '/images/solutions/cloud-video.jpg',
