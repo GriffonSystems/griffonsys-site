@@ -2,10 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 
 export default function TetrisModal({ open, onClose }) {
   const canvasRef = useRef(null);
-  const loopRef = useRef(null);
+  const renderRef = useRef(null);
   const gravityRef = useRef(null);
-  const logoRef = useRef(null);
-  const pieceRef = useRef(null);
+  const logo = useRef(null);
 
   const ROWS = 20;
   const COLS = 10;
@@ -20,8 +19,6 @@ export default function TetrisModal({ open, onClose }) {
     6: "#A000F0",
     7: "#F00000",
   };
-
-  const ghostColor = "rgba(255,255,255,0.25)";
 
   const shapes = {
     1: [[1, 1, 1, 1]],
@@ -52,10 +49,10 @@ export default function TetrisModal({ open, onClose }) {
   };
 
   let board = [];
+  const piece = useRef(null);
 
   const [score, setScore] = useState(0);
   const [level, setLevel] = useState(1);
-  const [lines, setLines] = useState(0);
   const [gameOver, setGameOver] = useState(false);
 
   const resetBoard = () => {
@@ -75,9 +72,11 @@ export default function TetrisModal({ open, onClose }) {
   const collide = (p) => {
     for (let r = 0; r < p.shape.length; r++) {
       for (let c = 0; c < p.shape[r].length; c++) {
-        if (p.shape[r][c] !== 0) {
+        const value = p.shape[r][c];
+        if (value !== 0) {
           const nx = p.x + c;
           const ny = p.y + r;
+
           if (
             nx < 0 ||
             nx >= COLS ||
@@ -95,7 +94,9 @@ export default function TetrisModal({ open, onClose }) {
   const merge = (p) => {
     p.shape.forEach((row, r) =>
       row.forEach((val, c) => {
-        if (val !== 0) board[p.y + r][p.x + c] = val;
+        if (val !== 0) {
+          board[p.y + r][p.x + c] = val;
+        }
       })
     );
   };
@@ -108,33 +109,23 @@ export default function TetrisModal({ open, onClose }) {
   };
 
   const getGhostPiece = () => {
-    let ghost = JSON.parse(JSON.stringify(pieceRef.current));
-    while (!collide({ ...ghost, y: ghost.y + 1 })) ghost.y++;
-    return ghost;
+    const g = JSON.parse(JSON.stringify(piece.current));
+    while (!collide({ ...g, y: g.y + 1 })) g.y++;
+    return g;
   };
 
   const clearLines = () => {
-    let count = 0;
-
+    let cleared = 0;
     for (let r = ROWS - 1; r >= 0; r--) {
       if (board[r].every((v) => v !== 0)) {
         board.splice(r, 1);
         board.unshift(Array(COLS).fill(0));
-        count++;
+        cleared++;
         r++;
       }
     }
-
-    if (count > 0) {
-      setLines((l) => l + count);
-
-      const points = [0, 40, 100, 300, 1200][count];
-      setScore((s) => s + points * level);
-
-      if ((lines + count) % 10 === 0) {
-        setLevel((lvl) => lvl + 1);
-        restartGravity();
-      }
+    if (cleared > 0) {
+      setScore((s) => s + cleared * 100);
     }
   };
 
@@ -152,12 +143,12 @@ export default function TetrisModal({ open, onClose }) {
       }
     }
 
-    // Ghost piece
+    // Ghost piece (transparent)
     const ghost = getGhostPiece();
     ghost.shape.forEach((row, r) =>
       row.forEach((val, c) => {
         if (val !== 0) {
-          ctx.fillStyle = ghostColor;
+          ctx.fillStyle = "rgba(255,255,255,0.15)";
           ctx.fillRect(
             (ghost.x + c) * BLOCK,
             (ghost.y + r) * BLOCK,
@@ -169,7 +160,7 @@ export default function TetrisModal({ open, onClose }) {
     );
 
     // Active piece
-    const p = pieceRef.current;
+    const p = piece.current;
     p.shape.forEach((row, r) =>
       row.forEach((val, c) => {
         if (val !== 0) {
@@ -184,69 +175,64 @@ export default function TetrisModal({ open, onClose }) {
       })
     );
 
-    // Logo watermark
-    if (logoRef.current && logoRef.current.complete) {
+    // Watermark logo
+    if (logo.current?.complete) {
       ctx.globalAlpha = 0.18;
-      const size = 65;
+      const size = 60;
       ctx.drawImage(
-        logoRef.current,
-        COLS * BLOCK - size - 5,
-        ROWS * BLOCK - size - 5,
+        logo.current,
+        COLS * BLOCK - size - 6,
+        ROWS * BLOCK - size - 6,
         size,
         size
       );
-      ctx.globalAlpha = 1.0;
+      ctx.globalAlpha = 1;
     }
   };
 
-  const gravityStep = () => {
-    const p = { ...pieceRef.current, y: pieceRef.current.y + 1 };
+  const gravity = () => {
+    const newP = { ...piece.current, y: piece.current.y + 1 };
 
-    if (collide(p)) {
-      pieceRef.current.y--;
-      merge(pieceRef.current);
+    if (collide(newP)) {
+      piece.current.y--;
+      merge(piece.current);
       clearLines();
-      const newP = randomPiece();
+      const next = randomPiece();
 
-      if (collide(newP)) {
+      if (collide(next)) {
         setGameOver(true);
         stopLoops();
         return;
       }
-
-      pieceRef.current = newP;
+      piece.current = next;
     } else {
-      pieceRef.current = p;
+      piece.current = newP;
     }
+  };
+
+  const stopLoops = () => {
+    cancelAnimationFrame(renderRef.current);
+    clearInterval(gravityRef.current);
   };
 
   const startLoops = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
-    const renderLoop = () => {
+    const render = () => {
       draw(ctx);
-      loopRef.current = requestAnimationFrame(renderLoop);
+      renderRef.current = requestAnimationFrame(render);
     };
 
-    loopRef.current = requestAnimationFrame(renderLoop);
-    restartGravity();
-  };
+    renderRef.current = requestAnimationFrame(render);
 
-  const restartGravity = () => {
-    clearInterval(gravityRef.current);
-    gravityRef.current = setInterval(gravityStep, Math.max(80, 600 - level * 40));
-  };
-
-  const stopLoops = () => {
-    cancelAnimationFrame(loopRef.current);
-    clearInterval(gravityRef.current);
+    gravityRef.current = setInterval(gravity, 450);
   };
 
   const handleKey = (e) => {
     if (gameOver) return;
 
-    let p = JSON.parse(JSON.stringify(pieceRef.current));
+    let p = JSON.parse(JSON.stringify(piece.current));
 
     if (e.key === "ArrowLeft") p.x--;
     if (e.key === "ArrowRight") p.x++;
@@ -257,25 +243,22 @@ export default function TetrisModal({ open, onClose }) {
       while (!collide({ ...p, y: p.y + 1 })) p.y++;
     }
 
-    if (!collide(p)) pieceRef.current = p;
+    if (!collide(p)) piece.current = p;
   };
 
   const startGame = () => {
     resetBoard();
-    pieceRef.current = randomPiece();
-
+    piece.current = randomPiece();
     setScore(0);
     setLevel(1);
-    setLines(0);
     setGameOver(false);
-
     startLoops();
   };
 
   useEffect(() => {
     if (open) {
-      logoRef.current = new Image();
-      logoRef.current.src = "/logos/griffon_logo.svg";
+      logo.current = new Image();
+      logo.current.src = "/logos/griffon_logo.svg";
 
       window.addEventListener("keydown", handleKey);
       startGame();
@@ -291,50 +274,44 @@ export default function TetrisModal({ open, onClose }) {
   }, [open]);
 
   return (
-    <>
-      {open && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl p-6 shadow-2xl relative w-[480px]">
+    open && (
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+        <div className="bg-white rounded-2xl shadow-2xl p-6 relative w-[460px]">
+          <button
+            onClick={onClose}
+            className="absolute top-3 right-3 text-gray-500 hover:text-black text-xl"
+          >
+            ×
+          </button>
 
-            <button
-              onClick={onClose}
-              className="absolute top-3 right-3 text-gray-600 hover:text-black text-xl"
-            >
-              &times;
-            </button>
+          <h2 className="text-xl font-semibold text-center mb-2">
+            Griffon Tetris
+          </h2>
 
-            <h2 className="text-xl font-semibold text-center mb-3">
-              Griffon Tetris
-            </h2>
+          <canvas
+            ref={canvasRef}
+            width={COLS * BLOCK}
+            height={ROWS * BLOCK}
+            className="mx-auto border border-gray-300 rounded bg-black"
+          />
 
-            <canvas
-              ref={canvasRef}
-              width={COLS * BLOCK}
-              height={ROWS * BLOCK}
-              className="mx-auto rounded-lg border border-gray-300 bg-black"
-            />
+          <p className="text-center text-lg font-medium mt-3">
+            Score: {score}
+          </p>
 
-            <div className="text-center mt-3">
-              <p className="text-lg font-semibold">Score: {score}</p>
-              <p className="text-sm text-gray-600">Level: {level}</p>
-              <p className="text-sm text-gray-600 mb-3">Lines: {lines}</p>
+          {gameOver && (
+            <div className="text-center mt-4">
+              <p className="text-red-600 font-bold text-lg mb-3">GAME OVER</p>
+              <button
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl"
+                onClick={startGame}
+              >
+                Restart
+              </button>
             </div>
-
-            {gameOver && (
-              <div className="text-center mt-4">
-                <p className="text-red-600 font-bold text-lg mb-2">GAME OVER</p>
-
-                <button
-                  onClick={startGame}
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl"
-                >
-                  Restart Game
-                </button>
-              </div>
-            )}
-          </div>
+          )}
         </div>
-      )}
-    </>
+      </div>
+    )
   );
 }
