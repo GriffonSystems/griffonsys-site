@@ -1,27 +1,26 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
-import TetrisModal from "./TetrisModal" // ← make sure this file exists exactly here
+import TetrisModal from "./TetrisModal"
 
 export default function Footer() {
   const [tetrisOpen, setTetrisOpen] = useState(false)
 
   return (
     <>
-      {/* ---- FOOTER ---- */}
-      <footer className="bg-gray-50 border-t border-gray-200 mt-20">
-        <div className="container py-10 grid md:grid-cols-3 gap-10">
+      <footer className="bg-gray-900 text-gray-300 mt-20">
+        <div className="container py-12 grid md:grid-cols-3 gap-10">
 
-          {/* ---- Column 1: Logo + Basic Info ---- */}
+          {/* ---- Column 1: Logo + Info ---- */}
           <div>
             <img
               src="/logos/griffon_logo.svg"
               alt="Griffon Systems"
-              className="h-10 mb-4"
+              className="h-10 mb-4 brightness-200"
             />
 
-            <p className="text-gray-600 text-sm leading-relaxed">
-              Enterprise video surveillance and access control solutions for
-              Illinois manufacturing, municipal, education, and commercial facilities.
+            <p className="text-gray-400 text-sm leading-relaxed">
+              Enterprise video surveillance and access control for Illinois
+              manufacturing, municipal, education, and commercial facilities.
             </p>
 
             <p className="text-gray-500 text-sm mt-4">
@@ -31,60 +30,69 @@ export default function Footer() {
 
           {/* ---- Column 2: Quick Links ---- */}
           <div>
-            <h3 className="text-lg font-semibold mb-3">Quick Links</h3>
+            <h3 className="text-lg font-semibold mb-3 text-white">Quick Links</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link to="/solutions" className="hover:text-black">Solutions</Link></li>
-              <li><Link to="/brands/verkada" className="hover:text-black">Verkada</Link></li>
-              <li><Link to="/brands/avigilon" className="hover:text-black">Avigilon</Link></li>
-              <li><Link to="/industries" className="hover:text-black">Industries</Link></li>
-              <li><Link to="/from-the-field" className="hover:text-black">From the Field</Link></li>
-              <li><Link to="/contact" className="hover:text-black">Contact</Link></li>
-              <li><Link to="/service" className="hover:text-black font-semibold">Service Request</Link></li>
-
-              {/* ---- NEW: Play Tetris ---- */}
-              <li>
-                <button
-                  onClick={() => setTetrisOpen(true)}
-                  className="text-blue-600 hover:text-blue-800 underline"
-                >
-                  Play Tetris
-                </button>
-              </li>
+              <li><Link to="/solutions" className="hover:text-white">Solutions</Link></li>
+              <li><Link to="/brands/verkada" className="hover:text-white">Verkada</Link></li>
+              <li><Link to="/brands/avigilon" className="hover:text-white">Avigilon</Link></li>
+              <li><Link to="/industries" className="hover:text-white">Industries</Link></li>
+              <li><Link to="/from-the-field" className="hover:text-white">From the Field</Link></li>
+              <li><Link to="/about" className="hover:text-white">About</Link></li>
+              <li><Link to="/contact" className="hover:text-white">Contact</Link></li>
+              <li><Link to="/service" className="hover:text-white font-semibold">Service Request</Link></li>
             </ul>
           </div>
 
-          {/* ---- Column 3: Social + Terms ---- */}
+          {/* ---- Column 3: Social + Tetris ---- */}
           <div>
-            <h3 className="text-lg font-semibold mb-3">Connect</h3>
+            <h3 className="text-lg font-semibold mb-3 text-white">Connect</h3>
 
             <div className="flex items-center gap-4 mb-4">
+              {/* Facebook */}
               <a
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-600 hover:text-black"
               >
-                Facebook
+                <img
+                  src="/icons/facebook.svg"
+                  alt="Facebook"
+                  className="h-6 w-6 opacity-80 hover:opacity-100"
+                />
               </a>
+
+              {/* LinkedIn */}
               <a
                 href="https://linkedin.com/company/griffon-systems"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-600 hover:text-black"
               >
-                LinkedIn
+                <img
+                  src="/icons/linkedin.svg"
+                  alt="LinkedIn"
+                  className="h-6 w-6 opacity-80 hover:opacity-100"
+                />
               </a>
             </div>
 
-            <p className="text-sm text-gray-500 leading-relaxed">
+            {/* ---- NEW: Tetris directly under social icons ---- */}
+            <button
+              onClick={() => setTetrisOpen(true)}
+              className="text-blue-400 hover:text-blue-300 underline text-sm"
+            >
+              Play Tetris
+            </button>
+
+            <p className="text-sm text-gray-500 leading-relaxed mt-6">
               © {new Date().getFullYear()} Griffon Systems, Inc.<br />
               All rights reserved.
             </p>
 
-            <p className="text-xs text-gray-400 mt-2">
+            <p className="text-xs text-gray-500 mt-2">
               Security • Technology • Integration
             </p>
           </div>
+
         </div>
       </footer>
 
