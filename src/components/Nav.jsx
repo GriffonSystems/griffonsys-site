@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import OrderModal from './OrderModal'   // ✅ NEW — the modal component
+import OrderModal from './OrderModal'   // ✅ NEW
 
 /** Griffon logo, tries SVG then PNG as fallback */
 function GriffonLogo({ className = 'h-9 md:h-10 w-auto' }) {
@@ -23,7 +23,8 @@ export default function Nav() {
   const [open, setOpen] = React.useState(false)
   const [scrolled, setScrolled] = React.useState(false)
 
-  const [showOrder, setShowOrder] = React.useState(false) // ✅ NEW
+  // NEW: Order modal state
+  const [orderOpen, setOrderOpen] = React.useState(false)   // ✅ NEW
 
   // Add shadow on scroll
   React.useEffect(() => {
@@ -57,6 +58,7 @@ export default function Nav() {
         role="banner"
       >
         <div className="container flex items-center justify-between h-16">
+
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3" aria-label="Go home">
             <GriffonLogo />
@@ -73,7 +75,7 @@ export default function Nav() {
             <NavLink to="/about" className={active}>About</NavLink>
             <NavLink to="/contact" className={active}>Contact</NavLink>
 
-            {/* Service */}
+            {/* Service Button */}
             <Link
               to="/service"
               className="ml-3 px-3 py-2 rounded-lg text-sm font-semibold bg-black text-white hover:bg-gray-800 transition"
@@ -81,10 +83,10 @@ export default function Nav() {
               Service
             </Link>
 
-            {/* ⭐️ NEW — Order Cameras Button */}
+            {/* ✅ NEW: Order Cameras Button */}
             <button
-              onClick={() => setShowOrder(true)}
-              className="ml-2 px-3 py-2 rounded-lg text-sm font-semibold bg-blue-600 text-white hover:bg-blue-700 transition shadow"
+              onClick={() => setOrderOpen(true)}
+              className="ml-2 px-3 py-2 rounded-lg text-sm font-semibold bg-blue-600 text-white hover:bg-blue-700 transition"
             >
               Order Cameras
             </button>
@@ -99,12 +101,22 @@ export default function Nav() {
             aria-label="Toggle menu"
           >
             {open ? (
-              <svg width="24" height="24" viewBox="0 0 24 24">
-                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M18 6L6 18M6 6l12 12"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
               </svg>
             ) : (
-              <svg width="24" height="24" viewBox="0 0 24 24">
-                <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M4 6h16M4 12h16M4 18h16"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
               </svg>
             )}
           </button>
@@ -126,14 +138,22 @@ export default function Nav() {
             <NavLink to="/about" className={active} onClick={() => setOpen(false)}>About</NavLink>
             <NavLink to="/contact" className={active} onClick={() => setOpen(false)}>Contact</NavLink>
 
-            <NavLink to="/service" className={active} onClick={() => setOpen(false)}>
+            {/* Service */}
+            <NavLink
+              to="/service"
+              className={active}
+              onClick={() => setOpen(false)}
+            >
               Service
             </NavLink>
 
-            {/* ⭐️ NEW mobile Order button */}
+            {/* ✅ NEW: Mobile Order Button */}
             <button
-              onClick={() => { setShowOrder(true); setOpen(false); }}
-              className="mt-2 px-3 py-2 rounded-lg text-sm font-semibold bg-blue-600 text-white hover:bg-blue-700 transition shadow"
+              onClick={() => {
+                setOpen(false)
+                setOrderOpen(true)
+              }}
+              className="mt-2 px-3 py-2 rounded-lg text-sm font-semibold bg-blue-600 text-white text-left"
             >
               Order Cameras
             </button>
@@ -141,10 +161,11 @@ export default function Nav() {
         </div>
       </header>
 
+      {/* Spacer */}
       <div className="h-16" aria-hidden="true" />
 
-      {/* ⭐️ GLOBAL ORDER MODAL */}
-      {showOrder && <OrderModal onClose={() => setShowOrder(false)} />}
+      {/* ✅ Render the modal */}
+      <OrderModal open={orderOpen} onClose={() => setOrderOpen(false)} />
     </>
   )
 }
