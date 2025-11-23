@@ -2,234 +2,238 @@ import React, { useEffect, useRef, useState } from "react";
 
 export default function TetrisModal({ open, onClose }) {
   const canvasRef = useRef(null);
-  const [gameStarted, setGameStarted] = useState(false);
+  const [score, setScore] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
 
-  const COLS = 10;
   const ROWS = 20;
+  const COLS = 10;
   const BLOCK = 30;
 
-  // Colors for each Tetromino
-  const COLORS = {
-    I: "#00f0f0",
-    J: "#0000f0",
-    L: "#f0a000",
-    O: "#f0f000",
-    S: "#00f000",
-    T: "#a000f0",
-    Z: "#f00000",
-  };
+  const colors = [
+    null,
+    "#00f0f0",
+    "#0000f0",
+    "#f0a000",
+    "#f0f000",
+    "#00f000",
+    "#a000f0",
+    "#f00000",
+  ];
 
-  // Tetromino shapes
-  const SHAPES = {
-    I: [
-      [1, 1, 1, 1]
+  const shapes = [
+    [],
+    [[1, 1, 1, 1]],
+    [
+      [2, 0, 0],
+      [2, 2, 2],
     ],
-    J: [
-      [1, 0, 0],
-      [1, 1, 1]
+    [
+      [0, 0, 3],
+      [3, 3, 3],
     ],
-    L: [
-      [0, 0, 1],
-      [1, 1, 1]
+    [
+      [4, 4],
+      [4, 4],
     ],
-    O: [
-      [1, 1],
-      [1, 1]
+    [
+      [0, 5, 5],
+      [5, 5, 0],
     ],
-    S: [
-      [0, 1, 1],
-      [1, 1, 0]
+    [
+      [6, 6, 0],
+      [0, 6, 6],
     ],
-    T: [
-      [0, 1, 0],
-      [1, 1, 1]
-    ],
-    Z: [
-      [1, 1, 0],
-      [0, 1, 1]
-    ],
+    [[7, 7, 7], [0, 7, 0]],
+  ];
+
+  let piece = null;
+  let board = [];
+
+  const resetBoard = () => {
+    board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
   };
 
   const randomPiece = () => {
-    const keys = Object.keys(SHAPES);
-    const key = keys[Math.floor(Math.random() * keys.length)];
+    const type = Math.floor(Math.random() * 7) + 1;
     return {
-      shape: SHAPES[key],
-      color: COLORS[key],
+      shape: shapes[type].map((r) => [...r]),
       x: 3,
       y: 0,
+      type,
     };
   };
 
-  let board = Array.from({ length: ROWS }, () => Array(COLS).fill(null));
-  let piece = randomPiece();
-  let dropInterval = 500;
-  let lastTime = 0;
-  let animationFrame;
-
-  const drawBoard = (ctx) => {
-    ctx.clearRect(0, 0, COLS * BLOCK, ROWS * BLOCK);
-    ctx.fillStyle = "#111";
-    ctx.fillRect(0, 0, COLS * BLOCK, ROWS * BLOCK);
-
-    // Render locked blocks
-    for (let y = 0; y < ROWS; y++) {
-      for (let x = 0; x < COLS; x++) {
-        if (board[y][x]) {
-          ctx.fillStyle = board[y][x];
-          ctx.fillRect(x * BLOCK, y * BLOCK, BLOCK - 2, BLOCK - 2);
-        }
-      }
-    }
-
-    // Render active piece
-    piece.shape.forEach((row, dy) => {
-      row.forEach((value, dx) => {
-        if (value) {
-          ctx.fillStyle = piece.color;
-          ctx.fillRect(
-            (piece.x + dx) * BLOCK,
-            (piece.y + dy) * BLOCK,
-            BLOCK - 2,
-            BLOCK - 2
-          );
-        }
-      });
-    });
-  };
-
-  const collision = (offsetX, offsetY) => {
-    for (let y = 0; y < piece.shape.length; y++) {
-      for (let x = 0; x < piece.shape[y].length; x++) {
-        if (
-          piece.shape[y][x] &&
-          (board[piece.y + y + offsetY]?.[piece.x + x + offsetX] !== null ||
-            piece.x + x + offsetX < 0 ||
-            piece.x + x + offsetX >= COLS ||
-            piece.y + y + offsetY >= ROWS)
-        ) {
-          return true;
+  const collide = (p) => {
+    for (let r = 0; r < p.shape.length; r++) {
+      for (let c = 0; c < p.shape[r].length; c++) {
+        if (p.shape[r][c] !== 0) {
+          let newX = p.x + c;
+          let newY = p.y + r;
+          if (
+            newX < 0 ||
+            newX >= COLS ||
+            newY >= ROWS ||
+            (newY >= 0 && board[newY][newX] !== 0)
+          ) {
+            return true;
+          }
         }
       }
     }
     return false;
   };
 
-  const rotate = () => {
-    const rotated = piece.shape[0].map((_, i) =>
-      piece.shape.map((row) => row[i]).reverse()
-    );
-    const previous = piece.shape;
-    piece.shape = rotated;
-    if (collision(0, 0)) piece.shape = previous;
+  const merge = (p) => {
+    for (let r = 0; r < p.shape.length; r++) {
+      for (let c = 0; c < p.shape[r].length; c++) {
+        if (p.shape[r][c] !== 0) {
+          board[p.y + r][p.x + c] = p.type;
+        }
+      }
+    }
   };
 
-  const mergePiece = () => {
-    piece.shape.forEach((row, dy) => {
-      row.forEach((value, dx) => {
-        if (value) {
-          board[piece.y + dy][piece.x + dx] = piece.color;
-        }
-      });
-    });
+  const rotate = (p) => {
+    const rotated = p.shape[0].map((_, i) =>
+      p.shape.map((row) => row[i]).reverse()
+    );
+    return { ...p, shape: rotated };
   };
 
   const clearLines = () => {
-    board = board.filter(row => row.some(cell => cell === null) || row.every(cell => cell !== null) === false);
-
-    const missing = ROWS - board.length;
-    while (board.length < ROWS) {
-      board.unshift(new Array(COLS).fill(null));
+    let cleared = 0;
+    for (let r = ROWS - 1; r >= 0; r--) {
+      if (board[r].every((cell) => cell !== 0)) {
+        board.splice(r, 1);
+        board.unshift(Array(COLS).fill(0));
+        cleared++;
+        r++;
+      }
     }
+    if (cleared > 0) setScore((s) => s + cleared * 100);
   };
 
-  const drop = () => {
-    if (!collision(0, 1)) {
-      piece.y++;
-    } else {
-      mergePiece();
+  const draw = (ctx) => {
+    ctx.clearRect(0, 0, COLS * BLOCK, ROWS * BLOCK);
+    ctx.fillStyle = "#111";
+    ctx.fillRect(0, 0, COLS * BLOCK, ROWS * BLOCK);
+
+    for (let r = 0; r < ROWS; r++) {
+      for (let c = 0; c < COLS; c++) {
+        if (board[r][c] !== 0) {
+          ctx.fillStyle = colors[board[r][c]];
+          ctx.fillRect(c * BLOCK, r * BLOCK, BLOCK - 1, BLOCK - 1);
+        }
+      }
+    }
+
+    if (piece) {
+      for (let r = 0; r < piece.shape.length; r++) {
+        for (let c = 0; c < piece.shape[r].length; c++) {
+          if (piece.shape[r][c] !== 0) {
+            ctx.fillStyle = colors[piece.type];
+            ctx.fillRect(
+              (piece.x + c) * BLOCK,
+              (piece.y + r) * BLOCK,
+              BLOCK - 1,
+              BLOCK - 1
+            );
+          }
+        }
+      }
+    }
+
+    // ------ Griffon Logo Watermark ------
+    const logo = new Image();
+    logo.src = "/logos/griffon_logo.svg";
+    logo.onload = () => {
+      const size = 70;
+      const opacity = 0.15;
+      ctx.globalAlpha = opacity;
+      ctx.drawImage(logo, COLS * BLOCK - size - 5, ROWS * BLOCK - size - 5, size, size);
+      ctx.globalAlpha = 1.0;
+    };
+  };
+
+  const gameLoop = (ctx) => {
+    if (!open) return;
+
+    piece.y++;
+
+    if (collide(piece)) {
+      piece.y--;
+      merge(piece);
       clearLines();
       piece = randomPiece();
-      if (collision(0, 0)) startNewGame();
-    }
-  };
 
-  const update = (time = 0) => {
-    const delta = time - lastTime;
-    if (delta > dropInterval) {
-      drop();
-      lastTime = time;
+      if (collide(piece)) {
+        setGameOver(true);
+        return;
+      }
     }
 
-    const ctx = canvasRef.current.getContext("2d");
-    drawBoard(ctx);
-
-    animationFrame = requestAnimationFrame(update);
+    draw(ctx);
+    setTimeout(() => requestAnimationFrame(() => gameLoop(ctx)), 500);
   };
 
-  const startNewGame = () => {
-    board = Array.from({ length: ROWS }, () => Array(COLS).fill(null));
+  const startGame = () => {
+    resetBoard();
     piece = randomPiece();
-    lastTime = 0;
-  };
-
-  useEffect(() => {
-    if (!open) return;
+    setScore(0);
+    setGameOver(false);
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
+    draw(ctx);
+    requestAnimationFrame(() => gameLoop(ctx));
+  };
 
-    canvas.width = COLS * BLOCK;
-    canvas.height = ROWS * BLOCK;
-
-    startNewGame();
-    setGameStarted(true);
-
-    animationFrame = requestAnimationFrame(update);
-
-    const keyHandler = (e) => {
-      if (e.key === "ArrowLeft" && !collision(-1, 0)) piece.x--;
-      if (e.key === "ArrowRight" && !collision(1, 0)) piece.x++;
-      if (e.key === "ArrowDown" && !collision(0, 1)) piece.y++;
-      if (e.key === "ArrowUp") rotate();
-    };
-
-    window.addEventListener("keydown", keyHandler);
-
-    return () => {
-      window.removeEventListener("keydown", keyHandler);
-      cancelAnimationFrame(animationFrame);
-    };
+  useEffect(() => {
+    if (open) startGame();
   }, [open]);
 
-  if (!open) return null;
-
   return (
-    <div
-      className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
-      onClick={onClose}
-    >
-      <div
-        className="bg-gray-900 p-4 rounded-2xl shadow-2xl relative border border-gray-700"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          onClick={onClose}
-          className="absolute top-2 right-3 text-gray-300 hover:text-white text-xl"
-        >
-          ×
-        </button>
+    <>
+      {open && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl shadow-2xl p-6 relative w-[420px]">
+            {/* Close Button */}
+            <button
+              onClick={onClose}
+              className="absolute top-3 right-3 text-gray-500 hover:text-black text-xl"
+            >
+              &times;
+            </button>
 
-        <h2 className="text-center text-white text-lg mb-3 font-semibold">
-          Griffon Systems — Tetris
-        </h2>
+            <h2 className="text-xl font-semibold mb-2 text-center">
+              Griffon Tetris
+            </h2>
 
-        <canvas ref={canvasRef} className="bg-black rounded" />
+            <canvas
+              ref={canvasRef}
+              width={COLS * BLOCK}
+              height={ROWS * BLOCK}
+              className="border border-gray-300 mx-auto mb-3 rounded-lg bg-black"
+            />
 
-        <p className="text-gray-400 text-xs text-center mt-3">
-          ← → = Move • ↑ = Rotate • ↓ = Soft Drop
-        </p>
-      </div>
-    </div>
+            <p className="text-center text-lg font-medium mb-4">
+              Score: {score}
+            </p>
+
+            {gameOver && (
+              <div className="text-center">
+                <p className="text-red-600 font-bold text-lg mb-3">GAME OVER</p>
+                <button
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl"
+                  onClick={startGame}
+                >
+                  Restart Game
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </>
   );
 }
