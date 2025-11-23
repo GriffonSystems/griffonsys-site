@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useEffect, useRef, useState } from "react"
 
-const ROWS = 20
 const COLS = 10
+const ROWS = 20
+const BLOCK = 30
 
+// Piece shapes
 const SHAPES = {
   I: [[1, 1, 1, 1]],
   O: [
@@ -41,66 +43,35 @@ const COLORS = {
   L: "#f0a000",
 }
 
-const randomShape = () => {
-  const keys = Object.keys(SHAPES)
-  const r = keys[Math.floor(Math.random() * keys.length)]
-  return { shape: SHAPES[r], type: r, x: 3, y: -1 } // FIX: start slightly above top
-}
+const newBoard = () =>
+  Array.from({ length: ROWS }, () => Array(COLS).fill(0))
 
-const rotate = (matrix) => {
-  const N = matrix.length
-  const result = Array.from({ length: N }, () => Array(N).fill(0))
-  for (let y = 0; y < N; y++) {
-    for (let x = 0; x < N; x++) {
-      result[x][N - 1 - y] = matrix[y][x]
-    }
+const randomPiece = () => {
+  const keys = Object.keys(SHAPES)
+  const type = keys[(keys.length * Math.random()) | 0]
+  return {
+    x: 3,
+    y: -2,
+    type,
+    shape: SHAPES[type],
   }
-  return result
 }
 
 export default function TetrisGame() {
   const canvasRef = useRef(null)
-  const [board, setBoard] = useState(
-    Array.from({ length: ROWS }, () => Array(COLS).fill(0))
-  )
-  const [current, setCurrent] = useState(randomShape())
+  const [board, setBoard] = useState(newBoard())
+  const [piece, setPiece] = useState(randomPiece())
   const [gameOver, setGameOver] = useState(false)
-  const [score, setScore] = useState(0)
-  const [level, setLevel] = useState(1)
-  const [highScores, setHighScores] = useState(() => {
-    return JSON.parse(localStorage.getItem("tetrisHighScores") || "[]")
-  })
 
-  // MUCH FASTER SPEEDS
-  const speeds = {
-    1: 500,
-    2: 300,
-    3: 150,
-    4: 100,
-    5: 70,
-  }
+  const speed = 400 // FAST drop
 
-  // auto level-up based on score
-  useEffect(() => {
-    if (score > 3500) setLevel(5)
-    else if (score > 2000) setLevel(4)
-    else if (score > 1200) setLevel(3)
-    else if (score > 500) setLevel(2)
-  }, [score])
-
-  const collision = (p = current) => {
+  const collide = (p, b = board) => {
     for (let y = 0; y < p.shape.length; y++) {
       for (let x = 0; x < p.shape[y].length; x++) {
         if (p.shape[y][x]) {
-          const newX = p.x + x
-          const newY = p.y + y
-
-          if (
-            newX < 0 ||
-            newX >= COLS ||
-            newY >= ROWS ||
-            (newY >= 0 && board[newY][newX])
-          ) {
+          const ny = p.y + y
+          const nx = p.x + x
+          if (nx < 0 || nx >= COLS || ny >= ROWS || (ny >= 0 && b[ny][nx])) {
             return true
           }
         }
@@ -109,161 +80,127 @@ export default function TetrisGame() {
     return false
   }
 
-  const mergePiece = () => {
-    const newBoard = board.map((r) => [...r])
-    current.shape.forEach((row, dy) => {
+  const merge = (p) => {
+    const newB = board.map((row) => [...row])
+    p.shape.forEach((row, dy) =>
       row.forEach((val, dx) => {
-        if (val && current.y + dy >= 0) {
-          newBoard[current.y + dy][current.x + dx] = current.type
+        if (val) {
+          const y = p.y + dy
+          const x = p.x + dx
+          if (y >= 0) newB[y][x] = p.type
         }
       })
-    })
-    setBoard(newBoard)
+    )
+    setBoard(newB)
   }
 
-  const clearLines = () => {
-    let cleared = 0
-
-    const newBoard = board.filter((row) => {
-      if (row.every((v) => v)) {
-        cleared++
-        return false
-      }
-      return true
-    })
-
-    while (newBoard.length < ROWS) newBoard.unshift(Array(COLS).fill(0))
-
-    if (cleared > 0) {
-      setScore((s) => s + cleared * 150) // faster scoring
-    }
-
-    setBoard(newBoard)
+  const rotate = (shape) => {
+    const N = shape.length
+    const res = Array.from({ length: N }, () => Array(N).fill(0))
+    for (let y = 0; y < N; y++)
+      for (let x = 0; x < N; x++)
+        res[x][N - 1 - y] = shape[y][x]
+    return res
   }
 
   const drop = () => {
-    const moved = { ...current, y: current.y + 1 }
+    if (gameOver) return
 
-    if (!collision(moved)) {
-      setCurrent(moved)
+    const next = { ...piece, y: piece.y + 1 }
+    if (!collide(next)) {
+      setPiece(next)
     } else {
-      mergePiece()
-      clearLines()
-      const next = randomShape()
-      if (collision(next)) {
+      merge(piece)
+      const nextPiece = randomPiece()
+      if (collide(nextPiece)) {
         setGameOver(true)
-        saveScore()
       }
-      setCurrent(next)
+      setPiece(nextPiece)
     }
   }
 
-  const saveScore = () => {
-    const list = [...highScores, score]
-      .sort((a, b) => b - a)
-      .slice(0, 10)
-
-    setHighScores(list)
-    localStorage.setItem("tetrisHighScores", JSON.stringify(list))
-  }
-
-  const handleKey = (e) => {
-    if (gameOver) return
-
-    if (e.key === "ArrowLeft") {
-      const m = { ...current, x: current.x - 1 }
-      if (!collision(m)) setCurrent(m)
-    }
-    if (e.key === "ArrowRight") {
-      const m = { ...current, x: current.x + 1 }
-      if (!collision(m)) setCurrent(m)
-    }
-    if (e.key === "ArrowDown") drop()
-    if (e.key === "ArrowUp") {
-      const r = { ...current, shape: rotate(current.shape) }
-      if (!collision(r)) setCurrent(r)
-    }
-  }
-
+  // Input
   useEffect(() => {
-    window.addEventListener("keydown", handleKey)
-    return () => window.removeEventListener("keydown", handleKey)
-  })
+    const handle = (e) => {
+      if (gameOver) return
+      if (!piece) return
 
-  // 🔥 FIXED stable drop loop (faster speeds, no infinite intervals)
+      if (e.key === "ArrowLeft") {
+        const next = { ...piece, x: piece.x - 1 }
+        if (!collide(next)) setPiece(next)
+      }
+      if (e.key === "ArrowRight") {
+        const next = { ...piece, x: piece.x + 1 }
+        if (!collide(next)) setPiece(next)
+      }
+      if (e.key === "ArrowDown") drop()
+      if (e.key === "ArrowUp") {
+        const next = { ...piece, shape: rotate(piece.shape) }
+        if (!collide(next)) setPiece(next)
+      }
+    }
+
+    window.addEventListener("keydown", handle)
+    return () => window.removeEventListener("keydown", handle)
+  }, [piece, gameOver])
+
+  // Main loop (drop)
   useEffect(() => {
     if (gameOver) return
+    const id = setInterval(drop, speed)
+    return () => clearInterval(id)
+  }, [piece, gameOver])
 
-    const interval = setInterval(() => {
-      drop()
-    }, speeds[level])
-
-    return () => clearInterval(interval)
-  }, [level, gameOver])
-
+  // Draw
   useEffect(() => {
     const canvas = canvasRef.current
     const ctx = canvas.getContext("2d")
 
-    ctx.clearRect(0, 0, 300, 600)
+    ctx.fillStyle = "black"
+    ctx.fillRect(0, 0, COLS * BLOCK, ROWS * BLOCK)
 
+    // Draw board
     board.forEach((row, y) =>
       row.forEach((val, x) => {
         if (val) {
           ctx.fillStyle = COLORS[val]
-          ctx.fillRect(x * 30, y * 30, 30, 30)
+          ctx.fillRect(x * BLOCK, y * BLOCK, BLOCK, BLOCK)
         }
       })
     )
 
-    current.shape.forEach((row, dy) =>
-      row.forEach((val, dx) => {
-        if (val) {
-          ctx.fillStyle = COLORS[current.type]
-          ctx.fillRect((current.x + dx) * 30, (current.y + dy) * 30, 30, 30)
-        }
-      })
-    )
-  }, [board, current])
+    // Draw falling piece
+    if (piece) {
+      ctx.fillStyle = COLORS[piece.type]
+      piece.shape.forEach((row, dy) =>
+        row.forEach((val, dx) => {
+          if (val) {
+            ctx.fillRect(
+              (piece.x + dx) * BLOCK,
+              (piece.y + dy) * BLOCK,
+              BLOCK,
+              BLOCK
+            )
+          }
+        })
+      )
+    }
+  }, [board, piece])
 
   return (
     <div className="flex flex-col items-center">
-
       {gameOver && (
-        <img src="/logos/griffon_logo.svg" className="opacity-40 w-40 mb-4" />
+        <div className="absolute top-6 opacity-40">
+          <img src="/logos/griffon_logo.svg" className="w-40" />
+        </div>
       )}
 
       <canvas
         ref={canvasRef}
-        width={300}
-        height={600}
-        className="border-4 border-gray-800 bg-black shadow-xl"
+        width={COLS * BLOCK}
+        height={ROWS * BLOCK}
+        className="border-4 border-gray-700 bg-black"
       />
-
-      <div className="text-white mt-4 text-center">
-        <p className="text-xl font-bold">Score: {score}</p>
-        <p className="text-md">Level: {level}</p>
-      </div>
-
-      {gameOver && (
-        <button
-          onClick={() => window.location.reload()}
-          className="mt-4 px-5 py-2 bg-red-600 text-white rounded shadow"
-        >
-          Restart
-        </button>
-      )}
-
-      <div className="mt-6 text-gray-200 w-64">
-        <h2 className="text-lg font-bold text-center">High Scores</h2>
-        <div className="bg-gray-900 p-3 rounded border border-gray-700">
-          {highScores.map((s, i) => (
-            <p key={i} className="py-1 border-b border-gray-700">
-              {i + 1}. {s}
-            </p>
-          ))}
-        </div>
-      </div>
     </div>
   )
 }
