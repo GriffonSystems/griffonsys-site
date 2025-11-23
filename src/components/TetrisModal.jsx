@@ -1,4 +1,3 @@
-```jsx
 import React, { useEffect, useRef, useState } from "react";
 
 export default function TetrisModal({ open, onClose }) {
@@ -12,20 +11,18 @@ export default function TetrisModal({ open, onClose }) {
   const COLS = 10;
   const BLOCK = 28;
 
-  // Griffon-themed palette
   const colors = {
-    1: "#00F0F0", // I piece
-    2: "#0000F0", // J
-    3: "#F0A000", // L
-    4: "#F0F000", // O
-    5: "#00F000", // S
-    6: "#A000F0", // T
-    7: "#F00000", // Z
+    1: "#00F0F0",
+    2: "#0000F0",
+    3: "#F0A000",
+    4: "#F0F000",
+    5: "#00F000",
+    6: "#A000F0",
+    7: "#F00000",
   };
 
   const ghostColor = "rgba(255,255,255,0.25)";
 
-  // Shapes
   const shapes = {
     1: [[1, 1, 1, 1]],
     2: [
@@ -79,15 +76,16 @@ export default function TetrisModal({ open, onClose }) {
     for (let r = 0; r < p.shape.length; r++) {
       for (let c = 0; c < p.shape[r].length; c++) {
         if (p.shape[r][c] !== 0) {
-          let nx = p.x + c;
-          let ny = p.y + r;
+          const nx = p.x + c;
+          const ny = p.y + r;
           if (
             nx < 0 ||
             nx >= COLS ||
             ny >= ROWS ||
             (ny >= 0 && board[ny][nx] !== 0)
-          )
+          ) {
             return true;
+          }
         }
       }
     }
@@ -117,6 +115,7 @@ export default function TetrisModal({ open, onClose }) {
 
   const clearLines = () => {
     let count = 0;
+
     for (let r = ROWS - 1; r >= 0; r--) {
       if (board[r].every((v) => v !== 0)) {
         board.splice(r, 1);
@@ -128,6 +127,7 @@ export default function TetrisModal({ open, onClose }) {
 
     if (count > 0) {
       setLines((l) => l + count);
+
       const points = [0, 40, 100, 300, 1200][count];
       setScore((s) => s + points * level);
 
@@ -185,7 +185,7 @@ export default function TetrisModal({ open, onClose }) {
     );
 
     // Logo watermark
-    if (logoRef.current.complete) {
+    if (logoRef.current && logoRef.current.complete) {
       ctx.globalAlpha = 0.18;
       const size = 65;
       ctx.drawImage(
@@ -203,14 +203,17 @@ export default function TetrisModal({ open, onClose }) {
     const p = { ...pieceRef.current, y: pieceRef.current.y + 1 };
 
     if (collide(p)) {
+      pieceRef.current.y--;
       merge(pieceRef.current);
       clearLines();
       const newP = randomPiece();
+
       if (collide(newP)) {
         setGameOver(true);
         stopLoops();
         return;
       }
+
       pieceRef.current = newP;
     } else {
       pieceRef.current = p;
@@ -250,7 +253,6 @@ export default function TetrisModal({ open, onClose }) {
     if (e.key === "ArrowDown") p.y++;
     if (e.key === "ArrowUp") p = rotate(p);
 
-    // Hard drop
     if (e.key === " ") {
       while (!collide({ ...p, y: p.y + 1 })) p.y++;
     }
@@ -270,7 +272,6 @@ export default function TetrisModal({ open, onClose }) {
     startLoops();
   };
 
-  // Modal open / close behavior
   useEffect(() => {
     if (open) {
       logoRef.current = new Image();
@@ -295,7 +296,6 @@ export default function TetrisModal({ open, onClose }) {
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl p-6 shadow-2xl relative w-[480px]">
 
-            {/* Close */}
             <button
               onClick={onClose}
               className="absolute top-3 right-3 text-gray-600 hover:text-black text-xl"
