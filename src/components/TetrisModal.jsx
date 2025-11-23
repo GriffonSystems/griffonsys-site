@@ -1,96 +1,93 @@
+```jsx
 import React, { useEffect, useRef, useState } from "react";
 
 export default function TetrisModal({ open, onClose }) {
   const canvasRef = useRef(null);
-  const logoRef = useRef(null);
-
-  // Persistent refs so React re-renders don't reset the game
-  const boardRef = useRef([]);
-  const pieceRef = useRef(null);
   const loopRef = useRef(null);
-
-  const [score, setScore] = useState(0);
-  const [gameOver, setGameOver] = useState(false);
+  const gravityRef = useRef(null);
+  const logoRef = useRef(null);
+  const pieceRef = useRef(null);
 
   const ROWS = 20;
   const COLS = 10;
-  const BLOCK = 30;
+  const BLOCK = 28;
 
-  // Colors (index = block type)
-  const colors = [
-    null,
-    "#00f0f0", // I
-    "#0000f0", // J
-    "#f0a000", // L
-    "#f0f000", // O
-    "#00f000", // S
-    "#a000f0", // T
-    "#f00000", // Z
-  ];
+  // Griffon-themed palette
+  const colors = {
+    1: "#00F0F0", // I piece
+    2: "#0000F0", // J
+    3: "#F0A000", // L
+    4: "#F0F000", // O
+    5: "#00F000", // S
+    6: "#A000F0", // T
+    7: "#F00000", // Z
+  };
 
-  // Tetromino shapes
-  const shapes = [
-    [],
-    [[1, 1, 1, 1]],
-    [
+  const ghostColor = "rgba(255,255,255,0.25)";
+
+  // Shapes
+  const shapes = {
+    1: [[1, 1, 1, 1]],
+    2: [
       [2, 0, 0],
       [2, 2, 2],
     ],
-    [
+    3: [
       [0, 0, 3],
       [3, 3, 3],
     ],
-    [
+    4: [
       [4, 4],
       [4, 4],
     ],
-    [
+    5: [
       [0, 5, 5],
       [5, 5, 0],
     ],
-    [
-      [6, 6, 0],
-      [0, 6, 6],
+    6: [
+      [0, 6, 0],
+      [6, 6, 6],
     ],
-    [[7, 7, 7], [0, 7, 0]],
-  ];
+    7: [
+      [7, 7, 0],
+      [0, 7, 7],
+    ],
+  };
 
-  // ---------------------------
-  // Utility functions
-  // ---------------------------
+  let board = [];
+
+  const [score, setScore] = useState(0);
+  const [level, setLevel] = useState(1);
+  const [lines, setLines] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
 
   const resetBoard = () => {
-    boardRef.current = Array.from({ length: ROWS }, () =>
-      Array(COLS).fill(0)
-    );
+    board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
   };
 
   const randomPiece = () => {
     const type = Math.floor(Math.random() * 7) + 1;
     return {
+      type,
       shape: shapes[type].map((r) => [...r]),
       x: 3,
       y: 0,
-      type,
     };
   };
 
   const collide = (p) => {
-    const board = boardRef.current;
     for (let r = 0; r < p.shape.length; r++) {
       for (let c = 0; c < p.shape[r].length; c++) {
         if (p.shape[r][c] !== 0) {
-          let newX = p.x + c;
-          let newY = p.y + r;
-
+          let nx = p.x + c;
+          let ny = p.y + r;
           if (
-            newX < 0 ||
-            newX >= COLS ||
-            newY >= ROWS ||
-            (newY >= 0 && board[newY][newX] !== 0)
-          ) {
+            nx < 0 ||
+            nx >= COLS ||
+            ny >= ROWS ||
+            (ny >= 0 && board[ny][nx] !== 0)
+          )
             return true;
-          }
         }
       }
     }
@@ -98,14 +95,11 @@ export default function TetrisModal({ open, onClose }) {
   };
 
   const merge = (p) => {
-    const board = boardRef.current;
-    for (let r = 0; r < p.shape.length; r++) {
-      for (let c = 0; c < p.shape[r].length; c++) {
-        if (p.shape[r][c] !== 0) {
-          board[p.y + r][p.x + c] = p.type;
-        }
-      }
-    }
+    p.shape.forEach((row, r) =>
+      row.forEach((val, c) => {
+        if (val !== 0) board[p.y + r][p.x + c] = val;
+      })
+    );
   };
 
   const rotate = (p) => {
@@ -115,29 +109,40 @@ export default function TetrisModal({ open, onClose }) {
     return { ...p, shape: rotated };
   };
 
-  const clearLines = () => {
-    let cleared = 0;
-    const board = boardRef.current;
+  const getGhostPiece = () => {
+    let ghost = JSON.parse(JSON.stringify(pieceRef.current));
+    while (!collide({ ...ghost, y: ghost.y + 1 })) ghost.y++;
+    return ghost;
+  };
 
+  const clearLines = () => {
+    let count = 0;
     for (let r = ROWS - 1; r >= 0; r--) {
-      if (board[r].every((cell) => cell !== 0)) {
+      if (board[r].every((v) => v !== 0)) {
         board.splice(r, 1);
         board.unshift(Array(COLS).fill(0));
-        cleared++;
+        count++;
         r++;
       }
     }
-    if (cleared > 0) setScore((s) => s + cleared * 100);
+
+    if (count > 0) {
+      setLines((l) => l + count);
+      const points = [0, 40, 100, 300, 1200][count];
+      setScore((s) => s + points * level);
+
+      if ((lines + count) % 10 === 0) {
+        setLevel((lvl) => lvl + 1);
+        restartGravity();
+      }
+    }
   };
 
   const draw = (ctx) => {
-    const board = boardRef.current;
-    const piece = pieceRef.current;
-
     ctx.fillStyle = "#111";
     ctx.fillRect(0, 0, COLS * BLOCK, ROWS * BLOCK);
 
-    // Draw board blocks
+    // Draw board
     for (let r = 0; r < ROWS; r++) {
       for (let c = 0; c < COLS; c++) {
         if (board[r][c] !== 0) {
@@ -147,176 +152,189 @@ export default function TetrisModal({ open, onClose }) {
       }
     }
 
-    // Draw active piece
-    if (piece) {
-      for (let r = 0; r < piece.shape.length; r++) {
-        for (let c = 0; c < piece.shape[r].length; c++) {
-          if (piece.shape[r][c] !== 0) {
-            ctx.fillStyle = colors[piece.type];
-            ctx.fillRect(
-              (piece.x + c) * BLOCK,
-              (piece.y + r) * BLOCK,
-              BLOCK - 1,
-              BLOCK - 1
-            );
-          }
+    // Ghost piece
+    const ghost = getGhostPiece();
+    ghost.shape.forEach((row, r) =>
+      row.forEach((val, c) => {
+        if (val !== 0) {
+          ctx.fillStyle = ghostColor;
+          ctx.fillRect(
+            (ghost.x + c) * BLOCK,
+            (ghost.y + r) * BLOCK,
+            BLOCK - 1,
+            BLOCK - 1
+          );
         }
-      }
-    }
+      })
+    );
 
-    // Draw Griffon logo watermark
-    const logo = logoRef.current;
-    if (logo.complete) {
-      ctx.globalAlpha = 0.15;
+    // Active piece
+    const p = pieceRef.current;
+    p.shape.forEach((row, r) =>
+      row.forEach((val, c) => {
+        if (val !== 0) {
+          ctx.fillStyle = colors[p.type];
+          ctx.fillRect(
+            (p.x + c) * BLOCK,
+            (p.y + r) * BLOCK,
+            BLOCK - 1,
+            BLOCK - 1
+          );
+        }
+      })
+    );
+
+    // Logo watermark
+    if (logoRef.current.complete) {
+      ctx.globalAlpha = 0.18;
+      const size = 65;
       ctx.drawImage(
-        logo,
-        COLS * BLOCK - 70 - 5,
-        ROWS * BLOCK - 70 - 5,
-        70,
-        70
+        logoRef.current,
+        COLS * BLOCK - size - 5,
+        ROWS * BLOCK - size - 5,
+        size,
+        size
       );
       ctx.globalAlpha = 1.0;
     }
   };
 
-  // ---------------------------
-  // Game Loop
-  // ---------------------------
+  const gravityStep = () => {
+    const p = { ...pieceRef.current, y: pieceRef.current.y + 1 };
 
-  const tick = () => {
-    const ctx = canvasRef.current.getContext("2d");
-    const piece = { ...pieceRef.current };
-
-    piece.y++;
-
-    if (collide(piece)) {
-      piece.y--;
+    if (collide(p)) {
       merge(pieceRef.current);
       clearLines();
-
-      const newPiece = randomPiece();
-      if (collide(newPiece)) {
+      const newP = randomPiece();
+      if (collide(newP)) {
         setGameOver(true);
-        cancelAnimationFrame(loopRef.current);
+        stopLoops();
         return;
       }
-      pieceRef.current = newPiece;
+      pieceRef.current = newP;
     } else {
-      pieceRef.current = piece;
+      pieceRef.current = p;
+    }
+  };
+
+  const startLoops = () => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+
+    const renderLoop = () => {
+      draw(ctx);
+      loopRef.current = requestAnimationFrame(renderLoop);
+    };
+
+    loopRef.current = requestAnimationFrame(renderLoop);
+    restartGravity();
+  };
+
+  const restartGravity = () => {
+    clearInterval(gravityRef.current);
+    gravityRef.current = setInterval(gravityStep, Math.max(80, 600 - level * 40));
+  };
+
+  const stopLoops = () => {
+    cancelAnimationFrame(loopRef.current);
+    clearInterval(gravityRef.current);
+  };
+
+  const handleKey = (e) => {
+    if (gameOver) return;
+
+    let p = JSON.parse(JSON.stringify(pieceRef.current));
+
+    if (e.key === "ArrowLeft") p.x--;
+    if (e.key === "ArrowRight") p.x++;
+    if (e.key === "ArrowDown") p.y++;
+    if (e.key === "ArrowUp") p = rotate(p);
+
+    // Hard drop
+    if (e.key === " ") {
+      while (!collide({ ...p, y: p.y + 1 })) p.y++;
     }
 
-    draw(ctx);
-    loopRef.current = requestAnimationFrame(tick);
+    if (!collide(p)) pieceRef.current = p;
   };
 
   const startGame = () => {
     resetBoard();
     pieceRef.current = randomPiece();
+
     setScore(0);
+    setLevel(1);
+    setLines(0);
     setGameOver(false);
 
-    const ctx = canvasRef.current.getContext("2d");
-    draw(ctx);
-
-    cancelAnimationFrame(loopRef.current);
-    loopRef.current = requestAnimationFrame(tick);
+    startLoops();
   };
 
-  // ---------------------------
-  // Keyboard Controls
-  // ---------------------------
-
-  const handleKey = (e) => {
-    if (!open) return;
-
-    let piece = { ...pieceRef.current };
-
-    if (e.key === "Escape") return onClose();
-
-    if (e.key === "ArrowLeft") {
-      piece.x--;
-      if (!collide(piece)) pieceRef.current = piece;
-    }
-    if (e.key === "ArrowRight") {
-      piece.x++;
-      if (!collide(piece)) pieceRef.current = piece;
-    }
-    if (e.key === "ArrowUp") {
-      const rotated = rotate(piece);
-      if (!collide(rotated)) pieceRef.current = rotated;
-    }
-    if (e.key === "ArrowDown") {
-      piece.y++;
-      if (!collide(piece)) pieceRef.current = piece;
-    }
-    if (e.key === " ") {
-      while (!collide(piece)) piece.y++;
-      piece.y--;
-      pieceRef.current = piece;
-    }
-  };
-
-  // ---------------------------
-  // Effects
-  // ---------------------------
-
+  // Modal open / close behavior
   useEffect(() => {
     if (open) {
       logoRef.current = new Image();
       logoRef.current.src = "/logos/griffon_logo.svg";
+
       window.addEventListener("keydown", handleKey);
       startGame();
     } else {
-      cancelAnimationFrame(loopRef.current);
+      stopLoops();
       window.removeEventListener("keydown", handleKey);
     }
 
-    return () => window.removeEventListener("keydown", handleKey);
+    return () => {
+      stopLoops();
+      window.removeEventListener("keydown", handleKey);
+    };
   }, [open]);
 
-  // ---------------------------
-  // Render
-  // ---------------------------
-
   return (
-    open && (
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
-        <div className="bg-white rounded-2xl shadow-2xl p-6 relative w-[420px]">
-          <button
-            onClick={onClose}
-            className="absolute top-3 right-3 text-gray-500 hover:text-black text-xl"
-          >
-            &times;
-          </button>
+    <>
+      {open && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl p-6 shadow-2xl relative w-[480px]">
 
-          <h2 className="text-xl font-semibold mb-2 text-center">
-            Griffon Tetris
-          </h2>
+            {/* Close */}
+            <button
+              onClick={onClose}
+              className="absolute top-3 right-3 text-gray-600 hover:text-black text-xl"
+            >
+              &times;
+            </button>
 
-          <canvas
-            ref={canvasRef}
-            width={COLS * BLOCK}
-            height={ROWS * BLOCK}
-            className="border border-gray-300 mx-auto mb-3 rounded-lg bg-black"
-          />
+            <h2 className="text-xl font-semibold text-center mb-3">
+              Griffon Tetris
+            </h2>
 
-          <p className="text-center text-lg font-medium mb-4">
-            Score: {score}
-          </p>
+            <canvas
+              ref={canvasRef}
+              width={COLS * BLOCK}
+              height={ROWS * BLOCK}
+              className="mx-auto rounded-lg border border-gray-300 bg-black"
+            />
 
-          {gameOver && (
-            <div className="text-center">
-              <p className="text-red-600 font-bold text-lg mb-3">GAME OVER</p>
-              <button
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl"
-                onClick={startGame}
-              >
-                Restart Game
-              </button>
+            <div className="text-center mt-3">
+              <p className="text-lg font-semibold">Score: {score}</p>
+              <p className="text-sm text-gray-600">Level: {level}</p>
+              <p className="text-sm text-gray-600 mb-3">Lines: {lines}</p>
             </div>
-          )}
+
+            {gameOver && (
+              <div className="text-center mt-4">
+                <p className="text-red-600 font-bold text-lg mb-2">GAME OVER</p>
+
+                <button
+                  onClick={startGame}
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl"
+                >
+                  Restart Game
+                </button>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    )
+      )}
+    </>
   );
 }
