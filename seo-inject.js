@@ -1,12 +1,5 @@
 /**
  * SEO Injection Script for Griffon Systems
- * ----------------------------------------
- * This script automatically injects:
- *   • SEO <Helmet> tags
- *   • SEO static HTML blocks
- * Into all matching React pages inside /src/pages
- *
- * Run: node seo-inject.js
  */
 
 import fs from 'fs'
@@ -27,21 +20,14 @@ const SEO_BLOCKS = {
     <section className="max-w-4xl mx-auto px-4 py-6">
       <h1>Security Solutions for Illinois Businesses</h1>
       <p>Griffon Systems delivers enterprise surveillance, access control, wireless networks, and intercom deployments across Illinois.</p>
-      <p>We integrate Avigilon, Verkada, and Openpath (Alta) systems for AI analytics, LPR, cloud management, and secure door access.</p>
+      <p>We integrate Avigilon, Verkada, and Openpath (Alta) for AI analytics, LPR, cloud management, and secure door access.</p>
     </section>
   `,
-  "Industries.jsx": `
-    <section className="max-w-4xl mx-auto px-4 py-6">
-      <h1>Security Solutions for Illinois Industries</h1>
-      <p>We support manufacturing, schools, municipalities, healthcare, and retail with integrated camera, access control, and wireless systems.</p>
-    </section>
-  `,
-
-  // Add more page mappings here...
+  // Add more mappings here...
 }
 
 // -----------------------
-// 2. HELMET TAGS TEMPLATE
+// 2. HELMET TEMPLATE
 // -----------------------
 const HELMET_TEMPLATE = (title, description) => `
   <Helmet>
@@ -51,33 +37,32 @@ const HELMET_TEMPLATE = (title, description) => `
 `
 
 // -----------------------
-// 3. Process Pages Folder
+// 3. SCAN CORRECT DIRECTORY
 // -----------------------
-const pagesDir = path.join(process.cwd(), 'src', 'pages')
+const pagesDir = path.join(process.cwd(), 'src') // ← FIXED HERE
 
 fs.readdirSync(pagesDir).forEach(file => {
-  if (!SEO_BLOCKS[file]) return // skip if no SEO block
+  if (!SEO_BLOCKS[file]) return
 
   const filePath = path.join(pagesDir, file)
   let content = fs.readFileSync(filePath, 'utf-8')
 
-  // Avoid double-inserting
   if (content.includes('<!-- SEO BLOCK INSERTED -->')) {
     console.log(`Skipping (already injected): ${file}`)
     return
   }
 
-  // 3A. Add Helmet import if missing
+  // Add Helmet import
   if (!content.includes("react-helmet")) {
-    content = content.replace("from 'react'", "from 'react'\nimport { Helmet } from 'react-helmet'")
+    content = content.replace("from \"react\"", "from \"react\"\nimport { Helmet } from \"react-helmet\"")
   }
 
-  // 3B. Insert Helmet block after opening component
+  // Insert Helmet + SEO block
   content = content.replace(
     /return\s*\(\s*</,
     `return (
       <>
-      ${HELMET_TEMPLATE(`Griffon Systems | ${file.replace('.jsx', '')}`, "Illinois security systems")}
+      ${HELMET_TEMPLATE(`Griffon Systems | ${file.replace('.jsx','')}`, "Illinois security systems")}
       <!-- SEO BLOCK INSERTED -->
       <main>
         ${SEO_BLOCKS[file]}
@@ -89,4 +74,4 @@ fs.readdirSync(pagesDir).forEach(file => {
   console.log(`Injected SEO block → ${file}`)
 })
 
-console.log("\n🎉 SEO injection complete! Commit and push your changes.\n")
+console.log("\n🎉 SEO injection complete!\n")
