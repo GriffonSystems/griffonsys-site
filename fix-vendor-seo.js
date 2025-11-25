@@ -51,55 +51,59 @@ const VENDOR_MAP = [
 ];
 
 function createJsonLdBlock(vendorKey) {
-  const data = SEO_TEMPLATES[vendorKey];
+  const d = SEO_TEMPLATES[vendorKey];
 
   return `
-  <script
-    type="application/ld+json"
-    dangerouslySetInnerHTML={{
-      __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "Product",
-        "name": "${data.name}",
-        "brand": "${data.brand}",
-        "category": "${data.category}",
-        "provider": {
-          "@type": "LocalBusiness",
-          "name": "Griffon Systems, Inc.",
-          "telephone": "630-607-0346",
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "650 West Grand Ave #206",
-            "addressLocality": "Elmhurst",
-            "addressRegion": "IL",
-            "postalCode": "60126",
-            "addressCountry": "US"
-          }
-        },
-        "areaServed": "Illinois"
-      }),
-    }}
-  />`;
+<script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "${d.name}",
+      "brand": "${d.brand}",
+      "category": "${d.category}",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Griffon Systems, Inc.",
+        "telephone": "630-607-0346",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "650 West Grand Ave #206",
+          "addressLocality": "Elmhurst",
+          "addressRegion": "IL",
+          "postalCode": "60126",
+          "addressCountry": "US"
+        }
+      },
+      "areaServed": "Illinois"
+    })
+  }}
+></script>
+`;
 }
 
 function fixFile(filePath) {
   let content = fs.readFileSync(filePath, "utf8");
+  const lower = filePath.toLowerCase();
 
-  const vendor = VENDOR_MAP.find(v => v.match.test(filePath.toLowerCase()));
+  const vendor = VENDOR_MAP.find(v => v.match.test(lower));
   if (!vendor) return;
 
   console.log("Fixing:", filePath);
 
-  // REMOVE invalid <script> JSON blocks
+  // Remove incorrectly injected broken blocks
   content = content.replace(
-    /<script type="application\/ld\+json">[\s\S]*?<\/script>/gi,
+    /<script[^>]*application\/ld\+json[^>]*>[\s\S]*?<\/script>/gi,
     ""
   );
 
-  // REMOVE any duplicated injected blocks left behind
-  content = content.replace(/dangerouslySetInnerHTML[\s\S]*?\/>/gi, "");
+  content = content.replace(
+    /dangerouslySetInnerHTML[\s\S]*?<\/script>/gi,
+    ""
+  );
 
-  // Inject fresh block directly after <Helmet>
+  // Inject correct script after <Helmet>
   content = content.replace(
     /<Helmet>/i,
     `<Helmet>\n${createJsonLdBlock(vendor.key)}\n`
@@ -111,7 +115,7 @@ function fixFile(filePath) {
 function run() {
   const files = fs.readdirSync(ROUTES);
 
-  files.forEach((file) => {
+  files.forEach(file => {
     if (file.endsWith(".jsx") || file.endsWith(".tsx")) {
       fixFile(path.join(ROUTES, file));
     }
