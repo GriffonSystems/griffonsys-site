@@ -1,42 +1,53 @@
 // src/routes/LocationSEO.jsx
 import React from "react"
-import { useParams } from "react-router-dom"
+import { useParams, Link } from "react-router-dom"
 import { Helmet } from "react-helmet"
 import { LOCATION_PAGES } from "../data/locationPages"
-import { Link } from "react-router-dom"
+
+// ------------------------------
+// Chicago Neighborhoods (NO “IL”)
+// ------------------------------
+const NEIGHBORHOODS = new Set([
+  "Lincoln Park", "Lakeview", "Wicker Park", "Bucktown", "Logan Square",
+  "River North", "Gold Coast", "South Loop", "West Loop", "Hyde Park",
+  "Bridgeport", "Chinatown", "Pilsen", "Albany Park", "Edison Park",
+  "Jefferson Park", "Irving Park", "Portage Park", "Avondale", "Edgewater",
+  "Rogers Park"
+])
 
 export default function LocationSEO() {
   const { city, service } = useParams()
 
-  // Look up the city (slug → city name)
   const cityData = LOCATION_PAGES[city]
   const serviceData = cityData?.services?.[service]
 
-  // Handle invalid slugs or missing cities
+  // ❌ Invalid location or service
   if (!cityData || !serviceData) {
     return (
       <main className="container py-20">
-        <Helmet>
-          <title>Page Not Found | Griffon Systems</title>
-        </Helmet>
+        <Helmet><title>Page Not Found | Griffon Systems</title></Helmet>
 
         <h1 className="text-3xl font-bold mb-4">Page Not Found</h1>
         <p className="text-gray-600 mb-6">
           This location or service does not exist in our directory.
         </p>
-        <Link
-          to="/service-areas"
-          className="text-blue-600 hover:text-blue-800 underline"
-        >
+        <Link to="/service-areas" className="text-blue-600 underline">
           View all service areas →
         </Link>
       </main>
     )
   }
 
-  // Build SEO titles + descriptions
-  const title = serviceData.title
-  const description = `${title}. Griffon Systems delivers professional security cameras, access control, cloud video, wireless backhaul and full-service security integration across ${cityData.city}, IL.`
+  // ------------------------------
+  // Neighborhoods lose “, IL”
+  // ------------------------------
+  const isNeighborhood = NEIGHBORHOODS.has(cityData.city)
+  const cityLabel = isNeighborhood ? cityData.city : `${cityData.city}, IL`
+
+  // SEO title
+  const title = serviceData.title.replace(/, IL$/, "") // remove IL from titles dynamically
+
+  const description = `${title}. Griffon Systems delivers professional security cameras, access control, cloud video, wireless backhaul and fully managed security integration across ${cityLabel}.`
 
   return (
     <main className="container py-16">
@@ -63,21 +74,21 @@ export default function LocationSEO() {
                 "addressLocality": "Elmhurst",
                 "addressRegion": "IL",
                 "postalCode": "60126",
-                "addressCountry": "US",
+                "addressCountry": "US"
               }
-            }),
+            })
           }}
         />
       </Helmet>
 
       {/* -------------------- TITLE -------------------- */}
-      <h1 className="text-4xl font-bold mb-6">{title}</h1>
+      <h1 className="text-4xl font-bold mb-6">{title.replace(", IL", "")}</h1>
 
       {/* -------------------- BODY CONTENT -------------------- */}
       <p className="text-lg text-gray-700 max-w-3xl mb-10 leading-relaxed">
-        Griffon Systems provides professional security camera installation, access
-        control, cloud video, wireless backhaul, server integration and fully
-        managed security solutions for organizations throughout {cityData.city}, IL.
+        Griffon Systems provides professional security camera installation,
+        access control, cloud video, wireless backhaul, server integration and
+        fully managed security solutions for organizations throughout {cityLabel}.
         <br /><br />
         We specialize in:
         <br />• Avigilon (Motorola Solutions)
@@ -98,26 +109,20 @@ export default function LocationSEO() {
         </p>
 
         <div className="flex flex-wrap gap-4">
-          <Link
-            to="/contact"
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-          >
+          <Link to="/contact" className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
             Request Consultation
           </Link>
 
-          <Link
-            to="/service"
-            className="px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-900"
-          >
+          <Link to="/service" className="px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-900">
             Start a Service Ticket
           </Link>
         </div>
       </div>
 
-      {/* -------------------- OTHER SERVICES IN THIS CITY -------------------- */}
+      {/* -------------------- RELATED SERVICES -------------------- */}
       <div>
         <h2 className="text-xl font-semibold mb-4">
-          Related Services in {cityData.city}, IL
+          Related Services in {cityLabel}
         </h2>
 
         <ul className="space-y-2">
@@ -129,7 +134,7 @@ export default function LocationSEO() {
                   to={`/locations/${city}/${key}`}
                   className="text-blue-600 hover:text-blue-800 underline"
                 >
-                  {info.title}
+                  {info.title.replace(", IL", "")}
                 </Link>
               </li>
             )
