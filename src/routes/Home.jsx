@@ -11,11 +11,12 @@ export default function Home() {
         <title>Enterprise Video Surveillance & Access Control Experts | Griffon Systems</title>
         <meta
           name="description"
-          content="Griffon Systems is Chicago’s trusted expert for enterprise video surveillance, access control, wireless backhaul, and managed security solutions. Serving manufacturing, municipal, education, and commercial facilities across the entire Chicagoland area."
+          content="Griffon Systems is Chicago’s trusted expert for enterprise video surveillance, access control, intercom, wireless backhaul, and managed security solutions. Serving manufacturing, municipal, education, and commercial facilities across the entire Chicagoland area."
         />
         <link rel="canonical" href="https://www.griffonsys.com" />
       </Helmet>
 
+      {/* Updated hero already contains the new H1 + subhead */}
       <VideoHero />
 
       <section className="container py-12">
@@ -23,7 +24,7 @@ export default function Home() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
 
-          {/* ✅ LPR Solution Card (First Position) */}
+          {/* LPR Solution Card */}
           <div
             className="relative card p-6 flex flex-col h-full bg-cover bg-center rounded-2xl overflow-hidden"
             style={{ backgroundImage: "url('/images/lpr/lpr-hero.jpg')" }}
