@@ -9,7 +9,10 @@ function sameServices(cityName) {
     "access-control-integrator": {
       title: `Access Control Integrator in ${cityName}, IL`,
     },
-  }
+    "security-system-supplier": {
+      title: `Security System Supplier in ${cityName}, IL`,
+    },
+  };
 }
 
 // ---- MASTER CITY LIST (must match ServiceAreas.jsx exactly) ----
@@ -48,15 +51,15 @@ const CITY_LIST = [
   "Bridgeport", "Chinatown", "Pilsen", "Albany Park", "Edison Park",
   "Jefferson Park", "Irving Park", "Portage Park", "Avondale", "Edgewater",
   "Rogers Park"
-]
+];
 
 // ---- Convert names → slugs and generate service sets ----
-export const LOCATION_PAGES = {}
+export const LOCATION_PAGES = {};
 
 CITY_LIST.forEach((cityName) => {
-  const slug = cityName.toLowerCase().replace(/ /g, "-")
+  const slug = cityName.toLowerCase().replace(/ /g, "-");
   LOCATION_PAGES[slug] = {
     city: cityName,
     services: sameServices(cityName)
-  }
-})
+  };
+});
