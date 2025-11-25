@@ -59,7 +59,7 @@ export default function Footer() {
             </ul>
 
             <Link
-              to="/locations"
+              to="/ServiceAreas"
               className="inline-block mt-3 text-blue-300 hover:text-blue-200 text-xs underline"
             >
               View all service areas →
