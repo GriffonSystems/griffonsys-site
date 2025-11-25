@@ -2,7 +2,6 @@ import React from "react"
 import { Helmet } from "react-helmet"
 import { Link } from "react-router-dom"
 
-// --- Full Chicagoland Coverage (~150 cities + Chicago neighborhoods) ---
 const cities = [
   "Chicago", "Arlington Heights", "Aurora", "Addison", "Algonquin", "Antioch",
   "Barrington", "Bartlett", "Batavia", "Bensenville", "Bloomingdale",
@@ -37,52 +36,35 @@ const cities = [
   "River North", "Gold Coast", "South Loop", "West Loop", "Hyde Park",
   "Bridgeport", "Chinatown", "Pilsen", "Albany Park", "Edison Park",
   "Jefferson Park", "Irving Park", "Portage Park", "Avondale", "Edgewater",
-  "Rogers Park"
+  "Rogers Park",
 ]
 
-// Helper: turn city name into URL slug
-function slugify(city) {
-  return city.toLowerCase().replace(/ /g, "-")
-}
+const slugify = (c) => c.toLowerCase().replace(/ /g, "-")
 
 export default function ServiceAreas() {
   return (
     <main className="container py-16">
-      {/* ⭐ SEO */}
       <Helmet>
         <title>Chicagoland Service Areas | Griffon Systems</title>
         <meta
           name="description"
-          content="Griffon Systems provides enterprise video surveillance, access control, wireless backhaul, and security integration services across the entire Chicagoland region."
+          content="Griffon Systems provides professional security camera, access control, and security system supplier services across all of Chicagoland."
         />
       </Helmet>
 
-      <h1 className="text-4xl font-bold mb-6">
-        Chicagoland Service Areas
-      </h1>
+      <h1 className="text-4xl font-bold mb-8">Chicagoland Service Areas</h1>
 
-      <p className="text-lg text-gray-700 max-w-3xl mb-12 leading-relaxed">
-        Griffon Systems proudly serves all cities, villages, and neighborhoods within
-        the greater Chicagoland area. Our team delivers enterprise-grade
-        video surveillance, access control, wireless backhaul and fully managed
-        security integration for commercial, municipal, educational, and industrial facilities.
-      </p>
-
-      {/* City grid */}
       <ul className="grid md:grid-cols-3 lg:grid-cols-4 gap-4 text-lg">
-        {cities.sort().map((city) => {
-          const slug = slugify(city)
-          return (
-            <li key={slug}>
-              <Link
-                to={`/locations/${slug}/security-integrator`}
-                className="text-blue-600 hover:text-blue-800 hover:underline"
-              >
-                {city}
-              </Link>
-            </li>
-          )
-        })}
+        {cities.sort().map((city) => (
+          <li key={city}>
+            <Link
+              to={`/locations/${slugify(city)}/security-system-supplier`}
+              className="text-blue-600 hover:text-blue-800 hover:underline"
+            >
+              {city}
+            </Link>
+          </li>
+        ))}
       </ul>
     </main>
   )
