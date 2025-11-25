@@ -1,7 +1,6 @@
 /**
- * SEO AUTO-INJECT SCRIPT
- * Injects SEO HTML + JSON-LD blocks inside <Helmet> for vendor pages.
- * Vendor pages: Avigilon, Verkada, Alta/Openpath, Siklu, UniFi, HALO
+ * SEO AUTO-INJECT SCRIPT (React Safe)
+ * Inserts JSON-LD into vendor pages inside <Helmet>.
  */
 
 import fs from "fs";
@@ -9,176 +8,175 @@ import path from "path";
 
 const ROUTES_DIR = "./src/routes/";
 
-// ----------- SEO BLOCKS --------------
+// Utility: wrap JSON-LD safely for JSX
+function wrapJSONLD(json) {
+  return `
+    <script type="application/ld+json">
+    {\\`
+${json}
+    \\`}
+    </script>
+  `;
+}
+
+// ----------- PRETTY JSON-LD BLOCKS --------------
 const SEO_BLOCKS = {
-  avigilon: `
-    <script type="application/ld+json">
-    {
-      "@context":"https://schema.org",
-      "@type":"Product",
-      "name":"Avigilon Security Systems",
-      "brand":"Avigilon",
-      "category":"Video Surveillance",
-      "provider":{
-        "@type":"LocalBusiness",
-        "name":"Griffon Systems, Inc.",
-        "telephone":"630-607-0346",
-        "address":{
-          "@type":"PostalAddress",
-          "streetAddress":"650 West Grand Ave #206",
-          "addressLocality":"Elmhurst",
-          "addressRegion":"IL",
-          "postalCode":"60126",
-          "addressCountry":"US"
-        }
-      },
-      "areaServed":"Illinois"
+  avigilon: wrapJSONLD(`
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Avigilon Security Systems",
+  "brand": "Avigilon",
+  "category": "Video Surveillance",
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Griffon Systems, Inc.",
+    "telephone": "630-607-0346",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "650 West Grand Ave #206",
+      "addressLocality": "Elmhurst",
+      "addressRegion": "IL",
+      "postalCode": "60126",
+      "addressCountry": "US"
     }
-    </script>
-  `,
+  },
+  "areaServed": "Illinois"
+}
+`),
 
-  verkada: `
-    <script type="application/ld+json">
-    {
-      "@context":"https://schema.org",
-      "@type":"Product",
-      "name":"Verkada Cloud Security",
-      "brand":"Verkada",
-      "category":"Cloud Surveillance",
-      "provider":{
-        "@type":"LocalBusiness",
-        "name":"Griffon Systems, Inc.",
-        "telephone":"630-607-0346",
-        "address":{
-          "@type":"PostalAddress",
-          "streetAddress":"650 West Grand Ave #206",
-          "addressLocality":"Elmhurst",
-          "addressRegion":"IL",
-          "postalCode":"60126",
-          "addressCountry":"US"
-        }
-      },
-      "areaServed":"Illinois"
+  verkada: wrapJSONLD(`
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Verkada Cloud Security",
+  "brand": "Verkada",
+  "category": "Cloud Surveillance",
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Griffon Systems, Inc.",
+    "telephone": "630-607-0346",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "650 West Grand Ave #206",
+      "addressLocality": "Elmhurst",
+      "addressRegion": "IL",
+      "postalCode": "60126",
+      "addressCountry": "US"
     }
-    </script>
-  `,
+  },
+  "areaServed": "Illinois"
+}
+`),
 
-  alta: `
-    <script type="application/ld+json">
-    {
-      "@context":"https://schema.org",
-      "@type":"Product",
-      "name":"Openpath / Avigilon Alta Access Control",
-      "brand":"Openpath",
-      "category":"Access Control",
-      "provider":{
-        "@type":"LocalBusiness",
-        "name":"Griffon Systems, Inc.",
-        "telephone":"630-607-0346",
-        "address":{
-          "@type":"PostalAddress",
-          "streetAddress":"650 West Grand Ave #206",
-          "addressLocality":"Elmhurst",
-          "addressRegion":"IL",
-          "postalCode":"60126",
-          "addressCountry":"US"
-        }
-      },
-      "areaServed":"Illinois"
+  alta: wrapJSONLD(`
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Openpath / Avigilon Alta Access Control",
+  "brand": "Openpath",
+  "category": "Access Control",
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Griffon Systems, Inc.",
+    "telephone": "630-607-0346",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "650 West Grand Ave #206",
+      "addressLocality": "Elmhurst",
+      "addressRegion": "IL",
+      "postalCode": "60126",
+      "addressCountry": "US"
     }
-    </script>
-  `,
+  },
+  "areaServed": "Illinois"
+}
+`),
 
-  siklu: `
-    <script type="application/ld+json">
-    {
-      "@context":"https://schema.org",
-      "@type":"Product",
-      "name":"Siklu Wireless Backhaul",
-      "brand":"Siklu",
-      "category":"Wireless Infrastructure",
-      "provider":{
-        "@type":"LocalBusiness",
-        "name":"Griffon Systems, Inc.",
-        "telephone":"630-607-0346",
-        "address":{
-          "@type":"PostalAddress",
-          "streetAddress":"650 West Grand Ave #206",
-          "addressLocality":"Elmhurst",
-          "addressRegion":"IL",
-          "postalCode":"60126",
-          "addressCountry":"US"
-        }
-      },
-      "areaServed":"Illinois"
+  siklu: wrapJSONLD(`
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Siklu Wireless Backhaul",
+  "brand": "Siklu",
+  "category": "Wireless Infrastructure",
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Griffon Systems, Inc.",
+    "telephone": "630-607-0346",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "650 West Grand Ave #206",
+      "addressLocality": "Elmhurst",
+      "addressRegion": "IL",
+      "postalCode": "60126",
+      "addressCountry": "US"
     }
-    </script>
-  `,
+  },
+  "areaServed": "Illinois"
+}
+`),
 
-  unifi: `
-    <script type="application/ld+json">
-    {
-      "@context":"https://schema.org",
-      "@type":"Product",
-      "name":"Ubiquiti UniFi Networks",
-      "brand":"Ubiquiti",
-      "category":"Networking",
-      "provider":{
-        "@type":"LocalBusiness",
-        "name":"Griffon Systems, Inc.",
-        "telephone":"630-607-0346",
-        "address":{
-          "@type":"PostalAddress",
-          "streetAddress":"650 West Grand Ave #206",
-          "addressLocality":"Elmhurst",
-          "addressRegion":"IL",
-          "postalCode":"60126",
-          "addressCountry":"US"
-        }
-      },
-      "areaServed":"Illinois"
+  unifi: wrapJSONLD(`
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Ubiquiti UniFi Networks",
+  "brand": "Ubiquiti",
+  "category": "Networking",
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Griffon Systems, Inc.",
+    "telephone": "630-607-0346",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "650 West Grand Ave #206",
+      "addressLocality": "Elmhurst",
+      "addressRegion": "IL",
+      "postalCode": "60126",
+      "addressCountry": "US"
     }
-    </script>
-  `,
+  },
+  "areaServed": "Illinois"
+}
+`),
 
-  halo: `
-    <script type="application/ld+json">
-    {
-      "@context":"https://schema.org",
-      "@type":"Product",
-      "name":"HALO Vape Sensor",
-      "brand":"IPVideo HALO",
-      "category":"Environmental Sensors",
-      "provider":{
-        "@type":"LocalBusiness",
-        "name":"Griffon Systems, Inc.",
-        "telephone":"630-607-0346",
-        "address":{
-          "@type":"PostalAddress",
-          "streetAddress":"650 West Grand Ave #206",
-          "addressLocality":"Elmhurst",
-          "addressRegion":"IL",
-          "postalCode":"60126",
-          "addressCountry":"US"
-        }
-      },
-      "areaServed":"Illinois"
+  halo: wrapJSONLD(`
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "HALO Vape Sensor",
+  "brand": "IPVideo HALO",
+  "category": "Environmental Sensors",
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Griffon Systems, Inc.",
+    "telephone": "630-607-0346",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "650 West Grand Ave #206",
+      "addressLocality": "Elmhurst",
+      "addressRegion": "IL",
+      "postalCode": "60126",
+      "addressCountry": "US"
     }
-    </script>
-  `
+  },
+  "areaServed": "Illinois"
+}
+`)
 };
 
-// Vendor keyword mapping
+// Detect vendor by filename
 const VENDOR_MAP = [
-  { key: "avigilon", match: /avig/i },
-  { key: "verkada", match: /verk/i },
-  { key: "alta", match: /(alta|openpath)/i },
-  { key: "siklu", match: /siklu/i },
-  { key: "unifi", match: /(unifi|ubiquiti)/i },
-  { key: "halo", match: /halo/i }
+  { key: "avigilon", match: /avig/ },
+  { key: "verkada", match: /verk/ },
+  { key: "alta", match: /(alta|openpath)/ },
+  { key: "siklu", match: /siklu/ },
+  { key: "unifi", match: /(unifi|ubiquiti)/ },
+  { key: "halo", match: /halo/ }
 ];
 
-// ------------- PROCESS FILES -----------------
+// ---------------- PROCESS FILE ------------------
 function processFile(filePath) {
   let content = fs.readFileSync(filePath, "utf8");
 
@@ -190,17 +188,19 @@ function processFile(filePath) {
 
   const seoBlock = SEO_BLOCKS[vendor.key];
 
-  // If Helmet exists, inject after <Helmet>
+  // Prevent duplicate injection
+  if (content.includes("@context") || content.includes("application/ld+json")) {
+    console.log(`Already injected: ${fileName}`);
+    return;
+  }
+
   if (content.includes("<Helmet>")) {
-    content = content.replace(
-      "<Helmet>",
-      `<Helmet>\n${seoBlock}\n`
-    );
+    content = content.replace("<Helmet>", `<Helmet>\n${seoBlock}\n`);
   } else {
-    // Create Helmet if missing
+    // Insert Helmet if missing
     content = content.replace(
       "export default function",
-      `${seoBlock}\n\nexport default function`
+      `<Helmet>${seoBlock}</Helmet>\n\nexport default function`
     );
   }
 
@@ -209,7 +209,6 @@ function processFile(filePath) {
 
 function scanRoutes() {
   const files = fs.readdirSync(ROUTES_DIR);
-
   files.forEach(file => {
     if (file.endsWith(".jsx") || file.endsWith(".tsx")) {
       processFile(path.join(ROUTES_DIR, file));
@@ -218,5 +217,4 @@ function scanRoutes() {
 }
 
 scanRoutes();
-
-console.log("SEO injection complete.");
+console.log("✅ SEO injection complete.");
