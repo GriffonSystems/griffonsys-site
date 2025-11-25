@@ -16,7 +16,7 @@ export default function ServiceAreas() {
 
       <p className="text-lg text-gray-700 mb-10">
         We provide video surveillance, access control, wireless backhaul, and 
-        security integration across Northern Illinois.
+        security integration services across the Chicagoland area.
       </p>
 
       <ul className="grid md:grid-cols-3 gap-6 text-lg">
