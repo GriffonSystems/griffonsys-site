@@ -130,7 +130,7 @@ export default function VideoHero() {
               'Optima, Candara, "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
           }}
         >
-          Security Cameras & Access Control Integrator in Chicago
+          Security Cameras & Access Control Integrator in Chicagoland for 20+ Years
         </h1>
 
         <p
@@ -140,7 +140,7 @@ export default function VideoHero() {
               'Optima, Candara, "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
           }}
         >
-          Modern cloud and on-prem security — Avigilon, Verkada, Alta, Siklu, UniFi.
+          Modern cloud and on-prem security — Avigilon, Verkada, Alta.
         </p>
       </div>
 
