@@ -8,10 +8,10 @@ export default function Home() {
   return (
     <main>
       <Helmet>
-        <title>Griffon Systems | Video Surveillance & Access Control Solutions</title>
+        <title>Enterprise Video Surveillance & Access Control Experts | Griffon Systems</title>
         <meta
           name="description"
-          content="Illinois-based integrator delivering Avigilon, Verkada, and Alta video surveillance and access control systems for manufacturing, municipal, and enterprise clients."
+          content="Griffon Systems is Chicago’s trusted expert for enterprise video surveillance, access control, wireless backhaul, and managed security solutions. Serving manufacturing, municipal, education, and commercial facilities across the entire Chicagoland area."
         />
         <link rel="canonical" href="https://www.griffonsys.com" />
       </Helmet>
@@ -23,7 +23,7 @@ export default function Home() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
 
-          {/* ✅ NEW — LPR SOLUTION CARD (FIRST POSITION) */}
+          {/* ✅ LPR Solution Card (First Position) */}
           <div
             className="relative card p-6 flex flex-col h-full bg-cover bg-center rounded-2xl overflow-hidden"
             style={{ backgroundImage: "url('/images/lpr/lpr-hero.jpg')" }}
