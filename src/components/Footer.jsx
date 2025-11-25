@@ -15,7 +15,8 @@ export default function Footer() {
             <img
               src="/logos/griffon_logo.svg"
               alt="Griffon Systems"
-              className="h-10 mb-4 opacity-90"
+              className="h-10 mb-4 opacity-95"
+              style={{ filter: "none" }}
             />
 
             <p className="text-gray-300 text-sm leading-relaxed">
