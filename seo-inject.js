@@ -1,77 +1,222 @@
 /**
- * SEO Injection Script for Griffon Systems
+ * SEO AUTO-INJECT SCRIPT
+ * Injects SEO HTML + JSON-LD blocks inside <Helmet> for vendor pages.
+ * Vendor pages: Avigilon, Verkada, Alta/Openpath, Siklu, UniFi, HALO
  */
 
-import fs from 'fs'
-import path from 'path'
+import fs from "fs";
+import path from "path";
 
-// -----------------------
-// 1. SEO BLOCKS MAPPING
-// -----------------------
+const ROUTES_DIR = "./src/routes/";
+
+// ----------- SEO BLOCKS --------------
 const SEO_BLOCKS = {
-  "Home.jsx": `
-    <section className="max-w-4xl mx-auto px-4 py-6">
-      <h1>Chicago Security Cameras & Access Control Installation</h1>
-      <p>Griffon Systems provides enterprise video surveillance, access control, wireless backhaul, intercom, and cloud-managed security systems across Chicago and Northern Illinois.</p>
-      <p>We integrate Avigilon, Verkada, Openpath (Alta), Siklu, and UniFi to deliver complete, turn-key security deployments.</p>
-    </section>
+  avigilon: `
+    <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"Product",
+      "name":"Avigilon Security Systems",
+      "brand":"Avigilon",
+      "category":"Video Surveillance",
+      "provider":{
+        "@type":"LocalBusiness",
+        "name":"Griffon Systems, Inc.",
+        "telephone":"630-607-0346",
+        "address":{
+          "@type":"PostalAddress",
+          "streetAddress":"650 West Grand Ave #206",
+          "addressLocality":"Elmhurst",
+          "addressRegion":"IL",
+          "postalCode":"60126",
+          "addressCountry":"US"
+        }
+      },
+      "areaServed":"Illinois"
+    }
+    </script>
   `,
-  "Solutions.jsx": `
-    <section className="max-w-4xl mx-auto px-4 py-6">
-      <h1>Security Solutions for Illinois Businesses</h1>
-      <p>Griffon Systems delivers enterprise surveillance, access control, wireless networks, and intercom deployments across Illinois.</p>
-      <p>We integrate Avigilon, Verkada, and Openpath (Alta) for AI analytics, LPR, cloud management, and secure door access.</p>
-    </section>
+
+  verkada: `
+    <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"Product",
+      "name":"Verkada Cloud Security",
+      "brand":"Verkada",
+      "category":"Cloud Surveillance",
+      "provider":{
+        "@type":"LocalBusiness",
+        "name":"Griffon Systems, Inc.",
+        "telephone":"630-607-0346",
+        "address":{
+          "@type":"PostalAddress",
+          "streetAddress":"650 West Grand Ave #206",
+          "addressLocality":"Elmhurst",
+          "addressRegion":"IL",
+          "postalCode":"60126",
+          "addressCountry":"US"
+        }
+      },
+      "areaServed":"Illinois"
+    }
+    </script>
   `,
-  // Add more mappings here...
+
+  alta: `
+    <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"Product",
+      "name":"Openpath / Avigilon Alta Access Control",
+      "brand":"Openpath",
+      "category":"Access Control",
+      "provider":{
+        "@type":"LocalBusiness",
+        "name":"Griffon Systems, Inc.",
+        "telephone":"630-607-0346",
+        "address":{
+          "@type":"PostalAddress",
+          "streetAddress":"650 West Grand Ave #206",
+          "addressLocality":"Elmhurst",
+          "addressRegion":"IL",
+          "postalCode":"60126",
+          "addressCountry":"US"
+        }
+      },
+      "areaServed":"Illinois"
+    }
+    </script>
+  `,
+
+  siklu: `
+    <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"Product",
+      "name":"Siklu Wireless Backhaul",
+      "brand":"Siklu",
+      "category":"Wireless Infrastructure",
+      "provider":{
+        "@type":"LocalBusiness",
+        "name":"Griffon Systems, Inc.",
+        "telephone":"630-607-0346",
+        "address":{
+          "@type":"PostalAddress",
+          "streetAddress":"650 West Grand Ave #206",
+          "addressLocality":"Elmhurst",
+          "addressRegion":"IL",
+          "postalCode":"60126",
+          "addressCountry":"US"
+        }
+      },
+      "areaServed":"Illinois"
+    }
+    </script>
+  `,
+
+  unifi: `
+    <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"Product",
+      "name":"Ubiquiti UniFi Networks",
+      "brand":"Ubiquiti",
+      "category":"Networking",
+      "provider":{
+        "@type":"LocalBusiness",
+        "name":"Griffon Systems, Inc.",
+        "telephone":"630-607-0346",
+        "address":{
+          "@type":"PostalAddress",
+          "streetAddress":"650 West Grand Ave #206",
+          "addressLocality":"Elmhurst",
+          "addressRegion":"IL",
+          "postalCode":"60126",
+          "addressCountry":"US"
+        }
+      },
+      "areaServed":"Illinois"
+    }
+    </script>
+  `,
+
+  halo: `
+    <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"Product",
+      "name":"HALO Vape Sensor",
+      "brand":"IPVideo HALO",
+      "category":"Environmental Sensors",
+      "provider":{
+        "@type":"LocalBusiness",
+        "name":"Griffon Systems, Inc.",
+        "telephone":"630-607-0346",
+        "address":{
+          "@type":"PostalAddress",
+          "streetAddress":"650 West Grand Ave #206",
+          "addressLocality":"Elmhurst",
+          "addressRegion":"IL",
+          "postalCode":"60126",
+          "addressCountry":"US"
+        }
+      },
+      "areaServed":"Illinois"
+    }
+    </script>
+  `
+};
+
+// Vendor keyword mapping
+const VENDOR_MAP = [
+  { key: "avigilon", match: /avig/i },
+  { key: "verkada", match: /verk/i },
+  { key: "alta", match: /(alta|openpath)/i },
+  { key: "siklu", match: /siklu/i },
+  { key: "unifi", match: /(unifi|ubiquiti)/i },
+  { key: "halo", match: /halo/i }
+];
+
+// ------------- PROCESS FILES -----------------
+function processFile(filePath) {
+  let content = fs.readFileSync(filePath, "utf8");
+
+  const fileName = path.basename(filePath).toLowerCase();
+  const vendor = VENDOR_MAP.find(v => v.match.test(fileName));
+  if (!vendor) return;
+
+  console.log(`Injecting SEO into: ${fileName}`);
+
+  const seoBlock = SEO_BLOCKS[vendor.key];
+
+  // If Helmet exists, inject after <Helmet>
+  if (content.includes("<Helmet>")) {
+    content = content.replace(
+      "<Helmet>",
+      `<Helmet>\n${seoBlock}\n`
+    );
+  } else {
+    // Create Helmet if missing
+    content = content.replace(
+      "export default function",
+      `${seoBlock}\n\nexport default function`
+    );
+  }
+
+  fs.writeFileSync(filePath, content, "utf8");
 }
 
-// -----------------------
-// 2. HELMET TEMPLATE
-// -----------------------
-const HELMET_TEMPLATE = (title, description) => `
-  <Helmet>
-    <title>${title}</title>
-    <meta name="description" content="${description}" />
-  </Helmet>
-`
+function scanRoutes() {
+  const files = fs.readdirSync(ROUTES_DIR);
 
-// -----------------------
-// 3. SCAN CORRECT DIRECTORY
-// -----------------------
-const pagesDir = path.join(process.cwd(), 'src') // ← FIXED HERE
+  files.forEach(file => {
+    if (file.endsWith(".jsx") || file.endsWith(".tsx")) {
+      processFile(path.join(ROUTES_DIR, file));
+    }
+  });
+}
 
-fs.readdirSync(pagesDir).forEach(file => {
-  if (!SEO_BLOCKS[file]) return
+scanRoutes();
 
-  const filePath = path.join(pagesDir, file)
-  let content = fs.readFileSync(filePath, 'utf-8')
-
-  if (content.includes('<!-- SEO BLOCK INSERTED -->')) {
-    console.log(`Skipping (already injected): ${file}`)
-    return
-  }
-
-  // Add Helmet import
-  if (!content.includes("react-helmet")) {
-    content = content.replace("from \"react\"", "from \"react\"\nimport { Helmet } from \"react-helmet\"")
-  }
-
-  // Insert Helmet + SEO block
-  content = content.replace(
-    /return\s*\(\s*</,
-    `return (
-      <>
-      ${HELMET_TEMPLATE(`Griffon Systems | ${file.replace('.jsx','')}`, "Illinois security systems")}
-      <!-- SEO BLOCK INSERTED -->
-      <main>
-        ${SEO_BLOCKS[file]}
-      </main>
-      `
-  )
-
-  fs.writeFileSync(filePath, content)
-  console.log(`Injected SEO block → ${file}`)
-})
-
-console.log("\n🎉 SEO injection complete!\n")
+console.log("SEO injection complete.");
