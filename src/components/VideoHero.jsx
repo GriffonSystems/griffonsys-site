@@ -1,3 +1,4 @@
+// src/components/VideoHero.jsx
 import React from 'react'
 
 // Updated focal points for ALL new hero images
@@ -51,10 +52,10 @@ export default function VideoHero() {
     }
   }, [MANIFEST_URL])
 
-  // Only keep images that loaded
+  // Filter for only working images
   const live = images.filter((u) => !bad.has(u))
 
-  // Auto-advance
+  // Auto-advance slider
   React.useEffect(() => {
     if (live.length <= 1) return
     const t = setInterval(
@@ -68,7 +69,7 @@ export default function VideoHero() {
 
   return (
     <section className="relative h-[80vh] md:h-[90vh] lg:h-screen overflow-hidden">
-      {/* Inject keyframes for Ken Burns */}
+      {/* Ken Burns */}
       <style>{`
         @keyframes kbZoomIn {
           from { transform: scale(1.00); }
@@ -105,7 +106,7 @@ export default function VideoHero() {
                   transitionDuration: `${FADE_MS}ms`,
                   animation: `${kbName} ${SLIDE_MS + FADE_MS}ms ease-in-out infinite alternate`,
                 }}
-                aria-hidden={i === current ? 'false' : 'true'}
+                aria-hidden={i !== current}
                 onError={() =>
                   setBad((prev) => new Set(prev).add(src))
                 }
@@ -117,12 +118,13 @@ export default function VideoHero() {
         )}
       </div>
 
-      {/* Overlay */}
+      {/* Dim overlay */}
       <div className="absolute inset-0 bg-black/35" />
 
-      {/* --------------------- UPDATED HEADLINE --------------------- */}
+      {/* Headline + Subheadline */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-6">
 
+        {/* MAIN HEADLINE */}
         <h1
           className="text-white text-4xl md:text-6xl font-semibold mb-3"
           style={{
@@ -133,8 +135,9 @@ export default function VideoHero() {
           Security Camera & Access Control Experts in Chicagoland for 20+ Years
         </h1>
 
+        {/* SUBHEADLINE — Updated for readability */}
         <p
-          className="text-white/90 text-lg md:text-xl max-w-3xl"
+          className="text-white/95 text-lg md:text-xl max-w-3xl font-medium drop-shadow-lg"
           style={{
             fontFamily:
               'Optima, Candara, "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
@@ -144,7 +147,7 @@ export default function VideoHero() {
         </p>
       </div>
 
-      {/* Dots */}
+      {/* Slide dots */}
       {live.length > 1 && (
         <div className="absolute bottom-4 left-0 right-0 z-10 flex justify-center gap-2">
           {live.map((_, i) => (
