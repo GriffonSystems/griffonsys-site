@@ -3,7 +3,6 @@ import React from "react"
 import { useParams } from "react-router-dom"
 import { Helmet } from "react-helmet"
 import { LOCATION_PAGES } from "../data/locationPages.js"
-import { Link } from "react-router-dom"
 
 export default function LocationSEO() {
   const { city, service } = useParams()
@@ -14,25 +13,39 @@ export default function LocationSEO() {
   if (!cityData || !serviceData) {
     return (
       <div className="container py-20">
-        <h1 className="text-3xl font-bold mb-4">Not Found</h1>
-        <p className="text-gray-600">
-          This service or city does not exist in our directory.
+        <h1 className="text-3xl font-bold">Page Not Found</h1>
+        <p className="text-gray-600 mt-4">
+          This location or service does not exist.
         </p>
       </div>
     )
   }
 
-  const title = serviceData.title
-  const description = `${title}. Griffon Systems is the leading commercial security integrator serving ${cityData.city}, IL — specializing in surveillance, access control, wireless backhaul, and enterprise security design.`
+  // Detect Chicago neighborhood formatting
+  const isNeighborhood =
+    [
+      "Lincoln Park", "Lakeview", "Wicker Park", "Bucktown", "Logan Square",
+      "River North", "Gold Coast", "South Loop", "West Loop", "Hyde Park",
+      "Bridgeport", "Chinatown", "Pilsen", "Albany Park", "Edison Park",
+      "Jefferson Park", "Irving Park", "Portage Park", "Avondale",
+      "Edgewater", "Rogers Park",
+    ].includes(cityData.city)
+
+  const fullCity = isNeighborhood
+    ? `${cityData.city}, Chicago`
+    : `${cityData.city}, IL`
+
+  const title = `${serviceData.title.replace(cityData.city + ", IL", fullCity)}`
+
+  const description = `${title} — Griffon Systems provides enterprise-grade security cameras, access control, wireless backhaul, and managed security integration throughout ${fullCity}.`
 
   return (
-    <main className="container py-16 max-w-5xl">
-      {/* --- SEO Tags --- */}
+    <main className="container py-12">
       <Helmet>
-        <title>{title} | Griffon Systems</title>
+        <title>{title}</title>
         <meta name="description" content={description} />
 
-        {/* JSON-LD Structured Data */}
+        {/* Schema */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -42,92 +55,44 @@ export default function LocationSEO() {
               "name": "Griffon Systems, Inc.",
               "url": "https://www.griffonsys.com/",
               "telephone": "630-607-0346",
-              "description": description,
               "address": {
                 "@type": "PostalAddress",
                 "streetAddress": "650 West Grand Ave #206",
                 "addressLocality": "Elmhurst",
                 "addressRegion": "IL",
                 "postalCode": "60126",
-                "addressCountry": "US"
+                "addressCountry": "US",
               },
-              "areaServed": cityData.city,
-              "serviceType": title,
+              "areaServed": fullCity,
+              "serviceType": serviceData.title,
             }),
           }}
         />
       </Helmet>
 
-      {/* --- TITLE --- */}
-      <h1 className="text-4xl font-bold mb-4">{title}</h1>
+      <h1 className="text-4xl font-bold mb-6">{title}</h1>
 
-      {/* --- SUBTEXT --- */}
-      <p className="text-lg text-gray-700 leading-relaxed max-w-3xl mb-10">
-        Griffon Systems provides professional security camera integration,
-        access control, wireless deployment, and fully managed security
-        technology solutions throughout <strong>{cityData.city}, IL</strong>.
+      <p className="text-lg text-gray-700 max-w-3xl leading-relaxed mb-12">
+        Griffon Systems provides video surveillance, access control, wireless
+        networks, and managed security integration services in {fullCity}.
         <br /><br />
-        As a trusted regional partner for Avigilon, Verkada, Openpath/Alta,
-        Siklu, and UniFi, we deliver enterprise-grade protection for
-        manufacturing, municipal, education, transportation, and commercial
-        facilities across the Chicagoland region.
-        <br /><br />
-        Our team designs, installs, and supports complete physical security
-        systems — from cameras and access control to video analytics, cloud
-        management, LPR capture, and secure wireless backhaul.
+        We deploy Avigilon, Verkada, Openpath/Alta, Siklu wireless backhaul, and
+        UniFi networks for commercial, municipal, industrial, and educational facilities.
       </p>
 
-      {/* --- CTA SECTION (persistent on page) --- */}
-      <div className="bg-blue-50 border border-blue-200 rounded-xl p-8 mb-12">
-        <h2 className="text-2xl font-semibold mb-3">
-          Request a Security Assessment in {cityData.city}
-        </h2>
-        <p className="text-gray-700 mb-5">
-          Speak with a local engineer for system design, pricing, and deployment
-          options.
+      {/* CTA */}
+      <div className="bg-gray-100 p-8 rounded-xl shadow-sm max-w-xl">
+        <h2 className="text-2xl font-bold mb-4">Request a Quote</h2>
+        <p className="text-gray-700 mb-6">
+          Speak with a senior security advisor today.
         </p>
-
-        <Link
-          to="/contact"
-          className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold"
+        <a
+          href="/contact"
+          className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700"
         >
-          Schedule a Consultation →
-        </Link>
+          Contact Us
+        </a>
       </div>
-
-      {/* --- WHAT WE DO SECTION --- */}
-      <div className="grid md:grid-cols-2 gap-10 mb-16">
-        <div>
-          <h3 className="text-2xl font-bold mb-3">Core Services</h3>
-          <ul className="list-disc ml-6 text-gray-700 leading-relaxed">
-            <li>Commercial Security Camera Systems</li>
-            <li>Access Control & Door Management</li>
-            <li>Wireless Point-to-Point Links (Siklu)</li>
-            <li>License Plate Recognition (LPR) Systems</li>
-            <li>Cloud & On-Prem Video (Avigilon / Verkada)</li>
-            <li>UniFi Networking & Infrastructure</li>
-            <li>Security Operations Centers (SOC) Buildouts</li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 className="text-2xl font-bold mb-3">Industries Served</h3>
-          <ul className="list-disc ml-6 text-gray-700 leading-relaxed">
-            <li>Manufacturing & Logistics</li>
-            <li>Municipal & Public Works</li>
-            <li>Schools & Higher Education</li>
-            <li>Retail & Commercial Properties</li>
-            <li>Parks & Recreation</li>
-            <li>Corporate Offices</li>
-            <li>Hospitality & Healthcare</li>
-          </ul>
-        </div>
-      </div>
-
-      {/* --- FOOTER NOTE --- */}
-      <p className="text-gray-600 text-sm mt-8">
-        Serving all of Chicagoland — including Cook, DuPage, Lake, Kane, and Will County.
-      </p>
     </main>
   )
 }
