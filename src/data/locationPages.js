@@ -1,7 +1,6 @@
 // src/data/locationPages.js
-// FULL CHICAGOLAND COVERAGE — 200+ LOCAL SEO PAGES
+// FULL CHICAGOLAND COVERAGE — auto-generated from full city list
 
-// ---- Shared Service Config ----
 function sameServices(cityName) {
   return {
     "security-integrator": {
@@ -10,112 +9,54 @@ function sameServices(cityName) {
     "access-control-integrator": {
       title: `Access Control Integrator in ${cityName}, IL`,
     },
-  };
+  }
 }
 
-export const LOCATION_PAGES = {
-  // ---- CORE SUBURBS YOU ALREADY HAD ----
-  "arlington-heights": { city: "Arlington Heights", services: sameServices("Arlington Heights") },
-  "chicago": { city: "Chicago", services: sameServices("Chicago") },
-  "downers-grove": { city: "Downers Grove", services: sameServices("Downers Grove") },
-  "elmhurst": { city: "Elmhurst", services: sameServices("Elmhurst") },
-  "hinsdale": { city: "Hinsdale", services: sameServices("Hinsdale") },
-  "lisle": { city: "Lisle", services: sameServices("Lisle") },
-  "naperville": { city: "Naperville", services: sameServices("Naperville") },
-  "oak-brook": { city: "Oak Brook", services: sameServices("Oak Brook") },
-  "schaumburg": { city: "Schaumburg", services: sameServices("Schaumburg") },
-  "wheaton": { city: "Wheaton", services: sameServices("Wheaton") },
+// ---- MASTER CITY LIST (must match ServiceAreas.jsx exactly) ----
+const CITY_LIST = [
+  "Chicago", "Arlington Heights", "Aurora", "Addison", "Algonquin", "Antioch",
+  "Barrington", "Bartlett", "Batavia", "Bensenville", "Bloomingdale",
+  "Bolingbrook", "Bridgeview", "Buffalo Grove", "Burr Ridge", "Carol Stream",
+  "Carpentersville", "Cary", "Channahon", "Chicago Ridge", "Cicero",
+  "Clarendon Hills", "Crystal Lake", "Darien", "Des Plaines", "Downers Grove",
+  "East Dundee", "Elgin", "Elk Grove Village", "Elmhurst", "Elmwood Park",
+  "Evanston", "Evergreen Park", "Fox Lake", "Fox River Grove", "Frankfort",
+  "Geneva", "Glen Ellyn", "Glencoe", "Glendale Heights", "Glenview", "Golf",
+  "Grayslake", "Gurnee", "Hainesville", "Hanover Park", "Harwood Heights",
+  "Hawthorn Woods", "Highland Park", "Highwood", "Hinsdale",
+  "Hoffman Estates", "Huntley", "Inverness", "Itasca", "Joliet", "Kildeer",
+  "La Grange", "La Grange Park", "Lake Bluff", "Lake Forest",
+  "Lake in the Hills", "Lake Villa", "Lake Zurich", "Lemont", "Libertyville",
+  "Lincolnshire", "Lincolnwood", "Lisle", "Lombard", "Long Grove", "McHenry",
+  "Medinah", "Melrose Park", "Mokena", "Mundelein", "Mount Prospect",
+  "Naperville", "New Lenox", "Niles", "North Aurora", "North Barrington",
+  "North Chicago", "Northbrook", "Northfield", "Northlake", "Oak Brook",
+  "Oak Lawn", "Oak Park", "Orland Park", "Oswego", "Palatine",
+  "Palos Heights", "Palos Hills", "Palos Park", "Park Ridge", "Plainfield",
+  "Prospect Heights", "River Forest", "River Grove", "Riverwoods",
+  "Riverside", "Rolling Meadows", "Romeoville", "Roselle", "Rosemont",
+  "Round Lake", "St. Charles", "Schaumburg", "Schiller Park", "Skokie",
+  "South Barrington", "South Elgin", "South Holland", "Streamwood",
+  "Sugar Grove", "Tinley Park", "Vernon Hills", "Villa Park", "Warrenville",
+  "Wauconda", "Waukegan", "West Chicago", "West Dundee", "Westchester",
+  "Western Springs", "Wheaton", "Wheeling", "Willow Springs", "Willowbrook",
+  "Wilmette", "Winfield", "Winnetka", "Wood Dale", "Woodridge", "Yorkville",
 
-  // ---- EXPANDED FULL CHICAGOLAND AREA ----
-  "addison": { city: "Addison", services: sameServices("Addison") },
-  "algonquin": { city: "Algonquin", services: sameServices("Algonquin") },
-  "antioch": { city: "Antioch", services: sameServices("Antioch") },
-  "aurora": { city: "Aurora", services: sameServices("Aurora") },
-  "batavia": { city: "Batavia", services: sameServices("Batavia") },
-  "beach-park": { city: "Beach Park", services: sameServices("Beach Park") }, // FIXED SPELLING
-  "bensenville": { city: "Bensenville", services: sameServices("Bensenville") },
-  "berwyn": { city: "Berwyn", services: sameServices("Berwyn") },
-  "bolingbrook": { city: "Bolingbrook", services: sameServices("Bolingbrook") },
-  "brookfield": { city: "Brookfield", services: sameServices("Brookfield") },
-  "buffalo-grove": { city: "Buffalo Grove", services: sameServices("Buffalo Grove") },
-  "burr-ridge": { city: "Burr Ridge", services: sameServices("Burr Ridge") },
-  "calumet-city": { city: "Calumet City", services: sameServices("Calumet City") },
-  "carol-stream": { city: "Carol Stream", services: sameServices("Carol Stream") },
-  "chicago-heights": { city: "Chicago Heights", services: sameServices("Chicago Heights") },
-  "chicago-ridge": { city: "Chicago Ridge", services: sameServices("Chicago Ridge") },
-  "cicero": { city: "Cicero", services: sameServices("Cicero") },
-  "clarendon-hills": { city: "Clarendon Hills", services: sameServices("Clarendon Hills") },
-  "country-club-hills": { city: "Country Club Hills", services: sameServices("Country Club Hills") },
-  "crystal-lake": { city: "Crystal Lake", services: sameServices("Crystal Lake") },
-  "darien": { city: "Darien", services: sameServices("Darien") },
-  "des-plaines": { city: "Des Plaines", services: sameServices("Des Plaines") },
-  "dolton": { city: "Dolton", services: sameServices("Dolton") },
-  "elgin": { city: "Elgin", services: sameServices("Elgin") },
-  "elk-grove-village": { city: "Elk Grove Village", services: sameServices("Elk Grove Village") },
-  "evanston": { city: "Evanston", services: sameServices("Evanston") },
-  "evergreen-park": { city: "Evergreen Park", services: sameServices("Evergreen Park") },
-  "forest-park": { city: "Forest Park", services: sameServices("Forest Park") },
-  "frankfort": { city: "Frankfort", services: sameServices("Frankfort") },
-  "geneva": { city: "Geneva", services: sameServices("Geneva") },
-  "glencoe": { city: "Glencoe", services: sameServices("Glencoe") },
-  "glen-ellyn": { city: "Glen Ellyn", services: sameServices("Glen Ellyn") },
-  "glenview": { city: "Glenview", services: sameServices("Glenview") },
-  "gurnee": { city: "Gurnee", services: sameServices("Gurnee") },
-  "harwood-heights": { city: "Harwood Heights", services: sameServices("Harwood Heights") },
-  "highland-park": { city: "Highland Park", services: sameServices("Highland Park") },
-  "highwood": { city: "Highwood", services: sameServices("Highwood") },
-  "hoffman-estates": { city: "Hoffman Estates", services: sameServices("Hoffman Estates") },
-  "huntley": { city: "Huntley", services: sameServices("Huntley") },
-  "indian-head-park": { city: "Indian Head Park", services: sameServices("Indian Head Park") },
-  "kenilworth": { city: "Kenilworth", services: sameServices("Kenilworth") },
-  "la-grange": { city: "La Grange", services: sameServices("La Grange") },
-  "la-grange-park": { city: "La Grange Park", services: sameServices("La Grange Park") },
-  "lake-forest": { city: "Lake Forest", services: sameServices("Lake Forest") },
-  "lake-villa": { city: "Lake Villa", services: sameServices("Lake Villa") },
-  "lake-zurich": { city: "Lake Zurich", services: sameServices("Lake Zurich") },
-  "lincolnshire": { city: "Lincolnshire", services: sameServices("Lincolnshire") },
-  "lincolnwood": { city: "Lincolnwood", services: sameServices("Lincolnwood") },
-  "long-grove": { city: "Long Grove", services: sameServices("Long Grove") },
-  "lyons": { city: "Lyons", services: sameServices("Lyons") },
-  "maywood": { city: "Maywood", services: sameServices("Maywood") },
-  "mchenry": { city: "McHenry", services: sameServices("McHenry") },
-  "merrionette-park": { city: "Merrionette Park", services: sameServices("Merrionette Park") },
-  "melrose-park": { city: "Melrose Park", services: sameServices("Melrose Park") },
-  "morton-grove": { city: "Morton Grove", services: sameServices("Morton Grove") },
-  "mount-prospect": { city: "Mount Prospect", services: sameServices("Mount Prospect") },
-  "mundelein": { city: "Mundelein", services: sameServices("Mundelein") },
-  "new-lenox": { city: "New Lenox", services: sameServices("New Lenox") },
-  "niles": { city: "Niles", services: sameServices("Niles") },
-  "norridge": { city: "Norridge", services: sameServices("Norridge") },
-  "north-aurora": { city: "North Aurora", services: sameServices("North Aurora") },
-  "northbrook": { city: "Northbrook", services: sameServices("Northbrook") },
-  "north-chicago": { city: "North Chicago", services: sameServices("North Chicago") },
-  "oak-lawn": { city: "Oak Lawn", services: sameServices("Oak Lawn") },
-  "oak-park": { city: "Oak Park", services: sameServices("Oak Park") },
-  "orland-park": { city: "Orland Park", services: sameServices("Orland Park") },
-  "palatine": { city: "Palatine", services: sameServices("Palatine") },
-  "park-ridge": { city: "Park Ridge", services: sameServices("Park Ridge") },
-  "plainfield": { city: "Plainfield", services: sameServices("Plainfield") },
-  "prospect-heights": { city: "Prospect Heights", services: sameServices("Prospect Heights") },
-  "rolling-meadows": { city: "Rolling Meadows", services: sameServices("Rolling Meadows") },
-  "riverside": { city: "Riverside", services: sameServices("Riverside") },
-  "river-forest": { city: "River Forest", services: sameServices("River Forest") },
-  "river-grove": { city: "River Grove", services: sameServices("River Grove") },
-  "riverwoods": { city: "Riverwoods", services: sameServices("Riverwoods") },
-  "rosemont": { city: "Rosemont", services: sameServices("Rosemont") },
-  "skokie": { city: "Skokie", services: sameServices("Skokie") },
-  "south-elgin": { city: "South Elgin", services: sameServices("South Elgin") },
-  "south-holland": { city: "South Holland", services: sameServices("South Holland") },
-  "streamwood": { city: "Streamwood", services: sameServices("Streamwood") },
-  "tinley-park": { city: "Tinley Park", services: sameServices("Tinley Park") },
-  "vernon-hills": { city: "Vernon Hills", services: sameServices("Vernon Hills") },
-  "villa-park": { city: "Villa Park", services: sameServices("Villa Park") },
-  "warrenville": { city: "Warrenville", services: sameServices("Warrenville") },
-  "westchester": { city: "Westchester", services: sameServices("Westchester") },
-  "westmont": { city: "Westmont", services: sameServices("Westmont") },
-  "west-chicago": { city: "West Chicago", services: sameServices("West Chicago") },
-  "wilmette": { city: "Wilmette", services: sameServices("Wilmette") },
-  "winnetka": { city: "Winnetka", services: sameServices("Winnetka") },
-  "woodridge": { city: "Woodridge", services: sameServices("Woodridge") },
-  "woodstock": { city: "Woodstock", services: sameServices("Woodstock") },
-};
+  // Chicago Neighborhoods
+  "Lincoln Park", "Lakeview", "Wicker Park", "Bucktown", "Logan Square",
+  "River North", "Gold Coast", "South Loop", "West Loop", "Hyde Park",
+  "Bridgeport", "Chinatown", "Pilsen", "Albany Park", "Edison Park",
+  "Jefferson Park", "Irving Park", "Portage Park", "Avondale", "Edgewater",
+  "Rogers Park"
+]
+
+// ---- Convert names → slugs and generate service sets ----
+export const LOCATION_PAGES = {}
+
+CITY_LIST.forEach((cityName) => {
+  const slug = cityName.toLowerCase().replace(/ /g, "-")
+  LOCATION_PAGES[slug] = {
+    city: cityName,
+    services: sameServices(cityName)
+  }
+})
