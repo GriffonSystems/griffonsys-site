@@ -1,11 +1,19 @@
 User-agent: *
 Allow: /
 
-# Block system or API routes
+# Block system or private directories
 Disallow: /api/
-Disallow: /vendors/
-Disallow: /hero/
 Disallow: /assets/
+Disallow: /hero/
+Disallow: /vendors/
 
-# Sitemap reference
+# Block Vite/Vercel build artifacts (just in case)
+Disallow: /*.map$
+Disallow: /*__data.json$
+
+# Block search pages or dynamic query variations (cleaner indexing)
+Disallow: /*?*
+Disallow: /*&*
+
+# Sitemap
 Sitemap: https://www.griffonsys.com/sitemap.xml
