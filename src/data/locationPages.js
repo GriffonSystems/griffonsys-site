@@ -1,52 +1,50 @@
 // src/data/locationPages.js
 // FULL CHICAGOLAND COVERAGE — 200+ LOCAL SEO PAGES
 
+// ---- Shared Service Config ----
+function sameServices(cityName) {
+  return {
+    "security-integrator": {
+      title: `Security Camera & Access Control Integrator in ${cityName}, IL`,
+    },
+    "access-control-integrator": {
+      title: `Access Control Integrator in ${cityName}, IL`,
+    },
+  };
+}
+
 export const LOCATION_PAGES = {
   // ---- CORE SUBURBS YOU ALREADY HAD ----
-  "oak-brook": { city: "Oak Brook", services: sameServices("Oak Brook") },
-  "naperville": { city: "Naperville", services: sameServices("Naperville") },
-  "elmhurst": { city: "Elmhurst", services: sameServices("Elmhurst") },
+  "arlington-heights": { city: "Arlington Heights", services: sameServices("Arlington Heights") },
   "chicago": { city: "Chicago", services: sameServices("Chicago") },
   "downers-grove": { city: "Downers Grove", services: sameServices("Downers Grove") },
+  "elmhurst": { city: "Elmhurst", services: sameServices("Elmhurst") },
   "hinsdale": { city: "Hinsdale", services: sameServices("Hinsdale") },
-  "wheaton": { city: "Wheaton", services: sameServices("Wheaton") },
   "lisle": { city: "Lisle", services: sameServices("Lisle") },
+  "naperville": { city: "Naperville", services: sameServices("Naperville") },
+  "oak-brook": { city: "Oak Brook", services: sameServices("Oak Brook") },
   "schaumburg": { city: "Schaumburg", services: sameServices("Schaumburg") },
-  "arlington-heights": { city: "Arlington Heights", services: sameServices("Arlington Heights") },
+  "wheaton": { city: "Wheaton", services: sameServices("Wheaton") },
 
   // ---- EXPANDED FULL CHICAGOLAND AREA ----
   "addison": { city: "Addison", services: sameServices("Addison") },
-  "aurora": { city: "Aurora", services: sameServices("Aurora") },
-  "batavia": { city: "Batavia", services: sameServices("Batavia") },
-  "bolingbrook": { city: "Bolingbrook", services: sameServices("Bolingbrook") },
-  "burr-ridge": { city: "Burr Ridge", services: sameServices("Burr Ridge") },
-  "carol-stream": { city: "Carol Stream", services: sameServices("Carol Stream") },
-  "clarendon-hills": { city: "Clarendon Hills", services: sameServices("Clarendon Hills") },
-  "glen-ellyn": { city: "Glen Ellyn", services: sameServices("Glen Ellyn") },
-  "geneva": { city: "Geneva", services: sameServices("Geneva") },
-  "itaska": { city: "Itaska", services: sameServices("Itaska") },
-  "lombard": { city: "Lombard", services: sameServices("Lombard") },
-  "melrose-park": { city: "Melrose Park", services: sameServices("Melrose Park") },
-  "oak-park": { city: "Oak Park", services: sameServices("Oak Park") },
-  "rosemont": { city: "Rosemont", services: sameServices("Rosemont") },
-  "west-chicago": { city: "West Chicago", services: sameServices("West Chicago") },
-
-  // ---- ADDITIONAL 150+ CHICAGOLAND SUBURBS ----
   "algonquin": { city: "Algonquin", services: sameServices("Algonquin") },
   "antioch": { city: "Antioch", services: sameServices("Antioch") },
-  "bannockburn": { city: "Bannockburn", services: sameServices("Bannockburn") },
-  "barrington": { city: "Barrington", services: sameServices("Barrington") },
-  "barrington-hills": { city: "Barrington Hills", services: sameServices("Barrington Hills") },
-  "bartlett": { city: "Bartlett", services: sameServices("Bartlett") },
-  "beech-park": { city: "Beech Park", services: sameServices("Beech Park") },
+  "aurora": { city: "Aurora", services: sameServices("Aurora") },
+  "batavia": { city: "Batavia", services: sameServices("Batavia") },
+  "beach-park": { city: "Beach Park", services: sameServices("Beach Park") }, // FIXED SPELLING
   "bensenville": { city: "Bensenville", services: sameServices("Bensenville") },
   "berwyn": { city: "Berwyn", services: sameServices("Berwyn") },
+  "bolingbrook": { city: "Bolingbrook", services: sameServices("Bolingbrook") },
   "brookfield": { city: "Brookfield", services: sameServices("Brookfield") },
   "buffalo-grove": { city: "Buffalo Grove", services: sameServices("Buffalo Grove") },
+  "burr-ridge": { city: "Burr Ridge", services: sameServices("Burr Ridge") },
   "calumet-city": { city: "Calumet City", services: sameServices("Calumet City") },
+  "carol-stream": { city: "Carol Stream", services: sameServices("Carol Stream") },
   "chicago-heights": { city: "Chicago Heights", services: sameServices("Chicago Heights") },
   "chicago-ridge": { city: "Chicago Ridge", services: sameServices("Chicago Ridge") },
   "cicero": { city: "Cicero", services: sameServices("Cicero") },
+  "clarendon-hills": { city: "Clarendon Hills", services: sameServices("Clarendon Hills") },
   "country-club-hills": { city: "Country Club Hills", services: sameServices("Country Club Hills") },
   "crystal-lake": { city: "Crystal Lake", services: sameServices("Crystal Lake") },
   "darien": { city: "Darien", services: sameServices("Darien") },
@@ -58,7 +56,9 @@ export const LOCATION_PAGES = {
   "evergreen-park": { city: "Evergreen Park", services: sameServices("Evergreen Park") },
   "forest-park": { city: "Forest Park", services: sameServices("Forest Park") },
   "frankfort": { city: "Frankfort", services: sameServices("Frankfort") },
+  "geneva": { city: "Geneva", services: sameServices("Geneva") },
   "glencoe": { city: "Glencoe", services: sameServices("Glencoe") },
+  "glen-ellyn": { city: "Glen Ellyn", services: sameServices("Glen Ellyn") },
   "glenview": { city: "Glenview", services: sameServices("Glenview") },
   "gurnee": { city: "Gurnee", services: sameServices("Gurnee") },
   "harwood-heights": { city: "Harwood Heights", services: sameServices("Harwood Heights") },
@@ -80,6 +80,7 @@ export const LOCATION_PAGES = {
   "maywood": { city: "Maywood", services: sameServices("Maywood") },
   "mchenry": { city: "McHenry", services: sameServices("McHenry") },
   "merrionette-park": { city: "Merrionette Park", services: sameServices("Merrionette Park") },
+  "melrose-park": { city: "Melrose Park", services: sameServices("Melrose Park") },
   "morton-grove": { city: "Morton Grove", services: sameServices("Morton Grove") },
   "mount-prospect": { city: "Mount Prospect", services: sameServices("Mount Prospect") },
   "mundelein": { city: "Mundelein", services: sameServices("Mundelein") },
@@ -90,6 +91,7 @@ export const LOCATION_PAGES = {
   "northbrook": { city: "Northbrook", services: sameServices("Northbrook") },
   "north-chicago": { city: "North Chicago", services: sameServices("North Chicago") },
   "oak-lawn": { city: "Oak Lawn", services: sameServices("Oak Lawn") },
+  "oak-park": { city: "Oak Park", services: sameServices("Oak Park") },
   "orland-park": { city: "Orland Park", services: sameServices("Orland Park") },
   "palatine": { city: "Palatine", services: sameServices("Palatine") },
   "park-ridge": { city: "Park Ridge", services: sameServices("Park Ridge") },
@@ -100,6 +102,7 @@ export const LOCATION_PAGES = {
   "river-forest": { city: "River Forest", services: sameServices("River Forest") },
   "river-grove": { city: "River Grove", services: sameServices("River Grove") },
   "riverwoods": { city: "Riverwoods", services: sameServices("Riverwoods") },
+  "rosemont": { city: "Rosemont", services: sameServices("Rosemont") },
   "skokie": { city: "Skokie", services: sameServices("Skokie") },
   "south-elgin": { city: "South Elgin", services: sameServices("South Elgin") },
   "south-holland": { city: "South Holland", services: sameServices("South Holland") },
@@ -110,20 +113,9 @@ export const LOCATION_PAGES = {
   "warrenville": { city: "Warrenville", services: sameServices("Warrenville") },
   "westchester": { city: "Westchester", services: sameServices("Westchester") },
   "westmont": { city: "Westmont", services: sameServices("Westmont") },
+  "west-chicago": { city: "West Chicago", services: sameServices("West Chicago") },
   "wilmette": { city: "Wilmette", services: sameServices("Wilmette") },
   "winnetka": { city: "Winnetka", services: sameServices("Winnetka") },
   "woodridge": { city: "Woodridge", services: sameServices("Woodridge") },
   "woodstock": { city: "Woodstock", services: sameServices("Woodstock") },
 };
-
-// ---- Shared Service Config ----
-function sameServices(cityName) {
-  return {
-    "security-integrator": {
-      title: `Security Camera & Access Control Integrator in ${cityName}, IL`,
-    },
-    "access-control-integrator": {
-      title: `Access Control Integrator in ${cityName}, IL`,
-    },
-  };
-}
