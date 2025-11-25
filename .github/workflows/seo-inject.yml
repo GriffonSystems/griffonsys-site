@@ -1,0 +1,32 @@
+name: Run SEO Injection
+
+on:
+  workflow_dispatch:
+
+jobs:
+  inject-seo-blocks:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run SEO script
+        run: node seo-inject.js
+
+      - name: Commit updated files
+        run: |
+          git config --global user.name "Griffon SEO Bot"
+          git config --global user.email "bot@griffonsys.com"
+          git add .
+          git commit -m "Automated SEO Block Injection"
+          git push
