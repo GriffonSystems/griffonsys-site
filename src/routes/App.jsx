@@ -61,7 +61,7 @@ export default function App() {
         <Route path="/service" element={<ServiceRequest />} />
 
         {/* Service Areas */}
-        <Route path="/service-areas" element={<ServiceAreas />} />
+        <Route path="/ServiceAreas" element={<ServiceAreas />} />
 
         {/* Brand pages */}
         <Route path="/brands/verkada" element={<BrandVerkada />} />
