@@ -1,0 +1,25 @@
+name: Fix Vendor SEO Blocks
+
+on:
+  workflow_dispatch:
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Run cleanup script
+        run: node fix-vendor-seo.js
+
+      - name: Commit fixes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Fix vendor SEO blocks automatically"
