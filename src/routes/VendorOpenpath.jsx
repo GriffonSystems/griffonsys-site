@@ -1,27 +1,5 @@
 
-    <script type="application/ld+json">
-    {
-      "@context":"https://schema.org",
-      "@type":"Product",
-      "name":"Openpath / Avigilon Alta Access Control",
-      "brand":"Openpath",
-      "category":"Access Control",
-      "provider":{
-        "@type":"LocalBusiness",
-        "name":"Griffon Systems, Inc.",
-        "telephone":"630-607-0346",
-        "address":{
-          "@type":"PostalAddress",
-          "streetAddress":"650 West Grand Ave #206",
-          "addressLocality":"Elmhurst",
-          "addressRegion":"IL",
-          "postalCode":"60126",
-          "addressCountry":"US"
-        }
-      },
-      "areaServed":"Illinois"
-    }
-    </script>
+    
   
 
 export default function VendorOpenpath(){

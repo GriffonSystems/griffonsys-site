@@ -173,56 +173,36 @@ export default function VendorVerkada() {
     <main className="container py-12">
       <Helmet>
 
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: `{
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "Verkada Cloud Security",
-  "brand": "Verkada",
-  "category": "Cloud Surveillance",
-  "provider": {
-    "@type": "LocalBusiness",
-    "name": "Griffon Systems, Inc.",
-    "telephone": "630-607-0346",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "650 West Grand Ave #206",
-      "addressLocality": "Elmhurst",
-      "addressRegion": "IL",
-      "postalCode": "60126",
-      "addressCountry": "US"
-    }
-  },
-  "areaServed": "Illinois"
-}` }}
-    />
-  
-
-
-    <script type="application/ld+json">
-    {
-      "@context":"https://schema.org",
-      "@type":"Product",
-      "name":"Verkada Cloud Security",
-      "brand":"Verkada",
-      "category":"Cloud Surveillance",
-      "provider":{
-        "@type":"LocalBusiness",
-        "name":"Griffon Systems, Inc.",
-        "telephone":"630-607-0346",
-        "address":{
-          "@type":"PostalAddress",
-          "streetAddress":"650 West Grand Ave #206",
-          "addressLocality":"Elmhurst",
-          "addressRegion":"IL",
-          "postalCode":"60126",
-          "addressCountry":"US"
+<script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "Verkada Cloud Security",
+      "brand": "Verkada",
+      "category": "Cloud Surveillance",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Griffon Systems, Inc.",
+        "telephone": "630-607-0346",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "650 West Grand Ave #206",
+          "addressLocality": "Elmhurst",
+          "addressRegion": "IL",
+          "postalCode": "60126",
+          "addressCountry": "US"
         }
       },
-      "areaServed":"Illinois"
-    }
-    </script>
+      "areaServed": "Illinois"
+    })
+  }}
+></script>
+
+
+
+    
   
 
         <title>Verkada Security Systems in Illinois | Griffon Systems</title>
