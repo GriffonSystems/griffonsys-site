@@ -3,7 +3,9 @@
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
-  <!-- ROOT PAGES -->
+  <!-- ====================== -->
+  <!-- ROOT PAGES             -->
+  <!-- ====================== -->
   <url>
     <loc>https://www.griffonsys.com/</loc>
     <lastmod>2025-11-24</lastmod>
@@ -46,8 +48,16 @@
     <priority>0.8</priority>
   </url>
 
+  <url>
+    <loc>https://www.griffonsys.com/service-areas</loc>
+    <lastmod>2025-11-24</lastmod>
+    <priority>0.8</priority>
+  </url>
 
-  <!-- BRAND/VENDOR PAGES -->
+
+  <!-- ====================== -->
+  <!-- BRAND / VENDOR PAGES   -->
+  <!-- ====================== -->
   <url>
     <loc>https://www.griffonsys.com/brands/verkada</loc>
     <lastmod>2025-11-24</lastmod>
@@ -73,7 +83,9 @@
   </url>
 
 
-  <!-- INDUSTRIES -->
+  <!-- ====================== -->
+  <!-- INDUSTRIES             -->
+  <!-- ====================== -->
   <url>
     <loc>https://www.griffonsys.com/manufacturing</loc>
     <lastmod>2025-11-24</lastmod>
@@ -99,7 +111,9 @@
   </url>
 
 
-  <!-- FROM THE FIELD -->
+  <!-- ====================== -->
+  <!-- FROM THE FIELD         -->
+  <!-- ====================== -->
   <url>
     <loc>https://www.griffonsys.com/from-the-field/wireless-link</loc>
     <lastmod>2025-11-24</lastmod>
@@ -113,14 +127,104 @@
   </url>
 
 
-  <!-- ⭐ LOCAL SEO LOCATION PAGES (50 URLs) -->
-  <!-- Cities Array -->
-  <!-- oak-brook, naperville, elmhurst, chicago, downers-grove, hinsdale,
-       wheaton, lisle, schaumburg, arlington-heights, addison, aurora,
-       batavia, bolingbrook, burr-ridge, carol-stream, clarendon-hills,
-       glen-ellyn, geneva, itaska, lombard, melrose-park, oak-park,
-       rosemont, west-chicago -->
+  <!-- ===================================================== -->
+  <!-- ⭐ LOCAL SEO LOCATION PAGES (50 URLs — FULL EXPANDED) -->
+  <!-- ===================================================== -->
 
-  <!-- For each city: security-integrator + access-control-integrator -->
+  <!-- Addison -->
+  <url><loc>https://www.griffonsys.com/locations/addison/security-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.7</priority></url>
+  <url><loc>https://www.griffonsys.com/locations/addison/access-control-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.6</priority></url>
 
-  <!-- AUTO-GENERATED BELOW -->
+  <!-- Arlington Heights -->
+  <url><loc>https://www.griffonsys.com/locations/arlington-heights/security-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.7</priority></url>
+  <url><loc>https://www.griffonsys.com/locations/arlington-heights/access-control-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.6</priority></url>
+
+  <!-- Aurora -->
+  <url><loc>https://www.griffonsys.com/locations/aurora/security-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.7</priority></url>
+  <url><loc>https://www.griffonsys.com/locations/aurora/access-control-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.6</priority></url>
+
+  <!-- Batavia -->
+  <url><loc>https://www.griffonsys.com/locations/batavia/security-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.7</priority></url>
+  <url><loc>https://www.griffonsys.com/locations/batavia/access-control-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.6</priority></url>
+
+  <!-- Bolingbrook -->
+  <url><loc>https://www.griffonsys.com/locations/bolingbrook/security-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.7</priority></url>
+  <url><loc>https://www.griffonsys.com/locations/bolingbrook/access-control-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.6</priority></url>
+
+  <!-- Burr Ridge -->
+  <url><loc>https://www.griffonsys.com/locations/burr-ridge/security-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.7</priority></url>
+  <url><loc>https://www.griffonsys.com/locations/burr-ridge/access-control-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.6</priority></url>
+
+  <!-- Carol Stream -->
+  <url><loc>https://www.griffonsys.com/locations/carol-stream/security-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.7</priority></url>
+  <url><loc>https://www.griffonsys.com/locations/carol-stream/access-control-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.6</priority></url>
+
+  <!-- Chicago -->
+  <url><loc>https://www.griffonsys.com/locations/chicago/security-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.9</priority></url>
+  <url><loc>https://www.griffonsys.com/locations/chicago/access-control-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.8</priority></url>
+
+  <!-- Clarendon Hills -->
+  <url><loc>https://www.griffonsys.com/locations/clarendon-hills/security-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.7</priority></url>
+  <url><loc>https://www.griffonsys.com/locations/clarendon-hills/access-control-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.6</priority></url>
+
+  <!-- Downers Grove -->
+  <url><loc>https://www.griffonsys.com/locations/downers-grove/security-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.8</priority></url>
+  <url><loc>https://www.griffonsys.com/locations/downers-grove/access-control-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.7</priority></url>
+
+  <!-- Elmhurst -->
+  <url><loc>https://www.griffonsys.com/locations/elmhurst/security-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.9</priority></url>
+  <url><loc>https://www.griffonsys.com/locations/elmhurst/access-control-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.8</priority></url>
+
+  <!-- Geneva -->
+  <url><loc>https://www.griffonsys.com/locations/geneva/security-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.7</priority></url>
+  <url><loc>https://www.griffonsys.com/locations/geneva/access-control-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.6</priority></url>
+
+  <!-- Glen Ellyn -->
+  <url><loc>https://www.griffonsys.com/locations/glen-ellyn/security-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.7</priority></url>
+  <url><loc>https://www.griffonsys.com/locations/glen-ellyn/access-control-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.6</priority></url>
+
+  <!-- Hinsdale -->
+  <url><loc>https://www.griffonsys.com/locations/hinsdale/security-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.8</priority></url>
+  <url><loc>https://www.griffonsys.com/locations/hinsdale/access-control-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.7</priority></url>
+
+  <!-- Itaska -->
+  <url><loc>https://www.griffonsys.com/locations/itaska/security-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.7</priority></url>
+  <url><loc>https://www.griffonsys.com/locations/itaska/access-control-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.6</priority></url>
+
+  <!-- Lisle -->
+  <url><loc>https://www.griffonsys.com/locations/lisle/security-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.7</priority></url>
+  <url><loc>https://www.griffonsys.com/locations/lisle/access-control-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.6</priority></url>
+
+  <!-- Lombard -->
+  <url><loc>https://www.griffonsys.com/locations/lombard/security-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.8</priority></url>
+  <url><loc>https://www.griffonsys.com/locations/lombard/access-control-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.7</priority></url>
+
+  <!-- Melrose Park -->
+  <url><loc>https://www.griffonsys.com/locations/melrose-park/security-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.7</priority></url>
+  <url><loc>https://www.griffonsys.com/locations/melrose-park/access-control-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.6</priority></url>
+
+  <!-- Naperville -->
+  <url><loc>https://www.griffonsys.com/locations/naperville/security-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.9</priority></url>
+  <url><loc>https://www.griffonsys.com/locations/naperville/access-control-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.8</priority></url>
+
+  <!-- Oak Brook -->
+  <url><loc>https://www.griffonsys.com/locations/oak-brook/security-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.9</priority></url>
+  <url><loc>https://www.griffonsys.com/locations/oak-brook/access-control-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.8</priority></url>
+
+  <!-- Oak Park -->
+  <url><loc>https://www.griffonsys.com/locations/oak-park/security-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.7</priority></url>
+  <url><loc>https://www.griffonsys.com/locations/oak-park/access-control-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.6</priority></url>
+
+  <!-- Rosemont -->
+  <url><loc>https://www.griffonsys.com/locations/rosemont/security-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.7</priority></url>
+  <url><loc>https://www.griffonsys.com/locations/rosemont/access-control-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.6</priority></url>
+
+  <!-- Schaumburg -->
+  <url><loc>https://www.griffonsys.com/locations/schaumburg/security-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.8</priority></url>
+  <url><loc>https://www.griffonsys.com/locations/schaumburg/access-control-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.7</priority></url>
+
+  <!-- West Chicago -->
+  <url><loc>https://www.griffonsys.com/locations/west-chicago/security-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.7</priority></url>
+  <url><loc>https://www.griffonsys.com/locations/west-chicago/access-control-integrator</loc><lastmod>2025-11-24</lastmod><priority>0.6</priority></url>
+
+</urlset>
