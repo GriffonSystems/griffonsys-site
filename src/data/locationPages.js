@@ -1,17 +1,28 @@
 // src/data/locationPages.js
 // FULL CHICAGOLAND COVERAGE — AUTO-GENERATED
 
-// ---- Shared Service Config (now includes Security System Supplier) ----
+// ---- Chicago Neighborhoods (NO “IL”) ----
+const NEIGHBORHOODS = new Set([
+  "Lincoln Park", "Lakeview", "Wicker Park", "Bucktown", "Logan Square",
+  "River North", "Gold Coast", "South Loop", "West Loop", "Hyde Park",
+  "Bridgeport", "Chinatown", "Pilsen", "Albany Park", "Edison Park",
+  "Jefferson Park", "Irving Park", "Portage Park", "Avondale", "Edgewater",
+  "Rogers Park"
+]);
+
+// ---- Shared Service Config (IL removed for neighborhoods only) ----
 function sameServices(cityName) {
+  const suffix = NEIGHBORHOODS.has(cityName) ? "" : ", IL";
+
   return {
     "security-integrator": {
-      title: `Security Camera & Access Control Integrator in ${cityName}, IL`,
+      title: `Security Camera & Access Control Integrator in ${cityName}${suffix}`,
     },
     "access-control-integrator": {
-      title: `Access Control Integrator in ${cityName}, IL`,
+      title: `Access Control Integrator in ${cityName}${suffix}`,
     },
     "security-system-supplier": {
-      title: `Security System Supplier in ${cityName}, IL`,
+      title: `Security System Supplier in ${cityName}${suffix}`,
     }
   };
 }
@@ -47,7 +58,7 @@ const CITY_LIST = [
   "Western Springs", "Wheaton", "Wheeling", "Willow Springs", "Willowbrook",
   "Wilmette", "Winfield", "Winnetka", "Wood Dale", "Woodridge", "Yorkville",
 
-  // Chicago Neighborhoods
+  // Chicago Neighborhoods (IL removed)
   "Lincoln Park", "Lakeview", "Wicker Park", "Bucktown", "Logan Square",
   "River North", "Gold Coast", "South Loop", "West Loop", "Hyde Park",
   "Bridgeport", "Chinatown", "Pilsen", "Albany Park", "Edison Park",
@@ -63,6 +74,6 @@ CITY_LIST.forEach((cityName) => {
 
   LOCATION_PAGES[slug] = {
     city: cityName,
-    services: sameServices(cityName),
+    services: sameServices(cityName)
   };
 });
