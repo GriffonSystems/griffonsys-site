@@ -4,22 +4,27 @@ import Nav from "../components/Nav"
 import Footer from "../components/Footer"
 import { Analytics } from "@vercel/analytics/react"
 
+// Main pages
 import Home from "./Home"
 import Solutions from "./Solutions"
 import Contact from "./Contact"
 import About from "./About"
 import Industries from "./Industries"
+
+// Brand pages
 import BrandVerkada from "./BrandVerkada"
 import BrandAvigilon from "./BrandAvigilon"
 import AvigilonCloud from "./AvigilonCloud"
 import VendorAlta from "./VendorAlta"
-import NotFound from "./NotFound"
 
+// Utility pages
+import NotFound from "./NotFound"
+import ServiceRequest from "./ServiceRequest"
+
+// From The Field
 import FromTheField from "./FromTheField"
 import WirelessLink from "./WirelessLink"
 import ComingSoon from "./ComingSoon"
-
-import ServiceRequest from "./ServiceRequest"
 
 // Landing Pages
 import Manufacturing from "./Manufacturing"
@@ -27,8 +32,11 @@ import Municipal from "./Municipal"
 import Commercial from "./Commercial"
 import LPR from "./LPR"
 
-// ⭐ NEW Dynamic SEO Local Pages
+// NEW — Dynamic SEO Local Pages
 import LocationSEO from "./LocationSEO"
+
+// NEW — Service Areas Hub Page
+import ServiceAreas from "./ServiceAreas"
 
 export default function App() {
   return (
@@ -52,7 +60,10 @@ export default function App() {
         {/* Service */}
         <Route path="/service" element={<ServiceRequest />} />
 
-        {/* Brands */}
+        {/* Service Areas */}
+        <Route path="/service-areas" element={<ServiceAreas />} />
+
+        {/* Brand pages */}
         <Route path="/brands/verkada" element={<BrandVerkada />} />
         <Route path="/brands/avigilon" element={<BrandAvigilon />} />
         <Route path="/brands/avigilon-cloud" element={<AvigilonCloud />} />
@@ -63,7 +74,7 @@ export default function App() {
         <Route path="/from-the-field/wireless-link" element={<WirelessLink />} />
         <Route path="/from-the-field/avigilon-factory" element={<ComingSoon />} />
 
-        {/* ⭐ NEW Dynamic SEO Pages */}
+        {/* Dynamic SEO location pages */}
         <Route path="/locations/:city/:service" element={<LocationSEO />} />
 
         {/* Fallback */}
