@@ -6,23 +6,27 @@ on:
 jobs:
   inject:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write   # required for committing
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: Install fs module
-        run: npm install
+      # no npm install — your script only needs built-in fs/path
 
-      - name: Run SEO inject script
+      - name: Run SEO Inject Script
         run: node seo-inject.js
 
-      - name: Commit changes
+      - name: Commit SEO updates
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "Automated SEO Block Injection"
+          file_pattern: src/routes/*.jsx
