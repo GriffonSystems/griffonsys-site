@@ -25,7 +25,10 @@ import ServiceRequest from "./ServiceRequest"
 import Manufacturing from "./Manufacturing"
 import Municipal from "./Municipal"
 import Commercial from "./Commercial"
-import LPR from "./LPR"   // ✅ NEW
+import LPR from "./LPR"
+
+// ⭐ NEW Dynamic SEO Local Pages
+import LocationSEO from "./LocationSEO"
 
 export default function App() {
   return (
@@ -44,7 +47,7 @@ export default function App() {
         <Route path="/manufacturing" element={<Manufacturing />} />
         <Route path="/municipal" element={<Municipal />} />
         <Route path="/commercial" element={<Commercial />} />
-        <Route path="/lpr" element={<LPR />} /> {/* ✅ NEW */}
+        <Route path="/lpr" element={<LPR />} />
 
         {/* Service */}
         <Route path="/service" element={<ServiceRequest />} />
@@ -58,9 +61,10 @@ export default function App() {
         {/* From the Field */}
         <Route path="/from-the-field" element={<FromTheField />} />
         <Route path="/from-the-field/wireless-link" element={<WirelessLink />} />
-
-        {/* Coming Soon */}
         <Route path="/from-the-field/avigilon-factory" element={<ComingSoon />} />
+
+        {/* ⭐ NEW Dynamic SEO Pages */}
+        <Route path="/locations/:city/:service" element={<LocationSEO />} />
 
         {/* Fallback */}
         <Route path="*" element={<NotFound />} />
