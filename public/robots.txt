@@ -1,14 +1,19 @@
 User-agent: *
 Allow: /
 
+# Explicitly allow vendor pages (important for SEO)
+Allow: /vendors/verkada
+Allow: /vendors/avigilon
+Allow: /vendors/alta
+
 # Block system or private directories
 Disallow: /api/
 Disallow: /assets/
 Disallow: /hero/
-Disallow: /vendors/
+Disallow: /vendors/   # folder blocked, but pages above are allowed
 
 # Block Vite/Vercel build artifacts (just in case)
-Disallow: /*.map$
+Disallow: /*_map$
 Disallow: /*__data.json$
 
 # Block search pages or dynamic query variations (cleaner indexing)
