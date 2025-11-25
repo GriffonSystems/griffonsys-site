@@ -1,4 +1,3 @@
-// src/components/VideoHero.jsx
 import React from 'react'
 
 // Updated focal points for ALL new hero images
@@ -104,9 +103,7 @@ export default function VideoHero() {
                   objectPosition: pos,
                   opacity: i === current ? 1 : 0,
                   transitionDuration: `${FADE_MS}ms`,
-                  animation: `${kbName} ${
-                    SLIDE_MS + FADE_MS
-                  }ms ease-in-out infinite alternate`,
+                  animation: `${kbName} ${SLIDE_MS + FADE_MS}ms ease-in-out infinite alternate`,
                 }}
                 aria-hidden={i === current ? 'false' : 'true'}
                 onError={() =>
@@ -120,11 +117,12 @@ export default function VideoHero() {
         )}
       </div>
 
-      {/* Overlay for contrast */}
+      {/* Overlay */}
       <div className="absolute inset-0 bg-black/35" />
 
-      {/* Headline / Subhead */}
+      {/* --------------------- UPDATED HEADLINE --------------------- */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-6">
+
         <h1
           className="text-white text-4xl md:text-6xl font-semibold mb-3"
           style={{
@@ -132,8 +130,9 @@ export default function VideoHero() {
               'Optima, Candara, "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
           }}
         >
-          Security Experts for 20+ Years
+          Security Cameras & Access Control Integrator in Chicago
         </h1>
+
         <p
           className="text-white/90 text-lg md:text-xl max-w-3xl"
           style={{
@@ -141,7 +140,7 @@ export default function VideoHero() {
               'Optima, Candara, "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif',
           }}
         >
-          Video Surveillance, Access Control, Intercom — Avigilon, Verkada
+          Modern cloud and on-prem security — Avigilon, Verkada, Alta, Siklu, UniFi.
         </p>
       </div>
 
