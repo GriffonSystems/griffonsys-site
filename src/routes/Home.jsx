@@ -8,15 +8,20 @@ export default function Home() {
   return (
     <main>
       <Helmet>
-        <title>Enterprise Video Surveillance & Access Control Experts | Griffon Systems</title>
+        {/* ⭐ Shortened SEO title (Option B – recommended) */}
+        <title>Security Cameras & Access Control | Griffon Systems</title>
+
+        {/* ⭐ Clean, optimized meta description */}
         <meta
           name="description"
-          content="Griffon Systems is Chicago’s trusted expert for enterprise video surveillance, access control, intercom, wireless backhaul, and managed security solutions. Serving manufacturing, municipal, education, and commercial facilities across the entire Chicagoland area."
+          content="Griffon Systems delivers enterprise video surveillance, access control, intercom, wireless backhaul, and managed security solutions across Chicagoland. Avigilon, Verkada, Alta."
         />
+
+        {/* Canonical URL */}
         <link rel="canonical" href="https://www.griffonsys.com" />
       </Helmet>
 
-      {/* Updated hero already contains the new H1 + subhead */}
+      {/* Hero already contains new H1 + subhead */}
       <VideoHero />
 
       <section className="container py-12">
