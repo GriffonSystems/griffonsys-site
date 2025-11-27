@@ -36,7 +36,6 @@ export default function VendorVerkada() {
 
   const location = useLocation()
 
-  /* -------- Scroll to tab on hash -------- */
   React.useEffect(() => {
     const fromHash = (location.hash || "").replace("#", "")
     const wanted = (fromHash || "").toLowerCase()
@@ -54,7 +53,6 @@ export default function VendorVerkada() {
 
   const grid = "grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
 
-  /* ------------ PRODUCT LISTS ------------ */
   const videoProducts = [
     { key: "dome", title: "Dome", desc: "Reliable performance for most environments.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/dome.png` },
     { key: "mini", title: "Mini", desc: "Compact form factor for tight spaces.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/mini.png` },
@@ -111,7 +109,6 @@ export default function VendorVerkada() {
     },
   ]
 
-  /* ------------ CLICK BEHAVIOR ------------ */
   const handleCardClick = (card) => {
     if (card.video) {
       setShowVideo(card.video)
@@ -120,7 +117,6 @@ export default function VendorVerkada() {
     setSelected(card.title)
   }
 
-  /* ------------ REQUEST INFO SUBMIT ------------ */
   const handleSubmit = async (e) => {
     e.preventDefault()
     setStatus("loading")
@@ -140,13 +136,11 @@ export default function VendorVerkada() {
         setStatus("idle")
         setForm({ name: "", email: "", company: "" })
       }, 2000)
-    } catch (err) {
-      console.error(err)
+    } catch {
       setStatus("error")
     }
   }
 
-  /* ------------ RENDER GRID ------------ */
   const renderGrid = (list) => (
     <div className={grid}>
       {list.map((card) => (
@@ -172,41 +166,40 @@ export default function VendorVerkada() {
   return (
     <main className="container py-12">
       <Helmet>
-
-<script
-  type="application/ld+json"
-  dangerouslySetInnerHTML={{
-    __html: JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Product",
-      "name": "Verkada Cloud Security",
-      "brand": "Verkada",
-      "category": "Cloud Surveillance",
-      "provider": {
-        "@type": "LocalBusiness",
-        "name": "Griffon Systems, Inc.",
-        "telephone": "630-607-0346",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "650 West Grand Ave #206",
-          "addressLocality": "Elmhurst",
-          "addressRegion": "IL",
-          "postalCode": "60126",
-          "addressCountry": "US"
-        }
-      },
-      "areaServed": "Illinois"
-    })
-  }}
-></script>
-
-
-
-    
-  
-
         <title>Verkada Security Systems in Illinois | Griffon Systems</title>
+        <meta
+          name="description"
+          content="Authorized Verkada integrator in Illinois delivering cloud video, access control, intercom, cellular connectivity, and remote security monitoring."
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Product",
+              "name": "Verkada Cloud Security",
+              "brand": "Verkada",
+              "category": "Cloud Surveillance",
+              "provider": {
+                "@type": "LocalBusiness",
+                "name": "Griffon Systems, Inc.",
+                "telephone": "630-607-0346",
+                "address": {
+                  "@type": "PostalAddress",
+                  "streetAddress": "650 West Grand Ave #206",
+                  "addressLocality": "Elmhurst",
+                  "addressRegion": "IL",
+                  "postalCode": "60126",
+                  "addressCountry": "US"
+                }
+              },
+              "areaServed": "Illinois"
+            })
+          }}
+        />
       </Helmet>
+
+      <h1 className="sr-only">Verkada Security Systems</h1>
 
       {/* VIDEO MODAL */}
       {showVideo && (
@@ -305,7 +298,6 @@ export default function VendorVerkada() {
         </div>
       )}
 
-      {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <VerkadaLogo />
@@ -316,7 +308,6 @@ export default function VendorVerkada() {
         </Link>
       </div>
 
-      {/* Tabs */}
       <div className="flex flex-wrap gap-2 mb-10">
         {TABS.map((t) => (
           <button
@@ -333,7 +324,6 @@ export default function VendorVerkada() {
         ))}
       </div>
 
-      {/* Tab content */}
       {active === "video" && renderGrid(videoProducts)}
       {active === "access" && renderGrid(accessProducts)}
       {active === "intercom" && renderGrid(intercomProducts)}
