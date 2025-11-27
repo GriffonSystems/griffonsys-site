@@ -74,7 +74,7 @@ const CAMERA_ORDER = [
   "lpr.png",
 ]
 
-export default function VendorAvigilon() {
+export default function BrandAvigilon() {
   const location = useLocation()
   const [active, setActive] = React.useState("video")
   const [videoImages, setVideoImages] = React.useState([])
@@ -146,7 +146,6 @@ export default function VendorAvigilon() {
     },
   ]
 
-  // ---------- VIDEO GRID ----------
   const renderVideoGrid = () => (
     <div className={grid}>
       {videoImages.map((file) => {
@@ -161,9 +160,7 @@ export default function VendorAvigilon() {
             key={file}
             onClick={() => isLPR && setShowVideo("lpr")}
             className={`card p-6 flex flex-col bg-white rounded-2xl shadow-sm transition ${
-              isLPR
-                ? "cursor-pointer hover:shadow-lg hover:scale-[1.02]"
-                : "hover:shadow-md"
+              isLPR ? "cursor-pointer hover:shadow-lg hover:scale-[1.02]" : "hover:shadow-md"
             }`}
           >
             <div className="relative">
@@ -174,12 +171,7 @@ export default function VendorAvigilon() {
               />
               {isLPR && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/30 rounded-lg transition">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-14 w-14 text-white opacity-80 hover:opacity-100 transition"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-14 w-14 text-white opacity-80" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M8 5v14l11-7z" />
                   </svg>
                 </div>
@@ -191,7 +183,6 @@ export default function VendorAvigilon() {
         )
       })}
 
-      {/* --- Visual Alerts Teaser --- */}
       <div
         onClick={() => setShowVideo("visual")}
         className="card p-6 flex flex-col bg-white rounded-2xl shadow-sm cursor-pointer hover:shadow-lg hover:scale-[1.02] transition"
@@ -203,12 +194,7 @@ export default function VendorAvigilon() {
             className="w-full h-40 object-cover bg-gray-50 rounded-lg mb-4"
           />
           <div className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/30 rounded-lg transition">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-14 w-14 text-white opacity-80 hover:opacity-100 transition"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-14 w-14 text-white opacity-80" fill="currentColor" viewBox="0 0 24 24">
               <path d="M8 5v14l11-7z" />
             </svg>
           </div>
@@ -219,7 +205,6 @@ export default function VendorAvigilon() {
         </p>
       </div>
 
-      {/* --- Avigilon Unity Suite Teaser --- */}
       <div
         onClick={() => setShowVideo("unity")}
         className="card p-6 flex flex-col bg-white rounded-2xl shadow-sm cursor-pointer hover:shadow-lg hover:scale-[1.02] transition"
@@ -231,12 +216,7 @@ export default function VendorAvigilon() {
             className="w-full h-40 object-cover bg-gray-50 rounded-lg mb-4"
           />
           <div className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/30 rounded-lg transition">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-14 w-14 text-white opacity-80 hover:opacity-100 transition"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-14 w-14 text-white opacity-80" fill="currentColor" viewBox="0 0 24 24">
               <path d="M8 5v14l11-7z" />
             </svg>
           </div>
@@ -249,7 +229,6 @@ export default function VendorAvigilon() {
     </div>
   )
 
-  // ---------- GENERIC GRID ----------
   const renderGrid = (list) => (
     <div className={grid}>
       {list.map((card) => (
@@ -277,7 +256,6 @@ export default function VendorAvigilon() {
     </div>
   )
 
-  // ---------- MODAL ----------
   const renderModal = () => {
     if (!showVideo) return null
 
@@ -311,49 +289,43 @@ export default function VendorAvigilon() {
     )
   }
 
-  // ---------- PAGE ----------
   return (
     <main className="container py-12">
       <Helmet>
-
-<script
-  type="application/ld+json"
-  dangerouslySetInnerHTML={{
-    __html: JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Product",
-      "name": "Avigilon Security Systems",
-      "brand": "Avigilon",
-      "category": "Video Surveillance",
-      "provider": {
-        "@type": "LocalBusiness",
-        "name": "Griffon Systems, Inc.",
-        "telephone": "630-607-0346",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "650 West Grand Ave #206",
-          "addressLocality": "Elmhurst",
-          "addressRegion": "IL",
-          "postalCode": "60126",
-          "addressCountry": "US"
-        }
-      },
-      "areaServed": "Illinois"
-    })
-  }}
-></script>
-
-
-
-    
-  
-
         <title>Avigilon Security Systems | Griffon Systems Inc.</title>
         <meta
           name="description"
           content="Authorized Avigilon partner in Illinois providing video surveillance, access control, and intercom systems for manufacturing, education, and municipalities."
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Product",
+              "name": "Avigilon Security Systems",
+              "brand": "Avigilon",
+              "category": "Video Surveillance",
+              "provider": {
+                "@type": "LocalBusiness",
+                "name": "Griffon Systems, Inc.",
+                "telephone": "630-607-0346",
+                "address": {
+                  "@type": "PostalAddress",
+                  "streetAddress": "650 West Grand Ave #206",
+                  "addressLocality": "Elmhurst",
+                  "addressRegion": "IL",
+                  "postalCode": "60126",
+                  "addressCountry": "US"
+                }
+              },
+              "areaServed": "Illinois"
+            })
+          }}
+        />
       </Helmet>
+
+      <h1 className="sr-only">Avigilon Security Systems</h1>
 
       {renderModal()}
 
