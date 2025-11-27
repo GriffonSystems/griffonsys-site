@@ -4,6 +4,9 @@ import Nav from "../components/Nav"
 import Footer from "../components/Footer"
 import { Analytics } from "@vercel/analytics/react"
 
+// Canonical (auto-generates canonical tag for every route)
+import Canonical from "../components/Canonical"
+
 // Main pages
 import Home from "./Home"
 import Solutions from "./Solutions"
@@ -32,16 +35,19 @@ import Municipal from "./Municipal"
 import Commercial from "./Commercial"
 import LPR from "./LPR"
 
-// NEW — Dynamic SEO Local Pages
+// Dynamic SEO Local Pages
 import LocationSEO from "./LocationSEO"
 
-// NEW — Service Areas Hub Page
+// Service Areas Hub Page
 import ServiceAreas from "./ServiceAreas"
 
 export default function App() {
   return (
     <div className="min-h-screen bg-white text-gray-900">
       <Nav />
+
+      {/* 🔥 Automatic canonical tag for every page */}
+      <Canonical />
 
       <Routes>
         {/* Main pages */}
@@ -61,7 +67,7 @@ export default function App() {
         <Route path="/service" element={<ServiceRequest />} />
 
         {/* Service Areas */}
-        <Route path="/ServiceAreas" element={<ServiceAreas />} />
+        <Route path="/serviceareas" element={<ServiceAreas />} />
 
         {/* Brand pages */}
         <Route path="/brands/verkada" element={<BrandVerkada />} />
