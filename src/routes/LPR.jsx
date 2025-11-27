@@ -43,15 +43,43 @@ export default function LPR() {
 
   return (
     <main className="container py-12">
-
       {/* ---- SEO ---- */}
       <Helmet>
         <title>License Plate Recognition (LPR) Solutions | NCIC Alerts | Griffon Systems</title>
-        <meta 
-          name="description" 
-          content="Illinois LPR systems with NCIC, SOS and Hotlist alerts. Cloud-managed Verkada CR series and Avigilon LPR cameras for police, municipal, and campus traffic monitoring." 
+        <meta
+          name="description"
+          content="Illinois LPR systems with NCIC, SOS and Hotlist alerts. Cloud-managed Verkada CR series and Avigilon LPR cameras for police, municipal, and campus traffic monitoring."
         />
         <link rel="canonical" href="https://www.griffonsys.com/lpr" />
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Product",
+              "name": "License Plate Recognition (LPR)",
+              "category": "Video Surveillance",
+              "brand": "Verkada / Avigilon",
+              "description":
+                "Real-time NCIC, SOS & Hotlist alerts for law enforcement, municipalities and campuses.",
+              "provider": {
+                "@type": "LocalBusiness",
+                "name": "Griffon Systems, Inc.",
+                "telephone": "630-607-0346",
+                "areaServed": "Illinois",
+                "address": {
+                  "@type": "PostalAddress",
+                  "streetAddress": "650 West Grand Ave, Suite 206",
+                  "addressLocality": "Elmhurst",
+                  "addressRegion": "IL",
+                  "postalCode": "60126",
+                  "addressCountry": "US",
+                },
+              },
+            }),
+          }}
+        />
       </Helmet>
 
       {/* ---- HERO ---- */}
@@ -61,6 +89,7 @@ export default function LPR() {
             src="/hero/hero-01.jpg"
             alt="LPR Camera — Illinois NCIC & Hotlist Alerts"
             className="absolute inset-0 w-full h-full object-cover object-center"
+            loading="lazy"
           />
           <div className="absolute inset-0 bg-black/50" />
 
@@ -93,7 +122,7 @@ export default function LPR() {
           {[
             { title: "NCIC Alerts", icon: "🔔", text: "Instant hits on stolen vehicles and persons of interest." },
             { title: "SOS Alerts", icon: "🛡️", text: "Detect vehicles associated with BOLOs or active investigations." },
-            { title: "Hotlist Alerts", icon: "🚨", text: "Fully configurable hotlists for local, county, or regional use." }
+            { title: "Hotlist Alerts", icon: "🚨", text: "Fully configurable hotlists for local, county, or regional use." },
           ].map(({ title, icon, text }) => (
             <div key={title} className="bg-gray-100 p-6 rounded-2xl shadow-sm">
               <h3 className="text-xl font-semibold mb-2" style={{ fontFamily: "Optima" }}>
@@ -111,6 +140,7 @@ export default function LPR() {
           src="/images/lpr/lpr-hero.jpg"
           alt="LPR Pole Mount"
           className="rounded-3xl shadow-lg w-full object-cover"
+          loading="lazy"
         />
 
         <div className="flex flex-col justify-center">
@@ -119,8 +149,7 @@ export default function LPR() {
           </h2>
 
           <p className="text-gray-700 text-lg">
-            The Verkada CR series remote camera supports LTE, solar power, 
-            and flexible mounting for temporary or permanent LPR deployments.
+            The Verkada CR series remote camera supports LTE, solar power, and flexible mounting for temporary or permanent LPR deployments.
           </p>
 
           <ul className="list-disc pl-5 mt-4 space-y-2 text-gray-700">
@@ -149,7 +178,21 @@ export default function LPR() {
         </button>
       </section>
 
-      {/* ---- MODAL FORM (Same as Solutions) ---- */}
+      {/* ---- RELATED INTERNAL LINKS (SEO BENEFIT) ---- */}
+      <section className="text-center mt-8 mb-16">
+        <p className="text-gray-600 text-sm">
+          Looking for more solutions?&nbsp;
+          <Link className="text-blue-600 underline" to="/municipal">
+            Municipal Deployments
+          </Link>
+          &nbsp; | &nbsp;
+          <Link className="text-blue-600 underline" to="/manufacturing">
+            Manufacturing
+          </Link>
+        </p>
+      </section>
+
+      {/* ---- MODAL FORM ---- */}
       {showForm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 relative">
@@ -223,7 +266,6 @@ export default function LPR() {
           </div>
         </div>
       )}
-
     </main>
   )
 }
