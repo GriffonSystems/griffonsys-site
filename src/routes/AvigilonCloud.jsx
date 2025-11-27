@@ -1,3 +1,4 @@
+// src/routes/AvigilonCloud.jsx
 import React from "react"
 import { Helmet } from "react-helmet"
 import { Link, useLocation } from "react-router-dom"
@@ -18,65 +19,47 @@ const TABS = [
   { key: "intercom", label: "Intercom" },
 ]
 
-// ---------- CLOUD CAMERA INFO ----------
 const PRODUCT_INFO = {
   "H6X_Cloud.avif": {
     title: "H6X Cloud Camera",
-    desc: "Avigilon Alta’s flagship cloud-native camera with edge AI analytics, encrypted video streaming, and remote management through the Avigilon Alta platform.",
+    desc: "Flagship AI-powered cloud-native camera with encrypted streaming and remote fleet management."
   },
   "slbullet.png": {
     title: "H6SL Bullet Cloud Camera",
-    desc: "AI-powered outdoor bullet camera offering reliable long-range coverage, simple plug-and-play cloud onboarding, and smart alerts through Alta’s intuitive interface.",
+    desc: "Reliable long-range outdoor bullet with plug-and-play cloud onboarding and smart alerts."
   },
   "H6SL_Dome_1.avif": {
     title: "H6SL Dome Cloud Camera",
-    desc: "Discreet and weather-resistant dome camera that connects directly to the Avigilon Alta Cloud for secure, encrypted video storage and AI-assisted event search.",
+    desc: "Discreet weather-resistant indoor/outdoor dome powered by Avigilon Alta cloud AI."
   },
   "H5A_Multisensor.png": {
     title: "H5A Multisensor Cloud",
-    desc: "Multi-sensor 180°/270°/360° coverage with built-in cloud connectivity — enabling full-site visibility and simplified device management from a single dashboard.",
+    desc: "180°/270°/360° multi-imager with Alta cloud support for unified situational awareness."
   },
   "H6Mini.avif": {
     title: "H6 Mini Dome Cloud",
-    desc: "Compact AI-driven indoor camera for office or retail environments, streaming securely to Avigilon Alta without the need for NVRs or local servers.",
+    desc: "Compact indoor cloud dome ideal for offices and retail environments."
   },
   "Rack.avif": {
-    title: "Alta Cloud Connector (Rack-Mounted)",
-    desc: "Integrates existing cameras to Avigilon Alta Cloud for AI analytics, cloud security, and centralized management. Enables a seamless transition to cloud video with up to 192 TB of raw storage, AI-powered video analytics, and support for up to 200 cameras or sensors.",
+    title: "Alta Cloud Connector (Rack-Mount)",
+    desc: "Connect existing cameras to the cloud with local storage and AI analytics — up to 200 cameras."
   },
 }
 
-const CAMERA_ORDER = [
-  "H6X_Cloud.avif",
-  "slbullet.png",
-  "H6SL_Dome_1.avif",
-  "H5A_Multisensor.png",
-  "H6Mini.avif",
-  "Rack.avif",
-]
+const CAMERA_ORDER = Object.keys(PRODUCT_INFO)
 
-// ---------- COMPONENT ----------
-export default function VendorAvigilonCloud() {
+export default function AvigilonCloud() {
   const location = useLocation()
   const [active, setActive] = React.useState("overview")
-  const [videoImages, setVideoImages] = React.useState([])
 
-  React.useEffect(() => {
-    const hash = (location.hash || "").replace("#", "").toLowerCase()
-    if (["overview", "cameras", "intercom"].includes(hash)) setActive(hash)
-  }, [location.hash])
-
-  // Load Avigilon image list (optional JSON)
-  React.useEffect(() => {
-    fetch(`${import.meta.env.BASE_URL}vendors/avigilon/index.json`)
-      .then((res) => res.json())
-      .then((data) => {
-        const imgs = data.images || []
-        const sorted = CAMERA_ORDER.filter((x) => imgs.includes(x))
-        setVideoImages(sorted)
-      })
-      .catch((err) => console.error("Failed to load Avigilon JSON:", err))
-  }, [])
+  const intercomProducts = [
+    {
+      key: "readerpro",
+      title: "Video Intercom Reader Pro",
+      desc: "Cloud-managed intercom and access reader in one device — managed from the Avigilon Alta dashboard.",
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/VideoIntercomReaderPro_01.avif`,
+    }
+  ]
 
   const onTabClick = (key) => {
     setActive(key)
@@ -86,29 +69,12 @@ export default function VendorAvigilonCloud() {
 
   const grid = "grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
 
-  // ---------- INTERCOM ----------
-  const intercomProducts = [
-    {
-      key: "readerpro",
-      title: "Video Intercom Reader Pro",
-      desc: "Cloud-managed intercom and access reader in one sleek device for modern entryways, fully managed through Avigilon Alta.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/VideoIntercomReaderPro_01.avif`,
-    },
-  ]
-
-  // ---------- RENDER CAMERA GRID ----------
   const renderCameraGrid = () => (
     <div className={grid}>
       {CAMERA_ORDER.map((file) => {
-        const info = PRODUCT_INFO[file] || {
-          title: file.replace(/\.[^/.]+$/, ""),
-          desc: "Avigilon Alta Cloud-enabled camera.",
-        }
+        const info = PRODUCT_INFO[file]
         return (
-          <div
-            key={file}
-            className="card p-6 flex flex-col bg-white rounded-2xl shadow-sm hover:shadow-md transition"
-          >
+          <div key={file} className="card p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition">
             <img
               src={`${import.meta.env.BASE_URL}vendors/avigilon/${file}`}
               alt={info.title}
@@ -122,19 +88,11 @@ export default function VendorAvigilonCloud() {
     </div>
   )
 
-  // ---------- GENERIC GRID ----------
   const renderGrid = (list) => (
     <div className={grid}>
       {list.map((card) => (
-        <div
-          key={card.key}
-          className="card p-6 flex flex-col bg-white rounded-2xl shadow-sm hover:shadow-md transition"
-        >
-          <img
-            src={card.img}
-            alt={card.title}
-            className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
-          />
+        <div key={card.key} className="card p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition">
+          <img className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4" src={card.img} alt={card.title} />
           <h3 className="text-xl font-semibold mb-2">{card.title}</h3>
           <p className="text-gray-700 text-sm">{card.desc}</p>
         </div>
@@ -142,39 +100,26 @@ export default function VendorAvigilonCloud() {
     </div>
   )
 
-  // ---------- OVERVIEW ----------
   const renderOverview = () => (
     <div className="max-w-3xl">
       <img
         src={`${import.meta.env.BASE_URL}vendors/avigilon-cloud/avigiloncloud.avif`}
-        alt="Avigilon Cloud Video"
+        alt="Avigilon Cloud Alta"
         className="rounded-2xl mb-6 shadow-sm"
       />
 
       <h2 className="text-2xl font-semibold mb-4">Avigilon Alta Cloud Video</h2>
-
       <p className="text-gray-700 mb-4">
-        Avigilon Alta Cloud Video is the next generation of video management —
-        built for simplicity, scalability, and security. Part of the Avigilon
-        ecosystem, Alta delivers a fully cloud-native platform that eliminates
-        on-premise servers and enables instant, secure access to video from
-        anywhere.
-      </p>
-
-      <p className="text-gray-700 mb-4">
-        Powered by advanced AI analytics, Avigilon Cloud lets organizations
-        detect, verify, and respond to events in real time. Centralized
-        management provides a unified view across multiple facilities, while
-        automatic updates and continuous health monitoring keep systems
-        performing at their best.
+        Avigilon Alta delivers fully cloud-native video management built for scalability,
+        cybersecurity, and AI-assisted investigations — with no NVRs or onsite servers.
       </p>
 
       <ul className="list-disc list-inside text-gray-700 space-y-2 mb-6">
-        <li>View and manage video securely from any device, anywhere</li>
-        <li>AI-powered search, detection, and motion-based alerts</li>
-        <li>End-to-end encryption and automatic firmware updates</li>
-        <li>Centralized user and site management across all locations</li>
-        <li>Seamless integration with Avigilon Alta Intercom</li>
+        <li>AI-powered search and alerts</li>
+        <li>Encrypted streaming and automatic updates</li>
+        <li>Multi-site and multi-tenant management</li>
+        <li>Browser & mobile access from anywhere</li>
+        <li>Seamless integration with Alta Intercom and Access Control</li>
       </ul>
 
       <Link to="/contact" className="btn btn-primary">
@@ -183,57 +128,55 @@ export default function VendorAvigilonCloud() {
     </div>
   )
 
-  // ---------- PAGE ----------
   return (
     <main className="container py-12">
       <Helmet>
-
-<script
-  type="application/ld+json"
-  dangerouslySetInnerHTML={{
-    __html: JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Product",
-      "name": "Avigilon Security Systems",
-      "brand": "Avigilon",
-      "category": "Video Surveillance",
-      "provider": {
-        "@type": "LocalBusiness",
-        "name": "Griffon Systems, Inc.",
-        "telephone": "630-607-0346",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "650 West Grand Ave #206",
-          "addressLocality": "Elmhurst",
-          "addressRegion": "IL",
-          "postalCode": "60126",
-          "addressCountry": "US"
-        }
-      },
-      "areaServed": "Illinois"
-    })
-  }}
-></script>
-
-
-
-    
-  
-
-        <title>Avigilon Cloud (Alta) | Griffon Systems Inc.</title>
+        <title>Avigilon Alta Cloud Video | Griffon Systems</title>
         <meta
           name="description"
-          content="Avigilon Alta Cloud video surveillance — secure, scalable, and AI-powered for modern enterprises."
+          content="Avigilon Alta Cloud — AI-powered video surveillance with no servers required. Secure, scalable, and ideal for modern enterprises and municipalities."
+        />
+        <meta
+          name="keywords"
+          content="Avigilon Alta, cloud video surveillance, Avigilon cloud cameras, cloud VMS, Illinois Avigilon dealer"
+        />
+        <link rel="canonical" href="https://www.griffonsys.com/brands/avigilon-cloud" />
+
+        <meta property="og:title" content="Avigilon Alta Cloud Video | Griffon Systems" />
+        <meta property="og:description" content="Cloud-native AI video surveillance — simple, scalable, and secure." />
+        <meta property="og:image" content="https://www.griffonsys.com/images/og/avigilon-cloud.jpg" />
+        <meta property="og:url" content="https://www.griffonsys.com/brands/avigilon-cloud" />
+        <meta property="og:type" content="product" />
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Product",
+              name: "Avigilon Alta Cloud Video",
+              brand: "Avigilon",
+              category: "Cloud Video Surveillance",
+              url: "https://www.griffonsys.com/brands/avigilon-cloud",
+              areaServed: "Illinois",
+              provider: {
+                "@type": "LocalBusiness",
+                name: "Griffon Systems, Inc.",
+                telephone: "+16306070346",
+                url: "https://www.griffonsys.com",
+              },
+            }),
+          }}
         />
       </Helmet>
 
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-4">
-          <AvigilonLogo className="h-10 w-auto object-contain" />
+          <AvigilonLogo className="h-10 w-auto" />
           <img
             src={`${import.meta.env.BASE_URL}vendors/avigilon/avigilon-text.png`}
             alt="Avigilon"
-            className="h-6 w-auto object-contain"
+            className="h-6 w-auto"
           />
         </div>
         <Link to="/contact" className="btn btn-primary">
@@ -241,7 +184,6 @@ export default function VendorAvigilonCloud() {
         </Link>
       </div>
 
-      {/* Tabs */}
       <div className="flex flex-wrap gap-2 mb-10">
         {TABS.map((t) => (
           <button
@@ -258,10 +200,18 @@ export default function VendorAvigilonCloud() {
         ))}
       </div>
 
-      {/* Content */}
       {active === "overview" && renderOverview()}
       {active === "cameras" && renderCameraGrid()}
       {active === "intercom" && renderGrid(intercomProducts)}
+
+      {/* CTA footer */}
+      <section className="text-center mt-16">
+        <h2 className="text-2xl font-semibold mb-3">Considering Avigilon Alta?</h2>
+        <p className="text-gray-600 mb-6">We can design a camera count, retention plan, and pilot deployment.</p>
+        <Link to="/contact?subject=Avigilon%20Alta%20Pilot" className="btn btn-primary">
+          Schedule a Consultation
+        </Link>
+      </section>
     </main>
   )
 }
