@@ -1,12 +1,71 @@
-import React from 'react'
+// src/routes/About.jsx
+import React from "react"
+import { Helmet } from "react-helmet"
 
 export default function About() {
-  // ✅ Updated LinkedIn post IDs
-  const POST_1 = '7182407145689169920' // #thebestorwhybother post
-  const POST_2 = '7378967268157927425' // existing right-side post
+  const POST_1 = "7182407145689169920"
+  const POST_2 = "7378967268157927425"
 
   return (
     <main className="container py-12">
+      {/* ---- SEO ---- */}
+      <Helmet>
+        <title>About Griffon Systems | Illinois Security Integrator</title>
+        <meta
+          name="description"
+          content="Griffon Systems designs and deploys enterprise IP video surveillance and access control systems — trusted by manufacturing, municipal, education, and commercial organizations across Illinois."
+        />
+        <link rel="canonical" href="https://www.griffonsys.com/about" />
+
+        {/* OpenGraph */}
+        <meta property="og:title" content="About Griffon Systems" />
+        <meta
+          property="og:description"
+          content="Meet the Illinois-based team behind Avigilon, Verkada, Axis, and municipal wireless deployments."
+        />
+        <meta property="og:image" content="https://www.griffonsys.com/logo.png" />
+        <meta property="og:url" content="https://www.griffonsys.com/about" />
+        <meta property="og:type" content="website" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+
+        {/* JSON-LD Brand / LocalBusiness */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              name: "Griffon Systems, Inc.",
+              url: "https://www.griffonsys.com",
+              logo: "https://www.griffonsys.com/logo.png",
+              description:
+                "Illinois-based security integrator specializing in Avigilon, Verkada, and Axis systems.",
+              areaServed: "Illinois",
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: "650 West Grand Ave #206",
+                addressLocality: "Elmhurst",
+                addressRegion: "IL",
+                postalCode: "60126",
+                addressCountry: "US",
+              },
+              contactPoint: {
+                "@type": "ContactPoint",
+                telephone: "+16306070346",
+                contactType: "Sales",
+                areaServed: "US",
+              },
+              sameAs: [
+                "https://www.linkedin.com/company/griffon-systems-inc/",
+                "https://www.linkedin.com/in/paul-grefenstette-0667211/",
+              ],
+            }),
+          }}
+        />
+      </Helmet>
+
       {/* ---------- Header ---------- */}
       <h1 className="text-3xl font-bold mb-4">About Griffon Systems</h1>
 
@@ -19,7 +78,9 @@ export default function About() {
 
       {/* ---------- Video Interview ---------- */}
       <section className="mb-16 text-center">
-        <h2 className="text-2xl font-semibold mb-4 text-gray-800">Industry Insight: Ceragon Interview</h2>
+        <h2 className="text-2xl font-semibold mb-4 text-gray-800">
+          Industry Insight: Ceragon Interview
+        </h2>
         <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
           Griffon Systems president Paul Grefenstette joins Ceragon Networks to discuss wireless backhaul,
           municipal camera networks, and future trends in public-safety connectivity.
@@ -29,7 +90,6 @@ export default function About() {
             className="w-full h-full"
             src="https://www.youtube.com/embed/_iCiRTbhx0w"
             title="Ceragon Interview – Griffon Systems"
-            frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           />
@@ -51,7 +111,6 @@ export default function About() {
         </h2>
 
         <div className="grid md:grid-cols-2 gap-6">
-          {/* Post 1 (left) */}
           <div className="relative w-full h-[520px] rounded-xl overflow-hidden border shadow-sm bg-white">
             <iframe
               loading="lazy"
@@ -63,7 +122,6 @@ export default function About() {
             />
           </div>
 
-          {/* Post 2 (right) */}
           <div className="relative w-full h-[520px] rounded-xl overflow-hidden border shadow-sm bg-white">
             <iframe
               loading="lazy"
@@ -76,10 +134,7 @@ export default function About() {
           </div>
         </div>
 
-        {/* Graceful fallback if JavaScript or embeds blocked */}
-        <noscript>
-          You need JavaScript enabled to view LinkedIn embeds.
-        </noscript>
+        <noscript>You need JavaScript enabled to view LinkedIn embeds.</noscript>
       </section>
 
       {/* ---------- CTA ---------- */}
