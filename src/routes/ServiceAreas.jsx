@@ -1,3 +1,4 @@
+// src/routes/ServiceAreas.jsx
 import React from "react"
 import { Helmet } from "react-helmet"
 import { Link } from "react-router-dom"
@@ -44,16 +45,70 @@ const slugify = (c) => c.toLowerCase().replace(/ /g, "-")
 export default function ServiceAreas() {
   return (
     <main className="container py-16">
+      {/* ---------- SEO ---------- */}
       <Helmet>
         <title>Chicagoland Service Areas | Griffon Systems</title>
         <meta
           name="description"
-          content="Griffon Systems provides professional security camera, access control, and security system supplier services across all of Chicagoland."
+          content="Griffon Systems provides professional security camera, video surveillance, and access control services across Chicago and the surrounding suburbs."
+        />
+        <link rel="canonical" href="https://www.griffonsys.com/service-areas" />
+
+        {/* OpenGraph */}
+        <meta property="og:title" content="Chicagoland Service Areas | Griffon Systems" />
+        <meta
+          property="og:description"
+          content="Serving Chicago and surrounding suburbs with Avigilon & Verkada video surveillance and access control security systems."
+        />
+        <meta
+          property="og:image"
+          content="https://www.griffonsys.com/images/og/griffon-building.jpg"
+        />
+        <meta property="og:url" content="https://www.griffonsys.com/service-areas" />
+        <meta property="og:type" content="website" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Chicagoland Service Areas | Griffon Systems" />
+        <meta
+          name="twitter:description"
+          content="Professional security camera and access control installations across suburban Chicago."
+        />
+        <meta
+          name="twitter:image"
+          content="https://www.griffonsys.com/images/og/griffon-building.jpg"
+        />
+
+        {/* JSON-LD */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Service",
+              name: "Security System Supplier — Chicagoland",
+              areaServed: "Chicago Metropolitan Area",
+              provider: {
+                "@type": "LocalBusiness",
+                name: "Griffon Systems, Inc.",
+                telephone: "+16306070346",
+                url: "https://www.griffonsys.com",
+              },
+              serviceArea: cities,
+            }),
+          }}
         />
       </Helmet>
 
-      <h1 className="text-4xl font-bold mb-8">Chicagoland Service Areas</h1>
+      {/* ---------- Heading ---------- */}
+      <h1 className="text-4xl font-bold mb-6">Chicagoland Service Areas</h1>
+      <p className="text-gray-700 text-lg mb-10 max-w-3xl">
+        Griffon Systems provides Avigilon & Verkada video surveillance, security camera installation,
+        access control, wireless connectivity, and security system support services across Chicago
+        and every surrounding suburb listed below.
+      </p>
 
+      {/* ---------- Cities Grid ---------- */}
       <ul className="grid md:grid-cols-3 lg:grid-cols-4 gap-4 text-lg">
         {cities.sort().map((city) => (
           <li key={city}>
@@ -66,6 +121,18 @@ export default function ServiceAreas() {
           </li>
         ))}
       </ul>
+
+      {/* ---------- CTA ---------- */}
+      <section className="text-center mt-16">
+        <h2 className="text-2xl font-semibold mb-4">Not sure if we cover your city?</h2>
+        <p className="text-gray-600 mb-6">We serve all of Northern Illinois — just ask.</p>
+        <Link
+          to="/contact?subject=Service%20Area%20Question"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl text-lg shadow"
+        >
+          Contact Us
+        </Link>
+      </section>
     </main>
   )
 }
