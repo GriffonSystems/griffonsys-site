@@ -1,5 +1,7 @@
+// src/routes/Industries.jsx
 import React from "react"
 import { useNavigate } from "react-router-dom"
+import { Helmet } from "react-helmet"
 
 export default function Industries() {
   const [showVideo, setShowVideo] = React.useState(false)
@@ -25,7 +27,7 @@ export default function Industries() {
       desc: "City facilities, utilities, and law enforcement needs",
       img: "/images/industries/municipal.jpg",
       focal: "object-center",
-      link: "/municipal",   // ✅ FIXED
+      link: "/municipal",
     },
     {
       title: "Commercial",
@@ -38,6 +40,31 @@ export default function Industries() {
 
   return (
     <main className="container py-12">
+      <Helmet>
+        <title>Industries We Serve | Griffon Systems</title>
+        <meta
+          name="description"
+          content="Griffon Systems provides security camera, access control, and wireless backhaul solutions for manufacturing, education, municipal, and commercial industries across Illinois."
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Service",
+              "serviceType": "Video Surveillance & Access Control",
+              "provider": {
+                "@type": "LocalBusiness",
+                "name": "Griffon Systems, Inc.",
+                "telephone": "630-607-0346",
+                "areaServed": "Illinois",
+              },
+              "categories": ["Manufacturing", "Education", "Municipal", "Commercial"],
+            }),
+          }}
+        />
+      </Helmet>
+
       <h1 className="text-3xl font-bold mb-6">Industries</h1>
 
       {/* ---- Video Modal ---- */}
@@ -72,11 +99,10 @@ export default function Industries() {
         {items.map(({ title, desc, img, focal, video, link }) => (
           <div
             key={title}
+            role="button"
             tabIndex={0}
-            onClick={() => {
-              if (video) setShowVideo(video)
-              else if (link) navigate(link)
-            }}
+            onClick={() => (video ? setShowVideo(video) : link && navigate(link))}
+            onKeyDown={(e) => e.key === "Enter" && (video ? setShowVideo(video) : navigate(link))}
             className={`relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition ${
               video || link ? "cursor-pointer" : ""
             }`}
