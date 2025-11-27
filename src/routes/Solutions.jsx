@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import { Helmet } from 'react-helmet'
 
 export default function Solutions() {
   const items = [
@@ -78,6 +79,14 @@ export default function Solutions() {
 
   return (
     <main className="container py-12">
+      <Helmet>
+        <title>Security Solutions | Video Surveillance & Access Control | Griffon Systems</title>
+        <meta
+          name="description"
+          content="Explore cloud video, on-prem VMS, access control, intercom, wireless backhaul, and maintenance services provided by Griffon Systems across Chicago and Northern Illinois."
+        />
+      </Helmet>
+
       <h1 className="text-3xl font-bold mb-6">Solutions</h1>
 
       <div className="grid md:grid-cols-2 gap-6">
@@ -123,7 +132,7 @@ export default function Solutions() {
 
                 {selected.direct && (
                   <p className="text-gray-600 mb-4">
-                    No scheduler. No sales rep.  
+                    No scheduler. No sales rep.
                     Just tell us what you want and we’ll send pricing immediately.
                   </p>
                 )}
