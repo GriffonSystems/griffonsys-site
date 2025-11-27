@@ -8,20 +8,18 @@ export default function Home() {
   return (
     <main>
       <Helmet>
-        {/* ⭐ Shortened SEO title (Option B – recommended) */}
+        {/* ⭐ SEO title */}
         <title>Security Cameras & Access Control | Griffon Systems</title>
 
-        {/* ⭐ Clean, optimized meta description */}
+        {/* ⭐ Optimized meta description */}
         <meta
           name="description"
           content="Griffon Systems delivers enterprise video surveillance, access control, intercom, wireless backhaul, and managed security solutions across Chicagoland. Avigilon, Verkada, Alta."
         />
-
-        {/* Canonical URL */}
-        <link rel="canonical" href="https://www.griffonsys.com" />
+        {/* ❗ Canonical tag is now automatic via <Canonical /> in App.jsx — no manual canonical here */}
       </Helmet>
 
-      {/* Hero already contains new H1 + subhead */}
+      {/* Hero contains main H1 + subhead */}
       <VideoHero />
 
       <section className="container py-12">
@@ -35,13 +33,11 @@ export default function Home() {
             style={{ backgroundImage: "url('/images/lpr/lpr-hero.jpg')" }}
           >
             <div className="absolute inset-0 bg-black/50"></div>
-
             <div className="relative z-10 flex flex-col h-full text-white">
               <h3 className="text-xl font-semibold mb-2">License Plate Recognition (LPR)</h3>
               <p className="text-gray-100 mb-4">
                 Real-time NCIC, IL SOS, and Hotlist alerts powered by Verkada’s CR63-E remote camera.
               </p>
-
               <div className="mt-auto flex flex-col sm:flex-row gap-3">
                 <Link className="btn btn-primary w-full sm:w-auto" to="/lpr">
                   Explore LPR Solutions
