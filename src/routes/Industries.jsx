@@ -40,26 +40,45 @@ export default function Industries() {
 
   return (
     <main className="container py-12">
+      {/* ---- SEO ---- */}
       <Helmet>
         <title>Industries We Serve | Griffon Systems</title>
         <meta
           name="description"
-          content="Griffon Systems provides security camera, access control, and wireless backhaul solutions for manufacturing, education, municipal, and commercial industries across Illinois."
+          content="Griffon Systems provides security camera, access control, LPR and wireless backhaul solutions for manufacturing, education, municipal, and commercial facilities across Illinois."
         />
+        <link rel="canonical" href="https://www.griffonsys.com/industries" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Service",
-              "serviceType": "Video Surveillance & Access Control",
+              "@type": "CollectionPage",
+              "name": "Industries We Serve",
+              "url": "https://www.griffonsys.com/industries",
+              "about": [
+                "Manufacturing security systems",
+                "Education / K-12 and Higher-Ed security systems",
+                "Municipal and city facility security systems",
+                "Commercial and retail surveillance and access control"
+              ],
               "provider": {
                 "@type": "LocalBusiness",
                 "name": "Griffon Systems, Inc.",
                 "telephone": "630-607-0346",
-                "areaServed": "Illinois",
-              },
-              "categories": ["Manufacturing", "Education", "Municipal", "Commercial"],
+                "address": {
+                  "@type": "PostalAddress",
+                  "streetAddress": "650 W Grand Ave #206",
+                  "addressLocality": "Elmhurst",
+                  "addressRegion": "IL",
+                  "postalCode": "60126",
+                  "addressCountry": "US"
+                },
+                "areaServed": {
+                  "@type": "AdministrativeArea",
+                  "name": "Illinois"
+                }
+              }
             }),
           }}
         />
@@ -94,7 +113,7 @@ export default function Industries() {
         </div>
       )}
 
-      {/* ---- GRID ---- */}
+      {/* ---- INDUSTRIES GRID ---- */}
       <div className="grid md:grid-cols-2 gap-6">
         {items.map(({ title, desc, img, focal, video, link }) => (
           <div
@@ -122,6 +141,28 @@ export default function Industries() {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* ---- INTERNAL LINKS FOR FASTER INDEXING ---- */}
+      <div className="mt-14 text-gray-700 text-sm space-y-1">
+        <p className="font-semibold">Featured industry solutions:</p>
+        <ul className="list-disc ml-5 space-y-1">
+          <li>
+            <a className="hover:text-gray-900 underline" href="/manufacturing">
+              Security Systems for Manufacturing
+            </a>
+          </li>
+          <li>
+            <a className="hover:text-gray-900 underline" href="/municipal">
+              Security Systems for Municipal Facilities
+            </a>
+          </li>
+          <li>
+            <a className="hover:text-gray-900 underline" href="/commercial">
+              Security for Commercial & Retail Properties
+            </a>
+          </li>
+        </ul>
       </div>
     </main>
   )
