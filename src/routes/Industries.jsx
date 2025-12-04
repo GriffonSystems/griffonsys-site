@@ -1,6 +1,6 @@
 // src/routes/Industries.jsx
 import React from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"   // ← FIX: added Link import
 import { Helmet } from "react-helmet"
 
 export default function Industries() {
@@ -40,8 +40,6 @@ export default function Industries() {
 
   return (
     <main className="container py-12">
-
-      {/* ---- SEO ---- */}
       <Helmet>
         <title>Industries We Serve | Griffon Systems</title>
         <meta
@@ -49,38 +47,6 @@ export default function Industries() {
           content="Griffon Systems provides security camera, access control, LPR and wireless backhaul solutions for manufacturing, education, municipal, and commercial facilities across Illinois."
         />
         <link rel="canonical" href="https://www.griffonsys.com/industries" />
-
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "CollectionPage",
-              name: "Industries We Serve",
-              url: "https://www.griffonsys.com/industries",
-              about: [
-                "Manufacturing security systems",
-                "Education K-12 / Higher-Ed security",
-                "Municipal & city facility security",
-                "Commercial & retail access control"
-              ],
-              provider: {
-                "@type": "LocalBusiness",
-                name: "Griffon Systems, Inc.",
-                telephone: "630-607-0346",
-                address: {
-                  "@type": "PostalAddress",
-                  streetAddress: "650 W Grand Ave #206",
-                  addressLocality: "Elmhurst",
-                  addressRegion: "IL",
-                  postalCode: "60126",
-                  addressCountry: "US"
-                },
-                areaServed: { "@type": "AdministrativeArea", name: "Illinois" }
-              }
-            }),
-          }}
-        />
       </Helmet>
 
       <h1 className="text-3xl font-bold mb-6">Industries</h1>
@@ -103,7 +69,6 @@ export default function Industries() {
               allowFullScreen
             />
 
-            {/* Close modal */}
             <button
               onClick={() => setShowVideo(false)}
               className="absolute top-3 right-3 bg-white/20 hover:bg-white/40 rounded-full p-2 text-white"
@@ -111,7 +76,6 @@ export default function Industries() {
               ✕
             </button>
 
-            {/* NEW — Only appears when education video is playing */}
             {showVideo.includes("hhfsZHMLMEk") && (
               <button
                 type="button"
@@ -148,7 +112,6 @@ export default function Industries() {
               loading="lazy"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-
             <div className="absolute bottom-0 p-6 text-white">
               <h3 className="text-xl font-semibold">{title}</h3>
               <p className="mt-1 text-sm opacity-90">{desc}</p>
@@ -157,7 +120,7 @@ export default function Industries() {
         ))}
       </div>
 
-      {/* ---- INTERNAL LINKS FOR SEO CRAWL FLOW ---- */}
+      {/* ---- INTERNAL LINKS ---- */}
       <div className="mt-14 text-gray-700 text-sm space-y-1">
         <p className="font-semibold">Featured industry solutions:</p>
         <ul className="list-disc ml-5 space-y-1">
