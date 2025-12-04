@@ -4,7 +4,7 @@ import Nav from "../components/Nav"
 import Footer from "../components/Footer"
 import { Analytics } from "@vercel/analytics/react"
 
-// Canonical (auto-generates canonical tag for every route)
+// Canonical
 import Canonical from "../components/Canonical"
 
 // Main pages
@@ -33,6 +33,7 @@ import ComingSoon from "./ComingSoon"
 import Manufacturing from "./Manufacturing"
 import Municipal from "./Municipal"
 import Commercial from "./Commercial"
+import Education from "./Education"   // 👈 ADDED
 import LPR from "./LPR"
 
 // Dynamic SEO Local Pages
@@ -46,7 +47,6 @@ export default function App() {
     <div className="min-h-screen bg-white text-gray-900">
       <Nav />
 
-      {/* 🔥 Automatic canonical tag for every page */}
       <Canonical />
 
       <Routes>
@@ -61,6 +61,7 @@ export default function App() {
         <Route path="/manufacturing" element={<Manufacturing />} />
         <Route path="/municipal" element={<Municipal />} />
         <Route path="/commercial" element={<Commercial />} />
+        <Route path="/education" element={<Education />} />  {/* 👈 NEW ROUTE */}
         <Route path="/lpr" element={<LPR />} />
 
         {/* Service */}
