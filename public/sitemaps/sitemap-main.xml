@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://www.griffonsys.com/</loc>
+    <priority>1.0</priority>
+  </url>
+
+  <url><loc>https://www.griffonsys.com/solutions</loc></url>
+  <url><loc>https://www.griffonsys.com/industries</loc></url>
+  <url><loc>https://www.griffonsys.com/about</loc></url>
+  <url><loc>https://www.griffonsys.com/contact</loc></url>
+  <url><loc>https://www.griffonsys.com/manufacturing</loc></url>
+  <url><loc>https://www.griffonsys.com/municipal</loc></url>
+  <url><loc>https://www.griffonsys.com/commercial</loc></url>
+  <url><loc>https://www.griffonsys.com/lpr</loc></url>
+  <url><loc>https://www.griffonsys.com/education</loc></url>
+  <url><loc>https://www.griffonsys.com/service</loc></url>
+  <url><loc>https://www.griffonsys.com/serviceareas</loc></url>
+
+</urlset>
