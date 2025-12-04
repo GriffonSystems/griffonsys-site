@@ -1,24 +1,27 @@
 User-agent: *
 Allow: /
 
-# Explicitly allow vendor pages (important for SEO)
+# Vendor pages explicitly allowed
 Allow: /vendors/verkada
 Allow: /vendors/avigilon
 Allow: /vendors/alta
 
-# Block system or private directories
+# Still block vendor asset directory only (not pages)
+Disallow: /vendors/*/*
+
+# Block internal folders / non-public assets
 Disallow: /api/
 Disallow: /assets/
 Disallow: /hero/
-Disallow: /vendors/   # folder blocked, but pages above are allowed
 
-# Block Vite/Vercel build artifacts (just in case)
+# Block map / build artifacts
 Disallow: /*_map$
 Disallow: /*__data.json$
 
-# Block search pages or dynamic query variations (cleaner indexing)
+# Block search + query parameter indexing
 Disallow: /*?*
 Disallow: /*&*
 
-# Sitemap
+# Sitemap & index
 Sitemap: https://www.griffonsys.com/sitemap.xml
+Sitemap: https://www.griffonsys.com/sitemap-index.xml
