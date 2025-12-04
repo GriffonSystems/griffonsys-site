@@ -1,3 +1,4 @@
+// src/routes/Manufacturing.jsx
 import React from "react"
 import { Link } from "react-router-dom"
 import { Helmet } from "react-helmet"
@@ -5,6 +6,7 @@ import { Helmet } from "react-helmet"
 export default function Manufacturing() {
   return (
     <main className="container py-12">
+
       {/* ---- SEO ---- */}
       <Helmet>
         <title>
@@ -28,7 +30,7 @@ export default function Manufacturing() {
         <meta property="og:url" content="https://www.griffonsys.com/manufacturing" />
         <meta property="og:type" content="website" />
 
-        {/* Twitter Card */}
+        {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Manufacturing Security Solutions | Griffon Systems" />
         <meta
@@ -37,7 +39,7 @@ export default function Manufacturing() {
         />
         <meta name="twitter:image" content="https://www.griffonsys.com/images/industries/manufacturing2.jpg" />
 
-        {/* JSON-LD (correct format) */}
+        {/* JSON-LD */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -70,6 +72,7 @@ export default function Manufacturing() {
         />
       </Helmet>
 
+
       {/* ---- HERO ---- */}
       <section className="mb-16">
         <div className="relative overflow-hidden rounded-3xl shadow-lg h-[40vh] md:h-[55vh]">
@@ -100,6 +103,7 @@ export default function Manufacturing() {
         </div>
       </section>
 
+
       {/* ---- OVERVIEW ---- */}
       <section className="mb-20">
         <h2 className="text-2xl md:text-3xl font-semibold mb-6" style={{ fontFamily: "Optima" }}>
@@ -109,13 +113,23 @@ export default function Manufacturing() {
           Manufacturing environments demand security systems that can withstand dust, vibration,
           temperature swings, and long cable runs — without sacrificing analytics, retention, or uptime.
         </p>
+
+        {/* 🔥 NEW SEO RANKBOOST PARAGRAPH */}
+        <p className="text-gray-700 text-lg leading-relaxed max-w-4xl mt-4">
+          We secure factories, industrial plants, food processing facilities, steel fabrication,
+          plastics, paper mills, chemical operations, and high-volume manufacturing sites across
+          Illinois. Our systems support forklift-heavy environments, warehouse yards, perimeter gates,
+          long shifts, and rugged operations where reliability matters most.
+        </p>
       </section>
+
 
       {/* ---- CHALLENGES ---- */}
       <section className="mb-20">
         <h2 className="text-2xl md:text-3xl font-semibold mb-8" style={{ fontFamily: "Optima" }}>
           We Solve Critical Manufacturing Security Challenges
         </h2>
+
         <div className="grid md:grid-cols-2 gap-8">
           {[
             { title: "Protect Production Lines & Machinery", text: "Monitor robotics, conveyors, mixers, and reduce downtime." },
@@ -135,11 +149,13 @@ export default function Manufacturing() {
         </div>
       </section>
 
+
       {/* ---- PLATFORM BREAKDOWN ---- */}
       <section className="mb-20">
         <h2 className="text-2xl md:text-3xl font-semibold mb-8" style={{ fontFamily: "Optima" }}>
           Avigilon & Verkada — The Best of Both Worlds
         </h2>
+
         <div className="grid md:grid-cols-2 gap-10">
           <div>
             <h3 className="text-xl font-semibold mb-3" style={{ fontFamily: "Optima" }}>
@@ -166,6 +182,7 @@ export default function Manufacturing() {
           </div>
         </div>
       </section>
+
 
       {/* ---- CASE STUDY ---- */}
       <section className="mb-24 relative rounded-3xl overflow-hidden shadow-xl">
@@ -197,23 +214,47 @@ export default function Manufacturing() {
         </div>
       </section>
 
-      {/* ---- INTERNAL CROSS LINKS ---- */}
+
+      {/* ---- INTERNAL LINK HUB ---- */}
       <section className="text-center mb-24">
-        <p className="text-gray-600 text-sm">
-          Related solutions:&nbsp;
-          <Link to="/municipal" className="text-blue-600 underline">
-            Municipal
-          </Link>
-          &nbsp; | &nbsp;
-          <Link to="/commercial" className="text-blue-600 underline">
-            Commercial
-          </Link>
-          &nbsp; | &nbsp;
-          <Link to="/lpr" className="text-blue-600 underline">
-            LPR Systems
-          </Link>
-        </p>
+        <h3 className="text-xl font-semibold mb-4">Explore Related Pages</h3>
+        <ul className="space-y-2 text-blue-600 underline text-lg">
+          <li><Link to="/industries">All Industries</Link></li>
+          <li><Link to="/solutions">Solutions Overview</Link></li>
+          <li><Link to="/from-the-field">From the Field Projects</Link></li>
+        </ul>
       </section>
+
+
+      {/* ---- FAQ BLOCK ---- */}
+      <section className="mb-24">
+        <h2 className="text-2xl md:text-3xl font-semibold mb-6" style={{ fontFamily: "Optima" }}>
+          Manufacturing Security FAQs
+        </h2>
+
+        <div className="space-y-6 text-gray-700 max-w-3xl">
+          <div>
+            <h4 className="font-bold text-lg">Do you handle both new installs and upgrades?</h4>
+            <p>Yes — we modernize legacy DVR/NVR systems, expand camera coverage, and migrate facilities to cloud or hybrid environments.</p>
+          </div>
+
+          <div>
+            <h4 className="font-bold text-lg">Can cameras and access control run together?</h4>
+            <p>Absolutely — Avigilon Unity + ACM or Verkada unify video, doors, and events in a single dashboard.</p>
+          </div>
+
+          <div>
+            <h4 className="font-bold text-lg">Do you support wireless yard links?</h4>
+            <p>Yes — Siklu mmWave point-to-point links connect remote yards and buildings without trenching.</p>
+          </div>
+
+          <div>
+            <h4 className="font-bold text-lg">What size projects do you typically deploy?</h4>
+            <p>Ranging from 30–200+ cameras, multi-building campuses, LPR gates, and production floor coverage.</p>
+          </div>
+        </div>
+      </section>
+
 
       {/* ---- CTA ---- */}
       <section className="text-center mb-24">
@@ -230,6 +271,7 @@ export default function Manufacturing() {
           Schedule Free Assessment
         </Link>
       </section>
+
     </main>
   )
 }
