@@ -19,6 +19,7 @@ import BrandVerkada from "./BrandVerkada"
 import BrandAvigilon from "./BrandAvigilon"
 import AvigilonCloud from "./AvigilonCloud"
 import VendorAlta from "./VendorAlta"
+import BrandSiklu from "./BrandSiklu"        // ⭐ ADDED
 
 // Utility pages
 import NotFound from "./NotFound"
@@ -33,7 +34,7 @@ import ComingSoon from "./ComingSoon"
 import Manufacturing from "./Manufacturing"
 import Municipal from "./Municipal"
 import Commercial from "./Commercial"
-import Education from "./Education"   // 👈 ADDED
+import Education from "./Education"    
 import LPR from "./LPR"
 
 // Dynamic SEO Local Pages
@@ -61,7 +62,7 @@ export default function App() {
         <Route path="/manufacturing" element={<Manufacturing />} />
         <Route path="/municipal" element={<Municipal />} />
         <Route path="/commercial" element={<Commercial />} />
-        <Route path="/education" element={<Education />} />  {/* 👈 NEW ROUTE */}
+        <Route path="/education" element={<Education />} />
         <Route path="/lpr" element={<LPR />} />
 
         {/* Service */}
@@ -75,6 +76,7 @@ export default function App() {
         <Route path="/brands/avigilon" element={<BrandAvigilon />} />
         <Route path="/brands/avigilon-cloud" element={<AvigilonCloud />} />
         <Route path="/brands/alta" element={<VendorAlta />} />
+        <Route path="/brands/siklu" element={<BrandSiklu />} />  {/* ⭐ ADDED */}
 
         {/* From the Field */}
         <Route path="/from-the-field" element={<FromTheField />} />
