@@ -1,9 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <url><loc>https://www.griffonsys.com/brands/verkada</loc></url>
-  <url><loc>https://www.griffonsys.com/brands/avigilon</loc></url>
-  <url><loc>https://www.griffonsys.com/brands/avigilon-cloud</loc></url>
-  <url><loc>https://www.griffonsys.com/brands/alta</loc></url>
+  <url>
+    <loc>https://www.griffonsys.com/brands/verkada</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.griffonsys.com/brands/avigilon</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.griffonsys.com/brands/avigilon-cloud</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.griffonsys.com/brands/alta</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.griffonsys.com/brands/siklu</loc>
+    <changefreq>monthly</changefreq>
+  </url>
 
 </urlset>
