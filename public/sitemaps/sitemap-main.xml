@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
+  <!-- Core site pages -->
   <url>
     <loc>https://www.griffonsys.com/</loc>
     <priority>1.0</priority>
@@ -17,5 +18,12 @@
   <url><loc>https://www.griffonsys.com/education</loc></url>
   <url><loc>https://www.griffonsys.com/service</loc></url>
   <url><loc>https://www.griffonsys.com/serviceareas</loc></url>
+
+  <!-- Vendor / Brand Pages -->
+  <url><loc>https://www.griffonsys.com/brands/verkada</loc></url>
+  <url><loc>https://www.griffonsys.com/brands/avigilon</loc></url>
+  <url><loc>https://www.griffonsys.com/brands/avigilon-cloud</loc></url>
+  <url><loc>https://www.griffonsys.com/brands/alta</loc></url>
+  <url><loc>https://www.griffonsys.com/brands/siklu</loc></url>
 
 </urlset>
