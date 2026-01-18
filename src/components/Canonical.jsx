@@ -1,17 +1,21 @@
-import { Helmet } from "react-helmet";
-import { useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async"
+import { useLocation } from "react-router-dom"
 
 export default function Canonical() {
-  const { pathname } = useLocation();
+  const { pathname } = useLocation()
 
-  // Build canonical URL with required trailing slash
-  const canonical =
-    "https://www.griffonsys.com" +
-    (pathname.endsWith("/") ? pathname : pathname + "/");
+  // Normalize: NO trailing slash except root
+  const cleanPath =
+    pathname !== "/" && pathname.endsWith("/")
+      ? pathname.slice(0, -1)
+      : pathname
+
+  const canonical = `https://www.griffonsys.com${cleanPath}`
 
   return (
     <Helmet>
       <link rel="canonical" href={canonical} />
+      <meta property="og:url" content={canonical} />
     </Helmet>
-  );
+  )
 }
