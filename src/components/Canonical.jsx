@@ -4,9 +4,11 @@ import { useLocation } from "react-router-dom"
 export default function Canonical() {
   const { pathname } = useLocation()
 
-  // No trailing slash except root
+  // Normalize URL: NO trailing slash except root
   const cleanPath =
-    pathname !== "/" && pathname.endsWith("/") ? pathname.slice(0, -1) : pathname
+    pathname !== "/" && pathname.endsWith("/")
+      ? pathname.slice(0, -1)
+      : pathname
 
   const canonical = `https://www.griffonsys.com${cleanPath}`
 
