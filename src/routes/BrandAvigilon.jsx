@@ -293,6 +293,10 @@ export default function BrandAvigilon() {
     <main className="container py-12">
       <Helmet>
         <title>Avigilon Security Systems | Griffon Systems Inc.</title>
+
+        {/* ✅ CANONICAL (THIS IS THE FIX) */}
+        <link rel="canonical" href="https://www.griffonsys.com/brands/avigilon" />
+
         <meta
           name="description"
           content="Authorized Avigilon partner in Illinois providing video surveillance, access control, and intercom systems for manufacturing, education, and municipalities."
@@ -303,24 +307,24 @@ export default function BrandAvigilon() {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Product",
-              "name": "Avigilon Security Systems",
-              "brand": "Avigilon",
-              "category": "Video Surveillance",
-              "provider": {
+              name: "Avigilon Security Systems",
+              brand: "Avigilon",
+              category: "Video Surveillance",
+              provider: {
                 "@type": "LocalBusiness",
-                "name": "Griffon Systems, Inc.",
-                "telephone": "630-607-0346",
-                "address": {
+                name: "Griffon Systems, Inc.",
+                telephone: "630-607-0346",
+                address: {
                   "@type": "PostalAddress",
-                  "streetAddress": "650 West Grand Ave #206",
-                  "addressLocality": "Elmhurst",
-                  "addressRegion": "IL",
-                  "postalCode": "60126",
-                  "addressCountry": "US"
-                }
+                  streetAddress: "650 West Grand Ave #206",
+                  addressLocality: "Elmhurst",
+                  addressRegion: "IL",
+                  postalCode: "60126",
+                  addressCountry: "US",
+                },
               },
-              "areaServed": "Illinois"
-            })
+              areaServed: "Illinois",
+            }),
           }}
         />
       </Helmet>
