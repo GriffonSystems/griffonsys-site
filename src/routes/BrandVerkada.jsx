@@ -167,34 +167,42 @@ export default function VendorVerkada() {
     <main className="container py-12">
       <Helmet>
         <title>Verkada Security Systems in Illinois | Griffon Systems</title>
+
+        {/* ✅ CANONICAL (THIS IS THE FIX) */}
+        <link
+          rel="canonical"
+          href="https://www.griffonsys.com/vendors/verkada"
+        />
+
         <meta
           name="description"
           content="Authorized Verkada integrator in Illinois delivering cloud video, access control, intercom, cellular connectivity, and remote security monitoring."
         />
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Product",
-              "name": "Verkada Cloud Security",
-              "brand": "Verkada",
-              "category": "Cloud Surveillance",
-              "provider": {
+              name: "Verkada Cloud Security",
+              brand: "Verkada",
+              category: "Cloud Surveillance",
+              provider: {
                 "@type": "LocalBusiness",
-                "name": "Griffon Systems, Inc.",
-                "telephone": "630-607-0346",
-                "address": {
+                name: "Griffon Systems, Inc.",
+                telephone: "630-607-0346",
+                address: {
                   "@type": "PostalAddress",
-                  "streetAddress": "650 West Grand Ave #206",
-                  "addressLocality": "Elmhurst",
-                  "addressRegion": "IL",
-                  "postalCode": "60126",
-                  "addressCountry": "US"
-                }
+                  streetAddress: "650 West Grand Ave #206",
+                  addressLocality: "Elmhurst",
+                  addressRegion: "IL",
+                  postalCode: "60126",
+                  addressCountry: "US",
+                },
               },
-              "areaServed": "Illinois"
-            })
+              areaServed: "Illinois",
+            }),
           }}
         />
       </Helmet>
@@ -215,10 +223,12 @@ export default function VendorVerkada() {
               src={showVideo}
               className="absolute inset-0 w-full h-full"
               allow="autoplay; fullscreen"
+              title="Verkada Video"
             />
             <button
               className="absolute top-3 right-3 text-white bg-white/20 hover:bg-white/40 rounded-full p-2"
               onClick={() => setShowVideo(false)}
+              aria-label="Close video"
             >
               ✕
             </button>
@@ -233,6 +243,7 @@ export default function VendorVerkada() {
             <button
               onClick={() => setSelected(null)}
               className="absolute top-2 right-3 text-gray-500 hover:text-gray-800 text-2xl"
+              aria-label="Close request form"
             >
               &times;
             </button>
