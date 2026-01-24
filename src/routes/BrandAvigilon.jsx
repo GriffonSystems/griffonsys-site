@@ -171,7 +171,12 @@ export default function BrandAvigilon() {
               />
               {isLPR && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/30 rounded-lg transition">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-14 w-14 text-white opacity-80" fill="currentColor" viewBox="0 0 24 24">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-14 w-14 text-white opacity-80"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path d="M8 5v14l11-7z" />
                   </svg>
                 </div>
@@ -194,7 +199,12 @@ export default function BrandAvigilon() {
             className="w-full h-40 object-cover bg-gray-50 rounded-lg mb-4"
           />
           <div className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/30 rounded-lg transition">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-14 w-14 text-white opacity-80" fill="currentColor" viewBox="0 0 24 24">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-14 w-14 text-white opacity-80"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path d="M8 5v14l11-7z" />
             </svg>
           </div>
@@ -216,7 +226,12 @@ export default function BrandAvigilon() {
             className="w-full h-40 object-cover bg-gray-50 rounded-lg mb-4"
           />
           <div className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/30 rounded-lg transition">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-14 w-14 text-white opacity-80" fill="currentColor" viewBox="0 0 24 24">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-14 w-14 text-white opacity-80"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path d="M8 5v14l11-7z" />
             </svg>
           </div>
@@ -289,43 +304,49 @@ export default function BrandAvigilon() {
     )
   }
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: "Avigilon Security Systems",
+    brand: "Avigilon",
+    category: "Video Surveillance",
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Griffon Systems, Inc.",
+      url: "https://griffonsys.com/",
+      telephone: "630-607-0346",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "650 West Grand Ave #206",
+        addressLocality: "Elmhurst",
+        addressRegion: "IL",
+        postalCode: "60126",
+        addressCountry: "US",
+      },
+    },
+    areaServed: "Illinois",
+    url: "https://griffonsys.com/brands/avigilon",
+  }
+
   return (
     <main className="container py-12">
       <Helmet>
         <title>Avigilon Security Systems | Griffon Systems Inc.</title>
 
-        {/* ✅ CANONICAL (THIS IS THE FIX) */}
-        <link rel="canonical" href="https://www.griffonsys.com/brands/avigilon" />
+        {/* IMPORTANT:
+            DO NOT set a canonical here.
+            The global Canonical.jsx component is the single source of truth
+            and forces non-www everywhere.
+        */}
 
         <meta
           name="description"
           content="Authorized Avigilon partner in Illinois providing video surveillance, access control, and intercom systems for manufacturing, education, and municipalities."
         />
+
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Product",
-              name: "Avigilon Security Systems",
-              brand: "Avigilon",
-              category: "Video Surveillance",
-              provider: {
-                "@type": "LocalBusiness",
-                name: "Griffon Systems, Inc.",
-                telephone: "630-607-0346",
-                address: {
-                  "@type": "PostalAddress",
-                  streetAddress: "650 West Grand Ave #206",
-                  addressLocality: "Elmhurst",
-                  addressRegion: "IL",
-                  postalCode: "60126",
-                  addressCountry: "US",
-                },
-              },
-              areaServed: "Illinois",
-            }),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </Helmet>
 
