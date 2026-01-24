@@ -163,16 +163,39 @@ export default function VendorVerkada() {
     </div>
   )
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: "Verkada Cloud Security",
+    brand: "Verkada",
+    category: "Cloud Surveillance",
+    url: "https://griffonsys.com/vendors/verkada",
+    provider: {
+      "@type": "LocalBusiness",
+      name: "Griffon Systems, Inc.",
+      url: "https://griffonsys.com/",
+      telephone: "630-607-0346",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "650 West Grand Ave #206",
+        addressLocality: "Elmhurst",
+        addressRegion: "IL",
+        postalCode: "60126",
+        addressCountry: "US",
+      },
+    },
+    areaServed: "Illinois",
+  }
+
   return (
     <main className="container py-12">
       <Helmet>
         <title>Verkada Security Systems in Illinois | Griffon Systems</title>
 
-        {/* ✅ CANONICAL (THIS IS THE FIX) */}
-        <link
-          rel="canonical"
-          href="https://www.griffonsys.com/vendors/verkada"
-        />
+        {/* IMPORTANT:
+            Do NOT set a page-level canonical here.
+            Global Canonical.jsx should be the single source of truth (non-www).
+        */}
 
         <meta
           name="description"
@@ -181,29 +204,7 @@ export default function VendorVerkada() {
 
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Product",
-              name: "Verkada Cloud Security",
-              brand: "Verkada",
-              category: "Cloud Surveillance",
-              provider: {
-                "@type": "LocalBusiness",
-                name: "Griffon Systems, Inc.",
-                telephone: "630-607-0346",
-                address: {
-                  "@type": "PostalAddress",
-                  streetAddress: "650 West Grand Ave #206",
-                  addressLocality: "Elmhurst",
-                  addressRegion: "IL",
-                  postalCode: "60126",
-                  addressCountry: "US",
-                },
-              },
-              areaServed: "Illinois",
-            }),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </Helmet>
 
