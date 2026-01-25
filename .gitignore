@@ -1,1 +1,14 @@
+# Dependencies
+node_modules
 
+# Environment variables
+.env
+.env.*
+.vercel
+
+# Build output
+dist
+
+# OS / editor junk
+.DS_Store
+.vscode
