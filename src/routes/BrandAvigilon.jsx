@@ -25,7 +25,7 @@ const PRODUCT_INFO = {
   },
   "H6SL_Dome_1.avif": {
     title: "H6SL Dome Camera",
-    desc: "Weatherproof dome camera that secures your site with AI-powered analytics and an optional mic.",
+    desc: "Weatherproof dome camera that secures your site with AI-powered analytics.",
   },
   "H5A_Multisensor.png": {
     title: "H5A Multisensor Camera",
