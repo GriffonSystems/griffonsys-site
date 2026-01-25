@@ -180,7 +180,7 @@ export default function AvigilonCloud() {
           />
         </div>
         <Link to="/contact" className="btn btn-primary">
-          Request a Demo
+          Request a Demo Today
         </Link>
       </div>
 
