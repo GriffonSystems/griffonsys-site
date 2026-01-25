@@ -1,4 +1,4 @@
-# Griffon Systems — Vercel-Ready Site
+# Griffon Systems — Vercel-Ready Site b
 
 A Vite + React site with a serverless API route for the Contact form.
 Import to Vercel → set env vars → deploy.
