@@ -1,6 +1,9 @@
-// Buffer shim for browser (fixes Node-ish deps that expect Buffer)
+// Buffer + process shims for browser (fixes Node-ish deps that expect them)
 import { Buffer } from "buffer"
+import process from "process"
+
 window.Buffer = Buffer
+window.process = process
 
 // ✅ Force-include static vendor images in the Vite build
 import "./keep-vendors-assets.js"
