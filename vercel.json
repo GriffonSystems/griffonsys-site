@@ -1,15 +1,1 @@
-{
-  "version": 2,
-  "redirects": [
-    {
-      "source": "/(.*)",
-      "has": [{ "type": "host", "value": "griffonsys.com" }],
-      "destination": "https://www.griffonsys.com/$1",
-      "permanent": true
-    }
-  ],
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
-}
+{ "version": 2, "redirects": [ { "source": "/(.*)", "has": [{ "type": "host", "value": "griffonsys.com" }], "destination": "https://www.griffonsys.com/$1", "permanent": true } ], "functions": { "api/*.js": { "runtime": "nodejs18.x" } }, "rewrites": [ { "source": "/api/(.*)", "destination": "/api/$1" }, { "source": "/(.*)", "destination": "/index.html" } ] }
