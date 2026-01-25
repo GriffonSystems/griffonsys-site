@@ -31,6 +31,7 @@ export default async function handler(req, res) {
     await resend.emails.send({
       from: "Griffon Website <noreply@griffonsys.com>",
       to: ["sales@griffonsys.com"],
+      bcc: ["paul@griffonsys.com"],
       replyTo: email || undefined,
       subject,
       html: `
