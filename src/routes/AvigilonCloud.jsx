@@ -123,7 +123,7 @@ export default function AvigilonCloud() {
       </ul>
 
       <Link to="/contact" className="btn btn-primary">
-        Request a Cloud Demo
+        Request a Cloud Demo Today
       </Link>
     </div>
   )
