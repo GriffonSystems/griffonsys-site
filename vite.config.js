@@ -1,15 +1,15 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from "vite"
+import react from "@vitejs/plugin-react"
 
-// ✅ Ensure proper routing and asset resolution for SPA on Vercel
 export default defineConfig({
   plugins: [react()],
-  base: '/', // <— this line fixes refresh/404 issues on nested routes
-  build: {
-    outDir: 'dist',
-    emptyOutDir: true,
+  resolve: {
+    alias: {
+      stream: "stream-browserify",
+      buffer: "buffer"
+    }
   },
-  server: {
-    historyApiFallback: true, // ensures React Router works locally too
-  },
+  define: {
+    global: "window"
+  }
 })
