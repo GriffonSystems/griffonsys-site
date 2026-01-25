@@ -9,26 +9,28 @@ export default defineConfig({
 
   resolve: {
     alias: {
-      // Node core (with node: prefix support)
+      // Node stream support (including node: prefixed imports)
       stream: "stream-browserify",
       "node:stream": "stream-browserify",
       "stream/web": "stream-browserify",
       "node:stream/web": "stream-browserify",
 
+      // Buffer
       buffer: "buffer",
       "node:buffer": "buffer",
 
+      // Process
       process: "process/browser",
       "node:process": "process/browser",
 
+      // Util & Events
       util: "util",
       "node:util": "util",
-
       events: "events",
       "node:events": "events",
 
-      // Common deps that sometimes appear in bundles
-      "readable-stream": "stream-browserify",
+      // readable-stream (used by many deps internally)
+      "readable-stream": "readable-stream",
       _stream_duplex: "readable-stream/lib/_stream_duplex",
       _stream_passthrough: "readable-stream/lib/_stream_passthrough",
       _stream_readable: "readable-stream/lib/_stream_readable",
