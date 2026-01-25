@@ -22,10 +22,9 @@ export default async function handler(req, res) {
     const issue = S(body.issue)
     const urgent = body.urgent ? "YES" : "No"
 
-    // Let you route service requests separately if you want
-    // (Set RESEND_TO_SERVICE in Vercel. Fallback to sales@ if not set.)
+    // Optional routing via env var
     const toEnv = S(process.env.RESEND_TO_SERVICE)
-    const to = (toEnv ? toEnv.split(",") : ["sales@griffonsys.com"])
+    const to = (toEnv ? toEnv.split(",") : ["service@griffonsys.com"])
       .map((x) => x.trim())
       .filter(Boolean)
 
@@ -34,6 +33,7 @@ export default async function handler(req, res) {
     await resend.emails.send({
       from: "Griffon Website <noreply@griffonsys.com>",
       to,
+      bcc: ["tom@griffonsys.com"],
       replyTo: email || undefined,
       subject,
       html: `
