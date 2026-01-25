@@ -1,5 +1,4 @@
 // /api/contact.js
-import nodemailer from "nodemailer"
 
 const S = (v) => (typeof v === "string" ? v : v == null ? "" : String(v).trim())
 
