@@ -22,7 +22,7 @@ const TABS = [
 const PRODUCT_INFO = {
   "H6X_Cloud.avif": {
     title: "H6X Cloud Camera",
-    desc: "Flagship AI-powered cloud-native camera with encrypted streaming and remote fleet management."
+    desc: "Flagship AI-powered cloud-native camera with encrypted streaming and remote management."
   },
   "slbullet.png": {
     title: "H6SL Bullet Cloud Camera",
