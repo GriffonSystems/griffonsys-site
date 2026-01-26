@@ -1,22 +1,58 @@
 // src/routes/Home.jsx
-import ReviewsMarqueeStatic from '../components/ReviewsMarqueeStatic'
-import VideoHero from '../components/VideoHero'
-import { Link } from 'react-router-dom'
-import { Helmet } from 'react-helmet'
+import ReviewsMarqueeStatic from "../components/ReviewsMarqueeStatic"
+import VideoHero from "../components/VideoHero"
+import { Link } from "react-router-dom"
+import { Helmet } from "react-helmet"
 
 export default function Home() {
+  // Match Canonical.jsx non-www convention
+  const pageUrl = "https://griffonsys.com/"
+  const ogImage = "https://griffonsys.com/images/home/cloud-video.jpg"
+
+  const title = "Security Cameras & Access Control | Chicago & Illinois | Griffon Systems"
+  const description =
+    "Griffon Systems delivers enterprise video surveillance, access control, intercom, wireless backhaul, and managed security solutions across Chicagoland and Northern Illinois. Avigilon, Verkada, Alta."
+
   return (
     <main>
       <Helmet>
-        {/* ⭐ SEO title */}
-        <title>Security Cameras & Access Control | Griffon Systems</title>
+        <title>{title}</title>
 
-        {/* ⭐ Optimized meta description */}
-        <meta
-          name="description"
-          content="Griffon Systems delivers enterprise video surveillance, access control, intercom, wireless backhaul, and managed security solutions across Chicagoland. Avigilon, Verkada, Alta."
+        <meta key="description" name="description" content={description} />
+
+        {/* OpenGraph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Griffon Systems | Security Cameras & Access Control" />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:url" content={pageUrl} />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Griffon Systems | Security Cameras & Access Control" />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImage} />
+        <meta name="twitter:url" content={pageUrl} />
+
+        {/* JSON-LD: WebSite (Home Page) */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "@id": "https://griffonsys.com/#website",
+              url: "https://griffonsys.com/",
+              name: "Griffon Systems",
+              description,
+              publisher: {
+                "@type": "Organization",
+                name: "Griffon Systems, Inc.",
+                url: "https://griffonsys.com/",
+              },
+            }),
+          }}
         />
-        {/* ❗ Canonical tag is now automatic via <Canonical /> in App.jsx — no manual canonical here */}
       </Helmet>
 
       {/* Hero contains main H1 + subhead */}
@@ -26,17 +62,16 @@ export default function Home() {
         <h2 className="text-2xl md:text-3xl font-semibold mb-6">Core Solutions</h2>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-
           {/* LPR Solution Card */}
           <div
             className="relative card p-6 flex flex-col h-full bg-cover bg-center rounded-2xl overflow-hidden"
             style={{ backgroundImage: "url('/images/lpr/lpr-hero.jpg')" }}
           >
-            <div className="absolute inset-0 bg-black/50"></div>
+            <div className="absolute inset-0 bg-black/50" />
             <div className="relative z-10 flex flex-col h-full text-white">
               <h3 className="text-xl font-semibold mb-2">License Plate Recognition (LPR)</h3>
               <p className="text-gray-100 mb-4">
-                Real-time NCIC, IL SOS, and Hotlist alerts powered by Verkada’s CR63-E remote camera.
+                Real-time hotlist alerts and fast search powered by modern LPR cameras and analytics.
               </p>
               <div className="mt-auto flex flex-col sm:flex-row gap-3">
                 <Link className="btn btn-primary w-full sm:w-auto" to="/lpr">
@@ -55,7 +90,7 @@ export default function Home() {
             <div className="relative z-10 flex flex-col h-full text-white">
               <h3 className="text-xl font-semibold mb-2">Cloud Video Surveillance</h3>
               <p className="text-gray-100 mb-4">
-                Modern, scalable systems with AI analytics and remote access.
+                Modern, scalable systems with AI analytics and secure remote access.
               </p>
               <div className="mt-auto flex flex-col sm:flex-row gap-3">
                 <Link className="btn btn-primary w-full sm:w-auto" to="/brands/verkada#video">
@@ -108,7 +143,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-
         </div>
       </section>
 
