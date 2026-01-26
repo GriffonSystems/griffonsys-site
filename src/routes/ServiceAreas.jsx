@@ -40,44 +40,53 @@ const cities = [
   "Rogers Park",
 ]
 
-const slugify = (c) => c.toLowerCase().replace(/ /g, "-")
+// Safer slugify: normalize apostrophes, dots, multiple spaces, etc.
+const slugify = (c) =>
+  c
+    .toLowerCase()
+    .trim()
+    .replace(/['’]/g, "")
+    .replace(/\./g, "")
+    .replace(/&/g, "and")
+    .replace(/\s+/g, "-")
 
 export default function ServiceAreas() {
+  // Match Canonical.jsx non-www convention
+  const pageUrl = "https://griffonsys.com/serviceareas"
+  const ogImage = "https://griffonsys.com/images/og/griffon-building.jpg"
+
+  const title = "Chicagoland Service Areas | Griffon Systems"
+  const description =
+    "Griffon Systems provides professional security camera, video surveillance, and access control services across Chicago and the surrounding suburbs."
+
   return (
     <main className="container py-16">
       {/* ---------- SEO ---------- */}
       <Helmet>
-        <title>Chicagoland Service Areas | Griffon Systems</title>
-        <meta
-          name="description"
-          content="Griffon Systems provides professional security camera, video surveillance, and access control services across Chicago and the surrounding suburbs."
-        />
-        <link rel="canonical" href="https://www.griffonsys.com/service-areas" />
+        <title>{title}</title>
+
+        {/* IMPORTANT:
+            Do NOT set a page-level canonical here.
+            Global Canonical.jsx is the single source of truth (non-www).
+        */}
+        <meta key="description" name="description" content={description} />
 
         {/* OpenGraph */}
-        <meta property="og:title" content="Chicagoland Service Areas | Griffon Systems" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={title} />
         <meta
           property="og:description"
           content="Serving Chicago and surrounding suburbs with Avigilon & Verkada video surveillance and access control security systems."
         />
-        <meta
-          property="og:image"
-          content="https://www.griffonsys.com/images/og/griffon-building.jpg"
-        />
-        <meta property="og:url" content="https://www.griffonsys.com/service-areas" />
-        <meta property="og:type" content="website" />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:url" content={pageUrl} />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Chicagoland Service Areas | Griffon Systems" />
-        <meta
-          name="twitter:description"
-          content="Professional security camera and access control installations across suburban Chicago."
-        />
-        <meta
-          name="twitter:image"
-          content="https://www.griffonsys.com/images/og/griffon-building.jpg"
-        />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImage} />
+        <meta name="twitter:url" content={pageUrl} />
 
         {/* JSON-LD */}
         <script
@@ -85,16 +94,28 @@ export default function ServiceAreas() {
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Service",
-              name: "Security System Supplier — Chicagoland",
-              areaServed: "Chicago Metropolitan Area",
-              provider: {
-                "@type": "LocalBusiness",
-                name: "Griffon Systems, Inc.",
-                telephone: "+16306070346",
-                url: "https://www.griffonsys.com",
+              "@type": "CollectionPage",
+              "@id": "https://griffonsys.com/#serviceareas",
+              url: pageUrl,
+              name: "Chicagoland Service Areas",
+              description,
+              about: {
+                "@type": "Service",
+                name: "Security Cameras & Access Control",
+                areaServed: ["Chicago", "Chicagoland", "Northern Illinois"],
+                provider: {
+                  "@type": "LocalBusiness",
+                  name: "Griffon Systems, Inc.",
+                  telephone: "+16306070346",
+                  url: "https://griffonsys.com/",
+                  address: {
+                    "@type": "PostalAddress",
+                    addressLocality: "Elmhurst",
+                    addressRegion: "IL",
+                    addressCountry: "US",
+                  },
+                },
               },
-              serviceArea: cities,
             }),
           }}
         />
@@ -110,7 +131,7 @@ export default function ServiceAreas() {
 
       {/* ---------- Cities Grid ---------- */}
       <ul className="grid md:grid-cols-3 lg:grid-cols-4 gap-4 text-lg">
-        {cities.sort().map((city) => (
+        {[...cities].sort().map((city) => (
           <li key={city}>
             <Link
               to={`/locations/${slugify(city)}/security-system-supplier`}
