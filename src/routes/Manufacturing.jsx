@@ -4,74 +4,86 @@ import { Link } from "react-router-dom"
 import { Helmet } from "react-helmet"
 
 export default function Manufacturing() {
+  // Match Canonical.jsx non-www convention
+  const pageUrl = "https://griffonsys.com/manufacturing"
+  const ogImage = "https://griffonsys.com/images/industries/manufacturing2.jpg"
+
+  const title =
+    "Manufacturing Security Solutions | Video Surveillance & Access Control | Griffon Systems"
+  const description =
+    "Griffon Systems provides Avigilon, Verkada, and access control security solutions for Illinois manufacturers — including industrial video surveillance, wireless backhaul, yard monitoring, PPE verification, and restricted zone protection."
+
   return (
     <main className="container py-12">
-
       {/* ---- SEO ---- */}
       <Helmet>
-        <title>
-          Manufacturing Security Solutions | Video Surveillance & Access Control | Griffon Systems
-        </title>
+        <title>{title}</title>
 
-        <meta
-          name="description"
-          content="Griffon Systems provides Avigilon, Verkada, and ACM access control security solutions for Illinois manufacturers — including industrial video surveillance, wireless backhaul, yard monitoring, PPE verification, and restricted zone protection."
-        />
-
-        <link rel="canonical" href="https://www.griffonsys.com/manufacturing" />
+        {/* IMPORTANT:
+            Do NOT set a page-level canonical here.
+            Global Canonical.jsx is the single source of truth (non-www).
+        */}
+        <meta key="description" name="description" content={description} />
 
         {/* OpenGraph */}
         <meta property="og:title" content="Manufacturing Security Solutions | Griffon Systems" />
-        <meta
-          property="og:description"
-          content="Security systems engineered for manufacturing — Avigilon & Verkada surveillance, ACM access control, wireless backhaul, OSHA compliance, and yard monitoring."
-        />
-        <meta property="og:image" content="https://www.griffonsys.com/images/industries/manufacturing2.jpg" />
-        <meta property="og:url" content="https://www.griffonsys.com/manufacturing" />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:url" content={pageUrl} />
         <meta property="og:type" content="website" />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Manufacturing Security Solutions | Griffon Systems" />
-        <meta
-          name="twitter:description"
-          content="Industrial video surveillance, access control, and wireless backhaul designed for Illinois manufacturing facilities."
-        />
-        <meta name="twitter:image" content="https://www.griffonsys.com/images/industries/manufacturing2.jpg" />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImage} />
+        <meta name="twitter:url" content={pageUrl} />
 
-        {/* JSON-LD */}
+        {/* JSON-LD (use WebPage/Service instead of Product) */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Product",
+              "@type": "WebPage",
+              "@id": "https://griffonsys.com/#manufacturing",
+              url: pageUrl,
               name: "Manufacturing Security Solutions",
               description:
-                "Video surveillance, access control, wireless backhaul, and OSHA compliance tools for Illinois manufacturing facilities.",
-              image: "https://www.griffonsys.com/images/industries/manufacturing2.jpg",
-              brand: { "@type": "Brand", name: "Griffon Systems" },
-              url: "https://www.griffonsys.com/manufacturing",
-              areaServed: "Illinois",
-              provider: {
-                "@type": "LocalBusiness",
-                name: "Griffon Systems, Inc.",
-                telephone: "+16306070346",
-                url: "https://www.griffonsys.com",
-                address: {
-                  "@type": "PostalAddress",
-                  streetAddress: "650 West Grand Ave #206",
-                  addressLocality: "Elmhurst",
-                  addressRegion: "IL",
-                  postalCode: "60126",
-                  addressCountry: "US",
+                "Video surveillance, access control, wireless backhaul, and compliance-oriented security solutions for Illinois manufacturing facilities.",
+              primaryImageOfPage: {
+                "@type": "ImageObject",
+                url: ogImage,
+              },
+              isPartOf: {
+                "@type": "WebSite",
+                "@id": "https://griffonsys.com/#website",
+                url: "https://griffonsys.com/",
+                name: "Griffon Systems",
+              },
+              about: {
+                "@type": "Service",
+                name: "Manufacturing security systems",
+                areaServed: "Illinois",
+                provider: {
+                  "@type": "LocalBusiness",
+                  name: "Griffon Systems, Inc.",
+                  telephone: "+16306070346",
+                  url: "https://griffonsys.com/",
+                  address: {
+                    "@type": "PostalAddress",
+                    streetAddress: "650 West Grand Ave #206",
+                    addressLocality: "Elmhurst",
+                    addressRegion: "IL",
+                    postalCode: "60126",
+                    addressCountry: "US",
+                  },
                 },
               },
             }),
           }}
         />
       </Helmet>
-
 
       {/* ---- HERO ---- */}
       <section className="mb-16">
@@ -103,7 +115,6 @@ export default function Manufacturing() {
         </div>
       </section>
 
-
       {/* ---- OVERVIEW ---- */}
       <section className="mb-20">
         <h2 className="text-2xl md:text-3xl font-semibold mb-6" style={{ fontFamily: "Optima" }}>
@@ -114,7 +125,6 @@ export default function Manufacturing() {
           temperature swings, and long cable runs — without sacrificing analytics, retention, or uptime.
         </p>
 
-        {/* 🔥 NEW SEO RANKBOOST PARAGRAPH */}
         <p className="text-gray-700 text-lg leading-relaxed max-w-4xl mt-4">
           We secure factories, industrial plants, food processing facilities, steel fabrication,
           plastics, paper mills, chemical operations, and high-volume manufacturing sites across
@@ -122,7 +132,6 @@ export default function Manufacturing() {
           long shifts, and rugged operations where reliability matters most.
         </p>
       </section>
-
 
       {/* ---- CHALLENGES ---- */}
       <section className="mb-20">
@@ -139,7 +148,10 @@ export default function Manufacturing() {
             { title: "Prevent Theft & Inventory Loss", text: "Deter shrinkage across warehouses and shipping areas." },
             { title: "Monitor 24/7 — Cloud or On-Prem", text: "Choose Verkada, Avigilon Unity, or hybrid deployments." },
           ].map(({ title, text }) => (
-            <div key={title} className="bg-gray-100 p-6 rounded-2xl shadow-sm hover:shadow-md transition">
+            <div
+              key={title}
+              className="bg-gray-100 p-6 rounded-2xl shadow-sm hover:shadow-md transition"
+            >
               <h3 className="text-xl font-semibold mb-2" style={{ fontFamily: "Optima" }}>
                 {title}
               </h3>
@@ -148,7 +160,6 @@ export default function Manufacturing() {
           ))}
         </div>
       </section>
-
 
       {/* ---- PLATFORM BREAKDOWN ---- */}
       <section className="mb-20">
@@ -183,7 +194,6 @@ export default function Manufacturing() {
         </div>
       </section>
 
-
       {/* ---- CASE STUDY ---- */}
       <section className="mb-24 relative rounded-3xl overflow-hidden shadow-xl">
         <div
@@ -214,17 +224,21 @@ export default function Manufacturing() {
         </div>
       </section>
 
-
       {/* ---- INTERNAL LINK HUB ---- */}
       <section className="text-center mb-24">
         <h3 className="text-xl font-semibold mb-4">Explore Related Pages</h3>
         <ul className="space-y-2 text-blue-600 underline text-lg">
-          <li><Link to="/industries">All Industries</Link></li>
-          <li><Link to="/solutions">Solutions Overview</Link></li>
-          <li><Link to="/from-the-field">From the Field Projects</Link></li>
+          <li>
+            <Link to="/industries">All Industries</Link>
+          </li>
+          <li>
+            <Link to="/solutions">Solutions Overview</Link>
+          </li>
+          <li>
+            <Link to="/from-the-field">From the Field Projects</Link>
+          </li>
         </ul>
       </section>
-
 
       {/* ---- FAQ BLOCK ---- */}
       <section className="mb-24">
@@ -235,12 +249,18 @@ export default function Manufacturing() {
         <div className="space-y-6 text-gray-700 max-w-3xl">
           <div>
             <h4 className="font-bold text-lg">Do you handle both new installs and upgrades?</h4>
-            <p>Yes — we modernize legacy DVR/NVR systems, expand camera coverage, and migrate facilities to cloud or hybrid environments.</p>
+            <p>
+              Yes — we modernize legacy DVR/NVR systems, expand camera coverage, and migrate facilities
+              to cloud or hybrid environments.
+            </p>
           </div>
 
           <div>
             <h4 className="font-bold text-lg">Can cameras and access control run together?</h4>
-            <p>Absolutely — Avigilon Unity + ACM or Verkada unify video, doors, and events in a single dashboard.</p>
+            <p>
+              Absolutely — Avigilon Unity + ACM or Verkada unify video, doors, and events in a single
+              dashboard.
+            </p>
           </div>
 
           <div>
@@ -254,7 +274,6 @@ export default function Manufacturing() {
           </div>
         </div>
       </section>
-
 
       {/* ---- CTA ---- */}
       <section className="text-center mb-24">
@@ -271,7 +290,6 @@ export default function Manufacturing() {
           Schedule Free Assessment
         </Link>
       </section>
-
     </main>
   )
 }
