@@ -80,6 +80,13 @@ export default function BrandAvigilon() {
   const [videoImages, setVideoImages] = React.useState([])
   const [showVideo, setShowVideo] = React.useState(null)
 
+  // --- SEO (route-unique, consistent with Canonical.jsx non-www) ---
+  const pageUrl = "https://griffonsys.com/brands/avigilon"
+  const ogImage = "https://griffonsys.com/vendors/avigilon/avigilon-text.png"
+  const title = "Avigilon Security Systems | Video, Access & Intercom | Griffon Systems"
+  const description =
+    "Authorized Avigilon partner in Illinois providing video surveillance, access control, and intercom systems for manufacturing, education, and municipalities."
+
   React.useEffect(() => {
     const hash = (location.hash || "").replace("#", "").toLowerCase()
     if (["video", "access", "intercom"].includes(hash)) setActive(hash)
@@ -168,6 +175,7 @@ export default function BrandAvigilon() {
                 src={`${import.meta.env.BASE_URL}vendors/avigilon/${file}`}
                 alt={info.title}
                 className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
+                loading="lazy"
               />
               {isLPR && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/30 rounded-lg transition">
@@ -197,6 +205,7 @@ export default function BrandAvigilon() {
             src={`${import.meta.env.BASE_URL}vendors/avigilon/visualalerts-thumb.jpg`}
             alt="Visual Alerts Coming Soon"
             className="w-full h-40 object-cover bg-gray-50 rounded-lg mb-4"
+            loading="lazy"
           />
           <div className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/30 rounded-lg transition">
             <svg
@@ -224,6 +233,7 @@ export default function BrandAvigilon() {
             src={`${import.meta.env.BASE_URL}vendors/avigilon/unity-thumb.jpg`}
             alt="Avigilon Unity End-to-End Security"
             className="w-full h-40 object-cover bg-gray-50 rounded-lg mb-4"
+            loading="lazy"
           />
           <div className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/30 rounded-lg transition">
             <svg
@@ -262,6 +272,7 @@ export default function BrandAvigilon() {
               src={card.img}
               alt={card.title}
               className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
+              loading="lazy"
             />
           )}
           <h3 className="text-xl font-semibold mb-2">{card.title}</h3>
@@ -304,34 +315,21 @@ export default function BrandAvigilon() {
     )
   }
 
+  // Keep structured data clean: this is a Brand page (not a single Product)
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Product",
-    name: "Avigilon Security Systems",
-    brand: "Avigilon",
-    category: "Video Surveillance",
-    provider: {
-      "@type": "LocalBusiness",
-      name: "Griffon Systems, Inc.",
-      url: "https://griffonsys.com/",
-      telephone: "630-607-0346",
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: "650 West Grand Ave #206",
-        addressLocality: "Elmhurst",
-        addressRegion: "IL",
-        postalCode: "60126",
-        addressCountry: "US",
-      },
-    },
-    areaServed: "Illinois",
-    url: "https://griffonsys.com/brands/avigilon",
+    "@type": "Brand",
+    "@id": "https://griffonsys.com/#brand-avigilon",
+    name: "Avigilon",
+    url: pageUrl,
+    description,
+    sameAs: ["https://www.avigilon.com/"],
   }
 
   return (
     <main className="container py-12">
       <Helmet>
-        <title>Avigilon Security Systems | Griffon Systems Inc.</title>
+        <title>{title}</title>
 
         {/* IMPORTANT:
             DO NOT set a canonical here.
@@ -339,10 +337,20 @@ export default function BrandAvigilon() {
             and forces non-www everywhere.
         */}
 
-        <meta
-          name="description"
-          content="Authorized Avigilon partner in Illinois providing video surveillance, access control, and intercom systems for manufacturing, education, and municipalities."
-        />
+        <meta key="description" name="description" content={description} />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Avigilon Security Systems | Griffon Systems" />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:image" content={ogImage} />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Avigilon Security Systems | Griffon Systems" />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImage} />
 
         <script
           type="application/ld+json"
@@ -361,6 +369,7 @@ export default function BrandAvigilon() {
             src={`${import.meta.env.BASE_URL}vendors/avigilon/avigilon-text.png`}
             alt="Avigilon"
             className="h-6 w-auto object-contain"
+            loading="lazy"
           />
         </div>
         <Link to="/contact" className="btn btn-primary">
