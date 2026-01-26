@@ -97,11 +97,8 @@ export default function VendorVerkada() {
   ]
 
   const handleCardClick = (card) => {
-    if (card.video) {
-      setShowVideo(card.video)
-    } else {
-      setSelected(card.title)
-    }
+    if (card.video) setShowVideo(card.video)
+    else setSelected(card.title)
   }
 
   const renderGrid = (list) => (
@@ -112,7 +109,11 @@ export default function VendorVerkada() {
           onClick={() => handleCardClick(card)}
           className="p-6 bg-white rounded-2xl shadow-sm hover:shadow-lg transition cursor-pointer"
         >
-          <img src={card.img} alt={card.title} className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4" />
+          <img
+            src={card.img}
+            alt={card.title}
+            className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
+          />
           <h3 className="text-xl font-semibold mb-1">{card.title}</h3>
           <p className="text-gray-700 text-sm">{card.desc}</p>
         </div>
@@ -139,13 +140,20 @@ export default function VendorVerkada() {
         <meta property="og:description" content={description} />
         <meta property="og:url" content={pageUrl} />
         <meta property="og:image" content={ogImage} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </Helmet>
 
+      {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <VerkadaLogo />
         <div className="flex gap-3">
-          <Link to="/resources/verkada-vs-avigilon" className="px-4 py-2 rounded-xl border">
+          <Link
+            to="/resources/verkada-vs-avigilon"
+            className="px-4 py-2 rounded-xl border border-gray-300 hover:bg-gray-100 transition"
+          >
             Compare Verkada vs Avigilon
           </Link>
           <Link to="/contact" className="btn btn-primary">
@@ -154,26 +162,50 @@ export default function VendorVerkada() {
         </div>
       </div>
 
+      {/* WHY VERKADA */}
       <section className="max-w-4xl mb-12">
-        <h2 className="text-2xl font-semibold mb-4">Why Organizations Choose Verkada</h2>
+        <h2 className="text-2xl font-semibold mb-4">
+          Why Organizations Choose Verkada
+        </h2>
+
         <p className="text-gray-700 mb-4">
-          Verkada offers an integrated, cloud-managed security platform combining video surveillance,
-          access control, intercoms, alarms, and environmental sensors into a single system.
+          Verkada delivers an integrated, cloud-managed security platform that
+          unifies video surveillance, access control, intercoms, alarms, and
+          environmental sensors into a single system.
         </p>
-        <p className="text-gray-700 mb-4">
-          Organizations choose Verkada for simplified deployment, centralized management, and the
-          ability to securely manage multiple sites from a browser-based dashboard. Plug-and-play
-          hardware, automatic firmware updates, and long-term warranties reduce IT overhead.
+
+        <ul className="list-disc pl-6 text-gray-700 mb-4 space-y-2">
+          <li>Cloud-based management with multi-site visibility</li>
+          <li>Plug-and-play deployment with minimal onsite infrastructure</li>
+          <li>Predictable operating costs and easy scalability</li>
+        </ul>
+
+        <p className="text-sm text-gray-600 mb-4">
+          Some organizations prefer fully on-prem systems due to regulatory,
+          evidentiary, or internal IT requirements.{" "}
+          <Link
+            to="/brands/avigilon"
+            className="underline font-medium hover:opacity-80"
+          >
+            Avigilon is often selected in those environments
+          </Link>
+          .
         </p>
-        <p className="text-gray-700 mb-4">
-          Verkada is commonly selected by municipalities, school districts, park districts, and
-          manufacturers that value predictable operating costs, rapid deployment, and scalability.
-        </p>
-        <p className="text-sm text-gray-600">
-          Some organizations prefer fully on-prem systems due to regulatory or internal IT requirements.
+
+        <p className="text-sm text-gray-700">
+          Comparing platforms?{" "}
+          <Link
+            to="/resources/verkada-vs-avigilon"
+            className="underline font-medium hover:opacity-80"
+          >
+            Read our Verkada vs Avigilon buyer guide for Illinois municipalities &
+            manufacturers
+          </Link>
+          .
         </p>
       </section>
 
+      {/* Tabs */}
       <div className="flex flex-wrap gap-2 mb-10">
         {TABS.map((t) => (
           <button
