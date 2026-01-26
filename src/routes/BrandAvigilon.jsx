@@ -83,7 +83,8 @@ export default function BrandAvigilon() {
   // --- SEO (route-unique, consistent with Canonical.jsx non-www) ---
   const pageUrl = "https://griffonsys.com/brands/avigilon"
   const ogImage = "https://griffonsys.com/vendors/avigilon/avigilon-text.png"
-  const title = "Avigilon Security Systems | Video, Access & Intercom | Griffon Systems"
+  const title =
+    "Avigilon Security Systems | Video, Access & Intercom | Griffon Systems"
   const description =
     "Authorized Avigilon partner in Illinois providing video surveillance, access control, and intercom systems for manufacturing, education, and municipalities."
 
@@ -167,7 +168,9 @@ export default function BrandAvigilon() {
             key={file}
             onClick={() => isLPR && setShowVideo("lpr")}
             className={`card p-6 flex flex-col bg-white rounded-2xl shadow-sm transition ${
-              isLPR ? "cursor-pointer hover:shadow-lg hover:scale-[1.02]" : "hover:shadow-md"
+              isLPR
+                ? "cursor-pointer hover:shadow-lg hover:scale-[1.02]"
+                : "hover:shadow-md"
             }`}
           >
             <div className="relative">
@@ -218,9 +221,12 @@ export default function BrandAvigilon() {
             </svg>
           </div>
         </div>
-        <h3 className="text-xl font-semibold mb-2">Visual Alerts (Coming Soon)</h3>
+        <h3 className="text-xl font-semibold mb-2">
+          Visual Alerts (Coming Soon)
+        </h3>
         <p className="text-gray-700 text-sm">
-          Describe a scene and instantly create an alert — next-gen Avigilon analytics.
+          Describe a scene and instantly create an alert — next-gen Avigilon
+          analytics.
         </p>
       </div>
 
@@ -248,7 +254,8 @@ export default function BrandAvigilon() {
         </div>
         <h3 className="text-xl font-semibold mb-2">Avigilon Unity Suite</h3>
         <p className="text-gray-700 text-sm">
-          Explore Avigilon Unity’s end-to-end video, analytics, and access control platform.
+          Explore Avigilon Unity’s end-to-end video, analytics, and access
+          control platform.
         </p>
       </div>
     </div>
@@ -341,14 +348,20 @@ export default function BrandAvigilon() {
 
         {/* Open Graph */}
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="Avigilon Security Systems | Griffon Systems" />
+        <meta
+          property="og:title"
+          content="Avigilon Security Systems | Griffon Systems"
+        />
         <meta property="og:description" content={description} />
         <meta property="og:url" content={pageUrl} />
         <meta property="og:image" content={ogImage} />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Avigilon Security Systems | Griffon Systems" />
+        <meta
+          name="twitter:title"
+          content="Avigilon Security Systems | Griffon Systems"
+        />
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={ogImage} />
 
@@ -362,7 +375,7 @@ export default function BrandAvigilon() {
 
       {renderModal()}
 
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
           <AvigilonLogo className="h-10 w-auto object-contain" />
           <img
@@ -372,10 +385,66 @@ export default function BrandAvigilon() {
             loading="lazy"
           />
         </div>
-        <Link to="/contact" className="btn btn-primary">
-          Request a Quote
-        </Link>
+
+        <div className="flex items-center gap-3">
+          <Link
+            to="/resources/verkada-vs-avigilon"
+            className="px-4 py-2 rounded-xl border border-gray-300 bg-white hover:bg-gray-100 transition"
+          >
+            Compare Verkada vs Avigilon
+          </Link>
+
+          <Link to="/contact" className="btn btn-primary">
+            Request a Quote
+          </Link>
+        </div>
       </div>
+
+      {/* WHY AVIGILON (tight version) */}
+      <section className="max-w-4xl mb-10">
+        <h2
+          className="text-2xl font-semibold mb-4"
+          style={{ fontFamily: "Optima, sans-serif" }}
+        >
+          Why Organizations Choose Avigilon
+        </h2>
+
+        <p className="text-gray-700 mb-4">
+          Avigilon is commonly selected for environments that need enterprise-grade
+          video surveillance with strong on-prem control, scalable architecture,
+          and advanced investigative workflows.
+        </p>
+
+        <ul className="list-disc pl-6 text-gray-700 mb-4 space-y-2">
+          <li>On-prem or hybrid control for evidence retention and IT policies</li>
+          <li>Advanced analytics and forensic tools for faster investigations</li>
+          <li>Flexible architecture and integrations (including access control)</li>
+        </ul>
+
+        <p className="text-sm text-gray-600 mb-4">
+          Some organizations prefer cloud-managed simplicity for multi-site
+          operations.{" "}
+          <Link
+            to="/brands/verkada"
+            className="underline font-medium hover:opacity-80"
+          >
+            Verkada is often selected in those environments
+          </Link>
+          .
+        </p>
+
+        <p className="text-sm text-gray-700">
+          Comparing platforms?{" "}
+          <Link
+            to="/resources/verkada-vs-avigilon"
+            className="underline font-medium hover:opacity-80"
+          >
+            Read our Verkada vs Avigilon buyer guide for Illinois municipalities
+            & manufacturers
+          </Link>
+          .
+        </p>
+      </section>
 
       <div className="flex flex-wrap gap-2 mb-10">
         {TABS.map((t) => (
