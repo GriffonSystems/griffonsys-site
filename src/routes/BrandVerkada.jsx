@@ -12,6 +12,7 @@ function VerkadaLogo({ className = "h-10 w-auto object-contain" }) {
       className={className}
       width={160}
       height={40}
+      loading="lazy"
     />
   )
 }
@@ -36,10 +37,21 @@ export default function VendorVerkada() {
 
   const location = useLocation()
 
+  // --- SEO (route-unique, consistent with Canonical.jsx non-www) ---
+  const pageUrl = "https://griffonsys.com/brands/verkada"
+  const title =
+    "Verkada Security Systems | Cloud Video, Access & Intercom | Griffon Systems"
+  const description =
+    "Authorized Verkada integrator in Illinois delivering cloud video surveillance, access control, intercom, cellular connectivity, and remote security monitoring for municipalities, schools, and manufacturers."
+  const ogImage = "https://griffonsys.com/vendors/verkada/logo.jpg"
+
   React.useEffect(() => {
     const fromHash = (location.hash || "").replace("#", "")
     const wanted = (fromHash || "").toLowerCase()
-    if (wanted && ["video", "access", "intercom", "connectivity"].includes(wanted)) {
+    if (
+      wanted &&
+      ["video", "access", "intercom", "connectivity"].includes(wanted)
+    ) {
       setActive(wanted)
       window.scrollTo({ top: 0, behavior: "auto" })
     }
@@ -54,22 +66,87 @@ export default function VendorVerkada() {
   const grid = "grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
 
   const videoProducts = [
-    { key: "dome", title: "Dome", desc: "Reliable performance for most environments.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/dome.png` },
-    { key: "mini", title: "Mini", desc: "Compact form factor for tight spaces.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/mini.png` },
-    { key: "bullet", title: "Bullet", desc: "Optimized for license plate recognition and detail.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/bullet.png` },
-    { key: "fisheye", title: "Fisheye", desc: "180° panoramic coverage for large spaces.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/fisheye.png` },
-    { key: "multisensor", title: "Multisensor", desc: "Two or four sensors in one housing.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/multisensor.png` },
-    { key: "ptz", title: "PTZ", desc: "Pan-tilt-zoom for flexible, wide-area coverage.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/ptz.png` },
-    { key: "remote", title: "Remote", desc: "Battery + LTE for mobile deployments.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/remote.png` },
-    { key: "dualhead", title: "Dual-Head (CY53-E)", desc: "Two 5MP sensors in one housing.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/dualhead.jpeg` },
-    { key: "viewstation", title: "Viewing Station", desc: "Appliance for live camera walls.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/viewstation.jpeg` },
+    {
+      key: "dome",
+      title: "Dome",
+      desc: "Reliable performance for most environments.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/video/dome.png`,
+    },
+    {
+      key: "mini",
+      title: "Mini",
+      desc: "Compact form factor for tight spaces.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/video/mini.png`,
+    },
+    {
+      key: "bullet",
+      title: "Bullet",
+      desc: "Optimized for license plate recognition and detail.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/video/bullet.png`,
+    },
+    {
+      key: "fisheye",
+      title: "Fisheye",
+      desc: "180° panoramic coverage for large spaces.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/video/fisheye.png`,
+    },
+    {
+      key: "multisensor",
+      title: "Multisensor",
+      desc: "Two or four sensors in one housing.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/video/multisensor.png`,
+    },
+    {
+      key: "ptz",
+      title: "PTZ",
+      desc: "Pan-tilt-zoom for flexible, wide-area coverage.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/video/ptz.png`,
+    },
+    {
+      key: "remote",
+      title: "Remote",
+      desc: "Battery + LTE for mobile deployments.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/video/remote.png`,
+    },
+    {
+      key: "dualhead",
+      title: "Dual-Head (CY53-E)",
+      desc: "Two 5MP sensors in one housing.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/video/dualhead.jpeg`,
+    },
+    {
+      key: "viewstation",
+      title: "Viewing Station",
+      desc: "Appliance for live camera walls.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/video/viewstation.jpeg`,
+    },
   ]
 
   const accessProducts = [
-    { key: "singledoor", title: "Single Door Controller", desc: "Cloud-managed control for one opening.", img: `${import.meta.env.BASE_URL}vendors/verkada/access/singledoor.png` },
-    { key: "4doorcontroller", title: "4-Door Controller", desc: "Controls up to four doors.", img: `${import.meta.env.BASE_URL}vendors/verkada/access/4doorcontroller.png` },
-    { key: "mullion", title: "Mullion Reader", desc: "Supports NFC/BLE/mobile credentials.", img: `${import.meta.env.BASE_URL}vendors/verkada/access/singledoorreader.png` },
-    { key: "keypad", title: "Keypad Reader", desc: "PIN + card/mobile access.", img: `${import.meta.env.BASE_URL}vendors/verkada/access/keypad.png` },
+    {
+      key: "singledoor",
+      title: "Single Door Controller",
+      desc: "Cloud-managed control for one opening.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/access/singledoor.png`,
+    },
+    {
+      key: "4doorcontroller",
+      title: "4-Door Controller",
+      desc: "Controls up to four doors.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/access/4doorcontroller.png`,
+    },
+    {
+      key: "mullion",
+      title: "Mullion Reader",
+      desc: "Supports NFC/BLE/mobile credentials.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/access/singledoorreader.png`,
+    },
+    {
+      key: "keypad",
+      title: "Keypad Reader",
+      desc: "PIN + card/mobile access.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/access/keypad.png`,
+    },
   ]
 
   const intercomProducts = [
@@ -153,8 +230,12 @@ export default function VendorVerkada() {
             src={card.img}
             alt={card.title}
             className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
+            loading="lazy"
           />
-          <h3 className="text-xl font-semibold mb-1" style={{ fontFamily: "Optima, sans-serif" }}>
+          <h3
+            className="text-xl font-semibold mb-1"
+            style={{ fontFamily: "Optima, sans-serif" }}
+          >
             {card.title}
           </h3>
           <p className="text-gray-700 text-sm">{card.desc}</p>
@@ -163,44 +244,47 @@ export default function VendorVerkada() {
     </div>
   )
 
+  // Keep structured data clean: this is a Brand page (not a single Product)
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Product",
-    name: "Verkada Cloud Security",
-    brand: "Verkada",
-    category: "Cloud Surveillance",
-    url: "https://griffonsys.com/vendors/verkada",
-    provider: {
-      "@type": "LocalBusiness",
-      name: "Griffon Systems, Inc.",
-      url: "https://griffonsys.com/",
-      telephone: "630-607-0346",
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: "650 West Grand Ave #206",
-        addressLocality: "Elmhurst",
-        addressRegion: "IL",
-        postalCode: "60126",
-        addressCountry: "US",
-      },
-    },
-    areaServed: "Illinois",
+    "@type": "Brand",
+    "@id": "https://griffonsys.com/#brand-verkada",
+    name: "Verkada",
+    url: pageUrl,
+    description,
+    sameAs: ["https://www.verkada.com/"],
   }
 
   return (
     <main className="container py-12">
       <Helmet>
-        <title>Verkada Security Systems in Illinois | Griffon Systems</title>
+        <title>{title}</title>
 
         {/* IMPORTANT:
             Do NOT set a page-level canonical here.
             Global Canonical.jsx should be the single source of truth (non-www).
         */}
 
+        <meta key="description" name="description" content={description} />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
         <meta
-          name="description"
-          content="Authorized Verkada integrator in Illinois delivering cloud video, access control, intercom, cellular connectivity, and remote security monitoring."
+          property="og:title"
+          content="Verkada Security Systems | Griffon Systems"
         />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:image" content={ogImage} />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Verkada Security Systems | Griffon Systems"
+        />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImage} />
 
         <script
           type="application/ld+json"
@@ -251,7 +335,10 @@ export default function VendorVerkada() {
 
             {status !== "ok" ? (
               <>
-                <h2 className="text-2xl font-semibold mb-4" style={{ fontFamily: "Optima, sans-serif" }}>
+                <h2
+                  className="text-2xl font-semibold mb-4"
+                  style={{ fontFamily: "Optima, sans-serif" }}
+                >
                   Request Info — {selected}
                 </h2>
 
@@ -267,7 +354,9 @@ export default function VendorVerkada() {
                   <input
                     name="company"
                     value={form.company}
-                    onChange={(e) => setForm({ ...form, company: e.target.value })}
+                    onChange={(e) =>
+                      setForm({ ...form, company: e.target.value })
+                    }
                     placeholder="Company"
                     className="w-full border rounded p-2"
                   />
@@ -275,14 +364,21 @@ export default function VendorVerkada() {
                     type="email"
                     name="email"
                     value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    onChange={(e) =>
+                      setForm({ ...form, email: e.target.value })
+                    }
                     placeholder="Email"
                     required
                     className="w-full border rounded p-2"
                   />
 
                   <div className="flex items-center gap-2">
-                    <input id="consent" type="checkbox" required className="h-4 w-4" />
+                    <input
+                      id="consent"
+                      type="checkbox"
+                      required
+                      className="h-4 w-4"
+                    />
                     <label htmlFor="consent" className="text-sm text-gray-600">
                       I agree to be contacted about this request.
                     </label>
@@ -296,7 +392,9 @@ export default function VendorVerkada() {
                   </button>
 
                   {status === "error" && (
-                    <p className="text-red-600 text-sm mt-2">Something went wrong. Try again.</p>
+                    <p className="text-red-600 text-sm mt-2">
+                      Something went wrong. Try again.
+                    </p>
                   )}
                 </form>
               </>
