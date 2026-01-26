@@ -7,35 +7,39 @@ export default function Education() {
   const [showVideo, setShowVideo] = React.useState(false)
   const VIDEO_URL = "https://www.youtube.com/embed/hhfsZHMLMEk?autoplay=1"
 
+  // Match Canonical.jsx non-www convention
+  const pageUrl = "https://griffonsys.com/education"
+  const ogImage = "https://griffonsys.com/images/industries/education.jpg"
+
+  const title = "School & Campus Security Systems | K-12 & Higher-Ed | Griffon Systems"
+  const description =
+    "School and campus security systems for K-12 and Higher-Ed in Illinois. Video surveillance, access control, vaping/THC detection, and secure vestibule design with Avigilon, Verkada, and HALO sensors."
+
   return (
     <main className="container py-12">
       {/* ---- SEO ---- */}
       <Helmet>
-        <title>School & Campus Security Systems | K-12 & Higher-Ed | Griffon Systems</title>
-        <meta
-          name="description"
-          content="School and campus security systems for K-12 and Higher-Ed in Illinois. Video surveillance, access control, vaping / THC detection and secure vestibule design with Avigilon, Verkada and HALO sensors."
-        />
-        <link rel="canonical" href="https://www.griffonsys.com/education" />
+        <title>{title}</title>
+
+        {/* IMPORTANT:
+            Do NOT set a page-level canonical here.
+            Global Canonical.jsx is the single source of truth (non-www).
+        */}
+        <meta key="description" name="description" content={description} />
 
         {/* OpenGraph */}
-        <meta property="og:title" content="School & Campus Security Systems | Griffon Systems" />
-        <meta
-          property="og:description"
-          content="K-12 and Higher-Ed security — cameras, access control, sensors and analytics tailored for schools and campuses."
-        />
-        <meta property="og:image" content="https://www.griffonsys.com/images/industries/education.jpg" />
-        <meta property="og:url" content="https://www.griffonsys.com/education" />
         <meta property="og:type" content="website" />
+        <meta property="og:title" content="School & Campus Security Systems | Griffon Systems" />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:url" content={pageUrl} />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="School & Campus Security Systems | Griffon Systems" />
-        <meta
-          name="twitter:description"
-          content="Illinois K-12 and Higher-Ed security systems — Avigilon & Verkada cameras, access control and vape detection."
-        />
-        <meta name="twitter:image" content="https://www.griffonsys.com/images/industries/education.jpg" />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImage} />
+        <meta name="twitter:url" content={pageUrl} />
 
         {/* JSON-LD */}
         <script
@@ -43,25 +47,33 @@ export default function Education() {
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Service",
+              "@type": "WebPage",
+              "@id": "https://griffonsys.com/#education",
+              url: pageUrl,
               name: "School & Campus Security Systems",
               description:
                 "Security systems for K-12 schools and Higher-Ed campuses in Illinois, including video surveillance, access control, sensors and analytics.",
-              image: "https://www.griffonsys.com/images/industries/education.jpg",
-              url: "https://www.griffonsys.com/education",
-              areaServed: "Illinois",
-              provider: {
-                "@type": "LocalBusiness",
-                name: "Griffon Systems, Inc.",
-                telephone: "+16306070346",
-                url: "https://www.griffonsys.com",
-                address: {
-                  "@type": "PostalAddress",
-                  streetAddress: "650 West Grand Ave #206",
-                  addressLocality: "Elmhurst",
-                  addressRegion: "IL",
-                  postalCode: "60126",
-                  addressCountry: "US",
+              primaryImageOfPage: {
+                "@type": "ImageObject",
+                url: ogImage,
+              },
+              about: {
+                "@type": "Service",
+                name: "School & Campus Security Systems",
+                areaServed: "Illinois",
+                provider: {
+                  "@type": "LocalBusiness",
+                  name: "Griffon Systems, Inc.",
+                  telephone: "+16306070346",
+                  url: "https://griffonsys.com/",
+                  address: {
+                    "@type": "PostalAddress",
+                    streetAddress: "650 West Grand Ave #206",
+                    addressLocality: "Elmhurst",
+                    addressRegion: "IL",
+                    postalCode: "60126",
+                    addressCountry: "US",
+                  },
                 },
               },
             }),
@@ -89,6 +101,7 @@ export default function Education() {
             <button
               onClick={() => setShowVideo(false)}
               className="absolute top-3 right-3 bg-white/20 hover:bg-white/40 rounded-full p-2 text-white"
+              aria-label="Close video"
             >
               ✕
             </button>
@@ -101,7 +114,7 @@ export default function Education() {
         <div className="relative overflow-hidden rounded-3xl shadow-lg h-[40vh] md:h-[55vh]">
           <img
             src="/images/industries/education.jpg"
-            alt="School and campus security"
+            alt="School and campus security systems in Illinois"
             className="absolute inset-0 w-full h-full object-cover object-[center_20%]"
             loading="eager"
           />
@@ -116,7 +129,6 @@ export default function Education() {
               access control and sensor technology.
             </p>
 
-            {/* Hero bullets (option F) */}
             <ul className="mt-4 text-sm md:text-base opacity-95 space-y-1">
               <li>• Secure entries & vestibules</li>
               <li>• Vaping / THC / air quality detection</li>
@@ -175,7 +187,10 @@ export default function Education() {
             { title: "After-Hours & Event Monitoring", text: "Adjust schedules for practices, games, performances and rentals." },
             { title: "District-Wide Visibility", text: "Centralized dashboards for principals, SROs and district administration." },
           ].map(({ title, text }) => (
-            <div key={title} className="bg-gray-100 p-6 rounded-2xl shadow-sm hover:shadow-md transition">
+            <div
+              key={title}
+              className="bg-gray-100 p-6 rounded-2xl shadow-sm hover:shadow-md transition"
+            >
               <h3 className="text-xl font-semibold mb-2" style={{ fontFamily: "Optima" }}>
                 {title}
               </h3>
@@ -199,7 +214,7 @@ export default function Education() {
             <ul className="list-disc pl-5 mt-3 text-gray-700 space-y-2">
               <li>High-resolution hallway and exterior cameras</li>
               <li>Analytics for loitering, crowding and object left</li>
-              <li>Integration with ACM access control at key doors</li>
+              <li>Integration with access control at key doors</li>
             </ul>
           </div>
 
@@ -263,15 +278,9 @@ export default function Education() {
       <section className="text-center mb-24">
         <h3 className="text-xl font-semibold mb-4">Explore Related Solutions</h3>
         <ul className="space-y-2 text-blue-600 underline text-lg">
-          <li>
-            <Link to="/industries">All Industries</Link>
-          </li>
-          <li>
-            <Link to="/municipal">Municipal Facilities</Link>
-          </li>
-          <li>
-            <Link to="/from-the-field">Project Highlights</Link>
-          </li>
+          <li><Link to="/industries">All Industries</Link></li>
+          <li><Link to="/municipal">Municipal Facilities</Link></li>
+          <li><Link to="/from-the-field">Project Highlights</Link></li>
         </ul>
       </section>
 
