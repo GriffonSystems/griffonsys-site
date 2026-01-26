@@ -1,11 +1,19 @@
 // src/routes/Industries.jsx
 import React from "react"
-import { useNavigate, Link } from "react-router-dom"   // ← FIX: added Link import
+import { useNavigate, Link } from "react-router-dom"
 import { Helmet } from "react-helmet"
 
 export default function Industries() {
   const [showVideo, setShowVideo] = React.useState(false)
   const navigate = useNavigate()
+
+  // Match Canonical.jsx non-www convention
+  const pageUrl = "https://griffonsys.com/industries"
+  const ogImage = "https://griffonsys.com/images/industries/manufacturing.jpg"
+
+  const title = "Industries We Serve | Security Cameras & Access Control | Griffon Systems"
+  const description =
+    "Griffon Systems provides security cameras, access control, LPR, and wireless backhaul solutions for manufacturing, education, municipal, and commercial facilities across Illinois."
 
   const items = [
     {
@@ -21,6 +29,7 @@ export default function Industries() {
       img: "/images/industries/education.jpg",
       video: "https://www.youtube.com/embed/hhfsZHMLMEk?autoplay=1",
       focal: "object-[center_10%]",
+      link: "/education",
     },
     {
       title: "Municipal",
@@ -41,12 +50,48 @@ export default function Industries() {
   return (
     <main className="container py-12">
       <Helmet>
-        <title>Industries We Serve | Griffon Systems</title>
-        <meta
-          name="description"
-          content="Griffon Systems provides security camera, access control, LPR and wireless backhaul solutions for manufacturing, education, municipal, and commercial facilities across Illinois."
+        <title>{title}</title>
+
+        {/* IMPORTANT:
+            Do NOT set a page-level canonical here.
+            Global Canonical.jsx is the single source of truth (non-www).
+        */}
+        <meta key="description" name="description" content={description} />
+
+        {/* OpenGraph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Industries We Serve | Griffon Systems" />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:url" content={pageUrl} />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Industries We Serve | Griffon Systems" />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImage} />
+        <meta name="twitter:url" content={pageUrl} />
+
+        {/* JSON-LD */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "CollectionPage",
+              "@id": "https://griffonsys.com/#industries",
+              url: pageUrl,
+              name: "Industries We Serve",
+              description,
+              isPartOf: {
+                "@type": "WebSite",
+                "@id": "https://griffonsys.com/#website",
+                url: "https://griffonsys.com/",
+                name: "Griffon Systems",
+              },
+            }),
+          }}
         />
-        <link rel="canonical" href="https://www.griffonsys.com/industries" />
       </Helmet>
 
       <h1 className="text-3xl font-bold mb-6">Industries</h1>
@@ -72,11 +117,12 @@ export default function Industries() {
             <button
               onClick={() => setShowVideo(false)}
               className="absolute top-3 right-3 bg-white/20 hover:bg-white/40 rounded-full p-2 text-white"
+              aria-label="Close video"
             >
               ✕
             </button>
 
-            {showVideo.includes("hhfsZHMLMEk") && (
+            {String(showVideo).includes("hhfsZHMLMEk") && (
               <button
                 type="button"
                 onClick={() => {
@@ -100,7 +146,9 @@ export default function Industries() {
             role="button"
             tabIndex={0}
             onClick={() => (video ? setShowVideo(video) : navigate(link))}
-            onKeyDown={(e) => e.key === "Enter" && (video ? setShowVideo(video) : navigate(link))}
+            onKeyDown={(e) =>
+              e.key === "Enter" && (video ? setShowVideo(video) : navigate(link))
+            }
             className={`relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition ${
               video || link ? "cursor-pointer" : ""
             }`}
@@ -124,10 +172,26 @@ export default function Industries() {
       <div className="mt-14 text-gray-700 text-sm space-y-1">
         <p className="font-semibold">Featured industry solutions:</p>
         <ul className="list-disc ml-5 space-y-1">
-          <li><Link className="underline hover:text-gray-900" to="/manufacturing">Manufacturing Security</Link></li>
-          <li><Link className="underline hover:text-gray-900" to="/municipal">Municipal Facilities</Link></li>
-          <li><Link className="underline hover:text-gray-900" to="/commercial">Commercial & Retail</Link></li>
-          <li><Link className="underline hover:text-gray-900" to="/education">School & Campus Security</Link></li>
+          <li>
+            <Link className="underline hover:text-gray-900" to="/manufacturing">
+              Manufacturing Security
+            </Link>
+          </li>
+          <li>
+            <Link className="underline hover:text-gray-900" to="/municipal">
+              Municipal Facilities
+            </Link>
+          </li>
+          <li>
+            <Link className="underline hover:text-gray-900" to="/commercial">
+              Commercial & Retail
+            </Link>
+          </li>
+          <li>
+            <Link className="underline hover:text-gray-900" to="/education">
+              School & Campus Security
+            </Link>
+          </li>
         </ul>
       </div>
     </main>
