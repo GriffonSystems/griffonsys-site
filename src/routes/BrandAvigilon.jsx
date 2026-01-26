@@ -1,7 +1,6 @@
-import React, { useState } from "react"
-import { Link, useLocation } from "react-router-dom"
-import axios from "axios"
+import React from "react"
 import { Helmet } from "react-helmet"
+import { Link, useLocation } from "react-router-dom"
 
 function AvigilonLogo({ className = "h-10 w-auto object-contain" }) {
   return (
@@ -9,9 +8,6 @@ function AvigilonLogo({ className = "h-10 w-auto object-contain" }) {
       src={`${import.meta.env.BASE_URL}vendors/avigilon/logo.jpg`}
       alt="Avigilon"
       className={className}
-      width={160}
-      height={40}
-      loading="lazy"
     />
   )
 }
@@ -20,194 +16,306 @@ const TABS = [
   { key: "video", label: "Video" },
   { key: "access", label: "Access" },
   { key: "intercom", label: "Intercom" },
-  { key: "analytics", label: "Analytics" },
+]
+
+const PRODUCT_INFO = {
+  "slbullet.png": {
+    title: "H6SL Bullet Camera",
+    desc: "AI-powered bullet IP camera delivering superior situational awareness and long-range detail.",
+  },
+  "H6SL_Dome_1.avif": {
+    title: "H6SL Dome Camera",
+    desc: "Weatherproof dome camera that secures your site with AI-powered analytics.",
+  },
+  "H5A_Multisensor.png": {
+    title: "H5A Multisensor Camera",
+    desc: "Covers all angles with 180°, 270°, or 360° views from a single housing using multiple sensors.",
+  },
+  "H5A_Dual_Head_02.avif": {
+    title: "H5A Dual Head Camera",
+    desc: "Dual-sensor camera offering flexible positioning and wide coverage for hallways or intersections.",
+  },
+  "H5A_Modular_01.avif": {
+    title: "H5A Modular Camera",
+    desc: "Compact modular design enabling discreet monitoring with flexible sensor placement.",
+  },
+  "H5M.avif": {
+    title: "H5M Mini Dome Camera",
+    desc: "Compact, cost-effective dome ideal for indoor or sheltered outdoor applications.",
+  },
+  "fisheye.avif": {
+    title: "H5A Fisheye Camera",
+    desc: "360° panoramic fisheye camera that provides complete situational awareness in a single view.",
+  },
+  "thermal.png": {
+    title: "H5A Thermal Camera",
+    desc: "Provides long-range perimeter protection with heat-based detection and analytics.",
+  },
+  "pro.png": {
+    title: "H5 Pro Camera",
+    desc: "High-resolution IP camera capturing image detail up to 10K for expansive scene coverage.",
+  },
+  "lpr.png": {
+    title: "L6A Enterprise LPR Camera",
+    desc: "Advanced license plate recognition camera with integrated analytics for vehicle tracking.",
+  },
+}
+
+const CAMERA_ORDER = [
+  "slbullet.png",
+  "H6SL_Dome_1.avif",
+  "H5A_Multisensor.png",
+  "H5A_Dual_Head_02.avif",
+  "H5A_Modular_01.avif",
+  "H5M.avif",
+  "fisheye.avif",
+  "thermal.png",
+  "pro.png",
+  "lpr.png",
 ]
 
 export default function BrandAvigilon() {
-  const [active, setActive] = useState("video")
-  const [selected, setSelected] = useState(null)
-  const [status, setStatus] = useState("idle")
-  const [form, setForm] = useState({ name: "", email: "", company: "" })
-
   const location = useLocation()
+  const [active, setActive] = React.useState("video")
+  const [videoImages, setVideoImages] = React.useState([])
+  const [showVideo, setShowVideo] = React.useState(null)
 
-  // --- SEO (route-unique; canonical handled globally) ---
+  // --- SEO (route-unique, consistent with Canonical.jsx non-www) ---
   const pageUrl = "https://griffonsys.com/brands/avigilon"
-  const title =
-    "Avigilon Security Systems | ACC Video, Analytics & ACM Access | Griffon Systems"
+  const ogImage = "https://griffonsys.com/vendors/avigilon/avigilon-text.png"
+  const title = "Avigilon Security Systems | Video, Access & Intercom | Griffon Systems"
   const description =
-    "Avigilon integrator in Illinois delivering ACC/Unity video surveillance, advanced analytics, and ACM access control for municipalities, schools, and manufacturers."
-  const ogImage = "https://griffonsys.com/vendors/avigilon/logo.jpg"
+    "Authorized Avigilon partner in Illinois providing video surveillance, access control, and intercom systems for manufacturing, education, and municipalities."
 
   React.useEffect(() => {
-    const fromHash = (location.hash || "").replace("#", "")
-    const wanted = (fromHash || "").toLowerCase()
-    if (wanted && ["video", "access", "intercom", "analytics"].includes(wanted)) {
-      setActive(wanted)
-      window.scrollTo({ top: 0, behavior: "auto" })
-    }
+    const hash = (location.hash || "").replace("#", "").toLowerCase()
+    if (["video", "access", "intercom"].includes(hash)) setActive(hash)
   }, [location.hash])
+
+  React.useEffect(() => {
+    fetch(`${import.meta.env.BASE_URL}vendors/avigilon/index.json`)
+      .then((res) => res.json())
+      .then((data) => {
+        const imgs = data.images || []
+        const sorted = CAMERA_ORDER.filter((x) => imgs.includes(x))
+        setVideoImages(sorted)
+      })
+      .catch((err) => console.error("Failed to load Avigilon JSON:", err))
+  }, [])
 
   const onTabClick = (key) => {
     setActive(key)
     window.history.replaceState(null, "", `#${key}`)
-    window.scrollTo({ top: 0, behavior: "auto" })
+    window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
   const grid = "grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
 
-  // --- Product tiles (edit images/names to match your assets) ---
-  const videoProducts = [
-    {
-      key: "acc",
-      title: "Avigilon ACC / Unity",
-      desc: "On-prem video management with enterprise scaling and forensic search.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/video/acc.png`,
-    },
-    {
-      key: "h6sl-bullet",
-      title: "H6SL Bullet",
-      desc: "AI-assisted bullet camera for perimeter coverage and detail.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/video/h6sl-bullet.png`,
-    },
-    {
-      key: "h6sl-dome",
-      title: "H6SL Dome",
-      desc: "Durable dome camera for indoor/outdoor coverage and analytics.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/video/h6sl-dome.png`,
-    },
-    {
-      key: "multisensor",
-      title: "Multisensor",
-      desc: "Multi-imager coverage to reduce blind spots in large areas.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/video/multisensor.png`,
-    },
-    {
-      key: "lpr",
-      title: "License Plate Recognition",
-      desc: "Purpose-built capture for vehicles and investigative workflows.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/video/lpr.png`,
-    },
-    {
-      key: "ai-nvr",
-      title: "AI NVR / Recording",
-      desc: "Local recording designed for performance and retention requirements.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/video/ainvr.png`,
-    },
-  ]
-
   const accessProducts = [
     {
       key: "acm",
-      title: "Avigilon ACM",
-      desc: "Enterprise access control with flexible integrations and workflows.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/access/acm.png`,
+      title: "Access Control Manager (ACM)",
+      desc: "Scalable on-premise access control platform integrated with Avigilon Unity.",
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/ACM.mp4`,
     },
     {
-      key: "doors",
-      title: "Door Hardware + Readers",
-      desc: "Controllers, readers, locks, and door monitoring design & install.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/access/doors.png`,
+      key: "readerpro",
+      title: "Video Intercom Reader Pro",
+      desc: "Reader and video intercom combined in one secure, cloud-connected device.",
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/VideoIntercomReaderPro_01.avif`,
     },
     {
-      key: "integrations",
-      title: "Video + Access Integration",
-      desc: "Tie doors to cameras for faster response and verification.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/access/integration.png`,
+      key: "rackmounted",
+      title: "Rack-Mounted Controller",
+      desc: "Enterprise-grade controller to manage door hardware and access points.",
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/Rack.avif`,
     },
   ]
 
   const intercomProducts = [
     {
-      key: "intercom",
-      title: "Intercom Integrations",
-      desc: "Integrate intercom + video workflows for entries and gates.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/intercom/intercom.png`,
+      key: "readerpro",
+      title: "Video Intercom Reader Pro",
+      desc: "Smart intercom providing HD video, door control, and remote unlocking.",
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/VideoIntercomReaderPro_01.avif`,
     },
     {
-      key: "gate",
-      title: "Gate & Entry Systems",
-      desc: "Visitor workflows, directory, and secure entry design.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/intercom/gate.png`,
+      key: "h4intercom",
+      title: "H4 Video Intercom",
+      desc: "Legacy unified intercom for Avigilon Unity deployments.",
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/intercom.png`,
+    },
+    {
+      key: "infrastructure",
+      title: "Video Infrastructure Integration",
+      desc: "Seamless integration between Avigilon Command and intercom endpoints.",
+      img: `${import.meta.env.BASE_URL}vendors/avigilon/videoinf.png`,
     },
   ]
 
-  const analyticsProducts = [
-    {
-      key: "appearance-search",
-      title: "Appearance Search",
-      desc: "Accelerate investigations with AI-assisted filtering and review.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/analytics/appearance-search.png`,
-    },
-    {
-      key: "uof",
-      title: "Unusual Activity Detection",
-      desc: "Analytics designed to highlight relevant events and reduce noise.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/analytics/uad.png`,
-    },
-    {
-      key: "rules",
-      title: "Rules & Alerts",
-      desc: "Event rules and notifications tailored to your operations.",
-      img: `${import.meta.env.BASE_URL}vendors/avigilon/analytics/alerts.png`,
-    },
-  ]
+  const renderVideoGrid = () => (
+    <div className={grid}>
+      {videoImages.map((file) => {
+        const info = PRODUCT_INFO[file] || {
+          title: file.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " "),
+          desc: "Avigilon camera model for enterprise environments.",
+        }
+        const isLPR = file === "lpr.png"
 
-  const handleCardClick = (card) => {
-    setSelected(card.title)
-  }
+        return (
+          <div
+            key={file}
+            onClick={() => isLPR && setShowVideo("lpr")}
+            className={`card p-6 flex flex-col bg-white rounded-2xl shadow-sm transition ${
+              isLPR ? "cursor-pointer hover:shadow-lg hover:scale-[1.02]" : "hover:shadow-md"
+            }`}
+          >
+            <div className="relative">
+              <img
+                src={`${import.meta.env.BASE_URL}vendors/avigilon/${file}`}
+                alt={info.title}
+                className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
+                loading="lazy"
+              />
+              {isLPR && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/30 rounded-lg transition">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-14 w-14 text-white opacity-80"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              )}
+            </div>
+            <h3 className="text-xl font-semibold mb-2">{info.title}</h3>
+            <p className="text-gray-700 text-sm">{info.desc}</p>
+          </div>
+        )
+      })}
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setStatus("loading")
+      <div
+        onClick={() => setShowVideo("visual")}
+        className="card p-6 flex flex-col bg-white rounded-2xl shadow-sm cursor-pointer hover:shadow-lg hover:scale-[1.02] transition"
+      >
+        <div className="relative">
+          <img
+            src={`${import.meta.env.BASE_URL}vendors/avigilon/visualalerts-thumb.jpg`}
+            alt="Visual Alerts Coming Soon"
+            className="w-full h-40 object-cover bg-gray-50 rounded-lg mb-4"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/30 rounded-lg transition">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-14 w-14 text-white opacity-80"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+        </div>
+        <h3 className="text-xl font-semibold mb-2">Visual Alerts (Coming Soon)</h3>
+        <p className="text-gray-700 text-sm">
+          Describe a scene and instantly create an alert — next-gen Avigilon analytics.
+        </p>
+      </div>
 
-    try {
-      await axios.post("/api/contact", {
-        name: form.name,
-        email: form.email,
-        company: form.company,
-        phone: "",
-        message: `Request for more information about: ${selected}`,
-      })
-
-      setStatus("ok")
-      setTimeout(() => {
-        setSelected(null)
-        setStatus("idle")
-        setForm({ name: "", email: "", company: "" })
-      }, 2000)
-    } catch {
-      setStatus("error")
-    }
-  }
+      <div
+        onClick={() => setShowVideo("unity")}
+        className="card p-6 flex flex-col bg-white rounded-2xl shadow-sm cursor-pointer hover:shadow-lg hover:scale-[1.02] transition"
+      >
+        <div className="relative">
+          <img
+            src={`${import.meta.env.BASE_URL}vendors/avigilon/unity-thumb.jpg`}
+            alt="Avigilon Unity End-to-End Security"
+            className="w-full h-40 object-cover bg-gray-50 rounded-lg mb-4"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/30 rounded-lg transition">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-14 w-14 text-white opacity-80"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+        </div>
+        <h3 className="text-xl font-semibold mb-2">Avigilon Unity Suite</h3>
+        <p className="text-gray-700 text-sm">
+          Explore Avigilon Unity’s end-to-end video, analytics, and access control platform.
+        </p>
+      </div>
+    </div>
+  )
 
   const renderGrid = (list) => (
     <div className={grid}>
       {list.map((card) => (
         <div
           key={card.key}
-          onClick={() => handleCardClick(card)}
-          className="card p-6 bg-white rounded-2xl shadow-sm hover:shadow-lg transition cursor-pointer hover:scale-[1.01]"
+          className="card p-6 flex flex-col bg-white rounded-2xl shadow-sm hover:shadow-md transition"
         >
-          <img
-            src={card.img}
-            alt={card.title}
-            className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
-            loading="lazy"
-          />
-          <h3
-            className="text-xl font-semibold mb-1"
-            style={{ fontFamily: "Optima, sans-serif" }}
-          >
-            {card.title}
-          </h3>
+          {card.img.endsWith(".mp4") ? (
+            <video
+              src={card.img}
+              controls
+              className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
+            />
+          ) : (
+            <img
+              src={card.img}
+              alt={card.title}
+              className="w-full h-40 object-contain bg-gray-50 rounded-lg mb-4"
+              loading="lazy"
+            />
+          )}
+          <h3 className="text-xl font-semibold mb-2">{card.title}</h3>
           <p className="text-gray-700 text-sm">{card.desc}</p>
         </div>
       ))}
     </div>
   )
 
-  // Structured data: Brand page (not a single product)
+  const renderModal = () => {
+    if (!showVideo) return null
+
+    const videoSrc =
+      showVideo === "lpr"
+        ? "https://www.youtube.com/embed/bJS9dWi1uzk?autoplay=1"
+        : showVideo === "visual"
+        ? "https://www.youtube.com/embed/8ZZ5ri2QXUE?autoplay=1"
+        : showVideo === "unity"
+        ? "https://www.youtube.com/embed/GGypm25cNs8?autoplay=1"
+        : ""
+
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+        <div className="relative bg-black rounded-2xl overflow-hidden shadow-xl w-[90%] max-w-4xl aspect-video">
+          <iframe
+            src={videoSrc}
+            title="Avigilon Demo Video"
+            className="absolute inset-0 w-full h-full"
+            allow="autoplay; encrypted-media"
+            allowFullScreen
+          />
+          <button
+            onClick={() => setShowVideo(null)}
+            className="absolute top-3 right-3 bg-white/20 hover:bg-white/40 rounded-full p-2 text-white"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  // Keep structured data clean: this is a Brand page (not a single Product)
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Brand",
@@ -224,8 +332,9 @@ export default function BrandAvigilon() {
         <title>{title}</title>
 
         {/* IMPORTANT:
-            Do NOT set a page-level canonical here.
-            Global Canonical.jsx should be the single source of truth (non-www).
+            DO NOT set a canonical here.
+            The global Canonical.jsx component is the single source of truth
+            and forces non-www everywhere.
         */}
 
         <meta key="description" name="description" content={description} />
@@ -251,150 +360,23 @@ export default function BrandAvigilon() {
 
       <h1 className="sr-only">Avigilon Security Systems</h1>
 
-      {/* REQUEST INFO MODAL */}
-      {selected && (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center">
-          <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 relative">
-            <button
-              onClick={() => setSelected(null)}
-              className="absolute top-2 right-3 text-gray-500 hover:text-gray-800 text-2xl"
-              aria-label="Close request form"
-            >
-              &times;
-            </button>
+      {renderModal()}
 
-            {status !== "ok" ? (
-              <>
-                <h2
-                  className="text-2xl font-semibold mb-4"
-                  style={{ fontFamily: "Optima, sans-serif" }}
-                >
-                  Request Info — {selected}
-                </h2>
-
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <input
-                    name="name"
-                    value={form.name}
-                    onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    placeholder="Your Name"
-                    required
-                    className="w-full border rounded p-2"
-                  />
-                  <input
-                    name="company"
-                    value={form.company}
-                    onChange={(e) => setForm({ ...form, company: e.target.value })}
-                    placeholder="Company"
-                    className="w-full border rounded p-2"
-                  />
-                  <input
-                    type="email"
-                    name="email"
-                    value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    placeholder="Email"
-                    required
-                    className="w-full border rounded p-2"
-                  />
-
-                  <div className="flex items-center gap-2">
-                    <input id="consent" type="checkbox" required className="h-4 w-4" />
-                    <label htmlFor="consent" className="text-sm text-gray-600">
-                      I agree to be contacted about this request.
-                    </label>
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition"
-                  >
-                    {status === "loading" ? "Sending..." : "Send"}
-                  </button>
-
-                  {status === "error" && (
-                    <p className="text-red-600 text-sm mt-2">
-                      Something went wrong. Try again.
-                    </p>
-                  )}
-                </form>
-              </>
-            ) : (
-              <div className="text-center py-8">
-                <h3 className="text-xl font-semibold mb-2">Thank you!</h3>
-                <p>We'll send more information about {selected} shortly.</p>
-              </div>
-            )}
-          </div>
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center gap-4">
+          <AvigilonLogo className="h-10 w-auto object-contain" />
+          <img
+            src={`${import.meta.env.BASE_URL}vendors/avigilon/avigilon-text.png`}
+            alt="Avigilon"
+            className="h-6 w-auto object-contain"
+            loading="lazy"
+          />
         </div>
-      )}
-
-      {/* Header row */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-3">
-          <AvigilonLogo />
-        </div>
-
-        <div className="flex items-center gap-3">
-          <Link
-            to="/resources/verkada-vs-avigilon"
-            className="px-4 py-2 rounded-xl border border-gray-300 bg-white hover:bg-gray-100 transition"
-          >
-            Compare Verkada vs Avigilon
-          </Link>
-
-          <Link to="/contact" className="btn btn-primary">
-            Request a Demo
-          </Link>
-        </div>
+        <Link to="/contact" className="btn btn-primary">
+          Request a Quote
+        </Link>
       </div>
 
-      {/* WHY AVIGILON (tight version) */}
-      <section className="max-w-4xl mb-12">
-        <h2
-          className="text-2xl font-semibold mb-4"
-          style={{ fontFamily: "Optima, sans-serif" }}
-        >
-          Why Organizations Choose Avigilon
-        </h2>
-
-        <p className="text-gray-700 mb-4">
-          Avigilon is commonly selected for environments that need enterprise-grade
-          video surveillance with strong on-prem or hybrid control, scalable
-          architecture, and advanced investigative workflows.
-        </p>
-
-        <ul className="list-disc pl-6 text-gray-700 mb-4 space-y-2">
-          <li>On-prem or hybrid control for evidence retention and IT policies</li>
-          <li>Advanced analytics and forensic tools for faster investigations</li>
-          <li>Flexible architecture and integrations (including access control)</li>
-        </ul>
-
-        <p className="text-sm text-gray-600 mb-4">
-          Some organizations prefer cloud-managed simplicity for multi-site operations.{" "}
-          <Link
-            to="/brands/verkada"
-            className="underline font-medium hover:opacity-80"
-          >
-            Verkada is often selected in those environments
-          </Link>
-          .
-        </p>
-
-        <p className="text-sm text-gray-700">
-          Comparing platforms?{" "}
-          <Link
-            to="/resources/verkada-vs-avigilon"
-            className="underline font-medium hover:opacity-80"
-          >
-            Read our Verkada vs Avigilon buyer guide for Illinois municipalities &
-            manufacturers
-          </Link>
-          .
-        </p>
-      </section>
-
-      {/* Tabs */}
       <div className="flex flex-wrap gap-2 mb-10">
         {TABS.map((t) => (
           <button
@@ -403,7 +385,7 @@ export default function BrandAvigilon() {
             className={`px-4 py-2 rounded-xl border transition ${
               active === t.key
                 ? "bg-black text-white border-black"
-                : "bg-white hover:bg-gray-100 border-gray-300"
+                : "bg-white hover:bg-gray-100 border-gray-200"
             }`}
           >
             {t.label}
@@ -411,10 +393,9 @@ export default function BrandAvigilon() {
         ))}
       </div>
 
-      {active === "video" && renderGrid(videoProducts)}
+      {active === "video" && renderVideoGrid()}
       {active === "access" && renderGrid(accessProducts)}
       {active === "intercom" && renderGrid(intercomProducts)}
-      {active === "analytics" && renderGrid(analyticsProducts)}
     </main>
   )
 }
