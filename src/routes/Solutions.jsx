@@ -2,6 +2,7 @@
 import React, { useState } from "react"
 import axios from "axios"
 import { Helmet } from "react-helmet"
+import { Link } from "react-router-dom"
 
 export default function Solutions() {
   const items = [
@@ -71,30 +72,38 @@ export default function Solutions() {
     }
   }
 
+  // Match Canonical.jsx non-www convention + your actual route
+  const pageUrl = "https://griffonsys.com/solutions"
+  const ogImage = "https://griffonsys.com/images/solutions/cloud-video.jpg"
+  const title = "Security Solutions | Video, Access Control, Intercom & Wireless | Griffon Systems"
+  const description =
+    "Explore cloud video, on-prem VMS, access control, video intercom, wireless backhaul, and maintenance services provided by Griffon Systems across Chicago and Northern Illinois."
+
   return (
     <main className="container py-12">
       {/* ---- SEO ---- */}
       <Helmet>
-        <title>
-          Security Solutions | Video Surveillance, Access Control & Intercom | Griffon Systems
-        </title>
-        <meta
-          name="description"
-          content="Explore cloud video, on-prem VMS, access control, video intercom, wireless backhaul, and maintenance services provided by Griffon Systems across Chicago and Northern Illinois."
-        />
-        <link rel="canonical" href="https://www.griffonsys.com/solutions" />
+        <title>{title}</title>
 
-        {/* Social share images */}
-        <meta property="og:title" content="Security Solutions | Griffon Systems" />
-        <meta
-          property="og:description"
-          content="Avigilon & Verkada security solutions — video, access control, intercom, wireless backhaul, and managed support."
-        />
-        <meta property="og:image" content="https://www.griffonsys.com/images/solutions/cloud-video.jpg" />
-        <meta property="og:url" content="https://www.griffonsys.com/solutions" />
+        {/* IMPORTANT:
+            Do NOT set a page-level canonical here.
+            Global Canonical.jsx is the single source of truth (non-www).
+        */}
+        <meta key="description" name="description" content={description} />
+
+        {/* OpenGraph */}
         <meta property="og:type" content="website" />
+        <meta property="og:title" content="Security Solutions | Griffon Systems" />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:url" content={pageUrl} />
 
+        {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Security Solutions | Griffon Systems" />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImage} />
+        <meta name="twitter:url" content={pageUrl} />
 
         {/* JSON-LD Structured Data */}
         <script
@@ -102,31 +111,42 @@ export default function Solutions() {
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "ItemList",
+              "@type": "CollectionPage",
+              "@id": "https://griffonsys.com/#solutions",
+              url: pageUrl,
               name: "Security Solutions",
-              url: "https://www.griffonsys.com/solutions",
-              numberOfItems: items.length,
-              itemListElement: items.map((x, i) => ({
-                "@type": "Product",
-                position: i + 1,
-                name: x.title,
-                description: x.desc,
-                image: `https://www.griffonsys.com${x.img}`,
-                brand: { "@type": "Brand", name: "Griffon Systems" },
-                provider: {
-                  "@type": "LocalBusiness",
-                  name: "Griffon Systems, Inc.",
-                  address: {
-                    "@type": "PostalAddress",
-                    streetAddress: "650 West Grand Ave #206",
-                    addressLocality: "Elmhurst",
-                    addressRegion: "IL",
-                    postalCode: "60126",
-                    addressCountry: "US",
+              description,
+              mainEntity: {
+                "@type": "ItemList",
+                name: "Security Solutions Offered by Griffon Systems",
+                itemListOrder: "https://schema.org/ItemListOrderAscending",
+                numberOfItems: items.length,
+                itemListElement: items.map((x, i) => ({
+                  "@type": "ListItem",
+                  position: i + 1,
+                  item: {
+                    "@type": "Service",
+                    name: x.title,
+                    description: x.desc,
+                    image: `https://griffonsys.com${x.img}`,
+                    provider: {
+                      "@type": "LocalBusiness",
+                      name: "Griffon Systems, Inc.",
+                      url: "https://griffonsys.com/",
+                      telephone: "+16306070346",
+                      address: {
+                        "@type": "PostalAddress",
+                        streetAddress: "650 West Grand Ave #206",
+                        addressLocality: "Elmhurst",
+                        addressRegion: "IL",
+                        postalCode: "60126",
+                        addressCountry: "US",
+                      },
+                    },
+                    areaServed: ["Chicago", "Chicagoland", "Northern Illinois"],
                   },
-                  telephone: "+16306070346",
-                },
-              })),
+                })),
+              },
             }),
           }}
         />
@@ -155,8 +175,9 @@ export default function Solutions() {
               backgroundPosition: item.pos || "center",
               height: "260px",
             }}
+            aria-label={`Request information about ${item.title}`}
           >
-            <div className="absolute inset-0 bg-black/45 group-hover:bg-black/60 transition-all"></div>
+            <div className="absolute inset-0 bg-black/45 group-hover:bg-black/60 transition-all" />
             <div className="relative z-10 p-6 text-white">
               <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
               <p className="text-gray-200">{item.desc}</p>
@@ -172,6 +193,7 @@ export default function Solutions() {
             <button
               onClick={() => setSelected(null)}
               className="absolute top-2 right-3 text-gray-500 hover:text-gray-800 text-2xl"
+              aria-label="Close request form"
             >
               ×
             </button>
@@ -238,22 +260,22 @@ export default function Solutions() {
 
       {/* ---- INTERNAL LINKS FOR SEO ---- */}
       <div className="text-center mt-16 text-gray-600 text-sm">
-        Related:{" "}
-        <a href="/manufacturing" className="text-blue-600 underline">
+        Related:&nbsp;
+        <Link className="text-blue-600 underline" to="/manufacturing">
           Manufacturing
-        </a>{" "}
-        •{" "}
-        <a href="/municipal" className="text-blue-600 underline">
+        </Link>
+        &nbsp;•&nbsp;
+        <Link className="text-blue-600 underline" to="/municipal">
           Municipal
-        </a>{" "}
-        •{" "}
-        <a href="/commercial" className="text-blue-600 underline">
+        </Link>
+        &nbsp;•&nbsp;
+        <Link className="text-blue-600 underline" to="/commercial">
           Commercial
-        </a>{" "}
-        •{" "}
-        <a href="/lpr" className="text-blue-600 underline">
+        </Link>
+        &nbsp;•&nbsp;
+        <Link className="text-blue-600 underline" to="/lpr">
           LPR Systems
-        </a>
+        </Link>
       </div>
     </main>
   )
