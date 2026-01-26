@@ -4,38 +4,42 @@ import { Link } from "react-router-dom"
 import { Helmet } from "react-helmet"
 
 export default function Municipal() {
+  // Match Canonical.jsx non-www convention
+  const pageUrl = "https://griffonsys.com/municipal"
+  const ogImage = "https://griffonsys.com/images/industries/muni.jpg"
+
+  const title =
+    "Municipal Security Systems | Police, Fire, DPW & City Facilities | Griffon Systems"
+  const description =
+    "Municipal security systems for Illinois — police, fire, DPW, water plants, public works and city buildings. Avigilon & Verkada cameras, access control, LPR, wireless backhaul and analytics."
+
   return (
     <main className="container py-12">
-
       {/* ---- SEO ---- */}
       <Helmet>
-        <title>Municipal Security Systems | Police, Fire, DPW & City Facilities | Griffon Systems</title>
-        <meta
-          name="description"
-          content="Municipal security systems for Illinois — police, fire, DPW, water plants, public works and city buildings. Avigilon & Verkada cameras, ACM access, LPR, wireless backhaul and analytics."
-        />
-        <link rel="canonical" href="https://www.griffonsys.com/municipal" />
+        <title>{title}</title>
+
+        {/* IMPORTANT:
+            Do NOT set a page-level canonical here.
+            Global Canonical.jsx is the single source of truth (non-www).
+        */}
+        <meta key="description" name="description" content={description} />
 
         {/* OpenGraph */}
-        <meta property="og:title" content="Municipal Security Systems | Griffon Systems" />
-        <meta
-          property="og:description"
-          content="Security deployments for city facilities, police, fire, DPW and water plants. Avigilon & Verkada surveillance, access control and wireless backhaul."
-        />
-        <meta property="og:image" content="https://www.griffonsys.com/images/industries/muni.jpg" />
-        <meta property="og:url" content="https://www.griffonsys.com/municipal" />
         <meta property="og:type" content="website" />
+        <meta property="og:title" content="Municipal Security Systems | Griffon Systems" />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:url" content={pageUrl} />
 
-        {/* Twitter Card */}
+        {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Municipal Security Systems | Griffon Systems" />
-        <meta
-          name="twitter:description"
-          content="Security systems for police, fire, DPW, city halls, water treatment and public works."
-        />
-        <meta name="twitter:image" content="https://www.griffonsys.com/images/industries/muni.jpg" />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImage} />
+        <meta name="twitter:url" content={pageUrl} />
 
-        {/* Schema */}
+        {/* Schema (keep as Service; just normalize URL to non-www) */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -47,7 +51,7 @@ export default function Municipal() {
               provider: {
                 "@type": "LocalBusiness",
                 name: "Griffon Systems, Inc.",
-                url: "https://www.griffonsys.com",
+                url: "https://griffonsys.com/",
                 telephone: "+16306070346",
                 address: {
                   "@type": "PostalAddress",
@@ -58,6 +62,7 @@ export default function Municipal() {
                   addressCountry: "US",
                 },
               },
+              url: pageUrl,
               description:
                 "Security systems for municipal facilities including police, fire, DPW, water plants, parks and city buildings.",
             }),
@@ -65,13 +70,12 @@ export default function Municipal() {
         />
       </Helmet>
 
-
       {/* ---- HERO ---- */}
       <section className="mb-16">
         <div className="relative overflow-hidden rounded-3xl shadow-lg h-[40vh] md:h-[55vh]">
           <img
             src="/images/industries/muni.jpg"
-            alt="Municipal Security"
+            alt="Municipal security systems for police, fire, DPW, and city facilities"
             className="absolute inset-0 w-full h-full object-cover object-[center_35%]"
             loading="eager"
           />
@@ -96,7 +100,6 @@ export default function Municipal() {
         </div>
       </section>
 
-
       {/* ---- OVERVIEW ---- */}
       <section className="mb-20">
         <h2 className="text-2xl md:text-3xl font-semibold mb-6" style={{ fontFamily: "Optima" }}>
@@ -109,7 +112,6 @@ export default function Municipal() {
           our systems scale across entire municipalities.
         </p>
 
-        {/* 🔥 SEO expansion paragraph */}
         <p className="text-gray-700 text-lg leading-relaxed max-w-4xl mt-4">
           We secure police departments, fire stations, 911 dispatch centers, water treatment,
           public works garages, salt domes, fleet yards, fuel depots, parks, intersections,
@@ -117,7 +119,6 @@ export default function Municipal() {
           to modernize surveillance, control access, and link remote assets with wireless PTP.
         </p>
       </section>
-
 
       {/* ---- SOLUTIONS ---- */}
       <section className="mb-20">
@@ -131,10 +132,13 @@ export default function Municipal() {
             { title: "Fire Stations & EMS", text: "Secure gear storage, bay doors, turnout lockers and living quarters." },
             { title: "DPW & Public Works", text: "Fleet monitoring, fuel tanks, salt domes, tool shops & yards." },
             { title: "City Hall & Government Buildings", text: "Public counters, records, IT server rooms & finance offices." },
-            { title: "Water/Wastewater Treatment", text: "Perimeter cameras for EPA compliance and SCADA zones." },
-            { title: "Parks / Street Cameras", text: "Wireless linked intersections, public lots, trails and playgrounds." },
+            { title: "Water/Wastewater Treatment", text: "Perimeter cameras for compliance and secure SCADA-adjacent zones." },
+            { title: "Parks / Street Cameras", text: "Wireless-linked intersections, public lots, trails and playgrounds." },
           ].map(({ title, text }) => (
-            <div key={title} className="bg-gray-100 p-6 rounded-2xl shadow-sm hover:shadow-md transition">
+            <div
+              key={title}
+              className="bg-gray-100 p-6 rounded-2xl shadow-sm hover:shadow-md transition"
+            >
               <h3 className="text-xl font-semibold mb-2" style={{ fontFamily: "Optima" }}>
                 {title}
               </h3>
@@ -144,7 +148,6 @@ export default function Municipal() {
         </div>
       </section>
 
-
       {/* ---- PLATFORMS ---- */}
       <section className="mb-20">
         <h2 className="text-2xl md:text-3xl font-semibold mb-8" style={{ fontFamily: "Optima" }}>
@@ -153,17 +156,21 @@ export default function Municipal() {
 
         <div className="grid md:grid-cols-2 gap-10">
           <div>
-            <h3 className="text-xl font-semibold mb-3" style={{ fontFamily: "Optima" }}>Avigilon Unity (On-Prem)</h3>
+            <h3 className="text-xl font-semibold mb-3" style={{ fontFamily: "Optima" }}>
+              Avigilon Unity (On-Prem)
+            </h3>
             <ul className="list-disc pl-5 mt-3 text-gray-700 space-y-2">
               <li>High-retention evidence storage</li>
               <li>Advanced analytics for booking & sally ports</li>
-              <li>ACM access control integration</li>
-              <li>Ideal for secured police environments</li>
+              <li>Access control integration</li>
+              <li>Ideal for secured public safety environments</li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-xl font-semibold mb-3" style={{ fontFamily: "Optima" }}>Verkada (Cloud)</h3>
+            <h3 className="text-xl font-semibold mb-3" style={{ fontFamily: "Optima" }}>
+              Verkada (Cloud)
+            </h3>
             <ul className="list-disc pl-5 mt-3 text-gray-700 space-y-2">
               <li>Native facial/identity blur for public areas</li>
               <li>5-second forensic search</li>
@@ -173,7 +180,6 @@ export default function Municipal() {
           </div>
         </div>
       </section>
-
 
       {/* ---- CASE STUDY ---- */}
       <section className="mb-24 relative rounded-3xl overflow-hidden shadow-xl">
@@ -196,14 +202,15 @@ export default function Municipal() {
           </p>
           <ul className="list-disc pl-5 opacity-95 space-y-1 mb-4">
             <li>42 Avigilon cameras</li>
-            <li>ACM access control</li>
+            <li>Access control on key doors</li>
             <li>Siklu wireless backhaul for yard areas</li>
             <li>Unified monitoring for dispatch</li>
           </ul>
-          <p className="opacity-95">Result: Lower incident gaps and improved evidence documentation.</p>
+          <p className="opacity-95">
+            Result: Lower incident gaps and improved evidence documentation.
+          </p>
         </div>
       </section>
-
 
       {/* ---- INTERNAL LINK HUB ---- */}
       <section className="text-center mb-24">
@@ -214,7 +221,6 @@ export default function Municipal() {
           <li><Link to="/from-the-field">Project Highlights</Link></li>
         </ul>
       </section>
-
 
       {/* ---- FAQ ---- */}
       <section className="mb-24">
@@ -245,7 +251,6 @@ export default function Municipal() {
         </div>
       </section>
 
-
       {/* ---- CTA ---- */}
       <section className="text-center mb-24">
         <h2 className="text-2xl md:text-3xl font-bold mb-4" style={{ fontFamily: "Optima" }}>
@@ -261,7 +266,6 @@ export default function Municipal() {
           Book Walkthrough
         </Link>
       </section>
-
     </main>
   )
 }
