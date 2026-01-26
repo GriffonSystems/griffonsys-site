@@ -1,42 +1,91 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { Helmet } from 'react-helmet'
-import FieldCarousel from '../components/FieldCarousel.jsx'
+// src/routes/FromTheField.jsx
+import React from "react"
+import { Link } from "react-router-dom"
+import { Helmet } from "react-helmet"
+import FieldCarousel from "../components/FieldCarousel.jsx"
 
 export default function FromTheField() {
+  // Match Canonical.jsx non-www convention
+  const pageUrl = "https://griffonsys.com/from-the-field"
+  const ogImage = "https://griffonsys.com/images/field/siklu-drone-thumb.jpg"
+
+  const title = "From the Field | Real Security Installations in Illinois | Griffon Systems"
+  const description =
+    "Real-world installations by Griffon Systems across Illinois — municipal camera networks, wireless backhaul, LPR deployments, and manufacturing video security projects."
+
   const projects = [
     {
-      title: 'Police Department – Wireless Camera Network',
-      desc: 'Siklu wireless bridge linking Avigilon surveillance and LPR cameras across multiple intersections.',
-      img: '/images/field/siklu-drone-thumb.jpg',
-      link: '/from-the-field/wireless-link',
-      tag: 'Municipal / Wireless'
+      title: "Police Department – Wireless Camera Network",
+      desc: "Siklu wireless bridge linking Avigilon surveillance and LPR cameras across multiple intersections.",
+      img: "/images/field/siklu-drone-thumb.jpg",
+      link: "/from-the-field/wireless-link",
+      tag: "Municipal / Wireless",
     },
     {
-      title: 'Avigilon Manufacturing Deployment',
-      desc: 'AI-powered camera system providing full production-floor visibility and analytics.',
-      img: '/images/field/avigilon-factory.jpg',
-      link: '/from-the-field/avigilon-factory',
-      tag: 'Manufacturing / Video'
+      title: "Avigilon Manufacturing Deployment",
+      desc: "AI-powered camera system providing full production-floor visibility and analytics.",
+      img: "/images/field/avigilon-factory.jpg",
+      link: "/from-the-field/avigilon-factory",
+      tag: "Manufacturing / Video",
     },
     {
-      title: 'Municipal Camera Expansion',
-      desc: 'Cloud-managed Verkada cameras providing traffic monitoring and remote oversight.',
-      img: '/images/field/municipal-cameras.jpg',
-      link: '/from-the-field/municipal',
-      tag: 'Verkada / City'
-    }
+      title: "Municipal Camera Expansion",
+      desc: "Cloud-managed Verkada cameras providing traffic monitoring and remote oversight.",
+      img: "/images/field/municipal-cameras.jpg",
+      link: "/from-the-field/municipal",
+      tag: "Verkada / City",
+    },
   ]
 
   return (
     <main className="container py-12">
       <Helmet>
-        <title>From the Field | Griffon Systems</title>
-        <meta
-          name="description"
-          content="Real-world installations by Griffon Systems — from municipal camera networks and wireless bridges to manufacturing video and access projects across Illinois."
+        <title>{title}</title>
+
+        {/* IMPORTANT:
+            Do NOT set a page-level canonical here.
+            Global Canonical.jsx is the single source of truth (non-www).
+        */}
+        <meta key="description" name="description" content={description} />
+
+        {/* OpenGraph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="From the Field | Griffon Systems" />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:url" content={pageUrl} />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="From the Field | Griffon Systems" />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImage} />
+        <meta name="twitter:url" content={pageUrl} />
+
+        {/* JSON-LD */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "CollectionPage",
+              "@id": "https://griffonsys.com/#from-the-field",
+              url: pageUrl,
+              name: "From the Field",
+              description,
+              primaryImageOfPage: {
+                "@type": "ImageObject",
+                url: ogImage,
+              },
+              isPartOf: {
+                "@type": "WebSite",
+                "@id": "https://griffonsys.com/#website",
+                url: "https://griffonsys.com/",
+                name: "Griffon Systems",
+              },
+            }),
+          }}
         />
-        <link rel="canonical" href="https://www.griffonsys.com/from-the-field" />
       </Helmet>
 
       {/* ---------- Header ---------- */}
