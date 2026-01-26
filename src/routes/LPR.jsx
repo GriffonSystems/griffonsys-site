@@ -1,3 +1,4 @@
+// src/routes/LPR.jsx
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import { Helmet } from "react-helmet"
@@ -11,6 +12,14 @@ export default function LPR() {
     email: "",
     company: "",
   })
+
+  // Match Canonical.jsx non-www convention
+  const pageUrl = "https://griffonsys.com/lpr"
+  const ogImage = "https://griffonsys.com/images/lpr/lpr-hero.jpg"
+
+  const title = "License Plate Recognition (LPR) | NCIC / Hotlist Alerts | Griffon Systems"
+  const description =
+    "Illinois LPR systems with hotlist alerts for law enforcement, municipalities, and campuses. Verkada and Avigilon LPR cameras for traffic monitoring, investigations, and perimeter security."
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
@@ -45,36 +54,61 @@ export default function LPR() {
     <main className="container py-12">
       {/* ---- SEO ---- */}
       <Helmet>
-        <title>License Plate Recognition (LPR) Solutions | NCIC Alerts | Griffon Systems</title>
-        <meta
-          name="description"
-          content="Illinois LPR systems with NCIC, SOS and Hotlist alerts. Cloud-managed Verkada CR series and Avigilon LPR cameras for police, municipal, and campus traffic monitoring."
-        />
-        <link rel="canonical" href="https://www.griffonsys.com/lpr" />
+        <title>{title}</title>
 
+        {/* IMPORTANT:
+            Do NOT set a page-level canonical here.
+            Global Canonical.jsx is the single source of truth (non-www).
+        */}
+        <meta key="description" name="description" content={description} />
+
+        {/* OpenGraph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="License Plate Recognition (LPR) | Griffon Systems" />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:url" content={pageUrl} />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="License Plate Recognition (LPR) | Griffon Systems" />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImage} />
+        <meta name="twitter:url" content={pageUrl} />
+
+        {/* JSON-LD (Service/WebPage instead of Product) */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Product",
-              "name": "License Plate Recognition (LPR)",
-              "category": "Video Surveillance",
-              "brand": "Verkada / Avigilon",
-              "description":
-                "Real-time NCIC, SOS & Hotlist alerts for law enforcement, municipalities and campuses.",
-              "provider": {
-                "@type": "LocalBusiness",
-                "name": "Griffon Systems, Inc.",
-                "telephone": "630-607-0346",
-                "areaServed": "Illinois",
-                "address": {
-                  "@type": "PostalAddress",
-                  "streetAddress": "650 West Grand Ave, Suite 206",
-                  "addressLocality": "Elmhurst",
-                  "addressRegion": "IL",
-                  "postalCode": "60126",
-                  "addressCountry": "US",
+              "@type": "WebPage",
+              "@id": "https://griffonsys.com/#lpr",
+              url: pageUrl,
+              name: "License Plate Recognition (LPR)",
+              description:
+                "LPR systems for Illinois law enforcement and municipalities including hotlist alerts, traffic monitoring, investigations, and perimeter security.",
+              primaryImageOfPage: {
+                "@type": "ImageObject",
+                url: ogImage,
+              },
+              about: {
+                "@type": "Service",
+                name: "License Plate Recognition (LPR) Systems",
+                areaServed: "Illinois",
+                provider: {
+                  "@type": "LocalBusiness",
+                  name: "Griffon Systems, Inc.",
+                  telephone: "+16306070346",
+                  url: "https://griffonsys.com/",
+                  address: {
+                    "@type": "PostalAddress",
+                    streetAddress: "650 West Grand Ave, Suite 206",
+                    addressLocality: "Elmhurst",
+                    addressRegion: "IL",
+                    postalCode: "60126",
+                    addressCountry: "US",
+                  },
                 },
               },
             }),
@@ -87,7 +121,7 @@ export default function LPR() {
         <div className="relative overflow-hidden rounded-3xl shadow-lg h-[40vh] md:h-[55vh]">
           <img
             src="/hero/hero-01.jpg"
-            alt="LPR Camera — Illinois NCIC & Hotlist Alerts"
+            alt="License plate recognition camera with hotlist alerts in Illinois"
             className="absolute inset-0 w-full h-full object-cover object-center"
             loading="lazy"
           />
@@ -99,7 +133,7 @@ export default function LPR() {
             </h1>
 
             <p className="text-lg md:text-xl opacity-90" style={{ fontFamily: "Optima" }}>
-              Real-time NCIC, SOS, and Hotlist alerts
+              Real-time hotlist alerts and fast search for investigations, traffic monitoring, and perimeter security
             </p>
 
             <button
@@ -115,14 +149,26 @@ export default function LPR() {
       {/* ---- FEATURES ---- */}
       <section className="mb-20">
         <h2 className="text-2xl md:text-3xl font-semibold mb-8" style={{ fontFamily: "Optima" }}>
-          Real-Time Law Enforcement Alerts
+          Real-Time Alerts for Public Safety Teams
         </h2>
 
         <div className="grid md:grid-cols-3 gap-6">
           {[
-            { title: "NCIC Alerts", icon: "🔔", text: "Instant hits on stolen vehicles and persons of interest." },
-            { title: "SOS Alerts", icon: "🛡️", text: "Detect vehicles associated with BOLOs or active investigations." },
-            { title: "Hotlist Alerts", icon: "🚨", text: "Fully configurable hotlists for local, county, or regional use." },
+            {
+              title: "Hotlist Alerts",
+              icon: "🚨",
+              text: "Instant hits on vehicles of interest based on agency-defined lists and criteria.",
+            },
+            {
+              title: "Forensic Search",
+              icon: "🔎",
+              text: "Search by plate, partial plate, time window, direction, or location to accelerate investigations.",
+            },
+            {
+              title: "Case-Ready Evidence",
+              icon: "🗂️",
+              text: "Exportable events and video clips for reports, prosecution support, and incident review.",
+            },
           ].map(({ title, icon, text }) => (
             <div key={title} className="bg-gray-100 p-6 rounded-2xl shadow-sm">
               <h3 className="text-xl font-semibold mb-2" style={{ fontFamily: "Optima" }}>
@@ -132,13 +178,20 @@ export default function LPR() {
             </div>
           ))}
         </div>
+
+        {/* Extra SEO paragraph (helps avoid thin content) */}
+        <p className="text-gray-700 text-lg leading-relaxed max-w-4xl mt-8">
+          Griffon Systems designs LPR deployments for Illinois municipalities, police departments, school districts,
+          and critical facilities. Typical placements include arterial corridors, entry/exit points, public lots,
+          DPW yards, water plants, and campus perimeters—often paired with wireless backhaul for hard-to-reach sites.
+        </p>
       </section>
 
       {/* ---- MOBILE / POLE DEPLOYMENTS ---- */}
       <section className="mb-20 grid md:grid-cols-2 gap-10">
         <img
           src="/images/lpr/lpr-hero.jpg"
-          alt="LPR Pole Mount"
+          alt="LPR pole mount deployment"
           className="rounded-3xl shadow-lg w-full object-cover"
           loading="lazy"
         />
@@ -149,14 +202,14 @@ export default function LPR() {
           </h2>
 
           <p className="text-gray-700 text-lg">
-            The Verkada CR series remote camera supports LTE, solar power, and flexible mounting for temporary or permanent LPR deployments.
+            Build temporary or permanent LPR deployments with flexible mounting and reliable connectivity options.
           </p>
 
           <ul className="list-disc pl-5 mt-4 space-y-2 text-gray-700">
             <li>Beam-strap pole mounting</li>
             <li>Solar or AC powered</li>
-            <li>LTE or WiFi backhaul</li>
-            <li>Rapid 15-minute deployment</li>
+            <li>LTE, fiber, or wireless backhaul</li>
+            <li>Rapid deployment for pilots and events</li>
           </ul>
         </div>
       </section>
@@ -199,6 +252,7 @@ export default function LPR() {
             <button
               onClick={() => setShowForm(false)}
               className="absolute top-2 right-3 text-gray-500 hover:text-gray-800 text-2xl leading-none"
+              aria-label="Close form"
             >
               &times;
             </button>
