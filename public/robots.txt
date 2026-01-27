@@ -11,5 +11,5 @@ Disallow: /*.map$
 Disallow: /*__data.json$
 
 # Sitemap
-Sitemap: https://www.griffonsys.com/sitemap.xml
-Sitemap: https://www.griffonsys.com/sitemap-index.xml
+Sitemap: https://griffonsys.com/sitemap.xml
+Sitemap: https://griffonsys.com/sitemap-index.xml
