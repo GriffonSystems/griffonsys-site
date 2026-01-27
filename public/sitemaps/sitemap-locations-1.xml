@@ -3,8 +3,8 @@
 
   <!-- Add A–L cities here -->
   <!-- Example format: -->
-  <url><loc>https://www.griffonsys.com/locations/chicago/security-cameras</loc></url>
-  <url><loc>https://www.griffonsys.com/locations/arlington-heights/security-cameras</loc></url>
-  <url><loc>https://www.griffonsys.com/locations/addison/security-cameras</loc></url>
+  <url><loc>https://griffonsys.com/locations/chicago/security-cameras</loc></url>
+  <url><loc>https://griffonsys.com/locations/arlington-heights/security-cameras</loc></url>
+  <url><loc>https://griffonsys.com/locations/addison/security-cameras</loc></url>
 
 </urlset>
