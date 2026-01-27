@@ -32,7 +32,7 @@ export default function FromTheField() {
       title: "Municipal Camera Expansion",
       desc: "Cloud-managed Verkada cameras providing traffic monitoring and remote oversight.",
       img: "/images/field/municipal-cameras.jpg",
-      link: "/from-the-field/municipal",
+      link: "/coming-soon", // ✅ FIXED: no more 404
       tag: "Verkada / City",
     },
   ]
@@ -46,7 +46,7 @@ export default function FromTheField() {
             Do NOT set a page-level canonical here.
             Global Canonical.jsx is the single source of truth (non-www).
         */}
-        <meta key="description" name="description" content={description} />
+        <meta name="description" content={description} />
 
         {/* OpenGraph */}
         <meta property="og:type" content="website" />
@@ -73,10 +73,6 @@ export default function FromTheField() {
               url: pageUrl,
               name: "From the Field",
               description,
-              primaryImageOfPage: {
-                "@type": "ImageObject",
-                url: ogImage,
-              },
               isPartOf: {
                 "@type": "WebSite",
                 "@id": "https://griffonsys.com/#website",
@@ -126,7 +122,7 @@ export default function FromTheField() {
         ))}
       </div>
 
-      {/* ---------- Carousel Below Cards ---------- */}
+      {/* ---------- Carousel ---------- */}
       <section className="mt-16">
         <h2 className="text-2xl font-semibold mb-4 text-center">Field Photos</h2>
         <FieldCarousel base="/vendors/video/field" />
