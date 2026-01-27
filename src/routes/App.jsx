@@ -89,14 +89,11 @@ export default function App() {
 
         {/* From the Field */}
         <Route path="/from-the-field" element={<FromTheField />} />
-        <Route
-          path="/from-the-field/wireless-link"
-          element={<WirelessLink />}
-        />
-        <Route
-          path="/from-the-field/avigilon-factory"
-          element={<ComingSoon />}
-        />
+        <Route path="/from-the-field/wireless-link" element={<WirelessLink />} />
+        <Route path="/from-the-field/avigilon-factory" element={<ComingSoon />} />
+
+        {/* ✅ ADD THIS: Municipal case coming soon (prevents 404) */}
+        <Route path="/from-the-field/municipal" element={<ComingSoon />} />
 
         {/* Dynamic SEO location pages */}
         <Route path="/locations/:city/:service" element={<LocationSEO />} />
