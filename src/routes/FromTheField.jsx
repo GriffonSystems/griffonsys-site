@@ -5,7 +5,6 @@ import { Helmet } from "react-helmet"
 import FieldCarousel from "../components/FieldCarousel.jsx"
 
 export default function FromTheField() {
-  // Match Canonical.jsx non-www convention
   const pageUrl = "https://griffonsys.com/from-the-field"
   const ogImage = "https://griffonsys.com/images/field/siklu-drone-thumb.jpg"
 
@@ -32,7 +31,7 @@ export default function FromTheField() {
       title: "Municipal Camera Expansion",
       desc: "Cloud-managed Verkada cameras providing traffic monitoring and remote oversight.",
       img: "/images/field/municipal-cameras.jpg",
-      link: "/coming-soon", // ✅ FIXED: no more 404
+      link: "/from-the-field/municipal", // ✅ points to alias route
       tag: "Verkada / City",
     },
   ]
@@ -41,28 +40,20 @@ export default function FromTheField() {
     <main className="container py-12">
       <Helmet>
         <title>{title}</title>
-
-        {/* IMPORTANT:
-            Do NOT set a page-level canonical here.
-            Global Canonical.jsx is the single source of truth (non-www).
-        */}
         <meta name="description" content={description} />
 
-        {/* OpenGraph */}
         <meta property="og:type" content="website" />
         <meta property="og:title" content="From the Field | Griffon Systems" />
         <meta property="og:description" content={description} />
         <meta property="og:image" content={ogImage} />
         <meta property="og:url" content={pageUrl} />
 
-        {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="From the Field | Griffon Systems" />
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={ogImage} />
         <meta name="twitter:url" content={pageUrl} />
 
-        {/* JSON-LD */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -84,7 +75,6 @@ export default function FromTheField() {
         />
       </Helmet>
 
-      {/* ---------- Header ---------- */}
       <header className="mb-10 text-center">
         <h1 className="text-4xl font-bold mb-3">From the Field</h1>
         <p className="text-gray-600 max-w-2xl mx-auto">
@@ -93,7 +83,6 @@ export default function FromTheField() {
         </p>
       </header>
 
-      {/* ---------- Project Cards ---------- */}
       <div className="grid md:grid-cols-3 gap-8 mb-16">
         {projects.map((p) => (
           <Link
@@ -122,7 +111,6 @@ export default function FromTheField() {
         ))}
       </div>
 
-      {/* ---------- Carousel ---------- */}
       <section className="mt-16">
         <h2 className="text-2xl font-semibold mb-4 text-center">Field Photos</h2>
         <FieldCarousel base="/vendors/video/field" />
