@@ -73,10 +73,14 @@ export default function Nav() {
             {/* Vendor Pages */}
             <NavLink to="/brands/verkada" className={active}>Verkada</NavLink>
             <NavLink to="/brands/avigilon" className={active}>Avigilon</NavLink>
-            <NavLink to="/brands/siklu" className={active}>Siklu</NavLink>   {/* ⭐ NEW — positioned right of Avigilon */}
+            <NavLink to="/brands/siklu" className={active}>Siklu</NavLink>
 
             <NavLink to="/industries" className={active}>Industries</NavLink>
             <NavLink to="/from-the-field" className={active}>From the Field</NavLink>
+
+            {/* ✅ NEW: Training */}
+            <NavLink to="/resources/training" className={active}>Training</NavLink>
+
             <NavLink to="/about" className={active}>About</NavLink>
             <NavLink to="/contact" className={active}>Contact</NavLink>
 
@@ -121,7 +125,7 @@ export default function Nav() {
         <div
           id="mobile-menu"
           className={`md:hidden bg-white border-t border-gray-200 shadow-lg transition-[max-height] overflow-hidden ${
-            open ? 'max-h-[480px]' : 'max-h-0'
+            open ? 'max-h-[520px]' : 'max-h-0'
           }`}
         >
           <nav className="container flex flex-col py-3" aria-label="Mobile">
@@ -130,10 +134,14 @@ export default function Nav() {
             {/* Vendor Pages */}
             <NavLink to="/brands/verkada" className={active} onClick={() => setOpen(false)}>Verkada</NavLink>
             <NavLink to="/brands/avigilon" className={active} onClick={() => setOpen(false)}>Avigilon</NavLink>
-            <NavLink to="/brands/siklu" className={active} onClick={() => setOpen(false)}>Siklu</NavLink>   {/* ⭐ NEW */}
+            <NavLink to="/brands/siklu" className={active} onClick={() => setOpen(false)}>Siklu</NavLink>
 
             <NavLink to="/industries" className={active} onClick={() => setOpen(false)}>Industries</NavLink>
             <NavLink to="/from-the-field" className={active} onClick={() => setOpen(false)}>From the Field</NavLink>
+
+            {/* ✅ NEW: Training */}
+            <NavLink to="/resources/training" className={active} onClick={() => setOpen(false)}>Training</NavLink>
+
             <NavLink to="/about" className={active} onClick={() => setOpen(false)}>About</NavLink>
             <NavLink to="/contact" className={active} onClick={() => setOpen(false)}>Contact</NavLink>
 
