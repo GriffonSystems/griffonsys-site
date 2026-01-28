@@ -23,6 +23,48 @@ async function fetchOEmbed(url) {
   return await res.json()
 }
 
+/* ---------------- small modal ---------------- */
+
+function Modal({ open, title, onClose, children }) {
+  React.useEffect(() => {
+    if (!open) return
+    const onKey = (e) => {
+      if (e.key === "Escape") onClose?.()
+    }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [open, onClose])
+
+  if (!open) return null
+
+  return (
+    <div
+      className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-label={title || "Dialog"}
+      onMouseDown={(e) => {
+        // click on backdrop closes
+        if (e.target === e.currentTarget) onClose?.()
+      }}
+    >
+      <div className="w-full max-w-5xl rounded-3xl bg-white shadow-xl overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200">
+          <div className="font-bold text-gray-900">{title}</div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-3 py-2 rounded-xl border border-gray-300 font-semibold hover:bg-gray-100"
+          >
+            Close
+          </button>
+        </div>
+        <div className="p-4 md:p-6">{children}</div>
+      </div>
+    </div>
+  )
+}
+
 /* ---------------- UI components ---------------- */
 
 function TabButton({ active, onClick, children }) {
@@ -84,10 +126,10 @@ function VendorSection({ eyebrow, title, desc, brandHref, brandLabel, children }
 }
 
 /**
- * PlaylistPanel (YouTube-style)
- * - Left: selected video player
- * - Right: clickable thumbnails list
- * - Optional: "Show full playlist" expands an embedded playlist on your site (no outbound link)
+ * PlaylistPanel
+ * - Desktop: fixed matched height so player "fills" properly and aligns with the list
+ * - Mobile: aspect-video
+ * - Full playlist opens in a MODAL (no weird panel below)
  */
 function PlaylistPanel({ title, subtitle, playlistId, items = [] }) {
   const baseItems = React.useMemo(() => {
@@ -106,8 +148,8 @@ function PlaylistPanel({ title, subtitle, playlistId, items = [] }) {
   }, [items])
 
   const [activeId, setActiveId] = React.useState(baseItems[0]?.id || "")
-  const [meta, setMeta] = React.useState({}) // id -> { title, thumbnail_url, author_name }
-  const [showFull, setShowFull] = React.useState(false)
+  const [meta, setMeta] = React.useState({})
+  const [playlistOpen, setPlaylistOpen] = React.useState(false)
 
   React.useEffect(() => {
     if (!activeId && baseItems[0]?.id) setActiveId(baseItems[0].id)
@@ -115,7 +157,6 @@ function PlaylistPanel({ title, subtitle, playlistId, items = [] }) {
 
   React.useEffect(() => {
     let cancelled = false
-
     async function run() {
       const toFetch = baseItems.filter((v) => !meta[v.id])
       if (!toFetch.length) return
@@ -146,7 +187,6 @@ function PlaylistPanel({ title, subtitle, playlistId, items = [] }) {
         }
       }
     }
-
     run()
     return () => {
       cancelled = true
@@ -155,133 +195,138 @@ function PlaylistPanel({ title, subtitle, playlistId, items = [] }) {
   }, [baseItems])
 
   return (
-    <div className="rounded-3xl border border-gray-200 bg-white shadow-sm overflow-hidden">
-      <div className="p-5 md:p-6 border-b border-gray-200">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3">
-          <div>
-            <h4 className="text-xl font-bold text-gray-900">{title}</h4>
-            {subtitle ? <p className="mt-1 text-sm text-gray-600">{subtitle}</p> : null}
-          </div>
+    <>
+      <div className="rounded-3xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+        <div className="p-5 md:p-6 border-b border-gray-200">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3">
+            <div>
+              <h4 className="text-xl font-bold text-gray-900">{title}</h4>
+              {subtitle ? <p className="mt-1 text-sm text-gray-600">{subtitle}</p> : null}
+            </div>
 
-          {playlistId ? (
-            <button
-              type="button"
-              onClick={() => setShowFull((s) => !s)}
-              className="text-sm font-semibold rounded-xl border border-gray-300 bg-white px-4 py-2 hover:bg-gray-100 transition self-start md:self-auto"
-            >
-              {showFull ? "Hide full playlist" : "Show full playlist"}
-            </button>
-          ) : null}
-        </div>
-      </div>
-
-      <div className="grid md:grid-cols-5">
-        {/* Left: Player */}
-        <div className="md:col-span-3 border-b md:border-b-0 md:border-r border-gray-200">
-          <div style={{ position: "relative", paddingTop: "56.25%", background: "#000" }}>
-            {activeId ? (
-              <iframe
-                style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
-                src={`https://www.youtube-nocookie.com/embed/${activeId}`}
-                title="Training video player"
-                loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            ) : (
-              <div
-                style={{ position: "absolute", inset: 0 }}
-                className="flex items-center justify-center text-gray-300 text-sm"
+            {playlistId ? (
+              <button
+                type="button"
+                onClick={() => setPlaylistOpen(true)}
+                className="text-sm font-semibold rounded-xl border border-gray-300 bg-white px-4 py-2 hover:bg-gray-100 transition self-start md:self-auto"
               >
-                Add videos to enable playback.
-              </div>
-            )}
+                Browse full playlist
+              </button>
+            ) : null}
           </div>
         </div>
 
-        {/* Right: Thumbnails list */}
-        <div className="md:col-span-2">
-          <div className="max-h-[420px] md:max-h-[520px] overflow-y-auto">
-            {baseItems.length ? (
-              baseItems.map((v) => {
-                const isActive = v.id === activeId
-                const m = meta[v.id]
-                const displayTitle = m?.title || v.fallbackTitle || `Video (${v.id})`
-                const thumb =
-                  m?.thumbnail_url || `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`
+        {/* Desktop: matched height columns. Mobile: stacks + aspect-video */}
+        <div className="grid md:grid-cols-5">
+          {/* Left: Player */}
+          <div className="md:col-span-3 border-b md:border-b-0 md:border-r border-gray-200">
+            {/* Mobile aspect */}
+            <div className="md:hidden" style={{ position: "relative", paddingTop: "56.25%", background: "#000" }}>
+              {activeId ? (
+                <iframe
+                  style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
+                  src={`https://www.youtube-nocookie.com/embed/${activeId}`}
+                  title="Training video player"
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : null}
+            </div>
 
-                return (
-                  <button
-                    key={v.id}
-                    type="button"
-                    onClick={() => setActiveId(v.id)}
-                    className={`w-full text-left flex gap-3 p-4 border-b border-gray-200 hover:bg-gray-50 ${
-                      isActive ? "bg-gray-50" : ""
-                    }`}
-                    aria-label={`Play ${displayTitle}`}
-                  >
-                    <div className="w-28 shrink-0">
-                      <div className="rounded-xl overflow-hidden bg-gray-100">
-                        <img
-                          src={thumb}
-                          alt={displayTitle}
-                          className="w-full h-auto block"
-                          loading="lazy"
-                        />
-                      </div>
-                    </div>
-                    <div className="min-w-0">
-                      <div
-                        className={`text-sm font-semibold ${
-                          isActive ? "text-gray-900" : "text-gray-800"
-                        } line-clamp-2`}
-                      >
-                        {displayTitle}
-                      </div>
+            {/* Desktop fixed height */}
+            <div className="hidden md:block relative h-[520px] bg-black">
+              {activeId ? (
+                <iframe
+                  className="absolute inset-0 w-full h-full"
+                  src={`https://www.youtube-nocookie.com/embed/${activeId}`}
+                  title="Training video player"
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : null}
+            </div>
+          </div>
 
-                      {v.note ? (
-                        <div className="mt-1 text-xs text-gray-600 line-clamp-2">{v.note}</div>
-                      ) : null}
+          {/* Right: Thumbnails list */}
+          <div className="md:col-span-2">
+            <div className="md:h-[520px] overflow-y-auto">
+              {baseItems.length ? (
+                baseItems.map((v) => {
+                  const isActive = v.id === activeId
+                  const m = meta[v.id]
+                  const displayTitle = m?.title || v.fallbackTitle || `Video (${v.id})`
+                  const thumb =
+                    m?.thumbnail_url || `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`
 
-                      {m?.author_name ? (
-                        <div className="mt-1 text-[11px] text-gray-500 line-clamp-1">
-                          {m.author_name}
+                  return (
+                    <button
+                      key={v.id}
+                      type="button"
+                      onClick={() => setActiveId(v.id)}
+                      className={`w-full text-left flex gap-3 p-4 border-b border-gray-200 hover:bg-gray-50 ${
+                        isActive ? "bg-gray-50" : ""
+                      }`}
+                      aria-label={`Play ${displayTitle}`}
+                    >
+                      <div className="w-28 shrink-0">
+                        <div className="rounded-xl overflow-hidden bg-gray-100">
+                          <img
+                            src={thumb}
+                            alt={displayTitle}
+                            className="w-full h-auto block"
+                            loading="lazy"
+                          />
                         </div>
-                      ) : null}
-                    </div>
-                  </button>
-                )
-              })
-            ) : (
-              <div className="p-5 text-sm text-gray-600">No videos added yet.</div>
-            )}
-          </div>
-        </div>
-      </div>
+                      </div>
+                      <div className="min-w-0">
+                        <div className="text-sm font-semibold text-gray-900 line-clamp-2">
+                          {displayTitle}
+                        </div>
 
-      {/* Full playlist embed (stays on your site) */}
-      {playlistId && showFull ? (
-        <div className="border-t border-gray-200 bg-white">
-          <div className="p-5 md:p-6">
-            <div className="text-sm font-semibold text-gray-900">Full playlist</div>
-            <p className="mt-1 text-sm text-gray-600">
-              Browse the entire playlist here without leaving griffonsys.com.
-            </p>
+                        {v.note ? (
+                          <div className="mt-1 text-xs text-gray-600 line-clamp-2">{v.note}</div>
+                        ) : null}
 
-            <div className="mt-4" style={{ position: "relative", paddingTop: "56.25%", background: "#000" }}>
-              <iframe
-                style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
-                src={`https://www.youtube-nocookie.com/embed/videoseries?list=${playlistId}`}
-                title="Full playlist"
-                loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
+                        {m?.author_name ? (
+                          <div className="mt-1 text-[11px] text-gray-500 line-clamp-1">
+                            {m.author_name}
+                          </div>
+                        ) : null}
+                      </div>
+                    </button>
+                  )
+                })
+              ) : (
+                <div className="p-5 text-sm text-gray-600">No videos added yet.</div>
+              )}
             </div>
           </div>
         </div>
-      ) : null}
-    </div>
+      </div>
+
+      {/* Playlist modal (stays on your site, no surprise panel below) */}
+      <Modal
+        open={playlistOpen}
+        title="Full playlist"
+        onClose={() => setPlaylistOpen(false)}
+      >
+        <div className="text-sm text-gray-600">
+          Browse the whole playlist here without leaving griffonsys.com.
+        </div>
+        <div className="mt-4" style={{ position: "relative", paddingTop: "56.25%", background: "#000" }}>
+          <iframe
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
+            src={`https://www.youtube-nocookie.com/embed/videoseries?list=${playlistId}`}
+            title="Full playlist"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+      </Modal>
+    </>
   )
 }
 
@@ -292,63 +337,39 @@ export default function Training() {
   const VERKADA_VIDEO_PLAYLIST_ID = "PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk"
   const VERKADA_ACCESS_PLAYLIST_ID = "PL3USUWfBbtdKLA-SVC0lbE4ssgvDYsdeX"
 
-  // Your Verkada VIDEO URLs (in order)
+  // Verkada video URLs (your curated set)
   const VERKADA_VIDEO_ITEMS = [
-    {
-      url: "https://www.youtube.com/watch?v=jJwzwAoJ190&list=PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk&index=1",
-      note: "Searching incidents (Command search + filters).",
-    },
-    {
-      url: "https://www.youtube.com/watch?v=xBE68n-WFo4&list=PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk&index=2",
-      note: "Day-to-day playback workflow.",
-    },
-    {
-      url: "https://www.youtube.com/watch?v=UrZNzxUpNzI&list=PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk&index=3",
-      note: "Incident organization + workflow.",
-    },
-    {
-      url: "https://www.youtube.com/watch?v=pNBSTtnnb-c&list=PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk&index=4",
-      note: "Sharing/exporting footage (common buyer question).",
-    },
-    {
-      url: "https://www.youtube.com/watch?v=wtpgjmmTnXc&list=PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk&index=5",
-      note: "Maps + floor plans (operational context).",
-    },
-    {
-      url: "https://www.youtube.com/watch?v=may1Gz2UmIo&list=PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk&index=6",
-      note: "Key alerts (signal over noise).",
-    },
+    { url: "https://www.youtube.com/watch?v=jJwzwAoJ190&list=PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk&index=1", note: "Searching incidents (Command search + filters)." },
+    { url: "https://www.youtube.com/watch?v=xBE68n-WFo4&list=PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk&index=2", note: "Day-to-day playback workflow." },
+    { url: "https://www.youtube.com/watch?v=UrZNzxUpNzI&list=PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk&index=3", note: "Incident organization + workflow." },
+    { url: "https://www.youtube.com/watch?v=pNBSTtnnb-c&list=PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk&index=4", note: "Sharing/exporting footage." },
+    { url: "https://www.youtube.com/watch?v=wtpgjmmTnXc&list=PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk&index=5", note: "Maps + floor plans." },
+    { url: "https://www.youtube.com/watch?v=may1Gz2UmIo&list=PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk&index=6", note: "Key alerts (signal over noise)." },
   ]
 
-  // Your Verkada ACCESS CONTROL URLs (in order you pasted)
   const VERKADA_ACCESS_ITEMS = [
-    {
-      url: "https://www.youtube.com/watch?v=akeui7lbme0&list=PL3USUWfBbtdKLA-SVC0lbE4ssgvDYsdeX&index=7",
-      note: "Core access admin workflow.",
-    },
-    {
-      url: "https://www.youtube.com/watch?v=LLMNrGyIjOM&list=PL3USUWfBbtdKLA-SVC0lbE4ssgvDYsdeX&index=5",
-      note: "Users, permissions, schedules.",
-    },
-    {
-      url: "https://www.youtube.com/watch?v=XxIEGPXZzuw&list=PL3USUWfBbtdKLA-SVC0lbE4ssgvDYsdeX&index=6",
-      note: "Credentials + mobile unlock.",
-    },
-    {
-      url: "https://www.youtube.com/watch?v=iUoFcWu4HOE&list=PL3USUWfBbtdKLA-SVC0lbE4ssgvDYsdeX&index=9",
-      note: "Events + troubleshooting mindset.",
-    },
-    {
-      url: "https://www.youtube.com/watch?v=reGRRopgx7Q&list=PL3USUWfBbtdKLA-SVC0lbE4ssgvDYsdeX&index=12",
-      note: "Ops/audit consistency for teams.",
-    },
+    { url: "https://www.youtube.com/watch?v=akeui7lbme0&list=PL3USUWfBbtdKLA-SVC0lbE4ssgvDYsdeX&index=7", note: "Core access admin workflow." },
+    { url: "https://www.youtube.com/watch?v=LLMNrGyIjOM&list=PL3USUWfBbtdKLA-SVC0lbE4ssgvDYsdeX&index=5", note: "Users, permissions, schedules." },
+    { url: "https://www.youtube.com/watch?v=XxIEGPXZzuw&list=PL3USUWfBbtdKLA-SVC0lbE4ssgvDYsdeX&index=6", note: "Credentials + mobile unlock." },
+    { url: "https://www.youtube.com/watch?v=iUoFcWu4HOE&list=PL3USUWfBbtdKLA-SVC0lbE4ssgvDYsdeX&index=9", note: "Events + troubleshooting mindset." },
+    { url: "https://www.youtube.com/watch?v=reGRRopgx7Q&list=PL3USUWfBbtdKLA-SVC0lbE4ssgvDYsdeX&index=12", note: "Ops/audit consistency for teams." },
   ]
 
-  // Avigilon (official-only placeholders — paste official playlist IDs when you have them)
-  const AVIGILON_VIDEO_PLAYLIST_ID = "" // e.g. "PLxxxx"
-  const AVIGILON_ACCESS_PLAYLIST_ID = "" // e.g. "PLxxxx"
-  const AVIGILON_VIDEO_ITEMS = [] // Add official video URLs like Verkada if you want the thumbnail list
-  const AVIGILON_ACCESS_ITEMS = []
+  // Avigilon official playlists (from Avigilon’s own YouTube)
+  const AVIGILON_TRAINING_PLAYLIST_ID = "PL05091E943AA92F20" // Avigilon Training playlist :contentReference[oaicite:4]{index=4}
+  const AVIGILON_UNITY_ACCESS7_PLAYLIST_ID = "PLATTq93g2gMAWtk54bOCmz4CgeTw_tFI_" // Unity Access 7 :contentReference[oaicite:5]{index=5}
+
+  // Avigilon curated “best usable” picks (official channel)
+  // Note: Titles will load automatically via oEmbed on your page.
+  const AVIGILON_VIDEO_ITEMS = [
+    { url: "https://www.youtube.com/watch?v=NIsQy1xiOdU", note: "ACC basics: layout + core navigation." }, :contentReference[oaicite:6]{index=6}
+    { url: "https://www.youtube.com/watch?v=YqsyRdP0vPg", note: "How to access Unity/Avigilon online training portals." }, :contentReference[oaicite:7]{index=7}
+    { url: "https://www.youtube.com/watch?v=n3IZSyJvafI", note: "Appearance Search by description (when enabled/licensed)." }, :contentReference[oaicite:8]{index=8}
+  ]
+
+  const AVIGILON_ACCESS_ITEMS = [
+    { url: "https://www.youtube.com/watch?v=1IcdpnaQ54g", note: "ACM overview (what it is / why it’s used)." }, :contentReference[oaicite:9]{index=9}
+  ]
 
   const [verkadaTab, setVerkadaTab] = React.useState("video")
   const [avigilonTab, setAvigilonTab] = React.useState("video")
@@ -367,7 +388,7 @@ export default function Training() {
       <VendorSection
         eyebrow="Vendor"
         title="Verkada Training"
-        desc="Watch training without leaving the Griffon website."
+        desc="Task-based training that stays on your site."
         brandHref="/brands/verkada"
         brandLabel="View Verkada Solutions"
       >
@@ -381,31 +402,19 @@ export default function Training() {
         </div>
 
         {verkadaTab === "video" ? (
-          <>
-            <PlaylistPanel
-              title="Verkada Video Security"
-              subtitle="Click a thumbnail on the right to play on the left."
-              playlistId={VERKADA_VIDEO_PLAYLIST_ID}
-              items={VERKADA_VIDEO_ITEMS}
-            />
-            <div className="mt-4 rounded-2xl border border-gray-200 bg-white p-4 text-sm text-gray-700">
-              <span className="font-semibold">Griffon tip:</span> Tune alerts so you don’t create alert fatigue.
-              Your best systems are high-signal and consistent.
-            </div>
-          </>
+          <PlaylistPanel
+            title="Verkada Video Security"
+            subtitle="Click a thumbnail to play. Browse the full playlist without leaving the site."
+            playlistId={VERKADA_VIDEO_PLAYLIST_ID}
+            items={VERKADA_VIDEO_ITEMS}
+          />
         ) : (
-          <>
-            <PlaylistPanel
-              title="Verkada Access Control"
-              subtitle="Admin tasks + real-world operations."
-              playlistId={VERKADA_ACCESS_PLAYLIST_ID}
-              items={VERKADA_ACCESS_ITEMS}
-            />
-            <div className="mt-4 rounded-2xl border border-gray-200 bg-white p-4 text-sm text-gray-700">
-              <span className="font-semibold">Griffon tip:</span> Standardize door naming + hardware notes (strike/REX/contact).
-              It makes support dramatically faster later.
-            </div>
-          </>
+          <PlaylistPanel
+            title="Verkada Access Control"
+            subtitle="Admin tasks + real-world operations."
+            playlistId={VERKADA_ACCESS_PLAYLIST_ID}
+            items={VERKADA_ACCESS_ITEMS}
+          />
         )}
       </VendorSection>
 
@@ -413,7 +422,7 @@ export default function Training() {
       <VendorSection
         eyebrow="Vendor"
         title="Avigilon Training"
-        desc="Official Avigilon/Motorola content only (no 3rd-party integrator videos)."
+        desc="Official Avigilon/Motorola content only (no third-party integrators)."
         brandHref="/brands/avigilon"
         brandLabel="View Avigilon Solutions"
       >
@@ -427,37 +436,25 @@ export default function Training() {
         </div>
 
         {avigilonTab === "video" ? (
-          AVIGILON_VIDEO_PLAYLIST_ID ? (
-            <PlaylistPanel
-              title="Avigilon Video Surveillance (ACC / Unity)"
-              subtitle="Click a thumbnail to play, or expand the full playlist below."
-              playlistId={AVIGILON_VIDEO_PLAYLIST_ID}
-              items={AVIGILON_VIDEO_ITEMS}
-            />
-          ) : (
-            <div className="rounded-3xl border border-gray-200 bg-white p-6">
-              <div className="font-bold text-gray-900">Avigilon official playlist needed</div>
-              <p className="mt-2 text-sm text-gray-600">
-                Paste the official Avigilon/Motorola YouTube playlist ID (or link) for ACC/Unity training and we’ll embed it here
-                with the same “stay-on-site” full playlist view.
-              </p>
-            </div>
-          )
-        ) : AVIGILON_ACCESS_PLAYLIST_ID ? (
           <PlaylistPanel
-            title="Avigilon Access Control (ACM)"
-            subtitle="Click a thumbnail to play, or expand the full playlist below."
-            playlistId={AVIGILON_ACCESS_PLAYLIST_ID}
-            items={AVIGILON_ACCESS_ITEMS}
+            title="Avigilon Video Surveillance (ACC / Unity)"
+            subtitle="Curated official videos + full playlist in-modal."
+            playlistId={AVIGILON_TRAINING_PLAYLIST_ID}
+            items={AVIGILON_VIDEO_ITEMS}
           />
         ) : (
-          <div className="rounded-3xl border border-gray-200 bg-white p-6">
-            <div className="font-bold text-gray-900">Avigilon official playlist needed</div>
-            <p className="mt-2 text-sm text-gray-600">
-              Paste the official Avigilon/Motorola YouTube playlist ID (or link) for ACM training and we’ll embed it here.
-            </p>
-          </div>
+          <PlaylistPanel
+            title="Avigilon Access Control (Unity Access / ACM)"
+            subtitle="Official access content + full playlist in-modal."
+            playlistId={AVIGILON_UNITY_ACCESS7_PLAYLIST_ID}
+            items={AVIGILON_ACCESS_ITEMS}
+          />
         )}
+
+        <div className="mt-4 rounded-2xl border border-gray-200 bg-white p-4 text-sm text-gray-700">
+          <span className="font-semibold">Griffon tip:</span> Avigilon is powerful but configuration-heavy.
+          For best outcomes, plan a short admin training session with your Griffon engineer.
+        </div>
       </VendorSection>
 
       {/* CTA */}
