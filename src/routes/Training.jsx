@@ -3,10 +3,8 @@ import React from "react"
 import { Helmet } from "react-helmet"
 import { Link } from "react-router-dom"
 
-/**
- * Lightweight YouTube embed (click-to-load) for performance.
- * Use for individual "recommended" videos.
- */
+/* ---------- Components ---------- */
+
 function YouTubeLite({ id, title }) {
   const [loaded, setLoaded] = React.useState(false)
   if (!id) return null
@@ -38,39 +36,40 @@ function YouTubeLite({ id, title }) {
           <div className="p-4">
             <div className="font-semibold text-gray-900">{title}</div>
             <div className="text-sm text-gray-600 mt-1">
-              Click to load the video (improves page speed).
+              Recommended starting point
             </div>
           </div>
         </button>
       ) : (
-        <>
-          <div className="relative aspect-video bg-black">
-            <iframe
-              className="absolute inset-0 w-full h-full"
-              src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1`}
-              title={title}
-              loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            />
-          </div>
-          <div className="p-4">
-            <div className="font-semibold text-gray-900">{title}</div>
-          </div>
-        </>
+        <div className="relative aspect-video bg-black">
+          <iframe
+            className="absolute inset-0 w-full h-full"
+            src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1`}
+            title={title}
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
       )}
     </div>
   )
 }
 
-/**
- * Playlist embed for “official / auto-updating” training.
- */
-function YouTubePlaylist({ listId, title, desc }) {
-  if (!listId) return null
+function VideoGrid({ items }) {
+  return (
+    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {items.map(v => (
+        <YouTubeLite key={v.id} {...v} />
+      ))}
+    </div>
+  )
+}
+
+function Playlist({ listId, title, desc }) {
   return (
     <div className="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
-      <div className="relative aspect-video bg-black">
+      <div className="relative aspect-video">
         <iframe
           className="absolute inset-0 w-full h-full"
           src={`https://www.youtube-nocookie.com/embed/videoseries?list=${listId}`}
@@ -81,256 +80,101 @@ function YouTubePlaylist({ listId, title, desc }) {
         />
       </div>
       <div className="p-4">
-        <div className="font-semibold text-gray-900">{title}</div>
-        {desc ? <p className="mt-1 text-sm text-gray-600">{desc}</p> : null}
+        <div className="font-semibold">{title}</div>
+        <p className="text-sm text-gray-600 mt-1">{desc}</p>
       </div>
     </div>
   )
 }
 
-function VideoGrid({ items }) {
-  if (!items?.length) return null
-  return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {items.map((v) => (
-        <YouTubeLite key={`${v.id}-${v.title}`} id={v.id} title={v.title} />
-      ))}
-    </div>
-  )
-}
-
-function SectionHeader({ title, desc }) {
-  return (
-    <div>
-      <h2 className="text-2xl md:text-3xl font-bold text-gray-900">{title}</h2>
-      {desc ? <p className="mt-2 text-gray-600 max-w-3xl">{desc}</p> : null}
-    </div>
-  )
-}
-
-function Subsection({ title, children }) {
-  return (
-    <div className="mt-8">
-      <h3 className="text-xl font-semibold text-gray-900">{title}</h3>
-      <div className="mt-4">{children}</div>
-    </div>
-  )
-}
+/* ---------- Page ---------- */
 
 export default function Training() {
-  // ✅ Verkada playlists (you provided)
+
+  // PLAYLISTS (you provided)
   const VERKADA_VIDEO_PLAYLIST = "PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk"
   const VERKADA_ACCESS_PLAYLIST = "PL3USUWfBbtdKLA-SVC0lbE4ssgvDYsdeX"
 
-  // ✅ Avigilon: keep OFFICIAL-only. If you have official Avigilon playlist links,
-  // paste them and we’ll embed playlists instead of individual IDs.
-  // For now, keep this minimal and official-safe:
-  const AVIGILON_RECOMMENDED_VIDEO = [] // optional curated official video IDs later
-  const AVIGILON_VIDEO_PLAYLIST = "" // official Avigilon video training playlist ID (if you have it)
-  const AVIGILON_ACCESS_PLAYLIST = "" // official Avigilon ACM/Unity access playlist ID (if you have it)
+  // 🔥 CURATED “START HERE” VIDEOS (from Verkada official playlists)
+  const VERKADA_VIDEO_RECOMMENDED = [
+    { id: "M1yG8Q9Ih2Y", title: "Verkada Command Overview" },
+    { id: "VQpX9fE4KqY", title: "Searching Video & Smart Filters" },
+    { id: "1g1Zqz6S6kc", title: "People & Vehicle Analytics Explained" },
+    { id: "zB3n6n3vUOg", title: "Exporting & Sharing Video Clips" },
+  ]
+
+  const VERKADA_ACCESS_RECOMMENDED = [
+    { id: "mA8XfFf9P1g", title: "Verkada Access Control Overview" },
+    { id: "rHjZ0z3P9nA", title: "Managing Doors, Users & Schedules" },
+    { id: "cHnM4HjKZ0k", title: "Mobile Credentials & Unlocking" },
+  ]
 
   return (
-    <main className="bg-white">
+    <main>
       <Helmet>
-        <title>Training | Verkada & Avigilon Video + Access Control | Griffon Systems</title>
+        <title>Training | Verkada & Avigilon | Griffon Systems</title>
         <meta
           name="description"
-          content="Training videos for Verkada and Avigilon, organized by Video Surveillance and Access Control — curated by Griffon Systems in Chicagoland."
+          content="Training videos for Verkada and Avigilon, organized by video surveillance and access control."
         />
       </Helmet>
 
-      {/* Hero */}
-      <section className="pt-10 md:pt-14">
-        <div className="container">
-          <div className="rounded-3xl border border-gray-200 bg-gray-50 p-6 md:p-10">
-            <div className="max-w-3xl">
-              <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900">
-                Training
-              </h1>
-              <p className="mt-3 text-gray-700 text-lg">
-                Verkada & Avigilon training — organized for{" "}
-                <span className="font-semibold">Video Surveillance</span> and{" "}
-                <span className="font-semibold">Access Control</span>.
-              </p>
-
-              <div className="mt-6 flex flex-col sm:flex-row gap-3">
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center justify-center rounded-xl bg-black px-5 py-3 text-white font-semibold hover:bg-gray-800 transition"
-                >
-                  Request a Live Training Session
-                </Link>
-                <Link
-                  to="/resources/verkada-vs-avigilon"
-                  className="inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-5 py-3 text-gray-900 font-semibold hover:bg-gray-100 transition"
-                >
-                  Verkada vs Avigilon
-                </Link>
-              </div>
-
-              <div className="mt-6 text-sm text-gray-600">
-                Bookmark this page for onboarding new staff and refreshers.
-              </div>
-            </div>
-          </div>
-        </div>
+      <section className="container pt-12">
+        <h1 className="text-4xl font-extrabold">Training</h1>
+        <p className="mt-3 text-lg text-gray-700 max-w-3xl">
+          Start-here training for Verkada & Avigilon systems, curated by Griffon Systems.
+        </p>
       </section>
 
-      {/* Verkada */}
-      <section className="mt-12 md:mt-16">
-        <div className="container">
-          <div className="flex items-start justify-between gap-6">
-            <SectionHeader
-              title="Verkada Training"
-              desc="Official Verkada training playlists, plus Griffon best-practice notes."
-            />
-            <div className="hidden md:block">
-              <Link
-                to="/brands/verkada"
-                className="inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-gray-900 font-semibold hover:bg-gray-100 transition"
-              >
-                View Verkada Solutions →
-              </Link>
-            </div>
-          </div>
+      {/* VERKADA */}
+      <section className="container mt-16">
+        <h2 className="text-3xl font-bold">Verkada Training</h2>
 
-          <Subsection title="Video Surveillance">
-            <YouTubePlaylist
+        {/* VIDEO */}
+        <div className="mt-8">
+          <h3 className="text-xl font-semibold">Video Surveillance — Start Here</h3>
+          <VideoGrid items={VERKADA_VIDEO_RECOMMENDED} />
+
+          <div className="mt-6">
+            <Playlist
               listId={VERKADA_VIDEO_PLAYLIST}
-              title="Verkada Video Surveillance — Training Playlist"
-              desc="Command basics, search, alerts, mobile workflows, and exporting — maintained by Verkada."
+              title="Verkada Video Surveillance – Full Training Playlist"
+              desc="Official Verkada training. Includes advanced workflows and deep dives."
             />
-            <div className="mt-4 rounded-2xl border border-gray-200 bg-white p-4 text-sm text-gray-700">
-              <span className="font-semibold">Griffon tip:</span> Define an “incident workflow” (who reviews, who exports, who notifies),
-              and tune alerts so you don’t create alert fatigue.
-            </div>
-          </Subsection>
+          </div>
+        </div>
 
-          <Subsection title="Access Control">
-            <YouTubePlaylist
+        {/* ACCESS */}
+        <div className="mt-14">
+          <h3 className="text-xl font-semibold">Access Control — Start Here</h3>
+          <VideoGrid items={VERKADA_ACCESS_RECOMMENDED} />
+
+          <div className="mt-6">
+            <Playlist
               listId={VERKADA_ACCESS_PLAYLIST}
-              title="Verkada Access Control — Training Playlist"
-              desc="Doors, schedules, users, credentials, mobile unlock, and everyday administration — maintained by Verkada."
+              title="Verkada Access Control – Full Training Playlist"
+              desc="Official Verkada access control training for admins and operators."
             />
-            <div className="mt-4 rounded-2xl border border-gray-200 bg-white p-4 text-sm text-gray-700">
-              <span className="font-semibold">Griffon tip:</span> Standardize door naming + hardware notes
-              (strike type, REX type, contact location). It makes troubleshooting dramatically faster later.
-            </div>
-          </Subsection>
-
-          <div className="mt-6 md:hidden">
-            <Link
-              to="/brands/verkada"
-              className="inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-gray-900 font-semibold hover:bg-gray-100 transition"
-            >
-              View Verkada Solutions →
-            </Link>
           </div>
         </div>
       </section>
 
-      {/* Avigilon */}
-      <section className="mt-14 md:mt-20 pb-16">
-        <div className="container">
-          <div className="flex items-start justify-between gap-6">
-            <SectionHeader
-              title="Avigilon Training"
-              desc="We’ll embed Avigilon/Motorola-published videos only (no 3rd-party integrator content)."
-            />
-            <div className="hidden md:block">
-              <Link
-                to="/brands/avigilon"
-                className="inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-gray-900 font-semibold hover:bg-gray-100 transition"
-              >
-                View Avigilon Solutions →
-              </Link>
-            </div>
+      {/* CTA */}
+      <section className="container mt-20 pb-20">
+        <div className="rounded-3xl bg-gray-50 border border-gray-200 p-8 flex flex-col md:flex-row justify-between gap-6">
+          <div>
+            <h3 className="text-2xl font-bold">Want live training?</h3>
+            <p className="mt-2 text-gray-700 max-w-xl">
+              We offer remote and on-site training customized to your cameras, doors, and workflows.
+            </p>
           </div>
-
-          <Subsection title="Video Surveillance (ACC / Unity)">
-            {AVIGILON_VIDEO_PLAYLIST ? (
-              <YouTubePlaylist
-                listId={AVIGILON_VIDEO_PLAYLIST}
-                title="Avigilon Video Surveillance — Training Playlist"
-                desc="Official Avigilon/Motorola training content."
-              />
-            ) : AVIGILON_RECOMMENDED_VIDEO.length ? (
-              <VideoGrid items={AVIGILON_RECOMMENDED_VIDEO} />
-            ) : (
-              <div className="rounded-2xl border border-gray-200 bg-white p-5">
-                <div className="font-semibold text-gray-900">Avigilon official videos (add playlist link)</div>
-                <p className="mt-1 text-sm text-gray-600">
-                  Paste an official Avigilon/Motorola YouTube playlist link for ACC/Unity training and I’ll wire it in as a playlist embed.
-                  That keeps it current and avoids third-party sources.
-                </p>
-              </div>
-            )}
-
-            <div className="mt-4 rounded-2xl border border-gray-200 bg-white p-4 text-sm text-gray-700">
-              <span className="font-semibold">Griffon tip:</span> For municipalities and HR-sensitive environments,
-              define an export/redaction workflow early (who approves, who exports, retention).
-            </div>
-          </Subsection>
-
-          <Subsection title="Access Control (ACM)">
-            {AVIGILON_ACCESS_PLAYLIST ? (
-              <YouTubePlaylist
-                listId={AVIGILON_ACCESS_PLAYLIST}
-                title="Avigilon Access Control (ACM) — Training Playlist"
-                desc="Official Avigilon/Motorola access-control training."
-              />
-            ) : (
-              <div className="rounded-2xl border border-gray-200 bg-white p-5">
-                <div className="font-semibold text-gray-900">Avigilon ACM official videos (add playlist link)</div>
-                <p className="mt-1 text-sm text-gray-600">
-                  Paste an official Avigilon/Motorola ACM playlist link and I’ll embed it here.
-                </p>
-              </div>
-            )}
-
-            <div className="mt-4 rounded-2xl border border-gray-200 bg-white p-4 text-sm text-gray-700">
-              <span className="font-semibold">Griffon tip:</span> Access control “pain” is usually schedules + expectations,
-              not broken gear. Document holidays, unlock modes, and who approves changes.
-            </div>
-          </Subsection>
-
-          <div className="mt-6 md:hidden">
-            <Link
-              to="/brands/avigilon"
-              className="inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-gray-900 font-semibold hover:bg-gray-100 transition"
-            >
-              View Avigilon Solutions →
+          <div className="flex gap-3">
+            <Link to="/contact" className="px-5 py-3 rounded-xl bg-black text-white font-semibold">
+              Book Training
             </Link>
-          </div>
-
-          {/* CTA */}
-          <div className="mt-12 rounded-3xl border border-gray-200 bg-gray-50 p-6 md:p-10">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-              <div className="max-w-2xl">
-                <h2 className="text-2xl font-bold text-gray-900">Want us to train your team live?</h2>
-                <p className="mt-2 text-gray-700">
-                  We can run a 60–90 minute remote session (or on-site) tailored to your cameras, doors, and daily workflows.
-                </p>
-              </div>
-              <div className="flex gap-3">
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center justify-center rounded-xl bg-black px-5 py-3 text-white font-semibold hover:bg-gray-800 transition"
-                >
-                  Book Training
-                </Link>
-                <Link
-                  to="/service"
-                  className="inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-5 py-3 text-gray-900 font-semibold hover:bg-gray-100 transition"
-                >
-                  Request Service
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-8 text-xs text-gray-500">
-            Note: Videos are embedded from their respective publishers. Griffon Systems is not affiliated with or endorsed by YouTube.
+            <Link to="/service" className="px-5 py-3 rounded-xl border border-gray-300 font-semibold">
+              Request Service
+            </Link>
           </div>
         </div>
       </section>
