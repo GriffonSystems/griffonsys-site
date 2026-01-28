@@ -3,10 +3,12 @@ import React from "react"
 import { Helmet } from "react-helmet"
 import { Link } from "react-router-dom"
 
+/**
+ * Lightweight YouTube embed (click-to-load) for performance.
+ * Use for individual "recommended" videos.
+ */
 function YouTubeLite({ id, title }) {
   const [loaded, setLoaded] = React.useState(false)
-
-  // Basic guard so empty IDs don’t render broken iframes
   if (!id) return null
 
   return (
@@ -61,12 +63,38 @@ function YouTubeLite({ id, title }) {
   )
 }
 
+/**
+ * Playlist embed for “official / auto-updating” training.
+ * Great for Verkada + for Avigilon access control playlists.
+ */
+function YouTubePlaylist({ listId, title, desc }) {
+  if (!listId) return null
+  return (
+    <div className="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+      <div className="relative aspect-video bg-black">
+        <iframe
+          className="absolute inset-0 w-full h-full"
+          src={`https://www.youtube-nocookie.com/embed/videoseries?list=${listId}`}
+          title={title}
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      </div>
+      <div className="p-4">
+        <div className="font-semibold text-gray-900">{title}</div>
+        {desc ? <p className="mt-1 text-sm text-gray-600">{desc}</p> : null}
+      </div>
+    </div>
+  )
+}
+
 function VideoGrid({ items }) {
   if (!items?.length) return null
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {items.map((v) => (
-        <YouTubeLite key={v.id + v.title} id={v.id} title={v.title} />
+        <YouTubeLite key={`${v.id}-${v.title}`} id={v.id} title={v.title} />
       ))}
     </div>
   )
@@ -74,11 +102,9 @@ function VideoGrid({ items }) {
 
 function SectionHeader({ title, desc }) {
   return (
-    <div className="flex items-start justify-between gap-6">
-      <div>
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900">{title}</h2>
-        {desc ? <p className="mt-2 text-gray-600 max-w-3xl">{desc}</p> : null}
-      </div>
+    <div>
+      <h2 className="text-2xl md:text-3xl font-bold text-gray-900">{title}</h2>
+      {desc ? <p className="mt-2 text-gray-600 max-w-3xl">{desc}</p> : null}
     </div>
   )
 }
@@ -93,33 +119,26 @@ function Subsection({ title, children }) {
 }
 
 export default function Training() {
-  // ✅ Replace these placeholder IDs with real YouTube IDs.
-  // Tip: YouTube ID is the part after "v=" in the URL.
-  const VERKADA = {
-    video: [
-      { id: "VIDEO_ID_HERE", title: "Verkada Video — Getting Started in Command" },
-      { id: "VIDEO_ID_HERE", title: "Verkada Video — Searching Footage & Smart Filters" },
-      { id: "VIDEO_ID_HERE", title: "Verkada Video — Alerts & Notifications (Best Practices)" },
-    ],
-    access: [
-      { id: "VIDEO_ID_HERE", title: "Verkada Access — Adding Doors, Schedules, and Users" },
-      { id: "VIDEO_ID_HERE", title: "Verkada Access — Managing Credentials & Mobile Unlock" },
-      { id: "VIDEO_ID_HERE", title: "Verkada Access — Troubleshooting a Door (Reader, REX, Contact)" },
-    ],
-  }
+  // ✅ Verkada official playlist (you provided)
+  const VERKADA_VIDEO_PLAYLIST = "PL3USUWfBbtdKLA-SVC0lbE4ssgvDYsdeX"
 
-  const AVIGILON = {
-    video: [
-      { id: "VIDEO_ID_HERE", title: "Avigilon Video — ACC/Unity Basics: Live View & Layouts" },
-      { id: "VIDEO_ID_HERE", title: "Avigilon Video — Searching & Exporting Video" },
-      { id: "VIDEO_ID_HERE", title: "Avigilon Video — Analytics, Rules, and Alerts" },
-    ],
-    access: [
-      { id: "VIDEO_ID_HERE", title: "Avigilon Access — ACM Basics: Users, Groups, and Roles" },
-      { id: "VIDEO_ID_HERE", title: "Avigilon Access — Door Schedules, Holidays, and Unlock Modes" },
-      { id: "VIDEO_ID_HERE", title: "Avigilon Access — Troubleshooting Door Events & Hardware" },
-    ],
-  }
+  // OPTIONAL: If you later find a Verkada Access playlist, drop the list ID here.
+  // If you don’t have one, we can hand-pick 3–6 videos later.
+  const VERKADA_ACCESS_PLAYLIST = "" // e.g. "PLAYLIST_ID_HERE"
+
+  // ✅ Avigilon: curated, buyer-friendly “confidence builders”
+  // Focus: find events fast, share/export, prove usability.
+  const AVIGILON_RECOMMENDED_VIDEO = [
+    { id: "ykMnzyIsIr4", title: "Avigilon Appearance Search — Introduction" },
+    { id: "E-RFQHSgzlo", title: "How to Use Appearance Search in ACC" },
+    { id: "yYpD09-pypc", title: "Thumbnail Search in Avigilon ACC 7" },
+    { id: "vptadx5IdbI", title: "How to Export Video in ACC" },
+    { id: "GfNwVWJfegU", title: "ACC — Sharing Video (Bookmarks, Snapshots, Export)" },
+  ]
+
+  // ✅ Avigilon access control playlist (ACM/Access Control topics)
+  // This is low-maintenance and avoids outdated one-off videos.
+  const AVIGILON_ACCESS_PLAYLIST = "PLKZM7d9bODv5IiVlCQjG_paOVYw3bGSeZ"
 
   return (
     <main className="bg-white">
@@ -127,7 +146,7 @@ export default function Training() {
         <title>Training | Verkada & Avigilon Video + Access Control | Griffon Systems</title>
         <meta
           name="description"
-          content="Curated training videos for Verkada and Avigilon: video surveillance and access control basics, best practices, and troubleshooting — from Griffon Systems in Chicagoland."
+          content="Training videos for Verkada and Avigilon, organized by Video Surveillance and Access Control — curated by Griffon Systems in Chicagoland."
         />
       </Helmet>
 
@@ -140,8 +159,8 @@ export default function Training() {
                 Training
               </h1>
               <p className="mt-3 text-gray-700 text-lg">
-                Verkada & Avigilon training videos curated by Griffon Systems.
-                Quick how-tos for <span className="font-semibold">Video Surveillance</span> and{" "}
+                Verkada & Avigilon training — organized for{" "}
+                <span className="font-semibold">Video Surveillance</span> and{" "}
                 <span className="font-semibold">Access Control</span>.
               </p>
 
@@ -150,7 +169,7 @@ export default function Training() {
                   to="/contact"
                   className="inline-flex items-center justify-center rounded-xl bg-black px-5 py-3 text-white font-semibold hover:bg-gray-800 transition"
                 >
-                  Request a Training Session
+                  Request a Live Training Session
                 </Link>
                 <Link
                   to="/resources/verkada-vs-avigilon"
@@ -161,7 +180,7 @@ export default function Training() {
               </div>
 
               <div className="mt-6 text-sm text-gray-600">
-                Tip: We recommend bookmarking this page for new staff onboarding and refreshers.
+                Bookmark this page for onboarding new staff and refreshers.
               </div>
             </div>
           </div>
@@ -171,10 +190,10 @@ export default function Training() {
       {/* Verkada */}
       <section className="mt-12 md:mt-16">
         <div className="container">
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex items-start justify-between gap-6">
             <SectionHeader
               title="Verkada Training"
-              desc="Short, practical videos for teams using Verkada Command — organized by Video Surveillance and Access Control."
+              desc="Use the official Verkada playlist for always-current training, plus Griffon best-practice notes below."
             />
             <div className="hidden md:block">
               <Link
@@ -187,18 +206,39 @@ export default function Training() {
           </div>
 
           <Subsection title="Video Surveillance">
-            <VideoGrid items={VERKADA.video} />
+            <YouTubePlaylist
+              listId={VERKADA_VIDEO_PLAYLIST}
+              title="Verkada Video Surveillance — Official Training Playlist"
+              desc="Command basics, search, alerts, and everyday workflows (auto-updated by Verkada)."
+            />
             <div className="mt-4 rounded-2xl border border-gray-200 bg-white p-4 text-sm text-gray-700">
-              <span className="font-semibold">Griffon tip:</span> Build a shared “incident workflow” (who reviews,
-              who exports, who notifies) so your team doesn’t scramble when something happens.
+              <span className="font-semibold">Griffon tip:</span> Most teams only use 20–30% of the platform.
+              Standardize alert rules + an “incident workflow” (who reviews, who exports, who notifies) to avoid alert fatigue.
             </div>
           </Subsection>
 
           <Subsection title="Access Control">
-            <VideoGrid items={VERKADA.access} />
+            {VERKADA_ACCESS_PLAYLIST ? (
+              <YouTubePlaylist
+                listId={VERKADA_ACCESS_PLAYLIST}
+                title="Verkada Access Control — Training Playlist"
+                desc="Doors, schedules, users, credentials, and troubleshooting."
+              />
+            ) : (
+              <>
+                <div className="rounded-2xl border border-gray-200 bg-white p-5">
+                  <div className="font-semibold text-gray-900">Recommended Verkada Access videos (coming next)</div>
+                  <p className="mt-1 text-sm text-gray-600">
+                    We’ll feature 5–7 short “admin confidence” videos (users, schedules, mobile creds, door troubleshooting).
+                    If you send a Verkada Access playlist link (or a few URLs), I’ll drop them in and remove this placeholder.
+                  </p>
+                </div>
+              </>
+            )}
+
             <div className="mt-4 rounded-2xl border border-gray-200 bg-white p-4 text-sm text-gray-700">
-              <span className="font-semibold">Griffon tip:</span> Standardize door naming + hardware notes (strike type,
-              REX type, contact location). It makes troubleshooting 10× faster later.
+              <span className="font-semibold">Griffon tip:</span> Standardize door naming + hardware notes (strike type, REX type, contact location).
+              It makes troubleshooting dramatically faster later.
             </div>
           </Subsection>
 
@@ -216,10 +256,10 @@ export default function Training() {
       {/* Avigilon */}
       <section className="mt-14 md:mt-20 pb-16">
         <div className="container">
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex items-start justify-between gap-6">
             <SectionHeader
               title="Avigilon Training"
-              desc="Training videos for Avigilon ACC/Unity (video) and ACM (access control) — organized for quick onboarding and troubleshooting."
+              desc="Buyer-friendly training that highlights speed-to-evidence, analytics, and day-to-day usability."
             />
             <div className="hidden md:block">
               <Link
@@ -232,18 +272,30 @@ export default function Training() {
           </div>
 
           <Subsection title="Video Surveillance (ACC / Unity)">
-            <VideoGrid items={AVIGILON.video} />
+            <div className="rounded-2xl border border-gray-200 bg-white p-5 mb-6">
+              <div className="font-semibold text-gray-900">Recommended (Start Here)</div>
+              <p className="mt-1 text-sm text-gray-600">
+                These are the videos that most directly help decision-makers and administrators understand why Avigilon is powerful *and* usable.
+              </p>
+            </div>
+
+            <VideoGrid items={AVIGILON_RECOMMENDED_VIDEO} />
+
             <div className="mt-4 rounded-2xl border border-gray-200 bg-white p-4 text-sm text-gray-700">
-              <span className="font-semibold">Griffon tip:</span> For exports, define a policy for watermarking,
-              retention, and who can share externally—especially for public-sector requests.
+              <span className="font-semibold">Griffon tip:</span> If you’re public-sector, define an export + retention policy early
+              (watermarking, who can share externally, redaction workflow). It prevents headaches later.
             </div>
           </Subsection>
 
           <Subsection title="Access Control (ACM)">
-            <VideoGrid items={AVIGILON.access} />
+            <YouTubePlaylist
+              listId={AVIGILON_ACCESS_PLAYLIST}
+              title="Avigilon Access Control (ACM) — Training Playlist"
+              desc="Overview, monitoring events/alarms, hardware monitoring, and daily admin workflows."
+            />
             <div className="mt-4 rounded-2xl border border-gray-200 bg-white p-4 text-sm text-gray-700">
-              <span className="font-semibold">Griffon tip:</span> Keep your door hardware “as-builts” and reader/lock
-              schedules documented. Most service calls are configuration + expectations, not broken gear.
+              <span className="font-semibold">Griffon tip:</span> Access control “pain” is usually schedules + expectations,
+              not broken gear. Document holidays, unlock modes, and who approves changes.
             </div>
           </Subsection>
 
@@ -262,8 +314,7 @@ export default function Training() {
               <div className="max-w-2xl">
                 <h2 className="text-2xl font-bold text-gray-900">Want us to train your team live?</h2>
                 <p className="mt-2 text-gray-700">
-                  We can run a 60–90 minute remote session (or on-site) tailored to your cameras, doors,
-                  and daily workflows.
+                  We can run a 60–90 minute remote session (or on-site) tailored to your cameras, doors, and daily workflows.
                 </p>
               </div>
               <div className="flex gap-3">
@@ -284,7 +335,7 @@ export default function Training() {
           </div>
 
           <div className="mt-8 text-xs text-gray-500">
-            Note: All videos are embedded from their respective publishers. Griffon Systems is not affiliated with or endorsed by YouTube.
+            Note: Videos are embedded from their respective publishers. Griffon Systems is not affiliated with or endorsed by YouTube.
           </div>
         </div>
       </section>
