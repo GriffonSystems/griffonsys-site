@@ -308,9 +308,7 @@ function PlaylistPanel({ title, subtitle, playlistId, items = [] }) {
 
       <Modal open={playlistOpen} title="Full playlist" onClose={() => setPlaylistOpen(false)}>
         {!playlistId ? (
-          <div className="text-sm text-gray-600">
-            No playlist configured yet.
-          </div>
+          <div className="text-sm text-gray-600">No playlist configured yet.</div>
         ) : (
           <>
             <div className="text-sm text-gray-600">
@@ -345,37 +343,91 @@ export default function Training() {
 
   // Verkada curated items (your URLs)
   const VERKADA_VIDEO_ITEMS = [
-    { url: "https://www.youtube.com/watch?v=jJwzwAoJ190&list=PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk&index=1", note: "Searching incidents (Command search + filters)." },
-    { url: "https://www.youtube.com/watch?v=xBE68n-WFo4&list=PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk&index=2", note: "Day-to-day playback workflow." },
-    { url: "https://www.youtube.com/watch?v=UrZNzxUpNzI&list=PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk&index=3", note: "Incident organization + workflow." },
-    { url: "https://www.youtube.com/watch?v=pNBSTtnnb-c&list=PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk&index=4", note: "Sharing/exporting footage." },
-    { url: "https://www.youtube.com/watch?v=wtpgjmmTnXc&list=PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk&index=5", note: "Maps + floor plans." },
-    { url: "https://www.youtube.com/watch?v=may1Gz2UmIo&list=PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk&index=6", note: "Key alerts (signal over noise)." },
+    {
+      url: "https://www.youtube.com/watch?v=jJwzwAoJ190&list=PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk&index=1",
+      note: "Searching incidents (Command search + filters).",
+    },
+    {
+      url: "https://www.youtube.com/watch?v=xBE68n-WFo4&list=PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk&index=2",
+      note: "Day-to-day playback workflow.",
+    },
+    {
+      url: "https://www.youtube.com/watch?v=UrZNzxUpNzI&list=PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk&index=3",
+      note: "Incident organization + workflow.",
+    },
+    {
+      url: "https://www.youtube.com/watch?v=pNBSTtnnb-c&list=PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk&index=4",
+      note: "Sharing/exporting footage.",
+    },
+    {
+      url: "https://www.youtube.com/watch?v=wtpgjmmTnXc&list=PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk&index=5",
+      note: "Maps + floor plans.",
+    },
+    {
+      url: "https://www.youtube.com/watch?v=may1Gz2UmIo&list=PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk&index=6",
+      note: "Key alerts (signal over noise).",
+    },
   ]
 
   const VERKADA_ACCESS_ITEMS = [
-    { url: "https://www.youtube.com/watch?v=akeui7lbme0&list=PL3USUWfBbtdKLA-SVC0lbE4ssgvDYsdeX&index=7", note: "Core access admin workflow." },
-    { url: "https://www.youtube.com/watch?v=LLMNrGyIjOM&list=PL3USUWfBbtdKLA-SVC0lbE4ssgvDYsdeX&index=5", note: "Users, permissions, schedules." },
-    { url: "https://www.youtube.com/watch?v=XxIEGPXZzuw&list=PL3USUWfBbtdKLA-SVC0lbE4ssgvDYsdeX&index=6", note: "Credentials + mobile unlock." },
-    { url: "https://www.youtube.com/watch?v=iUoFcWu4HOE&list=PL3USUWfBbtdKLA-SVC0lbE4ssgvDYsdeX&index=9", note: "Events + troubleshooting mindset." },
-    { url: "https://www.youtube.com/watch?v=reGRRopgx7Q&list=PL3USUWfBbtdKLA-SVC0lbE4ssgvDYsdeX&index=12", note: "Ops/audit consistency for teams." },
+    {
+      url: "https://www.youtube.com/watch?v=akeui7lbme0&list=PL3USUWfBbtdKLA-SVC0lbE4ssgvDYsdeX&index=7",
+      note: "Core access admin workflow.",
+    },
+    {
+      url: "https://www.youtube.com/watch?v=LLMNrGyIjOM&list=PL3USUWfBbtdKLA-SVC0lbE4ssgvDYsdeX&index=5",
+      note: "Users, permissions, schedules.",
+    },
+    {
+      url: "https://www.youtube.com/watch?v=XxIEGPXZzuw&list=PL3USUWfBbtdKLA-SVC0lbE4ssgvDYsdeX&index=6",
+      note: "Credentials + mobile unlock.",
+    },
+    {
+      url: "https://www.youtube.com/watch?v=iUoFcWu4HOE&list=PL3USUWfBbtdKLA-SVC0lbE4ssgvDYsdeX&index=9",
+      note: "Events + troubleshooting mindset.",
+    },
+    {
+      url: "https://www.youtube.com/watch?v=reGRRopgx7Q&list=PL3USUWfBbtdKLA-SVC0lbE4ssgvDYsdeX&index=12",
+      note: "Ops/audit consistency for teams.",
+    },
   ]
 
-  // Avigilon playlists (optional modal)
-  // If you want the “Full playlist” modal for Avigilon, paste the official playlist IDs here.
-  const AVIGILON_VIDEO_PLAYLIST_ID = "PL05091E943AA92F20" // you pasted a video from this playlist
-  const AVIGILON_ACCESS_PLAYLIST_ID = ""
+  // Avigilon playlists (modal)
+  const AVIGILON_VIDEO_PLAYLIST_ID = "PL05091E943AA92F20"
+  const AVIGILON_ACCESS_PLAYLIST_ID = "PLATTq93g2gMAwpmjF8k6f-iTXd9TDtHai"
 
-  // Avigilon curated official videos you pasted
+  // Avigilon curated official videos you provided
   const AVIGILON_VIDEO_ITEMS = [
     { url: "https://youtu.be/N_bOTknsotI", note: "ACC interface overview and core navigation." },
-    { url: "https://youtu.be/n3IZSyJvafI", note: "Advanced search and analytics capabilities (when licensed)." },
+    {
+      url: "https://youtu.be/n3IZSyJvafI",
+      note: "Advanced search and analytics capabilities (when licensed).",
+    },
     { url: "https://youtu.be/ZoPa-a5olZ0", note: "Exporting video and evidence for investigations." },
     { url: "https://youtu.be/sGJwBV-b_lY", note: "User roles, permissions, and access within ACC." },
   ]
 
   const AVIGILON_ACCESS_ITEMS = [
-    // Add official Avigilon/Motorola access videos here when you find them
+    {
+      url: "https://www.youtube.com/watch?v=UbXI1Uy3Wfo&list=PLATTq93g2gMAwpmjF8k6f-iTXd9TDtHai&index=1",
+      note: "Overview of Avigilon access control and core concepts.",
+    },
+    {
+      url: "https://www.youtube.com/watch?v=0mNO9BU7TYI&list=PLATTq93g2gMAwpmjF8k6f-iTXd9TDtHai&index=3",
+      note: "Users, roles, and permissions management.",
+    },
+    {
+      url: "https://www.youtube.com/watch?v=jgcx1U50iOo&list=PLATTq93g2gMAwpmjF8k6f-iTXd9TDtHai&index=4",
+      note: "Door configuration, schedules, and settings.",
+    },
+    {
+      url: "https://www.youtube.com/watch?v=lfSWxGomQ7A&list=PLATTq93g2gMAwpmjF8k6f-iTXd9TDtHai&index=5",
+      note: "Events, logs, and reviewing access activity.",
+    },
+    {
+      url: "https://www.youtube.com/watch?v=pHKCONBpppQ&list=PLATTq93g2gMAwpmjF8k6f-iTXd9TDtHai&index=6",
+      note: "Credentials: cards, fobs, mobile access, and assignment.",
+    },
   ]
 
   const [verkadaTab, setVerkadaTab] = React.useState("video")
@@ -452,7 +504,7 @@ export default function Training() {
         ) : (
           <PlaylistPanel
             title="Avigilon Access Control (ACM)"
-            subtitle="Add official Avigilon/Motorola access videos when available."
+            subtitle="Core tasks: users, doors, credentials, and events."
             playlistId={AVIGILON_ACCESS_PLAYLIST_ID}
             items={AVIGILON_ACCESS_ITEMS}
           />
