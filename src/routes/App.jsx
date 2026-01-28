@@ -23,6 +23,7 @@ import BrandSiklu from "./BrandSiklu"
 
 // Resources
 import ResourcesVerkadaVsAvigilon from "./ResourcesVerkadaVsAvigilon"
+import Training from "./Training" // ✅ NEW
 
 // Utility pages
 import NotFound from "./NotFound"
@@ -78,6 +79,10 @@ export default function App() {
         <Route
           path="/resources/verkada-vs-avigilon"
           element={<ResourcesVerkadaVsAvigilon />}
+        />
+        <Route
+          path="/resources/training"
+          element={<Training />}
         />
 
         {/* Brand pages */}
