@@ -23,7 +23,7 @@ async function fetchOEmbed(url) {
   return await res.json()
 }
 
-/* ---------------- small modal ---------------- */
+/* ---------------- modal ---------------- */
 
 function Modal({ open, title, onClose, children }) {
   React.useEffect(() => {
@@ -44,7 +44,6 @@ function Modal({ open, title, onClose, children }) {
       aria-modal="true"
       aria-label={title || "Dialog"}
       onMouseDown={(e) => {
-        // click on backdrop closes
         if (e.target === e.currentTarget) onClose?.()
       }}
     >
@@ -65,7 +64,7 @@ function Modal({ open, title, onClose, children }) {
   )
 }
 
-/* ---------------- UI components ---------------- */
+/* ---------------- UI bits ---------------- */
 
 function TabButton({ active, onClick, children }) {
   return (
@@ -127,9 +126,9 @@ function VendorSection({ eyebrow, title, desc, brandHref, brandLabel, children }
 
 /**
  * PlaylistPanel
- * - Desktop: fixed matched height so player "fills" properly and aligns with the list
- * - Mobile: aspect-video
- * - Full playlist opens in a MODAL (no weird panel below)
+ * Desktop: fixed height player + list = aligned
+ * Mobile: aspect-video
+ * Full playlist: opens in modal (stays on site)
  */
 function PlaylistPanel({ title, subtitle, playlistId, items = [] }) {
   const baseItems = React.useMemo(() => {
@@ -160,7 +159,6 @@ function PlaylistPanel({ title, subtitle, playlistId, items = [] }) {
     async function run() {
       const toFetch = baseItems.filter((v) => !meta[v.id])
       if (!toFetch.length) return
-
       for (const v of toFetch) {
         try {
           const data = await fetchOEmbed(v.url)
@@ -216,7 +214,6 @@ function PlaylistPanel({ title, subtitle, playlistId, items = [] }) {
           </div>
         </div>
 
-        {/* Desktop: matched height columns. Mobile: stacks + aspect-video */}
         <div className="grid md:grid-cols-5">
           {/* Left: Player */}
           <div className="md:col-span-3 border-b md:border-b-0 md:border-r border-gray-200">
@@ -306,25 +303,26 @@ function PlaylistPanel({ title, subtitle, playlistId, items = [] }) {
         </div>
       </div>
 
-      {/* Playlist modal (stays on your site, no surprise panel below) */}
-      <Modal
-        open={playlistOpen}
-        title="Full playlist"
-        onClose={() => setPlaylistOpen(false)}
-      >
-        <div className="text-sm text-gray-600">
-          Browse the whole playlist here without leaving griffonsys.com.
-        </div>
-        <div className="mt-4" style={{ position: "relative", paddingTop: "56.25%", background: "#000" }}>
-          <iframe
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
-            src={`https://www.youtube-nocookie.com/embed/videoseries?list=${playlistId}`}
-            title="Full playlist"
-            loading="lazy"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-        </div>
+      <Modal open={playlistOpen} title="Full playlist" onClose={() => setPlaylistOpen(false)}>
+        {!playlistId ? (
+          <div className="text-sm text-gray-600">No playlist configured.</div>
+        ) : (
+          <>
+            <div className="text-sm text-gray-600">
+              Browse the whole playlist here without leaving griffonsys.com.
+            </div>
+            <div className="mt-4" style={{ position: "relative", paddingTop: "56.25%", background: "#000" }}>
+              <iframe
+                style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
+                src={`https://www.youtube-nocookie.com/embed/videoseries?list=${playlistId}`}
+                title="Full playlist"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          </>
+        )}
       </Modal>
     </>
   )
@@ -337,7 +335,7 @@ export default function Training() {
   const VERKADA_VIDEO_PLAYLIST_ID = "PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk"
   const VERKADA_ACCESS_PLAYLIST_ID = "PL3USUWfBbtdKLA-SVC0lbE4ssgvDYsdeX"
 
-  // Verkada video URLs (your curated set)
+  // Verkada curated items (your URLs)
   const VERKADA_VIDEO_ITEMS = [
     { url: "https://www.youtube.com/watch?v=jJwzwAoJ190&list=PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk&index=1", note: "Searching incidents (Command search + filters)." },
     { url: "https://www.youtube.com/watch?v=xBE68n-WFo4&list=PL3USUWfBbtdJpB2F8sOOJOdvv2qlWcfpk&index=2", note: "Day-to-day playback workflow." },
@@ -355,21 +353,11 @@ export default function Training() {
     { url: "https://www.youtube.com/watch?v=reGRRopgx7Q&list=PL3USUWfBbtdKLA-SVC0lbE4ssgvDYsdeX&index=12", note: "Ops/audit consistency for teams." },
   ]
 
-  // Avigilon official playlists (from Avigilon’s own YouTube)
-  const AVIGILON_TRAINING_PLAYLIST_ID = "PL05091E943AA92F20" // Avigilon Training playlist :contentReference[oaicite:4]{index=4}
-  const AVIGILON_UNITY_ACCESS7_PLAYLIST_ID = "PLATTq93g2gMAWtk54bOCmz4CgeTw_tFI_" // Unity Access 7 :contentReference[oaicite:5]{index=5}
-
-  // Avigilon curated “best usable” picks (official channel)
-  // Note: Titles will load automatically via oEmbed on your page.
-  const AVIGILON_VIDEO_ITEMS = [
-    { url: "https://www.youtube.com/watch?v=NIsQy1xiOdU", note: "ACC basics: layout + core navigation." }, :contentReference[oaicite:6]{index=6}
-    { url: "https://www.youtube.com/watch?v=YqsyRdP0vPg", note: "How to access Unity/Avigilon online training portals." }, :contentReference[oaicite:7]{index=7}
-    { url: "https://www.youtube.com/watch?v=n3IZSyJvafI", note: "Appearance Search by description (when enabled/licensed)." }, :contentReference[oaicite:8]{index=8}
-  ]
-
-  const AVIGILON_ACCESS_ITEMS = [
-    { url: "https://www.youtube.com/watch?v=1IcdpnaQ54g", note: "ACM overview (what it is / why it’s used)." }, :contentReference[oaicite:9]{index=9}
-  ]
+  // Avigilon: start empty (official-only). Paste official playlist IDs + video URLs later.
+  const AVIGILON_VIDEO_PLAYLIST_ID = ""   // put official playlist ID here
+  const AVIGILON_ACCESS_PLAYLIST_ID = ""  // put official playlist ID here
+  const AVIGILON_VIDEO_ITEMS = []         // put official Avigilon video URLs here
+  const AVIGILON_ACCESS_ITEMS = []        // put official Avigilon access video URLs here
 
   const [verkadaTab, setVerkadaTab] = React.useState("video")
   const [avigilonTab, setAvigilonTab] = React.useState("video")
@@ -384,7 +372,6 @@ export default function Training() {
         />
       </Helmet>
 
-      {/* Verkada */}
       <VendorSection
         eyebrow="Vendor"
         title="Verkada Training"
@@ -404,7 +391,7 @@ export default function Training() {
         {verkadaTab === "video" ? (
           <PlaylistPanel
             title="Verkada Video Security"
-            subtitle="Click a thumbnail to play. Browse the full playlist without leaving the site."
+            subtitle="Click a thumbnail to play. Browse the full playlist in a modal."
             playlistId={VERKADA_VIDEO_PLAYLIST_ID}
             items={VERKADA_VIDEO_ITEMS}
           />
@@ -418,11 +405,10 @@ export default function Training() {
         )}
       </VendorSection>
 
-      {/* Avigilon */}
       <VendorSection
         eyebrow="Vendor"
         title="Avigilon Training"
-        desc="Official Avigilon/Motorola content only (no third-party integrators)."
+        desc="Official Avigilon/Motorola content only. Paste official links to enable."
         brandHref="/brands/avigilon"
         brandLabel="View Avigilon Solutions"
       >
@@ -438,15 +424,15 @@ export default function Training() {
         {avigilonTab === "video" ? (
           <PlaylistPanel
             title="Avigilon Video Surveillance (ACC / Unity)"
-            subtitle="Curated official videos + full playlist in-modal."
-            playlistId={AVIGILON_TRAINING_PLAYLIST_ID}
+            subtitle="Add official Avigilon video URLs for thumbnails; add playlist ID for full playlist modal."
+            playlistId={AVIGILON_VIDEO_PLAYLIST_ID}
             items={AVIGILON_VIDEO_ITEMS}
           />
         ) : (
           <PlaylistPanel
-            title="Avigilon Access Control (Unity Access / ACM)"
-            subtitle="Official access content + full playlist in-modal."
-            playlistId={AVIGILON_UNITY_ACCESS7_PLAYLIST_ID}
+            title="Avigilon Access Control (ACM)"
+            subtitle="Add official Avigilon access video URLs; add playlist ID for full playlist modal."
+            playlistId={AVIGILON_ACCESS_PLAYLIST_ID}
             items={AVIGILON_ACCESS_ITEMS}
           />
         )}
@@ -457,7 +443,6 @@ export default function Training() {
         </div>
       </VendorSection>
 
-      {/* CTA */}
       <section className="mt-14 md:mt-20 pb-16">
         <div className="container">
           <div className="rounded-3xl border border-gray-200 bg-gray-50 p-6 md:p-10">
