@@ -208,7 +208,7 @@ function PlaylistPanel({ title, subtitle, playlistId, items = [] }) {
                 onClick={() => setPlaylistOpen(true)}
                 className="text-sm font-semibold rounded-xl border border-gray-300 bg-white px-4 py-2 hover:bg-gray-100 transition self-start md:self-auto"
               >
-                Browse full playlist
+                View full playlist
               </button>
             ) : null}
           </div>
@@ -218,7 +218,10 @@ function PlaylistPanel({ title, subtitle, playlistId, items = [] }) {
           {/* Left: Player */}
           <div className="md:col-span-3 border-b md:border-b-0 md:border-r border-gray-200">
             {/* Mobile aspect */}
-            <div className="md:hidden" style={{ position: "relative", paddingTop: "56.25%", background: "#000" }}>
+            <div
+              className="md:hidden"
+              style={{ position: "relative", paddingTop: "56.25%", background: "#000" }}
+            >
               {activeId ? (
                 <iframe
                   style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
@@ -305,13 +308,18 @@ function PlaylistPanel({ title, subtitle, playlistId, items = [] }) {
 
       <Modal open={playlistOpen} title="Full playlist" onClose={() => setPlaylistOpen(false)}>
         {!playlistId ? (
-          <div className="text-sm text-gray-600">No playlist configured.</div>
+          <div className="text-sm text-gray-600">
+            No playlist configured yet.
+          </div>
         ) : (
           <>
             <div className="text-sm text-gray-600">
               Browse the whole playlist here without leaving griffonsys.com.
             </div>
-            <div className="mt-4" style={{ position: "relative", paddingTop: "56.25%", background: "#000" }}>
+            <div
+              className="mt-4"
+              style={{ position: "relative", paddingTop: "56.25%", background: "#000" }}
+            >
               <iframe
                 style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
                 src={`https://www.youtube-nocookie.com/embed/videoseries?list=${playlistId}`}
@@ -353,11 +361,22 @@ export default function Training() {
     { url: "https://www.youtube.com/watch?v=reGRRopgx7Q&list=PL3USUWfBbtdKLA-SVC0lbE4ssgvDYsdeX&index=12", note: "Ops/audit consistency for teams." },
   ]
 
-  // Avigilon: start empty (official-only). Paste official playlist IDs + video URLs later.
-  const AVIGILON_VIDEO_PLAYLIST_ID = ""   // put official playlist ID here
-  const AVIGILON_ACCESS_PLAYLIST_ID = ""  // put official playlist ID here
-  const AVIGILON_VIDEO_ITEMS = []         // put official Avigilon video URLs here
-  const AVIGILON_ACCESS_ITEMS = []        // put official Avigilon access video URLs here
+  // Avigilon playlists (optional modal)
+  // If you want the “Full playlist” modal for Avigilon, paste the official playlist IDs here.
+  const AVIGILON_VIDEO_PLAYLIST_ID = "PL05091E943AA92F20" // you pasted a video from this playlist
+  const AVIGILON_ACCESS_PLAYLIST_ID = ""
+
+  // Avigilon curated official videos you pasted
+  const AVIGILON_VIDEO_ITEMS = [
+    { url: "https://youtu.be/N_bOTknsotI", note: "ACC interface overview and core navigation." },
+    { url: "https://youtu.be/n3IZSyJvafI", note: "Advanced search and analytics capabilities (when licensed)." },
+    { url: "https://youtu.be/ZoPa-a5olZ0", note: "Exporting video and evidence for investigations." },
+    { url: "https://youtu.be/sGJwBV-b_lY", note: "User roles, permissions, and access within ACC." },
+  ]
+
+  const AVIGILON_ACCESS_ITEMS = [
+    // Add official Avigilon/Motorola access videos here when you find them
+  ]
 
   const [verkadaTab, setVerkadaTab] = React.useState("video")
   const [avigilonTab, setAvigilonTab] = React.useState("video")
@@ -372,10 +391,11 @@ export default function Training() {
         />
       </Helmet>
 
+      {/* Verkada */}
       <VendorSection
         eyebrow="Vendor"
         title="Verkada Training"
-        desc="Task-based training that stays on your site."
+        desc="Curated training videos embedded for quick reference."
         brandHref="/brands/verkada"
         brandLabel="View Verkada Solutions"
       >
@@ -391,7 +411,7 @@ export default function Training() {
         {verkadaTab === "video" ? (
           <PlaylistPanel
             title="Verkada Video Security"
-            subtitle="Click a thumbnail to play. Browse the full playlist in a modal."
+            subtitle="Click a thumbnail to play. View the full playlist in a modal."
             playlistId={VERKADA_VIDEO_PLAYLIST_ID}
             items={VERKADA_VIDEO_ITEMS}
           />
@@ -405,10 +425,11 @@ export default function Training() {
         )}
       </VendorSection>
 
+      {/* Avigilon */}
       <VendorSection
         eyebrow="Vendor"
         title="Avigilon Training"
-        desc="Official Avigilon/Motorola content only. Paste official links to enable."
+        desc="Official Avigilon/Motorola videos curated for common workflows."
         brandHref="/brands/avigilon"
         brandLabel="View Avigilon Solutions"
       >
@@ -424,14 +445,14 @@ export default function Training() {
         {avigilonTab === "video" ? (
           <PlaylistPanel
             title="Avigilon Video Surveillance (ACC / Unity)"
-            subtitle="Add official Avigilon video URLs for thumbnails; add playlist ID for full playlist modal."
+            subtitle="Core tasks: navigation, search, export, and user roles."
             playlistId={AVIGILON_VIDEO_PLAYLIST_ID}
             items={AVIGILON_VIDEO_ITEMS}
           />
         ) : (
           <PlaylistPanel
             title="Avigilon Access Control (ACM)"
-            subtitle="Add official Avigilon access video URLs; add playlist ID for full playlist modal."
+            subtitle="Add official Avigilon/Motorola access videos when available."
             playlistId={AVIGILON_ACCESS_PLAYLIST_ID}
             items={AVIGILON_ACCESS_ITEMS}
           />
@@ -443,6 +464,7 @@ export default function Training() {
         </div>
       </VendorSection>
 
+      {/* CTA */}
       <section className="mt-14 md:mt-20 pb-16">
         <div className="container">
           <div className="rounded-3xl border border-gray-200 bg-gray-50 p-6 md:p-10">
