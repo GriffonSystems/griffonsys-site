@@ -1,14 +1,12 @@
 {
-  "redirects": [
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    },
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": "www.griffonsys.com" }],
-      "destination": "https://griffonsys.com/$1",
-      "permanent": true
+      "destination": "/index.html"
     }
-  ],
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
