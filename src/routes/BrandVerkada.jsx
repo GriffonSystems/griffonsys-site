@@ -96,9 +96,8 @@ function PriceCallout({ msrpFrom }) {
 export default function VendorVerkada() {
   const [active, setActive] = useState("video")
 
-  // Modal state
-  const [videoEmbed, setVideoEmbed] = useState(null) // youtube embed url
-  const [selectedCard, setSelectedCard] = useState(null) // full card object
+  // Modal state (single modal that can show video + MSRP)
+  const [selectedCard, setSelectedCard] = useState(null)
 
   const location = useLocation()
 
@@ -126,6 +125,7 @@ export default function VendorVerkada() {
 
   const grid = "grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
 
+  // MSRP values you provided (shown only inside the modal after click)
   const videoProducts = [
     {
       key: "dome",
@@ -266,15 +266,11 @@ export default function VendorVerkada() {
   ]
 
   const handleCardClick = (card) => {
-    if (card.video) {
-      setVideoEmbed(card.video)
-      return
-    }
+    // One modal for everything. If card has a video, it will render inside the modal.
     setSelectedCard(card)
   }
 
-  const closeModals = () => {
-    setVideoEmbed(null)
+  const closeModal = () => {
     setSelectedCard(null)
   }
 
@@ -294,8 +290,9 @@ export default function VendorVerkada() {
           <h3 className="text-xl font-semibold mb-1">{card.title}</h3>
           <p className="text-gray-700 text-sm">{card.desc}</p>
 
-          {/* subtle helper (no pricing shown on tile) */}
-          <p className="mt-3 text-xs text-gray-500">Click for specs & pricing</p>
+          <p className="mt-3 text-xs text-gray-500">
+            {card.video ? "Click to watch video & see pricing" : "Click for specs & pricing"}
+          </p>
         </div>
       ))}
     </div>
@@ -405,83 +402,86 @@ export default function VendorVerkada() {
       {active === "intercom" && renderGrid(intercomProducts)}
       {active === "connectivity" && renderGrid(connectivityProducts)}
 
-      {/* Pricing/details modal (opens on tile click) */}
+      {/* Single merged modal: video (optional) + MSRP + CTA */}
       <ModalShell
         open={!!selectedCard}
         title={selectedCard?.title || ""}
-        onClose={closeModals}
+        onClose={closeModal}
       >
         {selectedCard && (
-          <div className="grid gap-5 md:grid-cols-2">
-            <div>
-              <img
-                src={selectedCard.img}
-                alt={selectedCard.title}
-                className="w-full rounded-2xl bg-gray-50 object-contain p-4"
-              />
+          <div className="space-y-5">
+            {/* Optional video at top (e.g., GC31-E) */}
+            {selectedCard.video && (
+              <div className="aspect-video w-full overflow-hidden rounded-2xl bg-black">
+                <iframe
+                  className="h-full w-full"
+                  src={selectedCard.video}
+                  title={`${selectedCard.title} video`}
+                  frameBorder="0"
+                  allow="autoplay; encrypted-media; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            )}
 
-              <div className="mt-4 text-sm text-gray-700">
-                {selectedCard.desc}
+            <div className="grid gap-5 md:grid-cols-2">
+              {/* LEFT */}
+              <div>
+                <img
+                  src={selectedCard.img}
+                  alt={selectedCard.title}
+                  className="w-full rounded-2xl bg-gray-50 object-contain p-4"
+                />
+
+                <div className="mt-4 text-sm text-gray-700">
+                  {selectedCard.desc}
+                </div>
+
+                <div className="mt-4 rounded-2xl border border-gray-200 p-4">
+                  <div className="text-sm font-semibold text-gray-900">
+                    Installed & supported by Griffon Systems
+                  </div>
+                  <div className="mt-1 text-xs text-gray-600">
+                    Design • Installation • Configuration • Ongoing support across Illinois
+                  </div>
+                </div>
               </div>
 
-              <div className="mt-4 rounded-2xl border border-gray-200 p-4">
-                <div className="text-sm font-semibold text-gray-900">
-                  Installed & supported by Griffon Systems
-                </div>
-                <div className="mt-1 text-xs text-gray-600">
-                  Design • Installation • Configuration • Ongoing support across Illinois
+              {/* RIGHT */}
+              <div className="space-y-4">
+                <PriceCallout msrpFrom={selectedCard.msrpFrom} />
+
+                <div className="rounded-2xl border border-gray-200 bg-gray-50 p-5">
+                  <div className="text-sm font-semibold text-gray-900">
+                    Quantity & installed pricing
+                  </div>
+                  <div className="mt-1 text-sm text-gray-600">
+                    We’ll confirm configuration (lens/storage tier, mounting, cabling, power,
+                    and license term), then provide an installed quote.
+                  </div>
+
+                  <div className="mt-4 flex flex-col gap-2">
+                    <Link
+                      to="/contact"
+                      className="inline-flex items-center justify-center rounded-xl bg-gray-900 px-4 py-2 text-sm font-semibold text-white hover:bg-black"
+                    >
+                      Get quantity & installed pricing
+                    </Link>
+                    <Link
+                      to="/contact"
+                      className="inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-800 hover:bg-gray-100"
+                    >
+                      Request a demo
+                    </Link>
+                  </div>
+
+                  <div className="mt-3 text-xs text-gray-500">
+                    Hardware MSRP is informational; project pricing varies by configuration,
+                    licensing, and site conditions.
+                  </div>
                 </div>
               </div>
             </div>
-
-            <div className="space-y-4">
-              <PriceCallout msrpFrom={selectedCard.msrpFrom} />
-
-              <div className="rounded-2xl border border-gray-200 bg-gray-50 p-5">
-                <div className="text-sm font-semibold text-gray-900">
-                  Quantity & installed pricing
-                </div>
-                <div className="mt-1 text-sm text-gray-600">
-                  We’ll confirm configuration (lens, storage tier, mounting, cabling, power, and license term),
-                  then provide an installed quote.
-                </div>
-
-                <div className="mt-4 flex flex-col gap-2">
-                  <Link
-                    to="/contact"
-                    className="inline-flex items-center justify-center rounded-xl bg-gray-900 px-4 py-2 text-sm font-semibold text-white hover:bg-black"
-                  >
-                    Get quantity & installed pricing
-                  </Link>
-                  <Link
-                    to="/contact"
-                    className="inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-800 hover:bg-gray-100"
-                  >
-                    Request a demo
-                  </Link>
-                </div>
-
-                <div className="mt-3 text-xs text-gray-500">
-                  Hardware MSRP is informational; project pricing varies by configuration, licensing, and site conditions.
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </ModalShell>
-
-      {/* Video modal (connectivity tile) */}
-      <ModalShell open={!!videoEmbed} title="Product video" onClose={closeModals}>
-        {videoEmbed && (
-          <div className="aspect-video w-full overflow-hidden rounded-2xl bg-black">
-            <iframe
-              className="h-full w-full"
-              src={videoEmbed}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="autoplay; encrypted-media; picture-in-picture"
-              allowFullScreen
-            />
           </div>
         )}
       </ModalShell>
