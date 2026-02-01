@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { Link, useLocation } from "react-router-dom"
-import axios from "axios"
 import { Helmet } from "react-helmet"
 
 function VerkadaLogo({ className = "h-10 w-auto object-contain" }) {
@@ -23,16 +22,83 @@ const TABS = [
   { key: "connectivity", label: "Connectivity" },
 ]
 
+const money = (n) => {
+  const v = Number(n)
+  if (!Number.isFinite(v)) return ""
+  return v.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  })
+}
+
+function ModalShell({ open, title, onClose, children }) {
+  React.useEffect(() => {
+    if (!open) return
+    const onKey = (e) => e.key === "Escape" && onClose?.()
+    window.addEventListener("keydown", onKey)
+    document.body.style.overflow = "hidden"
+    return () => {
+      window.removeEventListener("keydown", onKey)
+      document.body.style.overflow = ""
+    }
+  }, [open, onClose])
+
+  if (!open) return null
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) onClose?.()
+      }}
+      role="dialog"
+      aria-modal="true"
+      aria-label={title}
+    >
+      <div className="w-full max-w-3xl overflow-hidden rounded-2xl bg-white shadow-xl">
+        <div className="flex items-center justify-between border-b border-gray-100 px-5 py-4">
+          <div className="min-w-0">
+            <div className="text-sm text-gray-500">Verkada</div>
+            <h3 className="truncate text-lg font-bold text-gray-900">{title}</h3>
+          </div>
+          <button
+            onClick={onClose}
+            className="rounded-xl border border-gray-200 px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+            aria-label="Close"
+          >
+            Close
+          </button>
+        </div>
+
+        <div className="px-5 py-5">{children}</div>
+      </div>
+    </div>
+  )
+}
+
+function PriceCallout({ msrpFrom }) {
+  if (!msrpFrom) return null
+  return (
+    <div className="rounded-2xl border border-gray-200 bg-gray-50 p-5">
+      <div className="text-sm text-gray-600">Hardware MSRP from</div>
+      <div className="mt-1 text-2xl font-extrabold text-gray-900">
+        {money(msrpFrom)}
+      </div>
+      <div className="mt-2 text-xs text-gray-500">
+        Final installed pricing varies by configuration, licensing term, and site conditions.
+        Contact us for quantity discounts and installed pricing.
+      </div>
+    </div>
+  )
+}
+
 export default function VendorVerkada() {
   const [active, setActive] = useState("video")
-  const [showVideo, setShowVideo] = useState(false)
-  const [selected, setSelected] = useState(null)
-  const [status, setStatus] = useState("idle")
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    company: "",
-  })
+
+  // Modal state
+  const [videoEmbed, setVideoEmbed] = useState(null) // youtube embed url
+  const [selectedCard, setSelectedCard] = useState(null) // full card object
 
   const location = useLocation()
 
@@ -61,29 +127,131 @@ export default function VendorVerkada() {
   const grid = "grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
 
   const videoProducts = [
-    { key: "dome", title: "Dome", desc: "Reliable performance for most environments.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/dome.png` },
-    { key: "mini", title: "Mini", desc: "Compact form factor for tight spaces.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/mini.png` },
-    { key: "bullet", title: "Bullet", desc: "Optimized for license plate recognition and detail.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/bullet.png` },
-    { key: "fisheye", title: "Fisheye", desc: "180° panoramic coverage.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/fisheye.png` },
-    { key: "multisensor", title: "Multisensor", desc: "Two or four sensors in one housing.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/multisensor.png` },
-    { key: "ptz", title: "PTZ", desc: "Wide-area pan-tilt-zoom coverage.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/ptz.png` },
-    { key: "remote", title: "Remote", desc: "Battery + LTE deployments.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/remote.png` },
-    { key: "dualhead", title: "Dual-Head (CY53-E)", desc: "Two 5MP sensors in one housing.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/dualhead.jpeg` },
-    { key: "viewstation", title: "Viewing Station", desc: "Live monitoring appliance.", img: `${import.meta.env.BASE_URL}vendors/verkada/video/viewstation.jpeg` },
+    {
+      key: "dome",
+      title: "Dome",
+      desc: "Reliable performance for most environments.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/video/dome.png`,
+      msrpFrom: 599,
+    },
+    {
+      key: "mini",
+      title: "Mini",
+      desc: "Compact form factor for tight spaces.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/video/mini.png`,
+      msrpFrom: 499,
+    },
+    {
+      key: "bullet",
+      title: "Bullet",
+      desc: "Optimized for license plate recognition and detail.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/video/bullet.png`,
+      msrpFrom: 1599,
+    },
+    {
+      key: "fisheye",
+      title: "Fisheye",
+      desc: "180° panoramic coverage.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/video/fisheye.png`,
+      msrpFrom: 1799,
+    },
+    {
+      key: "multisensor",
+      title: "Multisensor",
+      desc: "Two or four sensors in one housing.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/video/multisensor.png`,
+      msrpFrom: 3599,
+    },
+    {
+      key: "ptz",
+      title: "PTZ",
+      desc: "Wide-area pan-tilt-zoom coverage.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/video/ptz.png`,
+      msrpFrom: 3699,
+    },
+    {
+      key: "remote",
+      title: "Remote",
+      desc: "Battery + LTE deployments.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/video/remote.png`,
+      msrpFrom: 3500,
+    },
+    {
+      key: "dualhead",
+      title: "Dual-Head (CY53-E)",
+      desc: "Two 5MP sensors in one housing.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/video/dualhead.jpeg`,
+      msrpFrom: 2799,
+    },
+    {
+      key: "viewstation",
+      title: "Viewing Station",
+      desc: "Live monitoring appliance.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/video/viewstation.jpeg`,
+      msrpFrom: 499,
+    },
   ]
 
   const accessProducts = [
-    { key: "singledoor", title: "Single Door Controller", desc: "Cloud-managed single opening.", img: `${import.meta.env.BASE_URL}vendors/verkada/access/singledoor.png` },
-    { key: "4door", title: "4-Door Controller", desc: "Controls up to four doors.", img: `${import.meta.env.BASE_URL}vendors/verkada/access/4doorcontroller.png` },
-    { key: "mullion", title: "Mullion Reader", desc: "NFC, BLE, and mobile credentials.", img: `${import.meta.env.BASE_URL}vendors/verkada/access/singledoorreader.png` },
-    { key: "keypad", title: "Keypad Reader", desc: "PIN + card/mobile access.", img: `${import.meta.env.BASE_URL}vendors/verkada/access/keypad.png` },
+    {
+      key: "singledoor",
+      title: "Single Door Controller",
+      desc: "Cloud-managed single opening.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/access/singledoor.png`,
+      msrpFrom: 799,
+    },
+    {
+      key: "4door",
+      title: "4-Door Controller",
+      desc: "Controls up to four doors.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/access/4doorcontroller.png`,
+      msrpFrom: 1799,
+    },
+    {
+      key: "mullion",
+      title: "Mullion Reader",
+      desc: "NFC, BLE, and mobile credentials.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/access/singledoorreader.png`,
+      msrpFrom: 349,
+    },
+    {
+      key: "keypad",
+      title: "Keypad Reader",
+      desc: "PIN + card/mobile access.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/access/keypad.png`,
+      msrpFrom: 599,
+    },
   ]
 
   const intercomProducts = [
-    { key: "TS12", title: "TS12 — Audio Intercom", desc: "Audio-only intercom.", img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/TS12.webp` },
-    { key: "TD33", title: "TD33 — Slim Intercom", desc: "Mullion-friendly.", img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td33.webp` },
-    { key: "TD53", title: "TD53 — Video Intercom", desc: "HD video + audio.", img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td53.webp` },
-    { key: "TD63", title: "TD63 — Video + Keypad", desc: "Directory + keypad.", img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td63.webp` },
+    {
+      key: "TS12",
+      title: "TS12 — Audio Intercom",
+      desc: "Audio-only intercom.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/TS12.webp`,
+      msrpFrom: 1099,
+    },
+    {
+      key: "TD33",
+      title: "TD33 — Slim Intercom",
+      desc: "Mullion-friendly.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td33.webp`,
+      msrpFrom: 1499,
+    },
+    {
+      key: "TD53",
+      title: "TD53 — Video Intercom",
+      desc: "HD video + audio.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td53.webp`,
+      msrpFrom: 1799,
+    },
+    {
+      key: "TD63",
+      title: "TD63 — Video + Keypad",
+      desc: "Directory + keypad.",
+      img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td63.webp`,
+      msrpFrom: 1999,
+    },
   ]
 
   const connectivityProducts = [
@@ -93,12 +261,21 @@ export default function VendorVerkada() {
       desc: "LTE backhaul with PoE output.",
       img: `${import.meta.env.BASE_URL}vendors/verkada/connectivity/gc31.webp`,
       video: "https://www.youtube.com/embed/fb9LNytX7ac?autoplay=1",
+      msrpFrom: 1299,
     },
   ]
 
   const handleCardClick = (card) => {
-    if (card.video) setShowVideo(card.video)
-    else setSelected(card.title)
+    if (card.video) {
+      setVideoEmbed(card.video)
+      return
+    }
+    setSelectedCard(card)
+  }
+
+  const closeModals = () => {
+    setVideoEmbed(null)
+    setSelectedCard(null)
   }
 
   const renderGrid = (list) => (
@@ -116,6 +293,9 @@ export default function VendorVerkada() {
           />
           <h3 className="text-xl font-semibold mb-1">{card.title}</h3>
           <p className="text-gray-700 text-sm">{card.desc}</p>
+
+          {/* subtle helper (no pricing shown on tile) */}
+          <p className="mt-3 text-xs text-gray-500">Click for specs & pricing</p>
         </div>
       ))}
     </div>
@@ -224,6 +404,87 @@ export default function VendorVerkada() {
       {active === "access" && renderGrid(accessProducts)}
       {active === "intercom" && renderGrid(intercomProducts)}
       {active === "connectivity" && renderGrid(connectivityProducts)}
+
+      {/* Pricing/details modal (opens on tile click) */}
+      <ModalShell
+        open={!!selectedCard}
+        title={selectedCard?.title || ""}
+        onClose={closeModals}
+      >
+        {selectedCard && (
+          <div className="grid gap-5 md:grid-cols-2">
+            <div>
+              <img
+                src={selectedCard.img}
+                alt={selectedCard.title}
+                className="w-full rounded-2xl bg-gray-50 object-contain p-4"
+              />
+
+              <div className="mt-4 text-sm text-gray-700">
+                {selectedCard.desc}
+              </div>
+
+              <div className="mt-4 rounded-2xl border border-gray-200 p-4">
+                <div className="text-sm font-semibold text-gray-900">
+                  Installed & supported by Griffon Systems
+                </div>
+                <div className="mt-1 text-xs text-gray-600">
+                  Design • Installation • Configuration • Ongoing support across Illinois
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <PriceCallout msrpFrom={selectedCard.msrpFrom} />
+
+              <div className="rounded-2xl border border-gray-200 bg-gray-50 p-5">
+                <div className="text-sm font-semibold text-gray-900">
+                  Quantity & installed pricing
+                </div>
+                <div className="mt-1 text-sm text-gray-600">
+                  We’ll confirm configuration (lens, storage tier, mounting, cabling, power, and license term),
+                  then provide an installed quote.
+                </div>
+
+                <div className="mt-4 flex flex-col gap-2">
+                  <Link
+                    to="/contact"
+                    className="inline-flex items-center justify-center rounded-xl bg-gray-900 px-4 py-2 text-sm font-semibold text-white hover:bg-black"
+                  >
+                    Get quantity & installed pricing
+                  </Link>
+                  <Link
+                    to="/contact"
+                    className="inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-800 hover:bg-gray-100"
+                  >
+                    Request a demo
+                  </Link>
+                </div>
+
+                <div className="mt-3 text-xs text-gray-500">
+                  Hardware MSRP is informational; project pricing varies by configuration, licensing, and site conditions.
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </ModalShell>
+
+      {/* Video modal (connectivity tile) */}
+      <ModalShell open={!!videoEmbed} title="Product video" onClose={closeModals}>
+        {videoEmbed && (
+          <div className="aspect-video w-full overflow-hidden rounded-2xl bg-black">
+            <iframe
+              className="h-full w-full"
+              src={videoEmbed}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="autoplay; encrypted-media; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        )}
+      </ModalShell>
     </main>
   )
 }
