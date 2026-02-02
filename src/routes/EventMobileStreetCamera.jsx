@@ -10,7 +10,6 @@ const EVENT = {
   dateText: "Tuesday, February 25",
   timeText: "11:30 AM – 1:30 PM",
   venueName: "Gibsons Bar & Steakhouse",
-  venueCity: "Oak Brook, IL 60523",
   addressLine: "2105 Spring Rd, Oak Brook, IL 60523",
   capacityNote: "Attendance is limited to keep the discussion productive.",
   hostLine: "Hosted by Paul Grefenstette, Griffon Systems, Inc. • 630-607-0346",
@@ -79,11 +78,18 @@ export default function EventMobileStreetCamera() {
 
     const pc = isAttending ? Number(form.plusCount || 0) : 0
 
+    // IMPORTANT:
+    // This prefix triggers your /api/contact.js subject override:
+    // "Request for more information about:" -> subject becomes "Info Request — <text>"
+    const header = `Request for more information about: Event RSVP — Mobile Street Camera Lunch (Feb 25)`
+
     return [
-      `EVENT RSVP — ${EVENT.title}`,
+      header,
+      "",
+      `Event: ${EVENT.title} — ${EVENT.subtitle}`,
       `When: ${EVENT.dateText} • ${EVENT.timeText}`,
       `Where: ${EVENT.venueName}, ${EVENT.addressLine}`,
-      `----------------------------------------`,
+      "----------------------------------------",
       `RSVP: ${rsvpLabel}`,
       `Name: ${S(form.name).trim()}`,
       `Agency/Dept: ${S(form.agency).trim()}`,
@@ -108,7 +114,6 @@ export default function EventMobileStreetCamera() {
 
     setStatus("sending")
     try {
-      // Reuse the exact working email pipeline for your contact page
       const r = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -116,15 +121,13 @@ export default function EventMobileStreetCamera() {
           name: S(form.name).trim(),
           email: S(form.email).trim(),
           phone: S(form.phone).trim(),
-          company: S(form.agency).trim(), // agency maps to "company" for the contact endpoint
+          company: S(form.agency).trim(),
           message: buildMessage(),
         }),
       })
 
       const data = await r.json().catch(() => ({}))
-      if (!r.ok || !data?.ok) {
-        throw new Error(data?.error || `Request failed (${r.status})`)
-      }
+      if (!r.ok || !data?.ok) throw new Error(data?.error || `Request failed (${r.status})`)
 
       setStatus("success")
     } catch (e2) {
@@ -198,9 +201,7 @@ export default function EventMobileStreetCamera() {
                   <li key={t}>{t}</li>
                 ))}
               </ul>
-              <div className="mt-3 text-xs text-slate-500">
-                Note: This is a working discussion (not a sales presentation).
-              </div>
+              <div className="mt-3 text-xs text-slate-500">Note: This is a working discussion (not a sales presentation).</div>
             </div>
           </div>
 
@@ -249,9 +250,7 @@ export default function EventMobileStreetCamera() {
         {/* RSVP Form */}
         <div className="mt-10 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
           <h2 className="text-xl font-extrabold text-slate-900">RSVP</h2>
-          <p className="mt-1 text-sm text-slate-600">
-            Please RSVP so we can plan seating and lunch counts.
-          </p>
+          <p className="mt-1 text-sm text-slate-600">Please RSVP so we can plan seating and lunch counts.</p>
 
           <form onSubmit={onSubmit} className="mt-6 grid gap-5">
             <Field label="Will you attend?">
