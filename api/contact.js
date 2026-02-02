@@ -28,28 +28,50 @@ export default async function handler(req, res) {
         .trim()}`
     }
 
-    // ✅ TEST OVERRIDE:
-    // Send directly to you so we can confirm delivery
+    // 🔧 TEMP FOR TESTING (change back later)
+    // Send directly to you so delivery is obvious
     const to = ["paul@griffonsys.com"]
+
+    const html = `
+      <h2>New Website Lead</h2>
+      <p><b>Name:</b> ${name || "(not provided)"}</p>
+      <p><b>Email:</b> ${email || "(not provided)"}</p>
+      <p><b>Phone:</b> ${phone || "(not provided)"}</p>
+      <p><b>Company:</b> ${company || "(not provided)"}</p>
+      <p><b>Message:</b><br/>${(message || "").replace(/\n/g, "<br/>")}</p>
+    `
+
+    const text = [
+      "New Website Lead",
+      `Name: ${name || "(not provided)"}`,
+      `Email: ${email || "(not provided)"}`,
+      `Phone: ${phone || "(not provided)"}`,
+      `Company: ${company || "(not provided)"}`,
+      "",
+      "Message:",
+      message || "",
+    ].join("\n")
 
     const result = await resend.emails.send({
       from: "Griffon Website <noreply@griffonsys.com>",
       to,
-      // bcc removed during test
-      reply_to: email || undefined, // Resend prefers reply_to
+      // Resend uses reply_to (NOT replyTo)
+      reply_to: email || undefined,
       subject,
-      html: `
-        <h2>New Website Lead</h2>
-        <p><b>Name:</b> ${name || "(not provided)"}</p>
-        <p><b>Email:</b> ${email || "(not provided)"}</p>
-        <p><b>Phone:</b> ${phone || "(not provided)"}</p>
-        <p><b>Company:</b> ${company || "(not provided)"}</p>
-        <p><b>Message:</b><br/>${(message || "").replace(/\n/g, "<br/>")}</p>
-      `,
+      html,
+      text,
     })
 
-    // Return Resend response so we can diagnose suppression/bounce
-    return res.status(200).json({ ok: true, resend: result })
+    // Resend may return { data, error } depending on SDK version
+    const resendError = result?.error
+    const resendId = result?.data?.id || result?.id
+
+    if (resendError) {
+      console.error("RESEND ERROR:", resendError)
+      return res.status(500).json({ ok: false, error: resendError?.message || "Resend error", resend: result })
+    }
+
+    return res.status(200).json({ ok: true, id: resendId, resend: result })
   } catch (err) {
     console.error("CONTACT ERROR:", err)
     return res.status(500).json({ ok: false, error: err?.message || "Internal Error" })
