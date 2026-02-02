@@ -1,125 +1,166 @@
-// src/routes/EventMobileStreetCameraAdmin.jsx
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useState } from "react"
 import { Helmet } from "react-helmet"
-import { useLocation } from "react-router-dom"
 
 const S = (v) => (typeof v === "string" ? v.trim() : v == null ? "" : String(v).trim())
 
-function useQuery() {
-  const { search } = useLocation()
-  return useMemo(() => new URLSearchParams(search), [search])
-}
+export default function EventMobileStreetCamera() {
+  const [status, setStatus] = useState("idle")
+  const [form, setForm] = useState({
+    rsvp: "yes",
+    name: "",
+    agency: "",
+    title: "",
+    email: "",
+    phone: "",
+    plusCount: 0,
+    guestNames: "",
+    dietary: "",
+    notes: "",
+  })
 
-function Section({ title, rows }) {
-  return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="flex items-baseline justify-between gap-4">
-        <h2 className="text-lg font-extrabold text-slate-900">{title}</h2>
-        <div className="text-sm text-slate-600">Count: {rows.length}</div>
-      </div>
+  const onChange = (e) => {
+    const { name, value } = e.target
+    setForm((f) => ({ ...f, [name]: value }))
+  }
 
-      {rows.length === 0 ? (
-        <div className="mt-3 text-sm text-slate-500">None yet.</div>
-      ) : (
-        <div className="mt-4 overflow-auto">
-          <table className="w-full text-sm">
-            <thead className="text-left text-slate-600">
-              <tr className="border-b">
-                <th className="py-2 pr-3">Agency</th>
-                <th className="py-2 pr-3">Name</th>
-                <th className="py-2 pr-3">Email</th>
-                <th className="py-2 pr-3">Phone</th>
-                <th className="py-2 pr-3">+1</th>
-                <th className="py-2 pr-3">Guests</th>
-                <th className="py-2 pr-3">Dietary</th>
-                <th className="py-2 pr-3">Updated</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((r) => (
-                <tr key={r.email} className="border-b">
-                  <td className="py-2 pr-3">{r.agency}</td>
-                  <td className="py-2 pr-3">{r.name}</td>
-                  <td className="py-2 pr-3">{r.email}</td>
-                  <td className="py-2 pr-3">{r.phone || "-"}</td>
-                  <td className="py-2 pr-3">{Number(r.plusCount || 0)}</td>
-                  <td className="py-2 pr-3">{r.guestNames || "-"}</td>
-                  <td className="py-2 pr-3">{r.dietary || "-"}</td>
-                  <td className="py-2 pr-3">{r.updatedAt ? new Date(r.updatedAt).toLocaleString() : "-"}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-    </div>
-  )
-}
+  const onSubmit = async (e) => {
+    e.preventDefault()
+    setStatus("sending")
 
-export default function EventMobileStreetCameraAdmin() {
-  const q = useQuery()
-  const token = S(q.get("token"))
+    try {
+      // 1️⃣ Store RSVP in KV
+      await fetch("/api/event-rsvp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          eventId: "mobile-street-camera-lunch-2026-02-25",
+          rsvp: form.rsvp,
+          name: S(form.name),
+          email: S(form.email),
+          phone: S(form.phone),
+          agency: S(form.agency),
+          title: S(form.title),
+          plusCount: Number(form.plusCount || 0),
+          guestNames: S(form.guestNames),
+          dietary: S(form.dietary),
+          notes: S(form.notes),
+        }),
+      })
 
-  const [data, setData] = useState(null)
-  const [err, setErr] = useState("")
-  const [loading, setLoading] = useState(false)
+      // 2️⃣ Email notification (uses existing contact backend)
+      const message = `Request for more information about: Event RSVP — Mobile Street Camera Lunch (Feb 25)
 
-  useEffect(() => {
-    async function run() {
-      if (!token) {
-        setErr("Missing token in URL. Add ?token=YOURTOKEN")
-        return
-      }
+RSVP: ${form.rsvp}
+Name: ${form.name}
+Agency: ${form.agency}
+Title: ${form.title}
+Email: ${form.email}
+Phone: ${form.phone}
+Plus-ones: ${form.plusCount}
+Guests: ${form.guestNames}
+Dietary: ${form.dietary}
+Notes: ${form.notes}
+`
 
-      setLoading(true)
-      setErr("")
-      try {
-        const url = `/api/event-rsvp-list?eventId=mobile-street-camera-lunch-2026-02-25&token=${encodeURIComponent(
-          token
-        )}`
-        const r = await fetch(url)
-        const j = await r.json().catch(() => ({}))
-        if (!r.ok || !j?.ok) throw new Error(j?.error || `Request failed (${r.status})`)
-        setData(j)
-      } catch (e) {
-        setErr(e?.message || "Error")
-      } finally {
-        setLoading(false)
-      }
+      await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: S(form.name),
+          email: S(form.email),
+          phone: S(form.phone),
+          company: S(form.agency),
+          message,
+        }),
+      })
+
+      setStatus("ok")
+    } catch (err) {
+      console.error(err)
+      setStatus("error")
     }
-    run()
-  }, [token])
+  }
 
   return (
-    <main className="container mx-auto px-4 py-10 max-w-6xl">
+    <main className="container mx-auto px-4 py-12 max-w-3xl">
       <Helmet>
-        <title>Event RSVP Admin</title>
-        <meta name="robots" content="noindex,nofollow" />
+        <title>Mobile Street Camera Lunch | Griffon Systems</title>
+        <meta name="description" content="Law enforcement discussion on mobile street cameras and LPR technology." />
       </Helmet>
 
-      <h1 className="text-2xl font-extrabold text-slate-900">Event RSVP Admin</h1>
-      <p className="mt-1 text-sm text-slate-600">Hidden page. Requires token.</p>
+      <h1 className="text-3xl font-bold mb-2">Mobile Street Camera Lunch</h1>
+      <p className="text-gray-600 mb-6">
+        Working discussion for Illinois law enforcement on mobile surveillance and LPR technology.
+      </p>
 
-      {loading ? <div className="mt-6 text-sm text-slate-600">Loading…</div> : null}
-      {err ? (
-        <div className="mt-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">{err}</div>
-      ) : null}
+      <div className="bg-gray-50 rounded-xl p-4 mb-8 text-sm">
+        <p><b>When:</b> Tuesday, February 25 · 11:30 AM – 1:30 PM</p>
+        <p>
+          <b>Where:</b> Gibson’s Bar & Steakhouse<br />
+          2105 Spring Rd, Oak Brook, IL 60523
+        </p>
+        <p className="mt-2 text-gray-600">
+          Attendance is limited to keep the discussion productive.
+        </p>
+      </div>
 
-      {data ? (
-        <div className="mt-8 grid gap-6">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <div className="text-sm text-slate-700">
-              Total: <b>{data.counts.total}</b> • Attending: <b>{data.counts.attending}</b> • Not attending:{" "}
-              <b>{data.counts.notAttending}</b> • Follow-up: <b>{data.counts.followup}</b> • Seats requested:{" "}
-              <b>{data.counts.seatsRequested}</b>
-            </div>
+      {status === "ok" ? (
+        <div className="bg-green-100 border border-green-300 text-green-800 rounded-xl p-4">
+          ✅ Thanks — your RSVP was received.
+        </div>
+      ) : (
+        <form onSubmit={onSubmit} className="space-y-4">
+          {/* RSVP */}
+          <div>
+            <label className="block text-sm font-medium mb-1">Will you attend?</label>
+            <select
+              name="rsvp"
+              value={form.rsvp}
+              onChange={onChange}
+              className="w-full border rounded-lg p-3"
+            >
+              <option value="yes">Yes, I’m attending</option>
+              <option value="no">No, I can’t make it</option>
+              <option value="followup">Can’t attend, but want a follow-up</option>
+            </select>
           </div>
 
-          <Section title="Attending" rows={data.attending || []} />
-          <Section title="Can’t Make It" rows={data.notAttending || []} />
-          <Section title="Follow-up Requested" rows={data.followup || []} />
-        </div>
-      ) : null}
+          <input name="name" placeholder="Name" required value={form.name} onChange={onChange} className="w-full border rounded-lg p-3" />
+          <input name="agency" placeholder="Agency / Department" required value={form.agency} onChange={onChange} className="w-full border rounded-lg p-3" />
+          <input name="title" placeholder="Title / Role (optional)" value={form.title} onChange={onChange} className="w-full border rounded-lg p-3" />
+          <input type="email" name="email" placeholder="Email" required value={form.email} onChange={onChange} className="w-full border rounded-lg p-3" />
+          <input name="phone" placeholder="Phone (optional)" value={form.phone} onChange={onChange} className="w-full border rounded-lg p-3" />
+
+          {form.rsvp === "yes" && (
+            <>
+              <select name="plusCount" value={form.plusCount} onChange={onChange} className="w-full border rounded-lg p-3">
+                <option value="0">No guests</option>
+                <option value="1">+1 guest</option>
+                <option value="2">+2 guests</option>
+              </select>
+
+              <input name="guestNames" placeholder="Guest name(s)" value={form.guestNames} onChange={onChange} className="w-full border rounded-lg p-3" />
+              <input name="dietary" placeholder="Dietary restrictions (optional)" value={form.dietary} onChange={onChange} className="w-full border rounded-lg p-3" />
+            </>
+          )}
+
+          <textarea name="notes" placeholder="Topics you’d like to cover (optional)" value={form.notes} onChange={onChange} className="w-full border rounded-lg p-3 min-h-[120px]" />
+
+          <button
+            type="submit"
+            disabled={status === "sending"}
+            className="w-full bg-black text-white rounded-lg p-3 font-semibold disabled:opacity-60"
+          >
+            {status === "sending" ? "Submitting…" : "Submit RSVP"}
+          </button>
+
+          {status === "error" && (
+            <p className="text-red-600 text-sm mt-2">
+              Something went wrong. Please try again.
+            </p>
+          )}
+        </form>
+      )}
     </main>
   )
 }
