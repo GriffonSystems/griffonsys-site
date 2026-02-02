@@ -43,6 +43,8 @@ import LPR from "./LPR"
 
 // ✅ Event Page
 import EventMobileStreetCamera from "./EventMobileStreetCamera"
+// ✅ Event Admin Page (NEW)
+import EventMobileStreetCameraAdmin from "./EventMobileStreetCameraAdmin"
 
 // Dynamic SEO Local Pages
 import LocationSEO from "./LocationSEO"
@@ -73,10 +75,9 @@ export default function App() {
         <Route path="/lpr" element={<LPR />} />
 
         {/* Event Pages */}
-        <Route
-          path="/events/mobile-street-camera-lunch"
-          element={<EventMobileStreetCamera />}
-        />
+        <Route path="/events/mobile-street-camera-lunch" element={<EventMobileStreetCamera />} />
+        {/* ✅ Hidden Admin */}
+        <Route path="/events/mobile-street-camera-lunch/admin" element={<EventMobileStreetCameraAdmin />} />
 
         {/* Service */}
         <Route path="/service" element={<ServiceRequest />} />
@@ -85,10 +86,7 @@ export default function App() {
         <Route path="/serviceareas" element={<ServiceAreas />} />
 
         {/* Resources */}
-        <Route
-          path="/resources/verkada-vs-avigilon"
-          element={<ResourcesVerkadaVsAvigilon />}
-        />
+        <Route path="/resources/verkada-vs-avigilon" element={<ResourcesVerkadaVsAvigilon />} />
         <Route path="/resources/training" element={<Training />} />
 
         {/* Brand pages */}
@@ -102,8 +100,6 @@ export default function App() {
         <Route path="/from-the-field" element={<FromTheField />} />
         <Route path="/from-the-field/wireless-link" element={<WirelessLink />} />
         <Route path="/from-the-field/avigilon-factory" element={<ComingSoon />} />
-
-        {/* ✅ Municipal case coming soon (prevents 404) */}
         <Route path="/from-the-field/municipal" element={<ComingSoon />} />
 
         {/* Dynamic SEO location pages */}
