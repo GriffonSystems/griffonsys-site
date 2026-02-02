@@ -2,20 +2,20 @@
 import React, { useMemo, useState } from "react"
 import { Helmet } from "react-helmet"
 
+const S = (v) => (typeof v === "string" ? v : v == null ? "" : String(v))
+
 const EVENT = {
   title: "Law Enforcement Lunch & Roundtable",
   subtitle: "Mobile Street Camera (LPR + Mobile Deployments)",
   dateText: "Tuesday, February 25",
   timeText: "11:30 AM – 1:30 PM",
   venueName: "Gibsons Bar & Steakhouse",
-  venueCity: "Oak Brook, IL",
+  venueCity: "Oak Brook, IL 60523",
+  addressLine: "2105 Spring Rd, Oak Brook, IL 60523",
   capacityNote: "Attendance is limited to keep the discussion productive.",
   hostLine: "Hosted by Paul Grefenstette, Griffon Systems, Inc. • 630-607-0346",
-
-  // IMPORTANT: Replace this with the REAL Google Maps embed src for Gibsons Oak Brook
-  // How: Google Maps → find Gibsons Oak Brook → Share → Embed a map → copy iframe src
-  mapEmbedSrc:
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2968.9101530000003!2d-87.952!3d41.844!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880e4b1234567890%3A0xabcdef1234567890!2sGibsons%20Bar%20%26%20Steakhouse%20Oak%20Brook!5e0!3m2!1sen!2sus!4v0000000000000",
+  mapEmbedSrc: "https://www.google.com/maps?q=2105%20Spring%20Rd,%20Oak%20Brook,%20IL%2060523&output=embed",
+  mapsLink: "https://www.google.com/maps?q=2105+Spring+Rd,+Oak+Brook,+IL+60523",
   topics: [
     "Alerting workflows (NCIC, IL SOS, custom hot lists, manual review)",
     "Mobile / temporary deployments (events, problem areas, short-term needs)",
@@ -24,7 +24,7 @@ const EVENT = {
   ],
 }
 
-const PHOTO_URLS = [
+const IMAGE_URLS = [
   `${import.meta.env.BASE_URL}images/lpr/lpr-hero.jpg`,
   `${import.meta.env.BASE_URL}hero/hero-01.jpg`,
 ]
@@ -45,10 +45,10 @@ export default function EventMobileStreetCamera() {
   const [form, setForm] = useState({
     rsvp: "yes", // yes | no | followup
     name: "",
-    agency: "",
-    title: "",
     email: "",
     phone: "",
+    agency: "",
+    title: "",
     plusCount: 0,
     guestNames: "",
     dietary: "",
@@ -59,19 +59,43 @@ export default function EventMobileStreetCamera() {
 
   const validation = useMemo(() => {
     const problems = []
-    if (!form.name.trim()) problems.push("Name is required.")
-    if (!form.agency.trim()) problems.push("Agency/Department is required.")
-    if (!form.email.trim()) problems.push("Email is required.")
-    if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) problems.push("Email looks invalid.")
+    if (!S(form.name).trim()) problems.push("Name is required.")
+    if (!S(form.agency).trim()) problems.push("Agency/Department is required.")
+    if (!S(form.email).trim()) problems.push("Email is required.")
+    if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(S(form.email).trim())) problems.push("Email looks invalid.")
     if (isAttending) {
       const pc = Number(form.plusCount || 0)
       if (pc < 0 || pc > 3) problems.push("Plus-one count should be between 0 and 3.")
-      if (pc > 0 && !form.guestNames.trim()) problems.push("Please add guest name(s) for your plus-one(s).")
+      if (pc > 0 && !S(form.guestNames).trim()) problems.push("Please add guest name(s) for your plus-one(s).")
     }
     return problems
   }, [form, isAttending])
 
   const update = (k, v) => setForm((p) => ({ ...p, [k]: v }))
+
+  function buildMessage() {
+    const rsvpLabel =
+      form.rsvp === "yes" ? "ATTENDING" : form.rsvp === "followup" ? "FOLLOW-UP REQUESTED" : "NOT ATTENDING"
+
+    const pc = isAttending ? Number(form.plusCount || 0) : 0
+
+    return [
+      `EVENT RSVP — ${EVENT.title}`,
+      `When: ${EVENT.dateText} • ${EVENT.timeText}`,
+      `Where: ${EVENT.venueName}, ${EVENT.addressLine}`,
+      `----------------------------------------`,
+      `RSVP: ${rsvpLabel}`,
+      `Name: ${S(form.name).trim()}`,
+      `Agency/Dept: ${S(form.agency).trim()}`,
+      `Title/Role: ${S(form.title).trim() || "-"}`,
+      `Email: ${S(form.email).trim()}`,
+      `Phone: ${S(form.phone).trim() || "-"}`,
+      `Plus-one count: ${pc}`,
+      `Guest name(s): ${pc > 0 ? S(form.guestNames).trim() : "-"}`,
+      `Dietary: ${S(form.dietary).trim() || "-"}`,
+      `Notes: ${S(form.notes).trim() || "-"}`,
+    ].join("\n")
+  }
 
   async function onSubmit(e) {
     e.preventDefault()
@@ -84,20 +108,22 @@ export default function EventMobileStreetCamera() {
 
     setStatus("sending")
     try {
-      const res = await fetch("/api/rsvp", {
+      // Reuse the exact working email pipeline for your contact page
+      const r = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          eventId: "mobile-street-camera-lunch-2026-02-25",
-          eventTitle: EVENT.title,
-          ...form,
-          plusCount: Number(form.plusCount || 0),
+          name: S(form.name).trim(),
+          email: S(form.email).trim(),
+          phone: S(form.phone).trim(),
+          company: S(form.agency).trim(), // agency maps to "company" for the contact endpoint
+          message: buildMessage(),
         }),
       })
 
-      if (!res.ok) {
-        const msg = await res.text()
-        throw new Error(msg || "RSVP request failed.")
+      const data = await r.json().catch(() => ({}))
+      if (!r.ok || !data?.ok) {
+        throw new Error(data?.error || `Request failed (${r.status})`)
       }
 
       setStatus("success")
@@ -115,8 +141,6 @@ export default function EventMobileStreetCamera() {
           name="description"
           content="RSVP for a law enforcement lunch & roundtable discussion focused on mobile street camera deployments and LPR workflows."
         />
-
-        {/* Optional OG tags */}
         <meta property="og:type" content="website" />
         <meta property="og:title" content={`${EVENT.title} | Feb 25`} />
         <meta property="og:description" content="Lunch + roundtable discussion on mobile street camera and LPR workflows." />
@@ -124,9 +148,8 @@ export default function EventMobileStreetCamera() {
       </Helmet>
 
       <div className="mx-auto max-w-6xl px-4 py-10">
-        {/* Header + Photos + Map */}
         <div className="grid gap-8 lg:grid-cols-2">
-          {/* Left: Title + details */}
+          {/* Left */}
           <div>
             <div className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
               {EVENT.dateText} • {EVENT.timeText}
@@ -150,10 +173,21 @@ export default function EventMobileStreetCamera() {
                   <span className="font-semibold">When:</span> {EVENT.dateText} • {EVENT.timeText}
                 </div>
                 <div>
-                  <span className="font-semibold">Where:</span> {EVENT.venueName} • {EVENT.venueCity}
+                  <span className="font-semibold">Where:</span> {EVENT.venueName} • {EVENT.addressLine}
                 </div>
                 <div className="text-xs text-slate-500">{EVENT.capacityNote}</div>
                 <div className="pt-2 text-xs text-slate-600">{EVENT.hostLine}</div>
+
+                <div className="pt-3">
+                  <a
+                    href={EVENT.mapsLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-800 hover:border-slate-400"
+                  >
+                    Get Directions
+                  </a>
+                </div>
               </div>
             </div>
 
@@ -170,31 +204,28 @@ export default function EventMobileStreetCamera() {
             </div>
           </div>
 
-          {/* Right: Photos + Map */}
+          {/* Right */}
           <div>
             <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-              <div className="text-sm font-semibold text-slate-900">Photos</div>
+              <div className="text-sm font-semibold text-slate-900">Overview</div>
               <div className="mt-3 grid grid-cols-2 gap-3">
-                {PHOTO_URLS.map((src, idx) => (
+                {IMAGE_URLS.map((src, idx) => (
                   <a
                     key={src}
                     href={src}
                     target="_blank"
                     rel="noreferrer"
                     className="group block overflow-hidden rounded-xl border border-slate-200"
-                    title={`Photo ${idx + 1}`}
+                    title="View"
                   >
                     <img
                       src={src}
-                      alt={`Mobile street camera photo ${idx + 1}`}
+                      alt={idx === 0 ? "Mobile LPR deployment overview" : "LPR roadway deployment"}
                       className="h-40 w-full object-cover transition-transform group-hover:scale-[1.02]"
                       loading="lazy"
                     />
                   </a>
                 ))}
-              </div>
-              <div className="mt-3 text-xs text-slate-500">
-                These images reuse the existing assets from your LPR page (no duplication).
               </div>
             </div>
 
@@ -349,7 +380,7 @@ export default function EventMobileStreetCamera() {
 
             {status === "success" ? (
               <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
-                Thanks — your RSVP was received. You’ll get a confirmation email shortly.
+                Thanks — your RSVP was received.
               </div>
             ) : (
               <button
