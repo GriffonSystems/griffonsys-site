@@ -38,17 +38,10 @@ export default async function handler(req, res) {
     const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body || {}
 
     const eventId = S(body.eventId) || "mobile-street-camera-lunch-2026-02-25"
-    const rsvp = S(body.rsvp) // yes | no | followup
+    const rsvp = S(body.rsvp)
     const name = S(body.name)
     const email = S(body.email).toLowerCase()
     const agency = S(body.agency)
-
-    const title = S(body.title)
-    const phone = S(body.phone)
-    const plusCount = Number(body.plusCount || 0)
-    const guestNames = S(body.guestNames)
-    const dietary = S(body.dietary)
-    const notes = S(body.notes)
 
     if (!eventId || !rsvp || !name || !email || !agency) {
       return res.status(400).json({ ok: false, error: "Missing required fields." })
@@ -60,22 +53,29 @@ export default async function handler(req, res) {
       name,
       email,
       agency,
-      title,
-      phone,
-      plusCount,
-      guestNames,
-      dietary,
-      notes,
+      title: S(body.title),
+      phone: S(body.phone),
+      plusCount: Number(body.plusCount || 0),
+      guestNames: S(body.guestNames),
+      dietary: S(body.dietary),
+      notes: S(body.notes),
       updatedAt: new Date().toISOString(),
     }
 
-    // ✅ This key pattern MUST match your list endpoint scan
     const key = `event:${eventId}:rsvp:${email}`
 
-    // Store JSON string
+    console.log("RSVP WRITE TRY", { eventId, email, key })
+
+    // write
     await upstashCmd(["set", key, JSON.stringify(record)])
 
-    return res.status(200).json({ ok: true })
+    // verify write
+    const verify = await upstashCmd(["get", key])
+    const wrote = typeof verify === "string" && verify.length > 0
+
+    console.log("RSVP WRITE OK", { key, wrote })
+
+    return res.status(200).json({ ok: true, key, wrote })
   } catch (err) {
     console.error("EVENT RSVP STORE ERROR:", err)
     return res.status(500).json({ ok: false, error: err?.message || "Internal Error" })
