@@ -23,16 +23,18 @@ export default function Contact() {
     setStatus({ state: "sending", msg: "Sending..." })
 
     try {
+      const payload = {
+        name: S(form.name).trim(),
+        email: S(form.email).trim(),
+        phone: S(form.phone).trim(),
+        company: S(form.company).trim(),
+        message: S(form.message).trim(),
+      }
+
       const r = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: S(form.name).trim(),
-          email: S(form.email).trim(),
-          phone: S(form.phone).trim(),
-          company: S(form.company).trim(),
-          message: S(form.message).trim(),
-        }),
+        body: JSON.stringify(payload),
       })
 
       const data = await r.json().catch(() => ({}))
@@ -41,7 +43,10 @@ export default function Contact() {
         throw new Error(data?.error || `Request failed (${r.status})`)
       }
 
-      setStatus({ state: "sent", msg: "✅ Sent! We’ll reply shortly." })
+      setStatus({
+        state: "sent",
+        msg: `✅ Sent! (Message ID: ${data?.id || "ok"})`,
+      })
       setForm({ name: "", email: "", phone: "", company: "", message: "" })
     } catch (err) {
       setStatus({
@@ -54,9 +59,7 @@ export default function Contact() {
   return (
     <div className="container mx-auto px-4 py-12 max-w-2xl">
       <h1 className="text-3xl font-bold mb-2">Contact</h1>
-      <p className="text-gray-600 mb-8">
-        Send us a message and we’ll get back to you.
-      </p>
+      <p className="text-gray-600 mb-8">Send us a message and we’ll get back to you.</p>
 
       <form onSubmit={onSubmit} className="space-y-4">
         <div>
@@ -71,7 +74,7 @@ export default function Contact() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Email</label>
+          <label className="block text-sm font-medium mb-1">Email *</label>
           <input
             name="email"
             type="email"
@@ -101,12 +104,12 @@ export default function Contact() {
             value={form.company}
             onChange={onChange}
             className="w-full border rounded-lg p-3"
-            placeholder="Company name"
+            placeholder="Agency / Company"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Message</label>
+          <label className="block text-sm font-medium mb-1">Message *</label>
           <textarea
             name="message"
             value={form.message}
