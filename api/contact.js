@@ -28,11 +28,15 @@ export default async function handler(req, res) {
         .trim()}`
     }
 
-    await resend.emails.send({
+    // ✅ TEST OVERRIDE:
+    // Send directly to you so we can confirm delivery
+    const to = ["paul@griffonsys.com"]
+
+    const result = await resend.emails.send({
       from: "Griffon Website <noreply@griffonsys.com>",
-      to: ["sales@griffonsys.com"],
-      bcc: ["paul@griffonsys.com"],
-      replyTo: email || undefined,
+      to,
+      // bcc removed during test
+      reply_to: email || undefined, // Resend prefers reply_to
       subject,
       html: `
         <h2>New Website Lead</h2>
@@ -44,9 +48,10 @@ export default async function handler(req, res) {
       `,
     })
 
-    return res.status(200).json({ ok: true })
+    // Return Resend response so we can diagnose suppression/bounce
+    return res.status(200).json({ ok: true, resend: result })
   } catch (err) {
     console.error("CONTACT ERROR:", err)
-    return res.status(500).json({ ok: false, error: "Internal Error" })
+    return res.status(500).json({ ok: false, error: err?.message || "Internal Error" })
   }
 }
