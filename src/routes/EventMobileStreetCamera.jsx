@@ -4,8 +4,6 @@ import { Helmet } from "react-helmet"
 
 const S = (v) => (typeof v === "string" ? v : v == null ? "" : String(v))
 
-const VERSION = "EVENT_RSVP_PAGE_v2026-02-02_14:35PM"
-
 const EVENT = {
   title: "Law Enforcement Lunch & Roundtable",
   subtitle: "Mobile Street Camera (LPR + Mobile Deployments)",
@@ -15,6 +13,7 @@ const EVENT = {
   addressLine: "2105 Spring Rd, Oak Brook, IL 60523",
   capacityNote: "Attendance is limited to keep the discussion productive.",
   hostLine: "Hosted by Paul Grefenstette, Griffon Systems, Inc. • 630-607-0346",
+  overviewTitle: "New Verkada CR63-E Remote Camera",
   mapEmbedSrc: "https://www.google.com/maps?q=2105%20Spring%20Rd,%20Oak%20Brook,%20IL%2060523&output=embed",
   mapsLink: "https://www.google.com/maps?q=2105+Spring+Rd,+Oak+Brook,+IL+60523",
   topics: [
@@ -107,11 +106,9 @@ export default function EventMobileStreetCamera() {
 
   async function onSubmit(e) {
     e.preventDefault()
-    console.log("RSVP SUBMIT HANDLER HIT", VERSION)
 
     setErr("")
     if (validation.length) {
-      console.log("RSVP VALIDATION FAILED:", validation)
       setErr(validation[0])
       setStatus("error")
       return
@@ -120,11 +117,9 @@ export default function EventMobileStreetCamera() {
     setStatus("sending")
 
     try {
-      // Normalize email for consistent Upstash keys
       const emailNorm = S(form.email).trim().toLowerCase()
 
-      // 1) ✅ Store RSVP in Upstash
-      console.log("CALLING /api/event-rsvp (STORE)")
+      // 1) Store RSVP in Upstash via /api/event-rsvp
       const rStore = await fetch("/api/event-rsvp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -144,14 +139,11 @@ export default function EventMobileStreetCamera() {
       })
 
       const jStore = await rStore.json().catch(() => ({}))
-      console.log("RETURNED FROM /api/event-rsvp", { status: rStore.status, jStore })
-
       if (!rStore.ok || !jStore?.ok) {
         throw new Error(jStore?.error || `RSVP store failed (${rStore.status})`)
       }
 
-      // 2) Email notification (your existing contact backend)
-      console.log("CALLING /api/contact (EMAIL)")
+      // 2) Email notification via existing /api/contact
       const rEmail = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -164,16 +156,13 @@ export default function EventMobileStreetCamera() {
         }),
       })
 
-      const dataEmail = await rEmail.json().catch(() => ({}))
-      console.log("RETURNED FROM /api/contact", { status: rEmail.status, dataEmail })
-
-      if (!rEmail.ok || !dataEmail?.ok) {
-        throw new Error(dataEmail?.error || `Email failed (${rEmail.status})`)
+      const jEmail = await rEmail.json().catch(() => ({}))
+      if (!rEmail.ok || !jEmail?.ok) {
+        throw new Error(jEmail?.error || `Email failed (${rEmail.status})`)
       }
 
       setStatus("success")
     } catch (e2) {
-      console.error("RSVP SUBMIT ERROR", e2)
       setErr(e2?.message || "Something went wrong.")
       setStatus("error")
     }
@@ -238,7 +227,7 @@ export default function EventMobileStreetCamera() {
           {/* Right */}
           <div>
             <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-              <div className="text-sm font-semibold text-slate-900">New Verkada CR63-E Remote Mobile Camera</div>
+              <div className="text-sm font-semibold text-slate-900">{EVENT.overviewTitle}</div>
               <div className="mt-3 grid grid-cols-2 gap-3">
                 {IMAGE_URLS.map((src, idx) => (
                   <a
@@ -278,9 +267,6 @@ export default function EventMobileStreetCamera() {
         {/* RSVP Form */}
         <div className="mt-10 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
           <h2 className="text-xl font-extrabold text-slate-900">RSVP</h2>
-
-          {/* Visible deploy/version marker */}
-          <div className="mt-2 text-xs text-slate-500">Debug: {VERSION}</div>
 
           <form onSubmit={onSubmit} className="mt-6 grid gap-5">
             <Field label="Will you attend?">
