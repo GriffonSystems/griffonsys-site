@@ -61,7 +61,9 @@ export default function EventMobileStreetCamera() {
     if (!S(form.name).trim()) problems.push("Name is required.")
     if (!S(form.agency).trim()) problems.push("Agency/Department is required.")
     if (!S(form.email).trim()) problems.push("Email is required.")
-    if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(S(form.email).trim())) problems.push("Email looks invalid.")
+    if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(S(form.email).trim())) {
+      problems.push("Email looks invalid.")
+    }
     if (isAttending) {
       const pc = Number(form.plusCount || 0)
       if (pc < 0 || pc > 3) problems.push("Plus-one count should be between 0 and 3.")
@@ -78,10 +80,9 @@ export default function EventMobileStreetCamera() {
 
     const pc = isAttending ? Number(form.plusCount || 0) : 0
 
-    // IMPORTANT:
     // This prefix triggers your /api/contact.js subject override:
-    // "Request for more information about:" -> subject becomes "Info Request — <text>"
-    const header = `Request for more information about: Event RSVP — Mobile Street Camera Lunch (Feb 25)`
+    // subject becomes: "Info Request — <rest of line>"
+    const header = "Request for more information about: Event RSVP — Mobile Street Camera Lunch (Feb 25)"
 
     return [
       header,
@@ -105,15 +106,21 @@ export default function EventMobileStreetCamera() {
 
   async function onSubmit(e) {
     e.preventDefault()
+    console.log("RSVP SUBMIT HANDLER HIT")
+
     setErr("")
     if (validation.length) {
       setErr(validation[0])
       setStatus("error")
+      console.log("RSVP VALIDATION FAILED:", validation)
       return
     }
 
     setStatus("sending")
+
     try {
+      console.log("CALLING /api/contact")
+
       const r = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -127,10 +134,15 @@ export default function EventMobileStreetCamera() {
       })
 
       const data = await r.json().catch(() => ({}))
-      if (!r.ok || !data?.ok) throw new Error(data?.error || `Request failed (${r.status})`)
+      console.log("RETURNED FROM /api/contact", { status: r.status, data })
+
+      if (!r.ok || !data?.ok) {
+        throw new Error(data?.error || `Request failed (${r.status})`)
+      }
 
       setStatus("success")
     } catch (e2) {
+      console.error("RSVP SUBMIT ERROR", e2)
       setErr(e2?.message || "Something went wrong.")
       setStatus("error")
     }
