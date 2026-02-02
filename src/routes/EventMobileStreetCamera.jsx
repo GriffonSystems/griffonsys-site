@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet"
 
 const S = (v) => (typeof v === "string" ? v : v == null ? "" : String(v))
 
-const VERSION = "EVENT_RSVP_PAGE_v2026-02-02_11:15AM"
+const VERSION = "EVENT_RSVP_PAGE_v2026-02-02_14:35PM"
 
 const EVENT = {
   title: "Law Enforcement Lunch & Roundtable",
@@ -120,25 +120,55 @@ export default function EventMobileStreetCamera() {
     setStatus("sending")
 
     try {
-      console.log("CALLING /api/contact")
+      // Normalize email for consistent Upstash keys
+      const emailNorm = S(form.email).trim().toLowerCase()
 
-      const r = await fetch("/api/contact", {
+      // 1) ✅ Store RSVP in Upstash
+      console.log("CALLING /api/event-rsvp (STORE)")
+      const rStore = await fetch("/api/event-rsvp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          eventId: "mobile-street-camera-lunch-2026-02-25",
+          rsvp: S(form.rsvp).trim().toLowerCase(), // yes | no | followup
+          name: S(form.name).trim(),
+          email: emailNorm,
+          phone: S(form.phone).trim(),
+          agency: S(form.agency).trim(),
+          title: S(form.title).trim(),
+          plusCount: isAttending ? Number(form.plusCount || 0) : 0,
+          guestNames: isAttending ? S(form.guestNames).trim() : "",
+          dietary: isAttending ? S(form.dietary).trim() : "",
+          notes: S(form.notes).trim(),
+        }),
+      })
+
+      const jStore = await rStore.json().catch(() => ({}))
+      console.log("RETURNED FROM /api/event-rsvp", { status: rStore.status, jStore })
+
+      if (!rStore.ok || !jStore?.ok) {
+        throw new Error(jStore?.error || `RSVP store failed (${rStore.status})`)
+      }
+
+      // 2) Email notification (your existing contact backend)
+      console.log("CALLING /api/contact (EMAIL)")
+      const rEmail = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: S(form.name).trim(),
-          email: S(form.email).trim(),
+          email: emailNorm,
           phone: S(form.phone).trim(),
           company: S(form.agency).trim(),
           message: buildMessage(),
         }),
       })
 
-      const data = await r.json().catch(() => ({}))
-      console.log("RETURNED FROM /api/contact", { status: r.status, data })
+      const dataEmail = await rEmail.json().catch(() => ({}))
+      console.log("RETURNED FROM /api/contact", { status: rEmail.status, dataEmail })
 
-      if (!r.ok || !data?.ok) {
-        throw new Error(data?.error || `Request failed (${r.status})`)
+      if (!rEmail.ok || !dataEmail?.ok) {
+        throw new Error(dataEmail?.error || `Email failed (${rEmail.status})`)
       }
 
       setStatus("success")
