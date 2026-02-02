@@ -1,8 +1,22 @@
 // /api/event-rsvp-list.js
-import { kv } from "@vercel/kv"
+const KV_URL = process.env.KV_REST_API_URL
+const KV_TOKEN = process.env.KV_REST_API_TOKEN
 
 const S = (v) =>
   typeof v === "string" ? v.trim() : v == null ? "" : String(v).trim()
+
+async function upstash(path, init) {
+  const r = await fetch(`${KV_URL}${path}`, {
+    ...init,
+    headers: {
+      Authorization: `Bearer ${KV_TOKEN}`,
+      "Content-Type": "application/json",
+      ...(init?.headers || {}),
+    },
+  })
+  const j = await r.json().catch(() => ({}))
+  return { ok: r.ok	tr: r, j }
+}
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {
@@ -17,22 +31,21 @@ export default async function handler(req, res) {
 
     const eventId = S(req.query.eventId) || "mobile-street-camera-lunch-2026-02-25"
 
-    // 🔒 Most compatible approach: scan by key pattern
-    const keys = await kv.keys(`event:${eventId}:rsvp:*`)
-    const rows = []
+    // Find keys: event:<eventId>:rsvp:*
+    const scan = await upstash(`/scan/0?match=${encodeURIComponent(`event:${eventId}:rsvp:*`)}&count=200`)
+    if (!scan.ok) throw new Error(scan.j?.error || "Upstash scan failed")
+    const keys = scan.j?.result || []
 
+    const rows = []
     for (const k of keys) {
-      const v = await kv.get(k)
-      if (v) rows.push(v)
+      const g = await upstash(`/get/${encodeURIComponent(k)}`)
+      if (!g.ok) continue
+      if (g.j?.result) rows.push(g.j.result)
     }
 
-    const sortFn = (a, b) =>
-      String(a.agency || "").localeCompare(String(b.agency || "")) ||
-      String(a.name || "").localeCompare(String(b.name || ""))
-
-    const attending = rows.filter((r) => r.rsvp === "yes").sort(sortFn)
-    const notAttending = rows.filter((r) => r.rsvp === "no").sort(sortFn)
-    const followup = rows.filter((r) => r.rsvp === "followup").sort(sortFn)
+    const attending = rows.filter((r) => r.rsvp === "yes")
+    const notAttending = rows.filter((r) => r.rsvp === "no")
+    const followup = rows.filter((r) => r.rsvp === "followup")
 
     const seatsRequested = attending.reduce(
       (sum, r) => sum + 1 + Number(r.plusCount || 0),
@@ -55,9 +68,6 @@ export default async function handler(req, res) {
     })
   } catch (err) {
     console.error("EVENT RSVP LIST ERROR:", err)
-    return res.status(500).json({
-      ok: false,
-      error: err?.message || "Internal Error",
-    })
+    return res.status(500).json({ ok: false, error: err?.message || "Internal Error" })
   }
 }
