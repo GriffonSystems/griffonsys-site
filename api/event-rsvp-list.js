@@ -2,20 +2,35 @@
 const KV_URL = process.env.KV_REST_API_URL
 const KV_TOKEN = process.env.KV_REST_API_TOKEN
 
-const S = (v) =>
-  typeof v === "string" ? v.trim() : v == null ? "" : String(v).trim()
+const S = (v) => (typeof v === "string" ? v.trim() : v == null ? "" : String(v).trim())
 
-async function upstash(path, init) {
-  const r = await fetch(`${KV_URL}${path}`, {
-    ...init,
+function baseUrl(u) {
+  // normalize trailing slash
+  return (u || "").replace(/\/+$/, "")
+}
+
+async function upstashCmd(args) {
+  if (!KV_URL || !KV_TOKEN) throw new Error("Missing KV_REST_API_URL or KV_REST_API_TOKEN")
+
+  // Upstash REST: /<COMMAND>/<arg1>/<arg2>/...
+  // Example: /get/mykey
+  const url =
+    baseUrl(KV_URL) +
+    "/" +
+    args
+      .map((a) => encodeURIComponent(String(a)))
+      .join("/")
+
+  const r = await fetch(url, {
+    method: "GET",
     headers: {
       Authorization: `Bearer ${KV_TOKEN}`,
-      "Content-Type": "application/json",
-      ...(init?.headers || {}),
     },
   })
+
   const j = await r.json().catch(() => ({}))
-  return { ok: r.ok	tr: r, j }
+  if (!r.ok) throw new Error(j?.error || `Upstash error (${r.status})`)
+  return j?.result
 }
 
 export default async function handler(req, res) {
@@ -30,25 +45,33 @@ export default async function handler(req, res) {
     }
 
     const eventId = S(req.query.eventId) || "mobile-street-camera-lunch-2026-02-25"
+    const match = `event:${eventId}:rsvp:*`
 
-    // Find keys: event:<eventId>:rsvp:*
-    const scan = await upstash(`/scan/0?match=${encodeURIComponent(`event:${eventId}:rsvp:*`)}&count=200`)
-    if (!scan.ok) throw new Error(scan.j?.error || "Upstash scan failed")
-    const keys = scan.j?.result || []
+    // 🔍 SCAN loop until cursor returns "0"
+    let cursor = "0"
+    const keys = []
+
+    do {
+      const out = await upstashCmd(["scan", cursor, "match", match, "count", "200"])
+      // SCAN returns [nextCursor, keys[]]
+      const nextCursor = String(out?.[0] ?? "0")
+      const batch = Array.isArray(out?.[1]) ? out[1] : []
+      keys.push(...batch)
+      cursor = nextCursor
+    } while (cursor !== "0")
 
     const rows = []
     for (const k of keys) {
-      const g = await upstash(`/get/${encodeURIComponent(k)}`)
-      if (!g.ok) continue
-      if (g.j?.result) rows.push(g.j.result)
+      const v = await upstashCmd(["get", k])
+      if (v) rows.push(v)
     }
 
-    const attending = rows.filter((r) => r.rsvp === "yes")
-    const notAttending = rows.filter((r) => r.rsvp === "no")
-    const followup = rows.filter((r) => r.rsvp === "followup")
+    const attending = rows.filter((r) => r?.rsvp === "yes")
+    const notAttending = rows.filter((r) => r?.rsvp === "no")
+    const followup = rows.filter((r) => r?.rsvp === "followup")
 
     const seatsRequested = attending.reduce(
-      (sum, r) => sum + 1 + Number(r.plusCount || 0),
+      (sum, r) => sum + 1 + Number(r?.plusCount || 0),
       0
     )
 
