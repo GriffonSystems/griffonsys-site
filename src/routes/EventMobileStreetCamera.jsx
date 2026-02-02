@@ -4,6 +4,8 @@ import { Helmet } from "react-helmet"
 
 const S = (v) => (typeof v === "string" ? v : v == null ? "" : String(v))
 
+const VERSION = "EVENT_RSVP_PAGE_v2026-02-02_11:15AM"
+
 const EVENT = {
   title: "Law Enforcement Lunch & Roundtable",
   subtitle: "Mobile Street Camera (LPR + Mobile Deployments)",
@@ -80,8 +82,7 @@ export default function EventMobileStreetCamera() {
 
     const pc = isAttending ? Number(form.plusCount || 0) : 0
 
-    // This prefix triggers your /api/contact.js subject override:
-    // subject becomes: "Info Request — <rest of line>"
+    // triggers your /api/contact.js subject override
     const header = "Request for more information about: Event RSVP — Mobile Street Camera Lunch (Feb 25)"
 
     return [
@@ -106,13 +107,13 @@ export default function EventMobileStreetCamera() {
 
   async function onSubmit(e) {
     e.preventDefault()
-    console.log("RSVP SUBMIT HANDLER HIT")
+    console.log("RSVP SUBMIT HANDLER HIT", VERSION)
 
     setErr("")
     if (validation.length) {
+      console.log("RSVP VALIDATION FAILED:", validation)
       setErr(validation[0])
       setStatus("error")
-      console.log("RSVP VALIDATION FAILED:", validation)
       return
     }
 
@@ -156,10 +157,6 @@ export default function EventMobileStreetCamera() {
           name="description"
           content="RSVP for a law enforcement lunch & roundtable discussion focused on mobile street camera deployments and LPR workflows."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content={`${EVENT.title} | Feb 25`} />
-        <meta property="og:description" content="Lunch + roundtable discussion on mobile street camera and LPR workflows." />
-        <meta property="og:image" content={`${import.meta.env.BASE_URL}images/lpr/lpr-hero.jpg`} />
       </Helmet>
 
       <div className="mx-auto max-w-6xl px-4 py-10">
@@ -170,16 +167,8 @@ export default function EventMobileStreetCamera() {
               {EVENT.dateText} • {EVENT.timeText}
             </div>
 
-            <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-              {EVENT.title}
-            </h1>
-
+            <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">{EVENT.title}</h1>
             <p className="mt-2 text-lg font-semibold text-slate-700">{EVENT.subtitle}</p>
-
-            <p className="mt-4 text-sm text-slate-600">
-              We currently have a field test unit in our <span className="font-semibold">Elmhurst office</span> and will
-              have it on-site for hands-on discussion.
-            </p>
 
             <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
               <div className="text-sm font-semibold text-slate-900">Event Details</div>
@@ -192,7 +181,6 @@ export default function EventMobileStreetCamera() {
                 </div>
                 <div className="text-xs text-slate-500">{EVENT.capacityNote}</div>
                 <div className="pt-2 text-xs text-slate-600">{EVENT.hostLine}</div>
-
                 <div className="pt-3">
                   <a
                     href={EVENT.mapsLink}
@@ -243,9 +231,7 @@ export default function EventMobileStreetCamera() {
             </div>
 
             <div className="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-              <div className="border-b border-slate-200 px-4 py-3 text-sm font-semibold text-slate-900">
-                Location Map
-              </div>
+              <div className="border-b border-slate-200 px-4 py-3 text-sm font-semibold text-slate-900">Location Map</div>
               <iframe
                 title="Map"
                 src={EVENT.mapEmbedSrc}
@@ -262,7 +248,9 @@ export default function EventMobileStreetCamera() {
         {/* RSVP Form */}
         <div className="mt-10 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
           <h2 className="text-xl font-extrabold text-slate-900">RSVP</h2>
-          <p className="mt-1 text-sm text-slate-600">Please RSVP so we can plan seating and lunch counts.</p>
+
+          {/* Visible deploy/version marker */}
+          <div className="mt-2 text-xs text-slate-500">Debug: {VERSION}</div>
 
           <form onSubmit={onSubmit} className="mt-6 grid gap-5">
             <Field label="Will you attend?">
@@ -358,7 +346,6 @@ export default function EventMobileStreetCamera() {
                   value={form.guestNames}
                   onChange={(e) => update("guestNames", e.target.value)}
                   className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-slate-400"
-                  placeholder="Guest 1: …  Guest 2: …"
                   rows={2}
                 />
               </Field>
@@ -369,7 +356,6 @@ export default function EventMobileStreetCamera() {
                 value={form.dietary}
                 onChange={(e) => update("dietary", e.target.value)}
                 className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-slate-400"
-                placeholder="Any allergies or restrictions?"
               />
             </Field>
 
@@ -378,15 +364,12 @@ export default function EventMobileStreetCamera() {
                 value={form.notes}
                 onChange={(e) => update("notes", e.target.value)}
                 className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-slate-400"
-                placeholder="Example: NCIC alert workflow, IL SOS hits, retention policy, mobile deployments, etc."
                 rows={3}
               />
             </Field>
 
             {status === "error" && err ? (
-              <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
-                {err}
-              </div>
+              <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">{err}</div>
             ) : null}
 
             {status === "success" ? (
@@ -403,10 +386,6 @@ export default function EventMobileStreetCamera() {
               </button>
             )}
           </form>
-        </div>
-
-        <div className="mt-6 text-xs text-slate-500">
-          Privacy note: RSVPs are used only for event planning and follow-up related to this discussion.
         </div>
       </div>
     </main>
