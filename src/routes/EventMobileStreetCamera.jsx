@@ -238,7 +238,7 @@ export default function EventMobileStreetCamera() {
           {/* Right */}
           <div>
             <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-              <div className="text-sm font-semibold text-slate-900">Overview</div>
+              <div className="text-sm font-semibold text-slate-900">New Verkada CR63-E Remote Mobile Camera</div>
               <div className="mt-3 grid grid-cols-2 gap-3">
                 {IMAGE_URLS.map((src, idx) => (
                   <a
