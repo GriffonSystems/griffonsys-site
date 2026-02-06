@@ -7,7 +7,7 @@ const S = (v) => (typeof v === "string" ? v : v == null ? "" : String(v))
 const EVENT = {
   title: "Law Enforcement Lunch & Roundtable",
   subtitle: "Mobile Street Camera (LPR + Mobile Deployments)",
-  dateText: "Tuesday, February 25",
+  dateText: "Wednesday, February 25",
   timeText: "11:30 AM – 1:30 PM",
   venueName: "Gibsons Bar & Steakhouse",
   addressLine: "2105 Spring Rd, Oak Brook, IL 60523",
