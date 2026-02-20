@@ -1,109 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-  <!-- ========================= -->
-  <!--        CORE PAGES         -->
-  <!-- ========================= -->
-  <url>
-    <loc>https://griffonsys.com/</loc>
-    <lastmod>2026-01-25</lastmod>
-    <priority>1.0</priority>
-  </url>
-
-  <url>
-    <loc>https://griffonsys.com/solutions</loc>
-    <lastmod>2026-01-25</lastmod>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://griffonsys.com/industries</loc>
-    <lastmod>2026-01-25</lastmod>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://griffonsys.com/service-areas</loc>
-    <lastmod>2026-01-25</lastmod>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://griffonsys.com/contact</loc>
-    <lastmod>2026-01-25</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- ========================= -->
-  <!--        SOLUTIONS          -->
-  <!-- ========================= -->
-  <url>
-    <loc>https://griffonsys.com/lpr</loc>
-    <lastmod>2026-01-25</lastmod>
-    <priority>0.85</priority>
-  </url>
-
-  <!-- ========================= -->
-  <!--        INDUSTRIES         -->
-  <!-- ========================= -->
-  <url>
-    <loc>https://griffonsys.com/manufacturing</loc>
-    <lastmod>2026-01-25</lastmod>
-    <priority>0.85</priority>
-  </url>
-
-  <url>
-    <loc>https://griffonsys.com/education</loc>
-    <lastmod>2026-01-25</lastmod>
-    <priority>0.85</priority>
-  </url>
-
-  <url>
-    <loc>https://griffonsys.com/municipal</loc>
-    <lastmod>2026-01-25</lastmod>
-    <priority>0.85</priority>
-  </url>
-
-  <url>
-    <loc>https://griffonsys.com/commercial</loc>
-    <lastmod>2026-01-25</lastmod>
-    <priority>0.85</priority>
-  </url>
-
-  <!-- ========================= -->
-  <!--        VENDORS            -->
-  <!-- ========================= -->
-  <url>
-    <loc>https://griffonsys.com/vendors/verkada</loc>
-    <lastmod>2026-01-25</lastmod>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://griffonsys.com/vendors/avigilon</loc>
-    <lastmod>2026-01-25</lastmod>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://griffonsys.com/vendors/alta</loc>
-    <lastmod>2026-01-25</lastmod>
-    <priority>0.75</priority>
-  </url>
-
-  <!-- ========================= -->
-  <!--      FROM THE FIELD       -->
-  <!-- ========================= -->
-  <url>
-    <loc>https://griffonsys.com/from-the-field</loc>
-    <lastmod>2026-01-25</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://griffonsys.com/from-the-field/wireless-link</loc>
-    <lastmod>2026-01-25</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-</urlset>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap>
+    <loc>https://griffonsys.com/sitemaps/sitemap-main.xml</loc>
+  </sitemap>
+  <sitemap>
+    <loc>https://griffonsys.com/sitemaps/sitemap-locations-1.xml</loc>
+  </sitemap>
+  <sitemap>
+    <loc>https://griffonsys.com/sitemaps/sitemap-locations-2.xml</loc>
+  </sitemap>
+  <sitemap>
+    <loc>https://griffonsys.com/sitemaps/sitemap-vendors.xml</loc>
+  </sitemap>
+  <sitemap>
+    <loc>https://griffonsys.com/sitemaps/sitemap-field.xml</loc>
+  </sitemap>
+</sitemapindex>
