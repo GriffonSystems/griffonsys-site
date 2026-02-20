@@ -1,6 +1,6 @@
 // src/routes/VendorLocationSEO.jsx
 import React from "react"
-import { useParams, Link } from "react-router-dom"
+import { useParams, Link, useLocation } from "react-router-dom"
 import { Helmet } from "react-helmet"
 import { LOCATION_PAGES } from "../data/locationPages"
 
@@ -70,7 +70,15 @@ const VENDOR_CONFIG = {
 }
 
 export default function VendorLocationSEO() {
-  const { city, vendor } = useParams()
+  const { city } = useParams()
+  const { pathname } = useLocation()
+
+  // Detect vendor from URL path since it's a fixed segment, not a param
+  const vendor = pathname.includes("verkada-installer")
+    ? "verkada-installer"
+    : pathname.includes("avigilon-dealer")
+    ? "avigilon-dealer"
+    : null
 
   const cityData = LOCATION_PAGES?.[city]
   const vendorConfig = VENDOR_CONFIG?.[vendor]
