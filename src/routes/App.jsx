@@ -3,52 +3,42 @@ import { Routes, Route } from "react-router-dom"
 import Nav from "../components/Nav"
 import Footer from "../components/Footer"
 import { Analytics } from "@vercel/analytics/react"
-
 // Canonical
 import Canonical from "../components/Canonical"
-
 // Main pages
 import Home from "./Home"
 import Solutions from "./Solutions"
 import Contact from "./Contact"
 import About from "./About"
 import Industries from "./Industries"
-
 // Brand pages
 import BrandVerkada from "./BrandVerkada"
 import BrandAvigilon from "./BrandAvigilon"
 import AvigilonCloud from "./AvigilonCloud"
 import VendorAlta from "./VendorAlta"
 import BrandSiklu from "./BrandSiklu"
-
 // Resources
 import ResourcesVerkadaVsAvigilon from "./ResourcesVerkadaVsAvigilon"
-import Training from "./Training" // ✅ NEW
-
+import Training from "./Training"
 // Utility pages
 import NotFound from "./NotFound"
 import ServiceRequest from "./ServiceRequest"
-
 // From The Field
 import FromTheField from "./FromTheField"
 import WirelessLink from "./WirelessLink"
 import ComingSoon from "./ComingSoon"
-
 // Landing Pages
 import Manufacturing from "./Manufacturing"
 import Municipal from "./Municipal"
 import Commercial from "./Commercial"
 import Education from "./Education"
 import LPR from "./LPR"
-
-// ✅ Event Page
+// Event Pages
 import EventMobileStreetCamera from "./EventMobileStreetCamera"
-// ✅ Event Admin Page (NEW)
 import EventMobileStreetCameraAdmin from "./EventMobileStreetCameraAdmin"
-
 // Dynamic SEO Local Pages
 import LocationSEO from "./LocationSEO"
-
+import VendorLocationSEO from "./VendorLocationSEO"
 // Service Areas Hub Page
 import ServiceAreas from "./ServiceAreas"
 
@@ -56,9 +46,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-white text-gray-900">
       <Nav />
-
       <Canonical />
-
       <Routes>
         {/* Main pages */}
         <Route path="/" element={<Home />} />
@@ -76,7 +64,6 @@ export default function App() {
 
         {/* Event Pages */}
         <Route path="/events/mobile-street-camera-lunch" element={<EventMobileStreetCamera />} />
-        {/* ✅ Hidden Admin */}
         <Route path="/events/mobile-street-camera-lunch/admin" element={<EventMobileStreetCameraAdmin />} />
 
         {/* Service */}
@@ -102,13 +89,16 @@ export default function App() {
         <Route path="/from-the-field/avigilon-factory" element={<ComingSoon />} />
         <Route path="/from-the-field/municipal" element={<ComingSoon />} />
 
+        {/* Dynamic vendor-location pages — MUST come before generic location route */}
+        <Route path="/locations/:city/verkada-installer" element={<VendorLocationSEO />} />
+        <Route path="/locations/:city/avigilon-dealer" element={<VendorLocationSEO />} />
+
         {/* Dynamic SEO location pages */}
         <Route path="/locations/:city/:service" element={<LocationSEO />} />
 
         {/* Fallback */}
         <Route path="*" element={<NotFound />} />
       </Routes>
-
       <Footer />
       <Analytics />
     </div>
