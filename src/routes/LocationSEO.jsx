@@ -1,4 +1,4 @@
-// src/routes/VendorLocationSEO.jsx
+// src/routes/LocationSEO.jsx
 import React from "react"
 import { useParams, Link } from "react-router-dom"
 import { Helmet } from "react-helmet"
@@ -12,70 +12,13 @@ const NEIGHBORHOODS = new Set([
   "Rogers Park",
 ])
 
-const VENDOR_CONFIG = {
-  "verkada-installer": {
-    vendor: "Verkada",
-    badge: "Authorized Verkada Partner",
-    tagline: "Cloud-Managed Security for Modern Organizations",
-    description: (cityLabel) =>
-      `Griffon Systems is an authorized Verkada installer serving ${cityLabel}. We design, deploy, and support Verkada's cloud-managed security platform — including cameras, access control, intercoms, and environmental sensors — for manufacturers, municipalities, schools, and commercial facilities across Chicagoland.`,
-    whyUs: [
-      "Authorized Verkada partner since 2024",
-      "Local Chicagoland team — no subcontractors",
-      "Full deployment: design, installation, training & ongoing support",
-      "Specialists in multi-site and enterprise Verkada rollouts",
-      "20+ years of security integration experience",
-    ],
-    vendorFeatures: [
-      { title: "Cloud-Based Management", desc: "Manage all cameras and access points from anywhere with Verkada Command." },
-      { title: "Plug-and-Play Deployment", desc: "Minimal onsite infrastructure — no NVR servers required." },
-      { title: "Unified Platform", desc: "Video, access control, intercoms, alarms and sensors in one system." },
-      { title: "Predictable Licensing", desc: "Simple per-device licensing with no surprise upgrade costs." },
-      { title: "Remote Health Monitoring", desc: "Griffon monitors your system proactively to catch issues before they impact you." },
-    ],
-    relatedLink: "/brands/verkada",
-    relatedLinkText: "Explore Verkada Products →",
-    compareLink: "/resources/verkada-vs-avigilon",
-    compareLinkText: "Verkada vs Avigilon — Which is right for you?",
-    ctaHeading: (city) => `Get a Verkada Quote for Your ${city} Facility`,
-    ctaBody: "Talk with a certified Verkada specialist. We'll assess your site, design the right system, and handle everything from installation to training.",
-  },
-  "avigilon-dealer": {
-    vendor: "Avigilon",
-    badge: "Authorized Avigilon Dealer — 15+ Year Partner",
-    tagline: "On-Premises HD Video & Access Control by Motorola Solutions",
-    description: (cityLabel) =>
-      `Griffon Systems is an authorized Avigilon dealer serving ${cityLabel} with 15+ years of Avigilon installation experience. We specialize in Avigilon's on-premises HD video surveillance and access control systems for manufacturers, municipalities, schools, and commercial facilities that require local storage, air-gapped networks, or regulatory compliance.`,
-    whyUs: [
-      "Authorized Avigilon dealer for 15+ years",
-      "Deep expertise in Avigilon ACC, H5A, and H6SL camera lines",
-      "Specialists in on-prem, air-gapped, and compliance-driven environments",
-      "Local Chicagoland team — no subcontractors",
-      "Full lifecycle support: design, installation, training & service",
-    ],
-    vendorFeatures: [
-      { title: "On-Premises Storage", desc: "Full local control of footage — ideal for regulatory, evidentiary, or IT security requirements." },
-      { title: "AI-Powered Analytics", desc: "Avigilon Appearance Search and unusual motion detection built into the platform." },
-      { title: "High-Resolution Imaging", desc: "H5A and H6SL cameras deliver exceptional clarity for license plate and facial identification." },
-      { title: "Avigilon Alta Access Control", desc: "Cloud-managed access control that integrates seamlessly with Avigilon video." },
-      { title: "Scalable Architecture", desc: "From single-site to multi-building enterprise deployments — Avigilon grows with you." },
-    ],
-    relatedLink: "/brands/avigilon",
-    relatedLinkText: "Explore Avigilon Products →",
-    compareLink: "/resources/verkada-vs-avigilon",
-    compareLinkText: "Avigilon vs Verkada — Which is right for you?",
-    ctaHeading: (city) => `Get an Avigilon Quote for Your ${city} Facility`,
-    ctaBody: "Talk with a certified Avigilon specialist with 15+ years of local experience. We'll design the right on-prem system and handle everything from installation to ongoing support.",
-  },
-}
-
-export default function VendorLocationSEO() {
-  const { city, vendor } = useParams()
+export default function LocationSEO() {
+  const { city, service } = useParams()
 
   const cityData = LOCATION_PAGES?.[city]
-  const vendorConfig = VENDOR_CONFIG?.[vendor]
+  const serviceData = cityData?.services?.[service]
 
-  if (!cityData || !vendorConfig) {
+  if (!cityData || !serviceData) {
     return (
       <main className="container py-20">
         <Helmet>
@@ -84,7 +27,7 @@ export default function VendorLocationSEO() {
         </Helmet>
         <h1 className="text-3xl font-bold mb-4">Page Not Found</h1>
         <p className="text-gray-600 mb-6">
-          This location or vendor page does not exist in our directory.
+          This location or service does not exist in our directory.
         </p>
         <Link to="/serviceareas" className="text-blue-600 underline">
           View all service areas →
@@ -95,9 +38,9 @@ export default function VendorLocationSEO() {
 
   const isNeighborhood = NEIGHBORHOODS.has(cityData.city)
   const cityLabel = isNeighborhood ? cityData.city : `${cityData.city}, IL`
-  const title = `${vendorConfig.vendor} Installer in ${cityLabel} | Griffon Systems`
-  const description = vendorConfig.description(cityLabel)
-  const pageUrl = `https://griffonsys.com/locations/${city}/${vendor}`
+  const title = (serviceData.title || "").replace(/,\s*IL\s*$/i, "")
+  const description = `${title}. Griffon Systems delivers professional security cameras, access control, cloud video, wireless backhaul and fully managed security integration across ${cityLabel}.`
+  const pageUrl = `https://griffonsys.com/locations/${city}/${service}`
   const ogImage = "https://griffonsys.com/images/og/griffon-building.jpg"
 
   const jsonLd = {
@@ -150,55 +93,35 @@ export default function VendorLocationSEO() {
         />
       </Helmet>
 
-      <div className="mb-2">
-        <span className="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-3 py-1 rounded-full">
-          {vendorConfig.badge}
-        </span>
-      </div>
-      <h1 className="text-4xl font-bold mb-2">
-        {vendorConfig.vendor} Installer in {cityLabel}
-      </h1>
-      <p className="text-lg text-gray-500 mb-8">{vendorConfig.tagline}</p>
+      <h1 className="text-4xl font-bold mb-6">{title}</h1>
 
       <p className="text-lg text-gray-700 max-w-3xl mb-10 leading-relaxed">
-        {description}
+        Griffon Systems provides professional security camera installation, access control, cloud
+        video, wireless backhaul, server integration and fully managed security solutions for
+        organizations throughout {cityLabel}.
+        <br /><br />
+        We specialize in:
+        <br />• Avigilon (Motorola Solutions)
+        <br />• Verkada Cloud
+        <br />• Openpath / Avigilon Alta Access
+        <br />• Siklu Wireless Backhaul
+        <br />• Ubiquiti UniFi Networks
       </p>
 
-      <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8 max-w-3xl mb-10">
-        <h2 className="text-2xl font-semibold mb-4">Why Choose Griffon Systems?</h2>
-        <ul className="space-y-2">
-          {vendorConfig.whyUs.map((item, i) => (
-            <li key={i} className="flex items-start gap-2 text-gray-700">
-              <span className="text-blue-600 font-bold mt-1">✓</span>
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="mb-12">
-        <h2 className="text-2xl font-semibold mb-6">What {vendorConfig.vendor} Delivers</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
-          {vendorConfig.vendorFeatures.map((feature, i) => (
-            <div key={i} className="border border-gray-200 rounded-xl p-5">
-              <h3 className="font-semibold text-gray-900 mb-1">{feature.title}</h3>
-              <p className="text-gray-600 text-sm">{feature.desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="bg-blue-50 border border-blue-200 rounded-2xl p-8 max-w-2xl mb-12">
+      <div className="bg-blue-50 border border-blue-200 rounded-2xl p-8 max-w-2xl mb-14">
         <h2 className="text-2xl font-semibold mb-4">
-          {vendorConfig.ctaHeading(cityData.city)}
+          Ready to Secure Your {cityData.city} Facility?
         </h2>
-        <p className="text-gray-700 mb-6">{vendorConfig.ctaBody}</p>
+        <p className="text-gray-700 mb-6">
+          Talk with a local Chicagoland security expert. We design, deploy and support all systems
+          in-house — no subcontractors.
+        </p>
         <div className="flex flex-wrap gap-4">
           <Link
             to="/contact"
             className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
           >
-            Request a Quote
+            Request Consultation
           </Link>
           <Link
             to="/service"
@@ -210,28 +133,21 @@ export default function VendorLocationSEO() {
       </div>
 
       <div>
-        <h2 className="text-xl font-semibold mb-4">More Resources</h2>
+        <h2 className="text-xl font-semibold mb-4">Related Services in {cityLabel}</h2>
         <ul className="space-y-2">
-          <li>
-            <Link to={vendorConfig.relatedLink} className="text-blue-600 hover:text-blue-800 underline">
-              {vendorConfig.relatedLinkText}
-            </Link>
-          </li>
-          <li>
-            <Link to={vendorConfig.compareLink} className="text-blue-600 hover:text-blue-800 underline">
-              {vendorConfig.compareLinkText}
-            </Link>
-          </li>
-          <li>
-            <Link to={`/locations/${city}/security-integrator`} className="text-blue-600 hover:text-blue-800 underline">
-              Security Integrator in {cityLabel} →
-            </Link>
-          </li>
-          <li>
-            <Link to={`/locations/${city}/access-control-integrator`} className="text-blue-600 hover:text-blue-800 underline">
-              Access Control Integrator in {cityLabel} →
-            </Link>
-          </li>
+          {Object.entries(cityData.services).map(([key, info]) => {
+            if (key === service) return null
+            return (
+              <li key={key}>
+                <Link
+                  to={`/locations/${city}/${key}`}
+                  className="text-blue-600 hover:text-blue-800 underline"
+                >
+                  {(info.title || "").replace(/,\s*IL\s*$/i, "")}
+                </Link>
+              </li>
+            )
+          })}
         </ul>
       </div>
     </main>
