@@ -20,6 +20,7 @@ import BrandSiklu from "./BrandSiklu"
 // Resources
 import ResourcesVerkadaVsAvigilon from "./ResourcesVerkadaVsAvigilon"
 import Training from "./Training"
+import VerkadaNetworkReadiness from "./VerkadaNetworkReadiness"
 // Utility pages
 import NotFound from "./NotFound"
 import ServiceRequest from "./ServiceRequest"
@@ -63,8 +64,14 @@ export default function App() {
         <Route path="/lpr" element={<LPR />} />
 
         {/* Event Pages */}
-        <Route path="/events/mobile-street-camera-lunch" element={<EventMobileStreetCamera />} />
-        <Route path="/events/mobile-street-camera-lunch/admin" element={<EventMobileStreetCameraAdmin />} />
+        <Route
+          path="/events/mobile-street-camera-lunch"
+          element={<EventMobileStreetCamera />}
+        />
+        <Route
+          path="/events/mobile-street-camera-lunch/admin"
+          element={<EventMobileStreetCameraAdmin />}
+        />
 
         {/* Service */}
         <Route path="/service" element={<ServiceRequest />} />
@@ -73,8 +80,15 @@ export default function App() {
         <Route path="/serviceareas" element={<ServiceAreas />} />
 
         {/* Resources */}
-        <Route path="/resources/verkada-vs-avigilon" element={<ResourcesVerkadaVsAvigilon />} />
+        <Route
+          path="/resources/verkada-vs-avigilon"
+          element={<ResourcesVerkadaVsAvigilon />}
+        />
         <Route path="/resources/training" element={<Training />} />
+        <Route
+          path="/resources/verkada-network-readiness"
+          element={<VerkadaNetworkReadiness />}
+        />
 
         {/* Brand pages */}
         <Route path="/brands/verkada" element={<BrandVerkada />} />
@@ -90,8 +104,14 @@ export default function App() {
         <Route path="/from-the-field/municipal" element={<ComingSoon />} />
 
         {/* Dynamic vendor-location pages — MUST come before generic location route */}
-        <Route path="/locations/:city/verkada-installer" element={<VendorLocationSEO />} />
-        <Route path="/locations/:city/avigilon-dealer" element={<VendorLocationSEO />} />
+        <Route
+          path="/locations/:city/verkada-installer"
+          element={<VendorLocationSEO />}
+        />
+        <Route
+          path="/locations/:city/avigilon-dealer"
+          element={<VendorLocationSEO />}
+        />
 
         {/* Dynamic SEO location pages */}
         <Route path="/locations/:city/:service" element={<LocationSEO />} />
