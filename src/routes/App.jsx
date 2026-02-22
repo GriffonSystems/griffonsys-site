@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom"
 import Nav from "../components/Nav"
 import Footer from "../components/Footer"
 import { Analytics } from "@vercel/analytics/react"
+import { Helmet } from "react-helmet"
 
 // ✅ ADD THIS
 import ScrollToTop from "../components/ScrollToTop"
@@ -57,11 +58,45 @@ import VendorLocationSEO from "./VendorLocationSEO"
 import ServiceAreas from "./ServiceAreas"
 
 export default function App() {
+  // ✅ Sitewide LocalBusiness schema (renders on every page)
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "SecuritySystemInstallationService",
+    name: "Griffon Systems, Inc.",
+    url: "https://www.griffonsys.com",
+    telephone: "+1-630-607-0346",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "650 West Grand Ave #206",
+      addressLocality: "Elmhurst",
+      addressRegion: "IL",
+      postalCode: "60126",
+      addressCountry: "US",
+    },
+    areaServed: [
+      { "@type": "AdministrativeArea", name: "Illinois" },
+      { "@type": "City", name: "Chicago" },
+      { "@type": "AdministrativeArea", name: "Chicagoland" },
+    ],
+    sameAs: [
+      "https://www.facebook.com/profile.php?id=100077685937256",
+      "https://www.linkedin.com/company/2297390",
+      "https://www.youtube.com/@paulgref",
+    ],
+  }
+
   return (
     <div className="min-h-screen bg-white text-gray-900">
+      {/* ✅ Sitewide JSON-LD */}
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(localBusinessSchema)}
+        </script>
+      </Helmet>
+
       <Nav />
       <Canonical />
-      
+
       {/* ✅ ADD THIS */}
       <ScrollToTop />
 
