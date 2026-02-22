@@ -5,10 +5,8 @@ import { Helmet } from "react-helmet"
 const TOOL_URL = "https://network-tester.support.verkada.com/network-tester"
 const SITE = "https://griffonsys.com"
 
-// TODO: replace with your real endpoint if/when you want submissions saved server-side
-// Example: "/api/network-readiness-lead" (Vercel/Express/Lambda/etc.)
-// Leave null to skip network call and just show success + open tester.
-const LEAD_ENDPOINT = null
+// ✅ Wire into your existing Resend email pipeline
+const LEAD_ENDPOINT = "/api/contact"
 
 function safeStr(v) {
   return typeof v === "string" ? v : v == null ? "" : String(v)
@@ -94,7 +92,9 @@ function Modal({ open, title, onClose, children }) {
 }
 
 export default function VerkadaNetworkReadiness() {
-  const pageUrl = `${SITE}/training/verkada-network-readiness`
+  // ✅ You routed this page at /resources/verkada-network-readiness
+  // Keep canonical consistent with your route for SEO.
+  const pageUrl = `${SITE}/resources/verkada-network-readiness`
 
   const [gateOpen, setGateOpen] = useState(false)
   const [gateSubmitting, setGateSubmitting] = useState(false)
@@ -146,45 +146,60 @@ export default function VerkadaNetworkReadiness() {
     setGateError("")
     setGateSubmitting(true)
 
-    const payload = {
-      name: safeStr(gateForm.name).trim(),
-      email: safeStr(gateForm.email).trim(),
-      org: safeStr(gateForm.org).trim(),
-      projectType: safeStr(gateForm.projectType),
-      wantReview: !!gateForm.wantReview,
-      page: pageUrl,
-      ts: new Date().toISOString(),
+    // ✅ Map to /api/contact.js expected fields:
+    // name, email, phone, company, message (message required)
+    const name = safeStr(gateForm.name).trim()
+    const email = safeStr(gateForm.email).trim()
+    const company = safeStr(gateForm.org).trim()
+    const projectType = safeStr(gateForm.projectType).trim()
+    const wantReview = !!gateForm.wantReview
+
+    const contactPayload = {
+      name,
+      email,
+      phone: "",
+      company,
+      message: [
+        "Request for more information about: Verkada Network Readiness Test",
+        "",
+        `Project Type: ${projectType || "(not provided)"}`,
+        `Engineer Review Requested: ${wantReview ? "YES" : "NO"}`,
+        "",
+        `Page: ${pageUrl}`,
+        `Timestamp: ${new Date().toISOString()}`,
+      ].join("\n"),
     }
 
     track("verkada_network_gate_submit", {
       page_location: pageUrl,
-      project_type: payload.projectType,
-      want_review: payload.wantReview ? "yes" : "no",
+      project_type: projectType || "unknown",
+      want_review: wantReview ? "yes" : "no",
     })
 
     try {
-      // Optional: send to your backend
-      if (LEAD_ENDPOINT) {
-        const res = await fetch(LEAD_ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        })
-        if (!res.ok) throw new Error(`Lead endpoint returned ${res.status}`)
+      const res = await fetch(LEAD_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(contactPayload),
+      })
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        throw new Error(data?.error || `Lead endpoint returned ${res.status}`)
       }
 
       // Open Verkada tool in new tab, keep your page open
-      track("verkada_network_tester_open_after_gate", { page_location: pageUrl, link_url: TOOL_URL })
+      track("verkada_network_tester_open_after_gate", {
+        page_location: pageUrl,
+        link_url: TOOL_URL,
+      })
       window.open(TOOL_URL, "_blank", "noopener,noreferrer")
 
-      // Close modal + light confirmation state
       setGateOpen(false)
       setGateSubmitting(false)
     } catch (err) {
       setGateSubmitting(false)
-      setGateError(
-        "We couldn’t submit that right now. You can still run the tester — or try again in a moment."
-      )
+      setGateError(err?.message || "We couldn’t submit that right now. Please try again.")
       // Still allow tester open so you don't block the user
       window.open(TOOL_URL, "_blank", "noopener,noreferrer")
     }
@@ -203,7 +218,7 @@ export default function VerkadaNetworkReadiness() {
         <title>Verkada Network Readiness | Griffon Systems</title>
         <meta
           name="description"
-          content="Technical guide for validating network readiness for Verkada cloud deployments: bandwidth, DNS, latency, firewall considerations, plus the official Verkada Network Tester."
+          content="Validate bandwidth, DNS, latency, and firewall readiness before a Verkada cloud deployment. Practical checklist + official Verkada Network Tester."
         />
         <link rel="canonical" href={pageUrl} />
         <meta property="og:title" content="Verkada Network Readiness | Griffon Systems" />
@@ -242,7 +257,11 @@ export default function VerkadaNetworkReadiness() {
 
                 <a
                   href="#checklist"
-                  onClick={() => track("verkada_network_readiness_scroll_checklist", { page_location: pageUrl })}
+                  onClick={() =>
+                    track("verkada_network_readiness_scroll_checklist", {
+                      page_location: pageUrl,
+                    })
+                  }
                   className="rounded-xl border border-white/30 px-5 py-3 font-semibold text-white hover:bg-white/10"
                 >
                   Jump to Checklist
@@ -341,9 +360,7 @@ export default function VerkadaNetworkReadiness() {
                   onChange={(e) => setGateForm((p) => ({ ...p, wantReview: e.target.checked }))}
                   className="h-4 w-4"
                 />
-                <span className="text-sm text-slate-800">
-                  I’d like Griffon to review results
-                </span>
+                <span className="text-sm text-slate-800">I’d like Griffon to review results</span>
               </label>
             </div>
 
@@ -359,7 +376,7 @@ export default function VerkadaNetworkReadiness() {
                 disabled={gateSubmitting}
                 className="rounded-xl bg-slate-900 px-5 py-3 font-semibold text-white hover:bg-slate-800 disabled:opacity-60"
               >
-                {gateSubmitting ? "Opening Tester…" : "Continue to Official Network Tester"}
+                {gateSubmitting ? "Submitting…" : "Continue to Official Network Tester"}
               </button>
 
               <button
@@ -385,14 +402,23 @@ export default function VerkadaNetworkReadiness() {
         <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
           <Section title="What the Network Tester Validates">
             <ul className="list-disc pl-5 space-y-2">
-              <li><span className="font-semibold">Connectivity:</span> outbound access to required cloud endpoints</li>
-              <li><span className="font-semibold">DNS resolution:</span> catches split-DNS / filtering issues</li>
-              <li><span className="font-semibold">Latency & stability:</span> helps spot routing or packet-loss issues</li>
-              <li><span className="font-semibold">Readiness signals:</span> predicts smoother install day outcomes</li>
+              <li>
+                <span className="font-semibold">Connectivity:</span> outbound access to required cloud endpoints
+              </li>
+              <li>
+                <span className="font-semibold">DNS resolution:</span> catches split-DNS / filtering issues
+              </li>
+              <li>
+                <span className="font-semibold">Latency & stability:</span> helps spot routing or packet-loss issues
+              </li>
+              <li>
+                <span className="font-semibold">Readiness signals:</span> predicts smoother install day outcomes
+              </li>
             </ul>
             <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
               <p className="text-sm text-slate-700">
-                Tip: Run it from the <span className="font-semibold">same network/VLAN</span> your Verkada devices will use.
+                Tip: Run it from the <span className="font-semibold">same network/VLAN</span> your Verkada devices will
+                use.
               </p>
             </div>
           </Section>
