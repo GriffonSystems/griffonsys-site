@@ -9,7 +9,6 @@ export default function Footer() {
     <>
       <footer className="bg-gray-700 text-gray-200 mt-20">
         <div className="container py-12 grid md:grid-cols-4 gap-10">
-
           {/* ---- Column 1: Logo + Info ---- */}
           <div>
             <img
@@ -24,8 +23,20 @@ export default function Footer() {
               manufacturing, municipal, education, and commercial facilities.
             </p>
 
-            <p className="text-gray-300 text-sm mt-4">
-              Elmhurst, IL • (630) 607-0346
+            <p className="text-gray-300 text-sm mt-4 leading-relaxed">
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=650+West+Grand+Ave+%23206+Elmhurst+IL+60126"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white"
+              >
+                650 West Grand Ave #206<br />
+                Elmhurst, IL 60126
+              </a>
+              <br />
+              <a href="tel:+16306070346" className="hover:text-white">
+                (630) 607-0346
+              </a>
             </p>
           </div>
 
@@ -33,14 +44,46 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-3 text-white">Quick Links</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link to="/solutions" className="hover:text-white">Solutions</Link></li>
-              <li><Link to="/brands/verkada" className="hover:text-white">Verkada</Link></li>
-              <li><Link to="/brands/avigilon" className="hover:text-white">Avigilon</Link></li>
-              <li><Link to="/industries" className="hover:text-white">Industries</Link></li>
-              <li><Link to="/from-the-field" className="hover:text-white">From the Field</Link></li>
-              <li><Link to="/about" className="hover:text-white">About</Link></li>
-              <li><Link to="/contact" className="hover:text-white">Contact</Link></li>
-              <li><Link to="/service" className="hover:text-white font-semibold">Service Request</Link></li>
+              <li>
+                <Link to="/solutions" className="hover:text-white">
+                  Solutions
+                </Link>
+              </li>
+              <li>
+                <Link to="/brands/verkada" className="hover:text-white">
+                  Verkada
+                </Link>
+              </li>
+              <li>
+                <Link to="/brands/avigilon" className="hover:text-white">
+                  Avigilon
+                </Link>
+              </li>
+              <li>
+                <Link to="/industries" className="hover:text-white">
+                  Industries
+                </Link>
+              </li>
+              <li>
+                <Link to="/from-the-field" className="hover:text-white">
+                  From the Field
+                </Link>
+              </li>
+              <li>
+                <Link to="/about" className="hover:text-white">
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="hover:text-white">
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link to="/service" className="hover:text-white font-semibold">
+                  Service Request
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -48,18 +91,74 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-3 text-white">Service Areas</h3>
             <ul className="space-y-2 text-sm text-gray-300">
-              <li><Link to="/locations/elmhurst/security-integrator" className="hover:text-white">Elmhurst</Link></li>
-              <li><Link to="/locations/oak-brook/security-integrator" className="hover:text-white">Oak Brook</Link></li>
-              <li><Link to="/locations/chicago/security-integrator" className="hover:text-white">Chicago</Link></li>
-              <li><Link to="/locations/downers-grove/security-integrator" className="hover:text-white">Downers Grove</Link></li>
-              <li><Link to="/locations/naperville/security-integrator" className="hover:text-white">Naperville</Link></li>
-              <li><Link to="/locations/hinsdale/security-integrator" className="hover:text-white">Hinsdale</Link></li>
-              <li><Link to="/locations/wheaton/security-integrator" className="hover:text-white">Wheaton</Link></li>
-              <li><Link to="/locations/schaumburg/security-integrator" className="hover:text-white">Schaumburg</Link></li>
+              <li>
+                <Link
+                  to="/locations/elmhurst/security-integrator"
+                  className="hover:text-white"
+                >
+                  Elmhurst
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/locations/oak-brook/security-integrator"
+                  className="hover:text-white"
+                >
+                  Oak Brook
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/locations/chicago/security-integrator"
+                  className="hover:text-white"
+                >
+                  Chicago
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/locations/downers-grove/security-integrator"
+                  className="hover:text-white"
+                >
+                  Downers Grove
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/locations/naperville/security-integrator"
+                  className="hover:text-white"
+                >
+                  Naperville
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/locations/hinsdale/security-integrator"
+                  className="hover:text-white"
+                >
+                  Hinsdale
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/locations/wheaton/security-integrator"
+                  className="hover:text-white"
+                >
+                  Wheaton
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/locations/schaumburg/security-integrator"
+                  className="hover:text-white"
+                >
+                  Schaumburg
+                </Link>
+              </li>
             </ul>
 
             <Link
-              to="/ServiceAreas"
+              to="/serviceareas"
               className="inline-block mt-3 text-blue-300 hover:text-blue-200 text-xs underline"
             >
               View all service areas →
@@ -119,7 +218,8 @@ export default function Footer() {
             </button>
 
             <p className="text-sm text-gray-300 leading-relaxed mt-6">
-              © {new Date().getFullYear()} Griffon Systems, Inc.<br />
+              © {new Date().getFullYear()} Griffon Systems, Inc.
+              <br />
               All rights reserved.
             </p>
 
