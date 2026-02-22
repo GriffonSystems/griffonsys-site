@@ -71,8 +71,9 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-3 text-white">Connect</h3>
 
             <div className="flex items-center gap-4 mb-4">
+              {/* Facebook */}
               <a
-                href="https://facebook.com"
+                href="https://www.facebook.com/profile.php?id=100077685937256"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -83,6 +84,7 @@ export default function Footer() {
                 />
               </a>
 
+              {/* LinkedIn */}
               <a
                 href="https://linkedin.com/company/griffon-systems"
                 target="_blank"
@@ -91,6 +93,19 @@ export default function Footer() {
                 <img
                   src="/logos/linkedin.svg"
                   alt="LinkedIn"
+                  className="h-6 w-6 opacity-90 hover:opacity-100"
+                />
+              </a>
+
+              {/* YouTube */}
+              <a
+                href="https://www.youtube.com/@paulgref"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="/logos/youtube.svg"
+                  alt="YouTube"
                   className="h-6 w-6 opacity-90 hover:opacity-100"
                 />
               </a>
