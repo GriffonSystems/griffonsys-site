@@ -475,6 +475,50 @@ export default function Training() {
             items={VERKADA_ACCESS_ITEMS}
           />
         )}
+
+        {/* Network Readiness CTA */}
+        <div className="mt-6 rounded-3xl border border-gray-200 bg-gray-50 p-6 md:p-8">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div className="max-w-2xl">
+              <div className="text-xs font-semibold tracking-wide text-gray-500 uppercase">
+                Technical Resource
+              </div>
+              <h3 className="mt-2 text-xl md:text-2xl font-bold text-gray-900">
+                Verkada Network Readiness Test (Free)
+              </h3>
+              <p className="mt-2 text-gray-700">
+                Validate bandwidth, DNS, latency, and firewall readiness before deploying Verkada cloud
+                cameras, access control, intercoms, or gateways. Optionally request a Griffon engineer
+                review.
+              </p>
+              <ul className="mt-3 text-sm text-gray-700 space-y-1">
+                <li>• Great for municipal IT, schools, and manufacturing networks</li>
+                <li>• Helps avoid install-day firewall surprises</li>
+                <li>• Includes a quick pre-deployment checklist</li>
+              </ul>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Link
+                to="/resources/verkada-network-readiness"
+                className="inline-flex items-center justify-center rounded-xl bg-black px-5 py-3 text-white font-semibold hover:bg-gray-800 transition"
+              >
+                Start Readiness Check
+              </Link>
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-5 py-3 text-gray-900 font-semibold hover:bg-gray-100 transition"
+              >
+                Request Review
+              </Link>
+            </div>
+          </div>
+
+          <div className="mt-4 text-xs text-gray-500">
+            Note: The network tester is an official Verkada support tool. Griffon Systems provides guidance and optional
+            review.
+          </div>
+        </div>
       </VendorSection>
 
       {/* Avigilon */}
@@ -524,7 +568,8 @@ export default function Training() {
               <div className="max-w-2xl">
                 <h2 className="text-2xl font-bold text-gray-900">Want us to train your team live?</h2>
                 <p className="mt-2 text-gray-700">
-                  We can run a 60–90 minute remote session (or on-site) tailored to your cameras, doors, and daily workflows.
+                  We can run a 60–90 minute remote session (or on-site) tailored to your cameras, doors, and daily
+                  workflows.
                 </p>
               </div>
               <div className="flex gap-3">
@@ -545,7 +590,8 @@ export default function Training() {
           </div>
 
           <div className="mt-8 text-xs text-gray-500">
-            Note: Videos are embedded from their respective publishers. Griffon Systems is not affiliated with or endorsed by YouTube.
+            Note: Videos are embedded from their respective publishers. Griffon Systems is not affiliated with or
+            endorsed by YouTube.
           </div>
         </div>
       </section>
