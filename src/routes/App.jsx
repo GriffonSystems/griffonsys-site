@@ -3,43 +3,56 @@ import { Routes, Route } from "react-router-dom"
 import Nav from "../components/Nav"
 import Footer from "../components/Footer"
 import { Analytics } from "@vercel/analytics/react"
+
+// ✅ ADD THIS
+import ScrollToTop from "../components/ScrollToTop"
+
 // Canonical
 import Canonical from "../components/Canonical"
+
 // Main pages
 import Home from "./Home"
 import Solutions from "./Solutions"
 import Contact from "./Contact"
 import About from "./About"
 import Industries from "./Industries"
+
 // Brand pages
 import BrandVerkada from "./BrandVerkada"
 import BrandAvigilon from "./BrandAvigilon"
 import AvigilonCloud from "./AvigilonCloud"
 import VendorAlta from "./VendorAlta"
 import BrandSiklu from "./BrandSiklu"
+
 // Resources
 import ResourcesVerkadaVsAvigilon from "./ResourcesVerkadaVsAvigilon"
 import Training from "./Training"
 import VerkadaNetworkReadiness from "./VerkadaNetworkReadiness"
+
 // Utility pages
 import NotFound from "./NotFound"
 import ServiceRequest from "./ServiceRequest"
+
 // From The Field
 import FromTheField from "./FromTheField"
 import WirelessLink from "./WirelessLink"
 import ComingSoon from "./ComingSoon"
+
 // Landing Pages
 import Manufacturing from "./Manufacturing"
 import Municipal from "./Municipal"
 import Commercial from "./Commercial"
 import Education from "./Education"
 import LPR from "./LPR"
+
 // Event Pages
 import EventMobileStreetCamera from "./EventMobileStreetCamera"
 import EventMobileStreetCameraAdmin from "./EventMobileStreetCameraAdmin"
+
 // Dynamic SEO Local Pages
 import LocationSEO from "./LocationSEO"
 import VendorLocationSEO from "./VendorLocationSEO"
+
 // Service Areas Hub Page
 import ServiceAreas from "./ServiceAreas"
 
@@ -48,6 +61,10 @@ export default function App() {
     <div className="min-h-screen bg-white text-gray-900">
       <Nav />
       <Canonical />
+      
+      {/* ✅ ADD THIS */}
+      <ScrollToTop />
+
       <Routes>
         {/* Main pages */}
         <Route path="/" element={<Home />} />
@@ -103,7 +120,7 @@ export default function App() {
         <Route path="/from-the-field/avigilon-factory" element={<ComingSoon />} />
         <Route path="/from-the-field/municipal" element={<ComingSoon />} />
 
-        {/* Dynamic vendor-location pages — MUST come before generic location route */}
+        {/* Dynamic vendor-location pages */}
         <Route
           path="/locations/:city/verkada-installer"
           element={<VendorLocationSEO />}
@@ -119,6 +136,7 @@ export default function App() {
         {/* Fallback */}
         <Route path="*" element={<NotFound />} />
       </Routes>
+
       <Footer />
       <Analytics />
     </div>
