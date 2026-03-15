@@ -49,6 +49,7 @@ import LPR from "./LPR"
 // Event Pages
 import EventMobileStreetCamera from "./EventMobileStreetCamera"
 import EventMobileStreetCameraAdmin from "./EventMobileStreetCameraAdmin"
+import VerkadaPlates from "./VerkadaPlates"
 
 // Dynamic SEO Local Pages
 import LocationSEO from "./LocationSEO"
@@ -123,6 +124,10 @@ export default function App() {
         <Route
           path="/events/mobile-street-camera-lunch/admin"
           element={<EventMobileStreetCameraAdmin />}
+        />
+        <Route
+          path="/admin/verkada-plates"
+          element={<VerkadaPlates />}
         />
 
         {/* Service */}
