@@ -1,18 +1,17 @@
-// api/verkada-webhook.js
-import OpenAI from "openai"
-import { kv } from "@vercel/kv"
+import { Redis } from "@upstash/redis"
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+const redis = new Redis({
+  url: process.env.UPSTASH_REST_API_URL,
+  token: process.env.UPSTASH_REST_API_TOKEN,
+})
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ ok: false, error: "Method Not Allowed" })
   }
 
-  // Verify shared secret Verkada sends in header
   const secret = req.headers["verkada-signature"]
   if (!secret || secret !== process.env.VERKADA_WEBHOOK_SECRET) {
-    console.warn("Unauthorized webhook attempt")
     return res.status(401).json({ ok: false, error: "Unauthorized" })
   }
 
@@ -26,9 +25,6 @@ export default async function handler(req, res) {
       body?.event_type || body?.webhook_type || ""
     ).toLowerCase()
 
-    console.log("Verkada webhook received:", eventType)
-    console.log("Verkada full payload:", JSON.stringify(body))
-
     const plate = body?.data?.license_plate_number || null
     const cameraId = body?.data?.camera_id || "unknown"
     const cameraName = body?.data?.camera_name || "unknown"
@@ -38,7 +34,6 @@ export default async function handler(req, res) {
       null
 
     const confidence = body?.data?.confidence ?? null
-
     const timestamp = body?.data?.created
       ? new Date(body.data.created * 1000).toISOString()
       : new Date().toISOString()
@@ -54,8 +49,8 @@ export default async function handler(req, res) {
       rawPayload: body,
     })
 
-    await kv.lpush("verkada_plates", entry)
-    await kv.ltrim("verkada_plates", 0, 4999)
+    await redis.lpush("verkada_plates", entry)
+    await redis.ltrim("verkada_plates", 0, 4999)
 
     return res.status(200).json({
       ok: true,
