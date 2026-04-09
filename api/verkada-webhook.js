@@ -10,6 +10,17 @@ export default async function handler(req, res) {
     return res.status(405).json({ ok: false, error: "Method Not Allowed" })
   }
 
+  const incomingSecret =
+    req.headers["verkada-signature"] ||
+    req.headers["x-verkada-signature"] ||
+    req.headers["Verkada-Signature"] ||
+    req.headers["X-Verkada-Signature"]
+
+  if (!incomingSecret || incomingSecret !== process.env.VERKADA_WEBHOOK_SECRET) {
+    console.warn("Unauthorized webhook attempt")
+    return res.status(401).json({ ok: false, error: "Unauthorized" })
+  }
+
   try {
     const body =
       typeof req.body === "string"
@@ -20,9 +31,7 @@ export default async function handler(req, res) {
       body?.event_type || body?.webhook_type || ""
     ).toLowerCase()
 
-    console.log("Webhook received (auth bypassed)")
     console.log("Verkada webhook received:", eventType)
-    console.log("Verkada full payload:", JSON.stringify(body))
 
     const plate = body?.data?.license_plate_number || null
     const cameraId = body?.data?.camera_id || "unknown"
@@ -44,7 +53,6 @@ export default async function handler(req, res) {
       cameraName,
       thumbnailUrl,
       confidence,
-      rawPayload: body,
     })
 
     await redis.lpush("verkada_plates", entry)
