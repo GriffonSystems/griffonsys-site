@@ -10,12 +10,12 @@ export default async function handler(req, res) {
     return res.status(405).json({ ok: false, error: "Method Not Allowed" })
   }
 
-  // Protect webhook with a secret in the URL:
-  // /api/verkada-webhook?key=YOUR_SECRET
-  const urlKey = req.query.key
+  // Require a secret path segment:
+  // /api/verkada-webhook/griffonhook2026
+  const pathSecret = req.query.secret
 
-  if (!urlKey || urlKey !== process.env.VERKADA_WEBHOOK_SECRET) {
-    console.warn("Unauthorized webhook attempt (URL key mismatch)")
+  if (!pathSecret || pathSecret !== "griffonhook2026") {
+    console.warn("Unauthorized webhook attempt", { pathSecret })
     return res.status(401).json({ ok: false, error: "Unauthorized" })
   }
 
@@ -28,8 +28,6 @@ export default async function handler(req, res) {
     const eventType = String(
       body?.event_type || body?.webhook_type || ""
     ).toLowerCase()
-
-    console.log("Verkada webhook received:", eventType)
 
     const plate = body?.data?.license_plate_number || null
 
