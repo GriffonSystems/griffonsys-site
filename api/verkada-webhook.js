@@ -5,9 +5,10 @@ const redis = new Redis({
   token: process.env.UPSTASH_KV_REST_API_TOKEN,
 })
 
-// Optional camera name mapping
+// 👉 MAP YOUR REAL CAMERAS HERE
 const CAMERA_NAMES = {
-  "1af42169-cdb2-4f5e-be28-f20904c9bedf": "Front Gate LPR",
+  "1af42169-cdb2-4f5e-be28-f20904c9bedf": "Front Entrance LPR",
+  "77e9eac1-7b6b-4f28-a12b-91cb292d35c1": "Rear Parking Lot LPR",
 }
 
 export default async function handler(req, res) {
@@ -34,6 +35,7 @@ export default async function handler(req, res) {
       body?.camera_id ||
       "unknown"
 
+    // 👉 Use mapped name OR fallback to cameraId
     const cameraName =
       CAMERA_NAMES[cameraId] ||
       cameraId
@@ -66,6 +68,8 @@ export default async function handler(req, res) {
       ok: true,
       eventType,
       plate,
+      cameraId,
+      cameraName,
     })
   } catch (err) {
     console.error("WEBHOOK ERROR:", err)
