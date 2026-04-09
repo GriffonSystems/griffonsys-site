@@ -1,8 +1,8 @@
 import { Redis } from "@upstash/redis"
 
 const redis = new Redis({
-  url: process.env.UPSTASH_REST_API_URL,
-  token: process.env.UPSTASH_REST_API_TOKEN,
+  url: process.env.UPSTASH_KV_REST_API_URL,
+  token: process.env.UPSTASH_KV_REST_API_TOKEN,
 })
 
 export default async function handler(req, res) {
@@ -12,6 +12,7 @@ export default async function handler(req, res) {
 
   const secret = req.headers["verkada-signature"]
   if (!secret || secret !== process.env.VERKADA_WEBHOOK_SECRET) {
+    console.warn("Unauthorized webhook attempt")
     return res.status(401).json({ ok: false, error: "Unauthorized" })
   }
 
@@ -25,6 +26,9 @@ export default async function handler(req, res) {
       body?.event_type || body?.webhook_type || ""
     ).toLowerCase()
 
+    console.log("Verkada webhook received:", eventType)
+    console.log("Verkada full payload:", JSON.stringify(body))
+
     const plate = body?.data?.license_plate_number || null
     const cameraId = body?.data?.camera_id || "unknown"
     const cameraName = body?.data?.camera_name || "unknown"
@@ -32,7 +36,6 @@ export default async function handler(req, res) {
       body?.data?.thumbnail_url ||
       body?.data?.image_url ||
       null
-
     const confidence = body?.data?.confidence ?? null
     const timestamp = body?.data?.created
       ? new Date(body.data.created * 1000).toISOString()
