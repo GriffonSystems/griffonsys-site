@@ -10,7 +10,7 @@ export default async function handler(req, res) {
         }
 
     // Verify shared secret Verkada sends in header
-    const secret = req.headers["x-verkada-auth"]
+    const secret = req.headers["verkada-signature"]
         if (!secret || secret !== process.env.VERKADA_WEBHOOK_SECRET) {
                     console.warn("Unauthorized webhook attempt")
                     return res.status(401).json({ ok: false, error: "Unauthorized" })
