@@ -10,14 +10,12 @@ export default async function handler(req, res) {
     return res.status(405).json({ ok: false, error: "Method Not Allowed" })
   }
 
-  const incomingSecret =
-    req.headers["verkada-signature"] ||
-    req.headers["x-verkada-signature"] ||
-    req.headers["Verkada-Signature"] ||
-    req.headers["X-Verkada-Signature"]
+  // Protect webhook with a secret in the URL:
+  // /api/verkada-webhook?key=YOUR_SECRET
+  const urlKey = req.query.key
 
-  if (!incomingSecret || incomingSecret !== process.env.VERKADA_WEBHOOK_SECRET) {
-    console.warn("Unauthorized webhook attempt")
+  if (!urlKey || urlKey !== process.env.VERKADA_WEBHOOK_SECRET) {
+    console.warn("Unauthorized webhook attempt (URL key mismatch)")
     return res.status(401).json({ ok: false, error: "Unauthorized" })
   }
 
@@ -34,13 +32,29 @@ export default async function handler(req, res) {
     console.log("Verkada webhook received:", eventType)
 
     const plate = body?.data?.license_plate_number || null
-    const cameraId = body?.data?.camera_id || "unknown"
-    const cameraName = body?.data?.camera_name || "unknown"
+
+    const cameraId =
+      body?.data?.camera_id ||
+      body?.camera_id ||
+      "unknown"
+
+    const cameraName =
+      body?.data?.camera_name ||
+      body?.data?.camera?.name ||
+      body?.camera_name ||
+      body?.camera?.name ||
+      body?.source_camera_name ||
+      cameraId ||
+      "unknown"
+
     const thumbnailUrl =
       body?.data?.thumbnail_url ||
       body?.data?.image_url ||
+      body?.image_url ||
       null
+
     const confidence = body?.data?.confidence ?? null
+
     const timestamp = body?.data?.created
       ? new Date(body.data.created * 1000).toISOString()
       : new Date().toISOString()
@@ -62,6 +76,8 @@ export default async function handler(req, res) {
       ok: true,
       eventType,
       plate,
+      cameraId,
+      cameraName,
     })
   } catch (err) {
     console.error("WEBHOOK ERROR:", err)
