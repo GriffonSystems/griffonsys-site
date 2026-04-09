@@ -5,18 +5,14 @@ const redis = new Redis({
   token: process.env.UPSTASH_KV_REST_API_TOKEN,
 })
 
+// Optional camera name mapping
+const CAMERA_NAMES = {
+  "1af42169-cdb2-4f5e-be28-f20904c9bedf": "Front Gate LPR",
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ ok: false, error: "Method Not Allowed" })
-  }
-
-  // Require a secret path segment:
-  // /api/verkada-webhook/griffonhook2026
-  const pathSecret = req.query.secret
-
-  if (!pathSecret || pathSecret !== "griffonhook2026") {
-    console.warn("Unauthorized webhook attempt", { pathSecret })
-    return res.status(401).json({ ok: false, error: "Unauthorized" })
   }
 
   try {
@@ -29,6 +25,8 @@ export default async function handler(req, res) {
       body?.event_type || body?.webhook_type || ""
     ).toLowerCase()
 
+    console.log("Verkada webhook received:", eventType)
+
     const plate = body?.data?.license_plate_number || null
 
     const cameraId =
@@ -37,18 +35,12 @@ export default async function handler(req, res) {
       "unknown"
 
     const cameraName =
-      body?.data?.camera_name ||
-      body?.data?.camera?.name ||
-      body?.camera_name ||
-      body?.camera?.name ||
-      body?.source_camera_name ||
-      cameraId ||
-      "unknown"
+      CAMERA_NAMES[cameraId] ||
+      cameraId
 
     const thumbnailUrl =
       body?.data?.thumbnail_url ||
       body?.data?.image_url ||
-      body?.image_url ||
       null
 
     const confidence = body?.data?.confidence ?? null
@@ -74,8 +66,6 @@ export default async function handler(req, res) {
       ok: true,
       eventType,
       plate,
-      cameraId,
-      cameraName,
     })
   } catch (err) {
     console.error("WEBHOOK ERROR:", err)
