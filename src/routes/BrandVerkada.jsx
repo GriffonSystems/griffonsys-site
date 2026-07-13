@@ -144,9 +144,9 @@ export default function VendorVerkada() {
     {
       key: "bullet",
       title: "Bullet",
-      desc: "Optimized for license plate recognition and detail.",
+      desc: "Optimized for license plate recognition and detail, with optional IR illuminator.",
       img: `${import.meta.env.BASE_URL}vendors/verkada/video/bullet.png`,
-      msrpFrom: 1599,
+      msrpFrom: 1899,
     },
     {
       key: "fisheye",
