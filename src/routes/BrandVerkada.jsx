@@ -20,6 +20,7 @@ const TABS = [
   { key: "access", label: "Access" },
   { key: "intercom", label: "Intercom" },
   { key: "connectivity", label: "Connectivity" },
+  { key: "sound", label: "Sound" },
 ]
 
 const money = (n) => {
@@ -106,12 +107,12 @@ export default function VendorVerkada() {
   const title =
     "Verkada Security Systems | Cloud Video, Access & Intercom | Griffon Systems"
   const description =
-    "Authorized Verkada integrator in Illinois delivering cloud-managed video surveillance, access control, intercoms, alarms, and connectivity for municipalities, schools, and manufacturers."
+    "Authorized Verkada integrator in Illinois delivering cloud-managed video surveillance, access control, intercoms, alarms, sound systems, and connectivity for municipalities, schools, and manufacturers."
   const ogImage = "https://griffonsys.com/vendors/verkada/logo.jpg"
 
   React.useEffect(() => {
     const fromHash = (location.hash || "").replace("#", "")
-    if (["video", "access", "intercom", "connectivity"].includes(fromHash)) {
+    if (["video", "access", "intercom", "connectivity", "sound"].includes(fromHash)) {
       setActive(fromHash)
       window.scrollTo({ top: 0, behavior: "auto" })
     }
@@ -265,6 +266,50 @@ export default function VendorVerkada() {
     },
   ]
 
+  // NOTE: images below link directly to Verkada's official CDN product shots
+  // (verkada.com/sound-systems) rather than a locally-hosted copy. Swap `img`
+  // to `${import.meta.env.BASE_URL}vendors/verkada/sound/<file>` once local
+  // assets are added under public/vendors/verkada/sound/.
+  const VERKADA_CDN =
+    "https://cdn.verkada.com/image/upload/c_limit,w_800/f_auto/q_auto/v1/img/sound-system"
+  const soundProducts = [
+    {
+      key: "ns151",
+      title: "NS151",
+      desc: "4\" wireless network speaker — indoor/outdoor, Ethernet or WiFi.",
+      img: `${VERKADA_CDN}/network-speakers/Product-NS151`,
+      msrpFrom: undefined,
+    },
+    {
+      key: "ns261",
+      title: "NS261",
+      desc: "6.5\" in-ceiling network speaker for offices and classrooms.",
+      img: `${VERKADA_CDN}/network-speakers/Product-NS261`,
+      msrpFrom: undefined,
+    },
+    {
+      key: "ns631e",
+      title: "NS631-E",
+      desc: "6.5\" outdoor surface-mount network speaker.",
+      img: `${VERKADA_CDN}/network-speakers/Product-NS631`,
+      msrpFrom: undefined,
+    },
+    {
+      key: "np21",
+      title: "NP21",
+      desc: "Two-channel network audio player — bridge existing amps/speakers to the cloud.",
+      img: `${VERKADA_CDN}/network-audio-players/Product-NP21`,
+      msrpFrom: undefined,
+    },
+    {
+      key: "np81",
+      title: "NP81",
+      desc: "16-channel network audio player for larger existing audio systems.",
+      img: `${VERKADA_CDN}/network-audio-players/Product-NP81`,
+      msrpFrom: undefined,
+    },
+  ]
+
   const handleCardClick = (card) => {
     // One modal for everything. If card has a video, it will render inside the modal.
     setSelectedCard(card)
@@ -347,8 +392,8 @@ export default function VendorVerkada() {
 
         <p className="text-gray-700 mb-4">
           Verkada delivers an integrated, cloud-managed security platform that
-          unifies video surveillance, access control, intercoms, alarms, and
-          environmental sensors into a single system.
+          unifies video surveillance, access control, intercoms, alarms,
+          environmental sensors, and sound systems into a single system.
         </p>
 
         <ul className="list-disc pl-6 text-gray-700 mb-4 space-y-2">
@@ -401,6 +446,7 @@ export default function VendorVerkada() {
       {active === "access" && renderGrid(accessProducts)}
       {active === "intercom" && renderGrid(intercomProducts)}
       {active === "connectivity" && renderGrid(connectivityProducts)}
+      {active === "sound" && renderGrid(soundProducts)}
 
       {/* Single merged modal: video (optional) + MSRP + CTA */}
       <ModalShell
