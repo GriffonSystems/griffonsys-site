@@ -253,6 +253,16 @@ export default function VendorVerkada() {
       img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td63.webp`,
       msrpFrom: 1999,
     },
+    {
+      key: "TK74",
+      title: "TK74 — Multitenant Intercom",
+      desc: "Streamlined multitenant intercom with touch screen directory and Face Unlock.",
+      // Links to Verkada's official CDN product shot for now -- see the
+      // sound-systems NOTE above for how to swap in a locally-hosted file
+      // under public/vendors/verkada/intercom/ later.
+      img: "https://cdn.verkada.com/image/upload/c_limit,w_800/f_auto/q_auto/v1/img/intercom/video-intercom/tk74",
+      msrpFrom: undefined,
+    },
   ]
 
   const connectivityProducts = [
