@@ -288,41 +288,47 @@ export default function VendorVerkada() {
   // assets are added under public/vendors/verkada/sound/.
   const VERKADA_CDN =
     "https://cdn.verkada.com/image/upload/c_limit,w_800/f_auto/q_auto/v1/img/sound-system"
+  const VERKADA_LICENSE_NOTE = "Price includes hardware. Additional license required."
   const soundProducts = [
     {
       key: "ns151",
       title: "NS151",
       desc: "4\" wireless network speaker — indoor/outdoor, Ethernet or WiFi.",
       img: `${VERKADA_CDN}/network-speakers/Product-NS151`,
-      msrpFrom: undefined,
+      msrpFrom: 899,
+      msrpNote: VERKADA_LICENSE_NOTE,
     },
     {
       key: "ns261",
       title: "NS261",
       desc: "6.5\" in-ceiling network speaker for offices and classrooms.",
       img: `${VERKADA_CDN}/network-speakers/Product-NS261`,
-      msrpFrom: undefined,
+      msrpFrom: 999,
+      msrpNote: VERKADA_LICENSE_NOTE,
     },
     {
       key: "ns631e",
       title: "NS631-E",
       desc: "6.5\" outdoor surface-mount network speaker.",
       img: `${VERKADA_CDN}/network-speakers/Product-NS631`,
-      msrpFrom: undefined,
+      msrpFrom: 1199,
+      msrpNote: VERKADA_LICENSE_NOTE,
     },
     {
       key: "np21",
       title: "NP21",
       desc: "Two-channel network audio player — bridge existing amps/speakers to the cloud.",
       img: `${VERKADA_CDN}/network-audio-players/Product-NP21`,
-      msrpFrom: undefined,
+      msrpFrom: 1199,
+      msrpNote: VERKADA_LICENSE_NOTE,
     },
     {
       key: "np81",
       title: "NP81",
       desc: "16-channel network audio player for larger existing audio systems.",
       img: `${VERKADA_CDN}/network-audio-players/Product-NP81`,
-      msrpFrom: undefined,
+      msrpFrom: 2999,
+      msrpNote: VERKADA_LICENSE_NOTE,
     },
   ]
 
