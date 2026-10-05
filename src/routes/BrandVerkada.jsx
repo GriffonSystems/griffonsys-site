@@ -78,7 +78,7 @@ function ModalShell({ open, title, onClose, children }) {
   )
 }
 
-function PriceCallout({ msrpFrom }) {
+function PriceCallout({ msrpFrom, msrpNote }) {
   if (!msrpFrom) return null
   return (
     <div className="rounded-2xl border border-gray-200 bg-gray-50 p-5">
@@ -86,6 +86,9 @@ function PriceCallout({ msrpFrom }) {
       <div className="mt-1 text-2xl font-extrabold text-gray-900">
         {money(msrpFrom)}
       </div>
+      {msrpNote && (
+        <div className="mt-1 text-xs font-medium text-gray-700">{msrpNote}</div>
+      )}
       <div className="mt-2 text-xs text-gray-500">
         Final installed pricing varies by configuration, licensing term, and site conditions.
         Contact us for quantity discounts and installed pricing.
@@ -255,13 +258,16 @@ export default function VendorVerkada() {
     },
     {
       key: "TK74",
-      title: "TK74 — Multitenant Intercom",
-      desc: "Streamlined multitenant intercom with touch screen directory and Face Unlock.",
+      title: "TK74 — Touchscreen Intercom",
+      desc: "7-inch touchscreen video intercom with multitenant directory, integrated access control, and Face Unlock.",
+      specs: ["5MP image resolution", "90dB SPL max", "9 unlock methods"],
+      datasheet: "https://docs.verkada.com/docs/tk74-touchscreen-intercom-datasheet.pdf",
+      msrpNote: "Price includes hardware. Additional license required.",
       // Links to Verkada's official CDN product shot for now -- see the
       // sound-systems NOTE above for how to swap in a locally-hosted file
       // under public/vendors/verkada/intercom/ later.
       img: "https://cdn.verkada.com/image/upload/c_limit,w_800/f_auto/q_auto/v1/img/intercom/video-intercom/tk74",
-      msrpFrom: undefined,
+      msrpFrom: 3999,
     },
   ]
 
@@ -493,6 +499,25 @@ export default function VendorVerkada() {
                   {selectedCard.desc}
                 </div>
 
+                {selectedCard.specs?.length > 0 && (
+                  <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-gray-700">
+                    {selectedCard.specs.map((spec) => (
+                      <li key={spec}>{spec}</li>
+                    ))}
+                  </ul>
+                )}
+
+                {selectedCard.datasheet && (
+                  <a
+                    href={selectedCard.datasheet}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-3 inline-block text-sm font-semibold text-gray-900 underline hover:no-underline"
+                  >
+                    Datasheet (PDF)
+                  </a>
+                )}
+
                 <div className="mt-4 rounded-2xl border border-gray-200 p-4">
                   <div className="text-sm font-semibold text-gray-900">
                     Installed & supported by Griffon Systems
@@ -505,7 +530,7 @@ export default function VendorVerkada() {
 
               {/* RIGHT */}
               <div className="space-y-4">
-                <PriceCallout msrpFrom={selectedCard.msrpFrom} />
+                <PriceCallout msrpFrom={selectedCard.msrpFrom} msrpNote={selectedCard.msrpNote} />
 
                 <div className="rounded-2xl border border-gray-200 bg-gray-50 p-5">
                   <div className="text-sm font-semibold text-gray-900">
