@@ -1,5 +1,5 @@
 // /src/routes/Contact.jsx
-import React, { useState } from "react"
+import React, { useRef, useState } from "react"
 
 const S = (v) => (typeof v === "string" ? v : v == null ? "" : String(v))
 
@@ -10,8 +10,10 @@ export default function Contact() {
     phone: "",
     company: "",
     message: "",
+    contact_ref: "", // honeypot, stays empty for real visitors
   })
   const [status, setStatus] = useState({ state: "idle", msg: "" })
+  const loadedAt = useRef(Date.now())
 
   const onChange = (e) => {
     const { name, value } = e.target
@@ -29,6 +31,8 @@ export default function Contact() {
         phone: S(form.phone).trim(),
         company: S(form.company).trim(),
         message: S(form.message).trim(),
+        contact_ref: S(form.contact_ref),
+        elapsedMs: Date.now() - loadedAt.current,
       }
 
       const r = await fetch("/api/contact", {
@@ -47,7 +51,7 @@ export default function Contact() {
         state: "sent",
         msg: `✅ Sent! (Message ID: ${data?.id || "ok"})`,
       })
-      setForm({ name: "", email: "", phone: "", company: "", message: "" })
+      setForm({ name: "", email: "", phone: "", company: "", message: "", contact_ref: "" })
     } catch (err) {
       setStatus({
         state: "error",
@@ -62,6 +66,23 @@ export default function Contact() {
       <p className="text-gray-600 mb-8">Send us a message and we’ll get back to you.</p>
 
       <form onSubmit={onSubmit} className="space-y-4">
+        {/* Honeypot: off-screen for people, bots fill it in. Must stay empty. */}
+        <div
+          aria-hidden="true"
+          style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}
+        >
+          <label>
+            Leave this field blank
+            <input
+              name="contact_ref"
+              value={form.contact_ref}
+              onChange={onChange}
+              tabIndex={-1}
+              autoComplete="off"
+            />
+          </label>
+        </div>
+
         <div>
           <label className="block text-sm font-medium mb-1">Name</label>
           <input
