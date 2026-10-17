@@ -129,21 +129,21 @@ export default function VendorVerkada() {
 
   const grid = "grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
 
-  // MSRP values you provided (shown only inside the modal after click)
+  // MSRP values from verkada.com/pricing (Oct 2026); shown only inside the modal after click
   const videoProducts = [
     {
       key: "dome",
       title: "Dome",
       desc: "Reliable performance for most environments.",
       img: `${import.meta.env.BASE_URL}vendors/verkada/video/dome.png`,
-      msrpFrom: 599,
+      msrpFrom: 799,
     },
     {
       key: "mini",
       title: "Mini",
       desc: "Compact form factor for tight spaces.",
       img: `${import.meta.env.BASE_URL}vendors/verkada/video/mini.png`,
-      msrpFrom: 499,
+      msrpFrom: 699,
     },
     {
       key: "bullet",
@@ -157,42 +157,42 @@ export default function VendorVerkada() {
       title: "Fisheye",
       desc: "180° panoramic coverage.",
       img: `${import.meta.env.BASE_URL}vendors/verkada/video/fisheye.png`,
-      msrpFrom: 1799,
+      msrpFrom: 2099,
     },
     {
       key: "multisensor",
       title: "Multisensor",
       desc: "Two or four sensors in one housing.",
       img: `${import.meta.env.BASE_URL}vendors/verkada/video/multisensor.png`,
-      msrpFrom: 3599,
+      msrpFrom: 3899,
     },
     {
       key: "ptz",
       title: "PTZ",
       desc: "Wide-area pan-tilt-zoom coverage.",
       img: `${import.meta.env.BASE_URL}vendors/verkada/video/ptz.png`,
-      msrpFrom: 3699,
+      msrpFrom: 4299,
     },
     {
       key: "remote",
       title: "Remote",
       desc: "Battery + LTE deployments.",
       img: `${import.meta.env.BASE_URL}vendors/verkada/video/remote.png`,
-      msrpFrom: 3500,
+      msrpFrom: 4099,
     },
     {
       key: "dualhead",
       title: "Dual-Head (CY53-E)",
       desc: "Two 5MP sensors in one housing.",
       img: `${import.meta.env.BASE_URL}vendors/verkada/video/dualhead.jpeg`,
-      msrpFrom: 2799,
+      msrpFrom: 2299,
     },
     {
       key: "viewstation",
       title: "Viewing Station",
       desc: "Live monitoring appliance.",
       img: `${import.meta.env.BASE_URL}vendors/verkada/video/viewstation.jpeg`,
-      msrpFrom: 499,
+      msrpFrom: 649,
     },
   ]
 
@@ -202,14 +202,14 @@ export default function VendorVerkada() {
       title: "Single Door Controller",
       desc: "Cloud-managed single opening.",
       img: `${import.meta.env.BASE_URL}vendors/verkada/access/singledoor.png`,
-      msrpFrom: 799,
+      msrpFrom: 899,
     },
     {
       key: "4door",
       title: "4-Door Controller",
       desc: "Controls up to four doors.",
       img: `${import.meta.env.BASE_URL}vendors/verkada/access/4doorcontroller.png`,
-      msrpFrom: 1799,
+      msrpFrom: 1999,
     },
     {
       key: "mullion",
@@ -233,28 +233,28 @@ export default function VendorVerkada() {
       title: "TS12 — Audio Intercom",
       desc: "Audio-only intercom.",
       img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/TS12.webp`,
-      msrpFrom: 1099,
+      msrpFrom: 1199,
     },
     {
       key: "TD33",
       title: "TD33 — Slim Intercom",
       desc: "Mullion-friendly.",
       img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td33.webp`,
-      msrpFrom: 1499,
+      msrpFrom: 1699,
     },
     {
       key: "TD53",
       title: "TD53 — Video Intercom",
       desc: "HD video + audio.",
       img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td53.webp`,
-      msrpFrom: 1799,
+      msrpFrom: 1999,
     },
     {
       key: "TD63",
       title: "TD63 — Video + Keypad",
       desc: "Directory + keypad.",
       img: `${import.meta.env.BASE_URL}vendors/verkada/intercom/td63.webp`,
-      msrpFrom: 1999,
+      msrpFrom: 2199,
     },
     {
       key: "TK74",
@@ -278,7 +278,7 @@ export default function VendorVerkada() {
       desc: "LTE backhaul with PoE output.",
       img: `${import.meta.env.BASE_URL}vendors/verkada/connectivity/gc31.webp`,
       video: "https://www.youtube.com/embed/fb9LNytX7ac?autoplay=1",
-      msrpFrom: 1299,
+      msrpFrom: 1599,
     },
   ]
 
