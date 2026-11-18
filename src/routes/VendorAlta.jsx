@@ -1,4 +1,5 @@
 // src/routes/VendorAlta.jsx
+import { Helmet } from "react-helmet"
 
     
   
@@ -14,6 +15,13 @@ export default function VendorAlta() {
 
   return (
     <main className="container py-12">
+      <Helmet>
+        <title>Avigilon Alta Access Control Installer | Chicago & Illinois | Griffon Systems</title>
+        <meta
+          name="description"
+          content="Griffon Systems designs, installs and supports Avigilon Alta (formerly Openpath) cloud access control for businesses, schools and municipalities across Chicagoland."
+        />
+      </Helmet>
       <h1 className="text-3xl font-bold mb-4">Alta Access Control</h1>
       <p className="text-gray-700 mb-6 max-w-3xl">
         Cloud-managed access that simplifies deployment and day-to-day operations while improving the user experience.

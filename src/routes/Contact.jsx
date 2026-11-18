@@ -1,5 +1,6 @@
 // /src/routes/Contact.jsx
 import React, { useRef, useState } from "react"
+import { Helmet } from "react-helmet"
 
 const S = (v) => (typeof v === "string" ? v : v == null ? "" : String(v))
 
@@ -62,6 +63,13 @@ export default function Contact() {
 
   return (
     <div className="container mx-auto px-4 py-12 max-w-2xl">
+      <Helmet>
+        <title>Contact Griffon Systems | Security Integrator in Elmhurst, IL</title>
+        <meta
+          name="description"
+          content="Contact Griffon Systems for Verkada, Avigilon and Siklu security system quotes and support across Chicagoland. Call 630-607-0346."
+        />
+      </Helmet>
       <h1 className="text-3xl font-bold mb-2">Contact</h1>
       <p className="text-gray-600 mb-8">Send us a message and we’ll get back to you.</p>
 
